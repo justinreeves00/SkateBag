@@ -5,14 +5,16 @@ import { TrickCard } from "./TrickCard";
 import { CategoryFilter } from "./CategoryFilter";
 import { DiceButton } from "./DiceButton";
 import { SkateBagLogo } from "./Logo";
+import { signOut } from "@/lib/auth-actions";
 import type { TrickWithStatus, TrickCategory } from "@/lib/types";
 
 interface TrickListProps {
   tricks: TrickWithStatus[];
   isAuthenticated: boolean;
+  userEmail: string | null;
 }
 
-export function TrickList({ tricks, isAuthenticated }: TrickListProps) {
+export function TrickList({ tricks, isAuthenticated, userEmail }: TrickListProps) {
   const [category, setCategory] = useState<TrickCategory | "all">("all");
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | "landed" | "locked">("all");
@@ -30,18 +32,54 @@ export function TrickList({ tricks, isAuthenticated }: TrickListProps) {
 
   return (
     <div className="min-h-screen text-white">
-      {/* Sleek Header - Adjusted top offset for fixed nav */}
-      <header className="sticky top-[72px] z-40 bg-black/60 backdrop-blur-3xl border-b border-white/5">
+      {/* Unified Sticky Header */}
+      <header className="sticky top-0 z-40 bg-black/80 backdrop-blur-3xl border-b border-white/5">
+        {/* User Nav Row - Integrated into Header */}
+        <div className="max-w-5xl mx-auto px-6 py-3 flex justify-between items-center border-b border-white/5">
+          <div className="flex items-center gap-3">
+            {!isAuthenticated ? (
+              <span className="text-[9px] md:text-[10px] text-slate-500 font-bold uppercase tracking-widest leading-none py-1">
+                Sign in to log tricks 🛹
+              </span>
+            ) : (
+              <div className="flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-xl border border-white/5">
+                <span className="text-[8px] text-slate-500 font-bold uppercase tracking-widest leading-none">Bag Holder:</span>
+                <span className="text-[10px] text-blue-400 font-bold leading-none truncate max-w-[120px] md:max-w-none">{userEmail}</span>
+              </div>
+            )}
+          </div>
+
+          <div>
+            {!isAuthenticated ? (
+              <a
+                href="/login"
+                className="inline-block px-4 py-2 rounded-xl bg-blue-600 text-white text-[10px] font-bold uppercase tracking-widest hover:bg-blue-500 transition-all shadow-lg shadow-blue-600/20"
+              >
+                Sign in
+              </a>
+            ) : (
+              <form action={signOut}>
+                <button
+                  type="submit"
+                  className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-[10px] text-slate-400 font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 transition-all"
+                >
+                  Sign out
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+
+        {/* Brand & Controls Row */}
         <div className="max-w-5xl mx-auto px-6 py-8">
           <div className="flex flex-col gap-8">
-            {/* Top row: Brand and Stats */}
             <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
               <div className="space-y-4">
                 <div className="flex items-center gap-4">
-                  <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-white text-black shadow-lg">
+                  <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-white text-black shadow-lg shrink-0">
                     <SkateBagLogo size={32} />
                   </div>
-                  <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-br from-white to-white/40 bg-clip-text text-transparent leading-[1.1] italic uppercase pr-4 py-1">
+                  <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-br from-white to-white/40 bg-clip-text text-transparent leading-[1.1] italic uppercase pr-6 py-1">
                     SkateBag
                   </h1>
                 </div>
@@ -87,7 +125,7 @@ export function TrickList({ tricks, isAuthenticated }: TrickListProps) {
                 </button>
               </div>
 
-              {/* Search & Dice moved to right side */}
+              {/* Search & Dice Control Area */}
               <div className="w-full md:max-w-sm space-y-4">
                 <div className="flex items-center gap-2">
                   <div className="relative flex-1">
@@ -104,7 +142,6 @@ export function TrickList({ tricks, isAuthenticated }: TrickListProps) {
                       className="w-full bg-white/[0.03] border border-white/10 rounded-2xl pl-11 pr-4 py-3.5 text-sm font-medium text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/50 transition-all"
                     />
                   </div>
-                  {/* Dice Button is now here at the top! */}
                   <DiceButton tricks={filtered} />
                 </div>
                 <CategoryFilter active={category} onChange={setCategory} />
@@ -133,7 +170,7 @@ export function TrickList({ tricks, isAuthenticated }: TrickListProps) {
                 <circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/>
               </svg>
             </div>
-            <p className="text-slate-400 font-medium mb-6">No matching tricks found in this view</p>
+            <p className="text-slate-400 font-medium mb-6 text-center px-6">No matching tricks found in this view</p>
             <button 
               onClick={() => { setSearch(""); setCategory("all"); setStatusFilter("all"); }}
               className="px-8 py-3 bg-blue-600 hover:bg-blue-500 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all shadow-lg shadow-blue-600/20"

@@ -40,43 +40,11 @@ export default async function Home() {
 
   return (
     <div className="relative">
-      {/* Top Navigation Bar */}
-      <nav className="fixed top-0 left-0 w-full z-[100] px-4 md:px-6 py-4 flex justify-between items-center pointer-events-none">
-        <div className="flex flex-col pointer-events-auto bg-black/60 backdrop-blur-md border border-white/5 px-3 md:px-4 py-2 rounded-2xl max-w-[160px] md:max-w-none">
-          {!user ? (
-            <span className="text-[9px] md:text-[10px] text-slate-500 font-bold uppercase tracking-widest leading-none py-1 whitespace-nowrap">
-              Sign in to log tricks 🛹
-            </span>
-          ) : (
-            <div className="flex flex-col min-w-0">
-              <span className="text-[8px] text-slate-500 font-bold uppercase tracking-widest leading-none">Bag Holder</span>
-              <span className="text-[10px] text-blue-400 font-bold leading-none mt-1 truncate">{user.email}</span>
-            </div>
-          )}
-        </div>
-
-        <div className="pointer-events-auto">
-          {user ? (
-            <form action={signOut}>
-              <button
-                type="submit"
-                className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-[10px] text-slate-400 font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 transition-all shadow-xl"
-              >
-                Sign out
-              </button>
-            </form>
-          ) : (
-            <a
-              href="/login"
-              className="inline-block px-5 py-2.5 rounded-xl bg-blue-600 text-white text-[10px] font-bold uppercase tracking-widest hover:bg-blue-500 transition-all shadow-lg shadow-blue-600/20"
-            >
-              Sign in
-            </a>
-          )}
-        </div>
-      </nav>
-
-      <TrickList tricks={tricksWithStatus} isAuthenticated={!!user} />
+      <TrickList 
+        tricks={tricksWithStatus} 
+        isAuthenticated={!!user} 
+        userEmail={user?.email ?? null} 
+      />
     </div>
   );
 }
