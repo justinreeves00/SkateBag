@@ -23,96 +23,78 @@ export function TrickList({ tricks, isAuthenticated }: TrickListProps) {
 
   const landed = tricks.filter((t) => t.userStatus === "landed").length;
   const locked = tricks.filter((t) => t.userStatus === "locked").length;
-  const completion = tricks.length > 0 ? Math.round((landed / tricks.length) * 100) : 0;
 
   return (
-    <div className="min-h-screen">
-      {/* Tactical Header */}
-      <header className="sticky top-0 z-40 bg-[#0a0c10]/80 backdrop-blur-xl border-b border-[#1e232d]">
-        <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div className="flex items-center gap-6">
-              <div className="flex flex-col">
-                <h1 className="text-2xl font-bold tracking-tight text-white flex items-center gap-2">
-                  SKATEBAG <span className="text-[#00f2ff]">v1.0</span>
+    <div className="min-h-screen bg-white text-black">
+      {/* Aggressive Header */}
+      <header className="border-b-[6px] border-black bg-white sticky top-0 z-40">
+        <div className="max-w-4xl mx-auto px-4 py-8">
+          <div className="flex flex-col gap-6">
+            <div className="flex items-start justify-between">
+              <div className="rotate-[-2deg] bg-black text-white p-4 zine-border inline-block">
+                <h1 className="text-5xl md:text-7xl font-black leading-[0.8] tracking-tighter">
+                  SKATEBAG
                 </h1>
-                <p className="text-[10px] font-mono text-[#475569] uppercase tracking-[0.3em]">
-                  What&apos;s in your bag? 🛹
+                <p className="text-xs font-bold tracking-[0.3em] mt-2 italic text-[#ff4d00]">
+                  WHAT&apos;S IN YOUR BAG? 🛹
                 </p>
               </div>
-              
-              <div className="hidden sm:flex h-10 w-px bg-[#1e232d]" />
-              
+
               {isAuthenticated && (
-                <div className="hidden sm:grid grid-cols-3 gap-8">
-                  <div className="flex flex-col">
-                    <span className="text-[9px] font-mono text-[#475569] uppercase tracking-widest mb-1">Status: Landed</span>
-                    <span className="text-sm font-bold text-[#00f2ff]">{landed}</span>
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-[9px] font-mono text-[#475569] uppercase tracking-widest mb-1">Status: Locked</span>
-                    <span className="text-sm font-bold text-white">{locked}</span>
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-[9px] font-mono text-[#475569] uppercase tracking-widest mb-1">Completion</span>
-                    <span className="text-sm font-bold text-white">{completion}%</span>
+                <div className="flex flex-col items-end font-black uppercase text-sm leading-none pt-2">
+                  <div className="flex gap-4">
+                    <div className="text-right border-r-2 border-black pr-4">
+                      <span className="block text-3xl text-[#ff4d00]">{landed}</span>
+                      <span className="text-[10px]">LANDED</span>
+                    </div>
+                    <div className="text-right">
+                      <span className="block text-3xl">{locked}</span>
+                      <span className="text-[10px]">LOCKED</span>
+                    </div>
                   </div>
                 </div>
               )}
             </div>
 
-            <div className="flex-1 max-w-md w-full">
-              <div className="relative group">
-                <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#475569" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
-                  </svg>
-                </div>
+            <div className="flex flex-col md:flex-row gap-4 mt-4">
+              <div className="relative flex-1">
                 <input
                   type="text"
-                  placeholder="SCAN TRICK DATABASE..."
+                  placeholder="SEARCH_THE_DATABASE..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="w-full bg-[#11141b] border border-[#1e232d] rounded-lg pl-11 pr-4 py-3 text-xs font-mono text-white placeholder-[#334155] focus:outline-none focus:border-[#00f2ff]/50 transition-all"
+                  className="w-full bg-white border-4 border-black p-4 text-sm font-black uppercase placeholder-black/30 focus:outline-none focus:bg-[#ff4d00] focus:text-white transition-all shadow-[4px_4px_0px_#000]"
                 />
               </div>
+              <CategoryFilter active={category} onChange={setCategory} />
             </div>
-          </div>
-
-          <div className="mt-6">
-            <CategoryFilter active={category} onChange={setCategory} />
           </div>
         </div>
       </header>
 
-      {/* Main Grid Area */}
-      <main className="max-w-7xl mx-auto px-6 pt-10 pb-32">
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-4">
-            <span className="text-[10px] font-mono text-[#475569] uppercase tracking-[0.2em]">
-              Showing {filtered.length} entries
-            </span>
-            <div className="w-12 h-px bg-[#1e232d]" />
-          </div>
-          
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#00f2ff] animate-pulse" />
-            <span className="text-[10px] font-mono text-[#00f2ff] uppercase tracking-widest">System Online</span>
-          </div>
+      {/* Main List Area */}
+      <main className="max-w-4xl mx-auto px-4 pt-12 pb-32">
+        <div className="mb-8 flex items-baseline justify-between border-b-4 border-black pb-2">
+          <h2 className="text-2xl font-black italic">
+            TRICK_LOG [{filtered.length}]
+          </h2>
+          <span className="text-[10px] font-bold uppercase tracking-widest bg-black text-white px-2 py-1">
+            FILTER: {category}
+          </span>
         </div>
 
         {filtered.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-32 border border-[#1e232d] border-dashed rounded-3xl">
-            <p className="text-[#475569] font-mono text-sm tracking-widest uppercase mb-4">No Matches Found</p>
+          <div className="py-20 text-center border-4 border-dashed border-black">
+            <p className="text-xl font-black uppercase italic mb-4">NO TRICKS FOUND IN THE BAG</p>
             <button 
               onClick={() => { setSearch(""); setCategory("all"); }}
-              className="text-[#00f2ff] text-[10px] font-black uppercase tracking-widest hover:text-white transition-colors"
+              className="zine-button"
             >
-              [ RESET_FILTERS ]
+              [ RESET_DATABASE ]
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 gap-4">
             {filtered.map((trick) => (
               <TrickCard
                 key={trick.id}

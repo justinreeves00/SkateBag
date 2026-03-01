@@ -39,7 +39,7 @@ export function DiceButton({ tricks }: DiceButtonProps) {
       const pick = pool[Math.floor(Math.random() * pool.length)];
       setResult(pick);
       setRolling(false);
-    }, 1200);
+    }, 1000);
   }
 
   function toggleCategory(cat: TrickCategory) {
@@ -53,49 +53,35 @@ export function DiceButton({ tricks }: DiceButtonProps) {
 
   return (
     <>
-      {/* HUD-style Result Overlay */}
+      {/* Result Overlay */}
       {result && (
         <div
-          className="fixed inset-0 bg-[#0a0c10]/95 backdrop-blur-xl flex items-center justify-center z-[100] px-6 animate-in fade-in"
+          className="fixed inset-0 bg-white z-[100] flex items-center justify-center p-6 border-[20px] border-black"
           onClick={() => setResult(null)}
         >
-          <div className="absolute inset-0 pointer-events-none border-[40px] border-[#00f2ff]/5 mix-blend-overlay opacity-20" />
-          
-          <div className="text-center relative" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center justify-center gap-3 mb-8">
-              <span className="w-12 h-px bg-[#00f2ff]/20"></span>
-              <p className="text-[10px] text-[#00f2ff] font-mono font-black uppercase tracking-[0.4em]">Target Acquired</p>
-              <span className="w-12 h-px bg-[#00f2ff]/20"></span>
-            </div>
-            
-            <h2 className="text-6xl font-bold text-white tracking-tighter mb-4 uppercase font-sans">
+          <div className="text-center rotate-[-3deg]" onClick={(e) => e.stopPropagation()}>
+            <p className="text-xl font-black uppercase italic bg-black text-white px-4 py-1 inline-block mb-8 underline decoration-[#ff4d00] decoration-4 underline-offset-8">
+              DO_THIS_TRICK_OR_DIE
+            </p>
+            <h2 className="text-7xl md:text-9xl font-black text-black tracking-tighter mb-4 uppercase leading-[0.8]">
               {result.name}
             </h2>
-            
-            <div className="flex items-center justify-center gap-6 mb-16">
-              <div className="flex flex-col items-center">
-                <span className="text-[8px] font-mono text-[#475569] uppercase tracking-widest mb-1">Class</span>
-                <span className="text-xs text-white font-bold uppercase tracking-widest">{result.category}</span>
-              </div>
-              <div className="w-px h-8 bg-[#1e232d]"></div>
-              <div className="flex flex-col items-center">
-                <span className="text-[8px] font-mono text-[#475569] uppercase tracking-widest mb-1">Risk</span>
-                <span className="text-xs text-[#00f2ff] font-bold uppercase tracking-widest">LVL {result.difficulty}</span>
-              </div>
+            <div className="flex items-center justify-center gap-4 mb-12">
+              <span className="text-2xl font-black uppercase italic border-4 border-black px-4 py-2">{result.category}</span>
+              <span className="text-2xl font-black uppercase italic bg-[#ff4d00] text-white px-4 py-2">LVL_{result.difficulty}</span>
             </div>
-
-            <div className="flex flex-col gap-4 max-w-[240px] mx-auto">
+            <div className="flex flex-col gap-4 max-w-[300px] mx-auto rotate-[3deg]">
               <button
                 onClick={roll}
-                className="w-full py-4 bg-[#00f2ff] text-black rounded-lg text-[11px] font-mono font-black uppercase tracking-[0.2em] hover:bg-white transition-all shadow-[0_0_30px_rgba(0,242,255,0.3)]"
+                className="w-full py-6 bg-black text-white text-2xl font-black uppercase italic border-4 border-black hover:bg-[#ff4d00] transition-all shadow-[8px_8px_0px_#000] active:translate-x-1 active:translate-y-1 active:shadow-none"
               >
-                [ NEW_SEQUENCE ]
+                ROLL_AGAIN
               </button>
               <button
                 onClick={() => setResult(null)}
-                className="w-full py-4 bg-transparent text-[#475569] border border-[#1e232d] rounded-lg text-[11px] font-mono font-black uppercase tracking-[0.2em] hover:text-white hover:border-[#334155] transition-all"
+                className="w-full py-4 bg-white text-black text-lg font-black uppercase italic border-4 border-black hover:bg-black hover:text-white transition-all shadow-[4px_4px_0px_#000]"
               >
-                [ ABORT ]
+                ABORT_MISSION
               </button>
             </div>
           </div>
@@ -105,68 +91,56 @@ export function DiceButton({ tricks }: DiceButtonProps) {
       {/* Settings Panel */}
       {showSettings && (
         <div
-          className="fixed inset-0 bg-[#0a0c10]/80 backdrop-blur-md flex items-end justify-center z-[50]"
+          className="fixed inset-0 bg-black/90 z-[50] flex items-center justify-center p-4"
           onClick={() => setShowSettings(false)}
         >
           <div
-            className="w-full max-w-4xl bg-[#11141b] rounded-t-3xl p-8 pb-16 border-t border-[#1e232d] shadow-2xl relative overflow-hidden"
+            className="w-full max-w-2xl bg-white border-[10px] border-black p-8 relative rotate-[-1deg]"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#00f2ff]/0 via-[#00f2ff]/40 to-[#00f2ff]/0" />
-            
-            <div className="flex items-center justify-between mb-10">
-              <div className="flex flex-col">
-                <h3 className="text-xl font-bold text-white uppercase tracking-tight">Dice Parameters</h3>
-                <span className="text-[9px] font-mono text-[#475569] uppercase tracking-[0.3em]">System Config v1.0.4</span>
-              </div>
+            <div className="flex items-center justify-between mb-8 border-b-8 border-black pb-4">
+              <h3 className="text-4xl font-black italic uppercase">DICE_LOGIC</h3>
               <button 
                 onClick={() => setShowSettings(false)} 
-                className="w-10 h-10 rounded-xl bg-[#0f1115] border border-[#1e232d] flex items-center justify-center text-[#475569] hover:text-[#00f2ff] transition-all"
+                className="bg-black text-white px-4 py-2 font-black text-xl hover:bg-[#ff4d00]"
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                [X]
               </button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-              <div className="space-y-6">
-                <p className="text-[10px] font-mono text-[#00f2ff] uppercase tracking-[0.2em] border-b border-[#1e232d] pb-2">Filter_Overrides</p>
-                <div className="space-y-4">
-                  <button
-                    onClick={() => setSettings((s) => ({ ...s, excludeLanded: !s.excludeLanded }))}
-                    className={`w-full flex items-center justify-between p-4 rounded-xl border transition-all ${
-                      settings.excludeLanded 
-                        ? "bg-[#00f2ff]/5 border-[#00f2ff]/30 text-[#00f2ff]" 
-                        : "bg-[#0f1115] border-[#1e232d] text-[#475569] hover:border-[#334155]"
-                    }`}
-                  >
-                    <span className="text-xs font-mono uppercase font-bold tracking-widest">Exclude Mastered</span>
-                    <div className={`w-4 h-4 rounded-sm border-2 transition-all ${settings.excludeLanded ? "bg-[#00f2ff] border-[#00f2ff]" : "border-[#1e232d]"}`} />
-                  </button>
-                  <button
-                    onClick={() => setSettings((s) => ({ ...s, excludeLocked: !s.excludeLocked }))}
-                    className={`w-full flex items-center justify-between p-4 rounded-xl border transition-all ${
-                      settings.excludeLocked 
-                        ? "bg-white/5 border-white/30 text-white" 
-                        : "bg-[#0f1115] border-[#1e232d] text-[#475569] hover:border-[#334155]"
-                    }`}
-                  >
-                    <span className="text-xs font-mono uppercase font-bold tracking-widest">Exclude Locked</span>
-                    <div className={`w-4 h-4 rounded-sm border-2 transition-all ${settings.excludeLocked ? "bg-white border-white" : "border-[#1e232d]"}`} />
-                  </button>
-                </div>
+            <div className="space-y-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <button
+                  onClick={() => setSettings((s) => ({ ...s, excludeLanded: !s.excludeLanded }))}
+                  className={`p-4 border-4 border-black text-left transition-all ${
+                    settings.excludeLanded ? "bg-[#ff4d00] text-white shadow-[4px_4px_0px_#000]" : "bg-white text-black"
+                  }`}
+                >
+                  <p className="text-xs font-black uppercase mb-1">STATUS</p>
+                  <p className="text-xl font-black italic">EXCL_LANDED</p>
+                </button>
+                <button
+                  onClick={() => setSettings((s) => ({ ...s, excludeLocked: !s.excludeLocked }))}
+                  className={`p-4 border-4 border-black text-left transition-all ${
+                    settings.excludeLocked ? "bg-black text-white shadow-[4px_4px_0px_#000]" : "bg-white text-black"
+                  }`}
+                >
+                  <p className="text-xs font-black uppercase mb-1">STATUS</p>
+                  <p className="text-xl font-black italic">EXCL_LOCKED</p>
+                </button>
               </div>
 
-              <div className="space-y-6">
-                <p className="text-[10px] font-mono text-[#00f2ff] uppercase tracking-[0.2em] border-b border-[#1e232d] pb-2">Category_Matrix</p>
+              <div>
+                <p className="text-xs font-black uppercase mb-4 underline decoration-4 underline-offset-4">CATEGORIES</p>
                 <div className="flex flex-wrap gap-2">
                   {CATEGORY_OPTIONS.map((cat) => (
                     <button
                       key={cat}
                       onClick={() => toggleCategory(cat)}
-                      className={`px-4 py-3 rounded-lg text-[9px] font-mono font-bold uppercase tracking-widest transition-all border ${
+                      className={`px-4 py-2 border-4 border-black text-[10px] font-black uppercase transition-all ${
                         settings.categories.includes(cat)
-                          ? "bg-[#161a23] text-[#00f2ff] border-[#00f2ff]/40 shadow-[0_0_15px_rgba(0,242,255,0.1)]"
-                          : "bg-[#0f1115] text-[#334155] border-[#1e232d] hover:border-[#334155]"
+                          ? "bg-black text-white"
+                          : "bg-white text-black hover:bg-[#ff4d00] hover:text-white"
                       }`}
                     >
                       {cat}
@@ -179,44 +153,38 @@ export function DiceButton({ tricks }: DiceButtonProps) {
         </div>
       )}
 
-      {/* Tactical FAB */}
-      <div className="fixed bottom-8 right-8 flex flex-col items-end gap-5 z-[45]">
+      {/* FABs */}
+      <div className="fixed bottom-8 right-8 flex flex-col items-end gap-4 z-[45]">
         <button
           onClick={() => setShowSettings(!showSettings)}
-          className="w-12 h-12 rounded-xl bg-[#11141b] border border-[#1e232d] flex items-center justify-center text-[#475569] hover:text-[#00f2ff] transition-all hover:scale-105 active:scale-95 shadow-xl group"
-          title="Dice Parameters"
+          className="w-14 h-14 bg-white border-4 border-black flex items-center justify-center text-black hover:bg-black hover:text-white transition-all shadow-[4px_4px_0px_#000] rotate-[-5deg]"
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4">
             <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.1a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
           </svg>
         </button>
         <button
           onClick={roll}
           disabled={rolling}
-          className={`w-20 h-20 rounded-2xl flex items-center justify-center transition-all shadow-[0_20px_40px_rgba(0,0,0,0.6)] group border-2 ${
-            rolling
-              ? "bg-[#11141b] border-[#1e232d] scale-90"
-              : "bg-[#00f2ff] border-[#00f2ff] hover:scale-110 active:scale-95 shadow-[0_0_40px_rgba(0,242,255,0.25)]"
+          className={`w-24 h-24 border-[6px] border-black flex items-center justify-center transition-all shadow-[8px_8px_0px_#000] rotate-[5deg] active:translate-x-1 active:translate-y-1 active:shadow-none ${
+            rolling ? "bg-black" : "bg-[#ff4d00] hover:bg-black hover:text-[#ff4d00]"
           }`}
-          title="Generate Sequence"
         >
-          <div className={`transition-all duration-700 ${rolling ? "animate-spin scale-75" : "scale-110 group-hover:rotate-12"}`}>
+          <div className={rolling ? "animate-spin" : ""}>
             <svg
-              width="36"
-              height="36"
+              width="48"
+              height="48"
               viewBox="0 0 24 24"
               fill="none"
-              stroke={rolling ? "#475569" : "black"}
-              strokeWidth="3"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+              stroke="currentColor"
+              strokeWidth="4"
             >
-              <rect x="2" y="2" width="20" height="20" rx="4" ry="4" />
-              <circle cx="8" cy="8" r="1.5" fill="currentColor" stroke="none" />
-              <circle cx="16" cy="8" r="1.5" fill="currentColor" stroke="none" />
-              <circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none" />
-              <circle cx="8" cy="16" r="1.5" fill="currentColor" stroke="none" />
-              <circle cx="16" cy="16" r="1.5" fill="currentColor" stroke="none" />
+              <rect x="2" y="2" width="20" height="20" rx="2" ry="2" />
+              <circle cx="8" cy="8" r="1" fill="currentColor" stroke="none" />
+              <circle cx="16" cy="8" r="1" fill="currentColor" stroke="none" />
+              <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" />
+              <circle cx="8" cy="16" r="1" fill="currentColor" stroke="none" />
+              <circle cx="16" cy="16" r="1" fill="currentColor" stroke="none" />
             </svg>
           </div>
         </button>

@@ -1,14 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0a0c10;
-  --foreground: #eceef2;
-  --accent: #00f2ff;
-  --accent-muted: rgba(0, 242, 255, 0.1);
-  --surface: #11141b;
-  --surface-hover: #161a23;
-  --border: #1e232d;
-  --muted: #475569;
+  --background: #ffffff;
+  --foreground: #000000;
+  --accent: #ff4d00; /* Flame Orange */
+  --accent-alt: #e8ff00; /* Acid Green */
+  --border: #000000;
+  --muted: #888888;
 }
 
 * {
@@ -24,38 +22,65 @@ body {
 }
 
 body {
-  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code, pre {
-  font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+h1, h2, h3, .font-heading {
+  font-family: var(--font-archivo-black), sans-serif;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
 }
 
-/* Smooth scroll */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Custom scrollbar */
+/* Brutalist Scrollbar */
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--background);
+  background: #000;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 10px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--muted);
+  background: var(--accent);
+  border: 2px solid #000;
 }
 
-/* Modern grid utility */
-.bento-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
+/* Zine Utilities */
+.zine-border {
+  border: 3px solid #000;
+  box-shadow: 4px 4px 0px #000;
+}
+
+.zine-card {
+  border: 2px solid #000;
+  background: #fff;
+  transition: transform 0.1s ease;
+}
+
+.zine-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0px #000;
+}
+
+.zine-button {
+  border: 2px solid #000;
+  background: #000;
+  color: #fff;
+  font-weight: 900;
+  text-transform: uppercase;
+  padding: 0.5rem 1rem;
+  transition: all 0.1s ease;
+}
+
+.zine-button:active {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

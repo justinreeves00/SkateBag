@@ -1,21 +1,21 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Archivo_Black, Archivo } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const archivoBlack = Archivo_Black({
+  weight: "400",
+  variable: "--font-archivo-black",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const archivo = Archivo({
+  variable: "--font-archivo",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Skatebag — Track Your Tricks",
-  description: "Every skateboarding trick ever documented. Track your progress.",
-  keywords: ["skateboarding", "tricks", "skate", "progress tracker"],
+  title: "Skatebag — What's in your bag?",
+  description: "The definitive skateboarding trick database and tracker.",
 };
 
 export default function RootLayout({
@@ -25,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${archivoBlack.variable} ${archivo.variable} antialiased`}>
         {children}
       </body>
     </html>
