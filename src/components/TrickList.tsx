@@ -87,21 +87,25 @@ export function TrickList({ tricks, isAuthenticated }: TrickListProps) {
                 </button>
               </div>
 
-              {/* Search moved to right side */}
-              <div className="w-full md:max-w-xs space-y-4">
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="text-slate-500">
-                      <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
-                    </svg>
+              {/* Search & Dice moved to right side */}
+              <div className="w-full md:max-w-sm space-y-4">
+                <div className="flex items-center gap-2">
+                  <div className="relative flex-1">
+                    <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="text-slate-500">
+                        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+                      </svg>
+                    </div>
+                    <input
+                      type="text"
+                      placeholder="Search database..."
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)}
+                      className="w-full bg-white/[0.03] border border-white/10 rounded-2xl pl-11 pr-4 py-3.5 text-sm font-medium text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/50 transition-all"
+                    />
                   </div>
-                  <input
-                    type="text"
-                    placeholder="Search database..."
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    className="w-full bg-white/[0.03] border border-white/10 rounded-2xl pl-11 pr-4 py-3.5 text-sm font-medium text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/50 transition-all"
-                  />
+                  {/* Dice Button is now here at the top! */}
+                  <DiceButton tricks={filtered} />
                 </div>
                 <CategoryFilter active={category} onChange={setCategory} />
               </div>
@@ -149,8 +153,6 @@ export function TrickList({ tricks, isAuthenticated }: TrickListProps) {
           </div>
         )}
       </main>
-
-      <DiceButton tricks={filtered} />
     </div>
   );
 }

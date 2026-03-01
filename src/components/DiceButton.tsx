@@ -56,7 +56,7 @@ export function DiceButton({ tricks }: DiceButtonProps) {
       const pick = pool[Math.floor(Math.random() * pool.length)];
       setResult(pick);
       setRolling(false);
-    }, 1500);
+    }, 1200);
   }
 
   function toggleCategory(cat: TrickCategory) {
@@ -134,17 +134,17 @@ export function DiceButton({ tricks }: DiceButtonProps) {
       {/* Settings Panel */}
       {showSettings && (
         <div
-          className="fixed inset-0 bg-black/60 backdrop-blur-md z-[50] flex items-end justify-center"
+          className="fixed inset-0 bg-black/60 backdrop-blur-md z-[100] flex items-center justify-center p-6 animate-in fade-in duration-300"
           onClick={() => setShowSettings(false)}
         >
           <div
-            className="w-full max-w-2xl bg-[#0f1115] rounded-t-[3rem] p-10 pb-16 border-t border-white/10 shadow-2xl animate-in slide-in-from-bottom-10 duration-500"
+            className="w-full max-w-2xl bg-[#0f1115] rounded-[3rem] p-10 border border-white/10 shadow-2xl relative overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-12">
               <div className="space-y-1">
-                <h3 className="text-2xl font-bold text-white tracking-tight">Dice Logic</h3>
-                <p className="text-xs text-slate-500 font-medium">Configure your random selection parameters</p>
+                <h3 className="text-2xl font-bold text-white tracking-tight italic uppercase">Dice Logic</h3>
+                <p className="text-xs text-slate-500 font-medium">Configure random selection parameters</p>
               </div>
               <button 
                 onClick={() => setShowSettings(false)} 
@@ -199,46 +199,73 @@ export function DiceButton({ tricks }: DiceButtonProps) {
         </div>
       )}
 
-      {/* FABs */}
-      <div className="fixed bottom-10 right-10 flex flex-col items-end gap-6 z-[45]">
+      {/* Header Inline Controls */}
+      <div className="flex items-center gap-2">
         <button
           onClick={() => setShowSettings(!showSettings)}
-          className="w-14 h-14 rounded-full bg-black/40 backdrop-blur-xl border border-white/10 flex items-center justify-center text-slate-400 hover:text-white transition-all shadow-xl hover:scale-110 active:scale-95"
+          className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white transition-all hover:scale-105 active:scale-95 group"
+          title="Dice Parameters"
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-            <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.1a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
-          </svg>
+          <GearIcon size={20} />
         </button>
         <button
           onClick={roll}
           disabled={rolling}
-          className={`w-24 h-24 rounded-[2.5rem] flex items-center justify-center transition-all shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)] ${
+          className={`h-12 px-6 rounded-2xl flex items-center gap-3 transition-all ${
             rolling 
-              ? "bg-slate-800 scale-90" 
-              : "bg-white text-black hover:scale-105 active:scale-95"
+              ? "bg-slate-800 scale-95" 
+              : "bg-white text-black hover:bg-blue-400 hover:scale-105 active:scale-95 shadow-lg"
           }`}
         >
-          <div className={rolling ? "animate-spin opacity-40" : ""}>
-            <svg
-              width="44"
-              height="44"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <rect x="2" y="2" width="20" height="20" rx="4" ry="4" />
-              <circle cx="8" cy="8" r="1" fill="currentColor" stroke="none" />
-              <circle cx="16" cy="8" r="1" fill="currentColor" stroke="none" />
-              <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" />
-              <circle cx="8" cy="16" r="1" fill="currentColor" stroke="none" />
-              <circle cx="16" cy="16" r="1" fill="currentColor" stroke="none" />
-            </svg>
+          <div className={rolling ? "animate-spin" : ""}>
+            <DiceIcon size={20} />
           </div>
+          <span className="text-[10px] font-black uppercase tracking-[0.2em]">
+            {rolling ? "Rolling..." : "Roll Dice"}
+          </span>
         </button>
       </div>
     </>
+  );
+}
+
+function GearIcon({ size = 24 }: { size?: number }) {
+  return (
+    <svg 
+      width={size} 
+      height={size} 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="currentColor" 
+      strokeWidth="2.5" 
+      strokeLinecap="round" 
+      strokeLinejoin="round"
+      className="group-hover:rotate-90 transition-transform duration-500"
+    >
+      <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.1a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+      <circle cx="12" cy="12" r="3"/>
+    </svg>
+  );
+}
+
+function DiceIcon({ size = 24 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <rect x="2" y="2" width="20" height="20" rx="4" ry="4" />
+      <circle cx="8" cy="8" r="1" fill="currentColor" stroke="none" />
+      <circle cx="16" cy="8" r="1" fill="currentColor" stroke="none" />
+      <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" />
+      <circle cx="8" cy="16" r="1" fill="currentColor" stroke="none" />
+      <circle cx="16" cy="16" r="1" fill="currentColor" stroke="none" />
+    </svg>
   );
 }
