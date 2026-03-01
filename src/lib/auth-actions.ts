@@ -20,22 +20,6 @@ export async function signInWithGoogle() {
   if (data.url) redirect(data.url);
 }
 
-export async function signInWithApple() {
-  const supabase = await createClient();
-  const headersList = await headers();
-  const origin = headersList.get("origin");
-
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: "apple",
-    options: {
-      redirectTo: `${origin}/auth/callback`,
-    },
-  });
-
-  if (error) redirect("/login?error=apple_failed");
-  if (data.url) redirect(data.url);
-}
-
 export async function signOut() {
   const supabase = await createClient();
   await supabase.auth.signOut();
