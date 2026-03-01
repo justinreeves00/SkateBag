@@ -14,7 +14,7 @@ export default async function Home() {
   const { data: tricks } = await supabase
     .from("tricks")
     .select("*")
-    .order("category")
+    .order("difficulty")
     .order("name");
 
   // Fetch user's trick statuses if logged in

@@ -65,10 +65,15 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
         )}
 
         {/* Trick Name */}
-        <div className="flex-1 min-w-0">
+        <div className="flex-1 min-w-0 flex items-center gap-3">
           <span className="text-[15px] font-medium text-white tracking-tight">
             {trick.name}
           </span>
+          {trick.difficulty && (
+            <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#222] text-[#666] border border-[#333] font-bold">
+              LVL {trick.difficulty}
+            </span>
+          )}
           {status && (
             <span
               className={`ml-2 text-[11px] font-bold uppercase tracking-widest ${

@@ -18,6 +18,7 @@ export interface Trick {
   history: string | null;
   inventor: string | null;
   year: number | null;
+  difficulty: number | null; // 1-5
   youtube_query: string | null;
   created_at: string;
 }
