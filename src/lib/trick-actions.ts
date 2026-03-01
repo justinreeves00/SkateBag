@@ -43,6 +43,27 @@ export async function setTrickStatus(
   return { success: true };
 }
 
+export async function updateTrickLevel(trickId: string, level: number) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  // Admin check - restrict to your email
+  if (user?.email !== 'justin_reeves@me.com') {
+    return { error: "Unauthorized" };
+  }
+
+  const { error } = await supabase
+    .from("tricks")
+    .update({ difficulty: level })
+    .eq("id", trickId);
+
+  if (error) return { error: error.message };
+
+  revalidatePath("/");
+  revalidatePath("/admin");
+  return { success: true };
+}
+
 export async function getUserTricks() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
