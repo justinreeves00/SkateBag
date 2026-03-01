@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  --background: #030712;
+  --background: #020617;
   --foreground: #ffffff;
-  --aurora-1: #3b82f6;
-  --aurora-2: #8b5cf6;
-  --aurora-3: #ec4899;
-  --aurora-4: #10b981;
+  --aurora-1: #10b981; /* Emerald */
+  --aurora-2: #059669; /* Darker Emerald */
+  --aurora-3: #34d399; /* Mint */
+  --aurora-4: #064e3b; /* Forest */
 }
 
 * {
