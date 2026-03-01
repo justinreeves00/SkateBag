@@ -42,11 +42,15 @@ export default async function Home() {
     <div className="relative">
       {/* User menu */}
       {user && (
-        <div className="fixed top-8 right-12 z-50">
+        <div className="fixed top-8 right-8 md:right-12 z-50 flex items-center gap-4">
+          <div className="hidden sm:flex flex-col items-end">
+            <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Logged in as</span>
+            <span className="text-xs text-white font-medium">{user.email}</span>
+          </div>
           <form action={signOut}>
             <button
               type="submit"
-              className="px-3 py-1.5 rounded-lg bg-[#111] border border-[#1a1a1a] text-[10px] text-[#444] font-black uppercase tracking-widest hover:text-white transition-colors"
+              className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-[10px] text-slate-400 font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 transition-all"
             >
               Sign out
             </button>
@@ -55,10 +59,13 @@ export default async function Home() {
       )}
 
       {!user && (
-        <div className="fixed top-8 right-12 z-50">
+        <div className="fixed top-8 right-8 md:right-12 z-50 flex items-center gap-6">
+          <p className="hidden md:block text-[10px] text-slate-500 font-bold uppercase tracking-widest max-w-[140px] text-right leading-relaxed">
+            Sign in to log tricks to your bag 🛹
+          </p>
           <a
             href="/login"
-            className="px-3 py-1.5 rounded-lg bg-[#e8ff00] text-black text-[10px] font-black uppercase tracking-widest hover:bg-white transition-colors"
+            className="px-5 py-2.5 rounded-xl bg-blue-600 text-white text-[10px] font-bold uppercase tracking-widest hover:bg-blue-500 transition-all shadow-lg shadow-blue-600/20"
           >
             Sign in
           </a>
