@@ -15,20 +15,31 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
   const [consistency, setConsistency] = useState<number | null>(trick.userConsistency);
   const [loading, setLoading] = useState(false);
   const [showPrompt, setShowPrompt] = useState(false);
-  const [videoId, setVideoId] = useState<string | null>(null);
+  const [videoIds, setVideoIds] = useState<string[]>([]);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [fetchingVideo, setFetchingVideo] = useState(false);
+  const [searchMode, setSearchMode] = useState<"query" | "exact">("query");
+
+  const fetchVideos = (mode: "query" | "exact") => {
+    const q = mode === "exact" ? trick.name : (trick.youtube_query || trick.name);
+    setFetchingVideo(true);
+    setSearchMode(mode);
+    fetch(`/api/youtube?q=${encodeURIComponent(q)}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.videoIds && data.videoIds.length > 0) {
+          setVideoIds(data.videoIds);
+          setCurrentVideoIndex(0);
+        }
+      })
+      .finally(() => setFetchingVideo(false));
+  };
 
   useEffect(() => {
-    if (expanded && trick.youtube_query && !videoId && !fetchingVideo) {
-      setFetchingVideo(true);
-      fetch(`/api/youtube?q=${encodeURIComponent(trick.youtube_query)}`)
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.videoId) setVideoId(data.videoId);
-        })
-        .finally(() => setFetchingVideo(false));
+    if (expanded && videoIds.length === 0 && !fetchingVideo) {
+      fetchVideos("query");
     }
-  }, [expanded, trick.youtube_query, videoId, fetchingVideo]);
+  }, [expanded, trick.youtube_query, videoIds.length, fetchingVideo]);
 
   async function handleStatusToggle(newStatus: TrickStatus, value: number | null = null) {
     if (!isAuthenticated || loading) return;
@@ -48,6 +59,16 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
     setLoading(false);
     setShowPrompt(false);
   }
+
+  const nextVideo = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCurrentVideoIndex((prev) => (prev + 1) % videoIds.length);
+  };
+
+  const tryExact = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    fetchVideos("exact");
+  };
 
   return (
     <div
@@ -167,21 +188,40 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
         <div className="px-7 pb-10 space-y-10 animate-in fade-in duration-500">
           <div className="h-px w-full bg-white/5" />
 
-          {/* Video Section - Larger aspect ratio for bigger video */}
+          {/* Video Section */}
           <div className="space-y-5">
             <div className="flex items-center justify-between px-1">
               <div className="flex items-center gap-3">
                 <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                 <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Trick Feed</span>
               </div>
+              <div className="flex gap-4">
+                {searchMode === "query" && (
+                  <button 
+                    onClick={tryExact}
+                    className="text-[9px] font-black text-emerald-400 uppercase tracking-widest hover:text-white transition-colors"
+                  >
+                    Exact Match Search 🎯
+                  </button>
+                )}
+                {videoIds.length > 1 && (
+                  <button 
+                    onClick={nextVideo}
+                    className="text-[9px] font-black text-emerald-400 uppercase tracking-widest hover:text-white transition-colors"
+                  >
+                    Next Video ({currentVideoIndex + 1}/{videoIds.length})
+                  </button>
+                )}
+              </div>
             </div>
 
             <div className="aspect-[4/3] sm:aspect-video w-full bg-black/60 rounded-[2.5rem] overflow-hidden border border-white/10 relative shadow-2xl">
-              {videoId ? (
+              {videoIds.length > 0 ? (
                 <iframe
+                  key={videoIds[currentVideoIndex]}
                   width="100%"
                   height="100%"
-                  src={`https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0&modestbranding=1`}
+                  src={`https://www.youtube.com/embed/${videoIds[currentVideoIndex]}?autoplay=0&rel=0&modestbranding=1`}
                   title={`${trick.name} tutorial`}
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

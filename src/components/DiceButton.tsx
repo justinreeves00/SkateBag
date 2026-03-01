@@ -18,8 +18,10 @@ export function DiceButton({ tricks }: DiceButtonProps) {
   const [showSettings, setShowSettings] = useState(false);
   const [result, setResult] = useState<TrickWithStatus | null>(null);
   const [rolling, setRolling] = useState(false);
-  const [videoId, setVideoId] = useState<string | null>(null);
+  const [videoIds, setVideoIds] = useState<string[]>([]);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [fetchingVideo, setFetchingVideo] = useState(false);
+  const [searchMode, setSearchMode] = useState<"query" | "exact">("query");
   const [mounted, setMounted] = useState(false);
   const [settings, setSettings] = useState<DiceFilterSettings>({
     excludeLanded: false,
@@ -32,24 +34,34 @@ export function DiceButton({ tricks }: DiceButtonProps) {
     setMounted(true);
   }, []);
 
-  // Fetch YouTube video ID when result changes
+  const fetchVideos = (mode: "query" | "exact", trick: TrickWithStatus) => {
+    const q = mode === "exact" ? trick.name : (trick.youtube_query || trick.name);
+    setFetchingVideo(true);
+    setVideoIds([]);
+    setCurrentVideoIndex(0);
+    setSearchMode(mode);
+    fetch(`/api/youtube?q=${encodeURIComponent(q)}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.videoIds && data.videoIds.length > 0) {
+          setVideoIds(data.videoIds);
+        }
+      })
+      .finally(() => setFetchingVideo(false));
+  };
+
   useEffect(() => {
-    if (result && result.youtube_query) {
-      setFetchingVideo(true);
-      setVideoId(null);
-      fetch(`/api/youtube?q=${encodeURIComponent(result.youtube_query)}`)
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.videoId) setVideoId(data.videoId);
-        })
-        .finally(() => setFetchingVideo(false));
+    if (result && videoIds.length === 0 && !fetchingVideo) {
+      fetchVideos("query", result);
     }
   }, [result]);
 
   function roll() {
     setRolling(true);
     setResult(null);
-    setVideoId(null);
+    setVideoIds([]);
+    setCurrentVideoIndex(0);
+    setSearchMode("query");
 
     let pool = tricks.filter((t) =>
       settings.categories.includes(t.category as TrickCategory)
@@ -89,6 +101,14 @@ export function DiceButton({ tricks }: DiceButtonProps) {
     }));
   }
 
+  const nextVideo = () => {
+    setCurrentVideoIndex((prev) => (prev + 1) % videoIds.length);
+  };
+
+  const tryExact = () => {
+    if (result) fetchVideos("exact", result);
+  };
+
   const overlays = (
     <>
       {/* Result Overlay Card */}
@@ -114,27 +134,51 @@ export function DiceButton({ tricks }: DiceButtonProps) {
             </div>
 
             {/* Video Player */}
-            <div className="aspect-video w-full bg-black/60 rounded-[2.5rem] overflow-hidden border border-white/5 relative shadow-inner group/video">
-              {videoId ? (
-                <iframe
-                  width="100%"
-                  height="100%"
-                  src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`}
-                  title={`${result.name} tutorial`}
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
-              ) : fetchingVideo ? (
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
-                  <div className="w-10 h-10 border-3 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin" />
-                  <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest">Buffering...</span>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between px-1">
+                <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Tutorial Feed</span>
+                <div className="flex gap-4">
+                  {searchMode === "query" && (
+                    <button 
+                      onClick={tryExact}
+                      className="text-[9px] font-black text-emerald-400 uppercase tracking-widest hover:text-white transition-colors"
+                    >
+                      Exact Search 🎯
+                    </button>
+                  )}
+                  {videoIds.length > 1 && (
+                    <button 
+                      onClick={nextVideo}
+                      className="text-[9px] font-black text-emerald-400 uppercase tracking-widest hover:text-white transition-colors"
+                    >
+                      Next Video ({currentVideoIndex + 1}/{videoIds.length})
+                    </button>
+                  )}
                 </div>
-              ) : (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-xs text-slate-700 font-bold uppercase tracking-[0.2em] italic">No visual relay available</span>
-                </div>
-              )}
+              </div>
+              <div className="aspect-video w-full bg-black/60 rounded-[2.5rem] overflow-hidden border border-white/5 relative shadow-inner group/video">
+                {videoIds.length > 0 ? (
+                  <iframe
+                    key={videoIds[currentVideoIndex]}
+                    width="100%"
+                    height="100%"
+                    src={`https://www.youtube.com/embed/${videoIds[currentVideoIndex]}?autoplay=1&rel=0&modestbranding=1`}
+                    title={`${result.name} tutorial`}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                ) : fetchingVideo ? (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
+                    <div className="w-10 h-10 border-3 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin" />
+                    <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest">Buffering...</span>
+                  </div>
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="text-xs text-slate-700 font-bold uppercase tracking-[0.2em] italic">No visual relay available</span>
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-5 pt-4">
@@ -142,13 +186,13 @@ export function DiceButton({ tricks }: DiceButtonProps) {
                 onClick={roll}
                 className="flex-1 py-6 bg-white text-black rounded-[1.5rem] font-black uppercase tracking-widest hover:bg-emerald-400 transition-all shadow-[0_20px_40px_rgba(255,255,255,0.1)] hover:scale-[1.02] active:scale-95"
               >
-                Roll Again
+                New Sequence
               </button>
               <button
                 onClick={() => setResult(null)}
                 className="flex-1 py-6 bg-white/5 text-slate-400 rounded-[1.5rem] font-black uppercase tracking-widest hover:text-white hover:bg-white/10 transition-all border border-white/5"
               >
-                Dismiss
+                Abort
               </button>
             </div>
           </div>
