@@ -36,8 +36,10 @@ export default async function LoginPage(props: {
             </div>
           )}
           {error && (
-            <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-bold text-center uppercase tracking-widest">
-              {error === "magic_link_failed" ? "Failed to send magic link" : "Authentication failed"}
+            <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-bold text-center uppercase tracking-widest leading-relaxed">
+              {error === "magic_link_failed" ? "Failed to send magic link" : 
+               error === "google_failed" ? "Authentication failed" : 
+               decodeURIComponent(error)}
             </div>
           )}
 

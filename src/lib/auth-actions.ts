@@ -35,7 +35,10 @@ export async function signInWithMagicLink(formData: FormData) {
     },
   });
 
-  if (error) redirect("/login?error=magic_link_failed");
+  if (error) {
+    console.error("Magic link error:", error.message);
+    redirect(`/login?error=${encodeURIComponent(error.message)}`);
+  }
   redirect("/login?message=check_email");
 }
 
