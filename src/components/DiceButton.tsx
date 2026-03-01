@@ -11,6 +11,8 @@ const CATEGORY_OPTIONS: TrickCategory[] = [
   "flatground", "street", "ledge/rail", "transition", "gaps", "freestyle", "downhill",
 ];
 
+const LEVEL_OPTIONS = [1, 2, 3, 4, 5];
+
 export function DiceButton({ tricks }: DiceButtonProps) {
   const [showSettings, setShowSettings] = useState(false);
   const [result, setResult] = useState<TrickWithStatus | null>(null);
@@ -21,6 +23,7 @@ export function DiceButton({ tricks }: DiceButtonProps) {
     excludeLanded: false,
     excludeLocked: false,
     categories: [...CATEGORY_OPTIONS],
+    levels: [...LEVEL_OPTIONS],
   });
 
   // Fetch YouTube video ID when result changes
@@ -45,6 +48,10 @@ export function DiceButton({ tricks }: DiceButtonProps) {
     let pool = tricks.filter((t) =>
       settings.categories.includes(t.category as TrickCategory)
     );
+    
+    // Filter by difficulty level
+    pool = pool.filter((t) => t.difficulty !== null && settings.levels.includes(t.difficulty));
+    
     if (settings.excludeLanded) pool = pool.filter((t) => t.userStatus !== "landed");
     if (settings.excludeLocked) pool = pool.filter((t) => t.userStatus !== "locked");
 
@@ -65,6 +72,15 @@ export function DiceButton({ tricks }: DiceButtonProps) {
       categories: prev.categories.includes(cat)
         ? prev.categories.filter((c) => c !== cat)
         : [...prev.categories, cat],
+    }));
+  }
+
+  function toggleLevel(lvl: number) {
+    setSettings((prev) => ({
+      ...prev,
+      levels: prev.levels.includes(lvl)
+        ? prev.levels.filter((l) => l !== lvl)
+        : [...prev.levels, lvl],
     }));
   }
 
@@ -174,6 +190,25 @@ export function DiceButton({ tricks }: DiceButtonProps) {
                   <span className={`text-[10px] font-bold uppercase tracking-widest ${settings.excludeLocked ? "text-white/60" : "text-slate-600"}`}>Filter</span>
                   <span className={`text-sm font-bold ${settings.excludeLocked ? "text-white" : ""}`}>Exclude Locked</span>
                 </button>
+              </div>
+
+              <div className="space-y-4">
+                <span className="text-[10px] font-bold text-slate-600 uppercase tracking-[0.2em]">Trick Levels</span>
+                <div className="flex flex-wrap gap-2">
+                  {LEVEL_OPTIONS.map((lvl) => (
+                    <button
+                      key={lvl}
+                      onClick={() => toggleLevel(lvl)}
+                      className={`w-12 h-12 rounded-xl text-xs font-bold transition-all border ${
+                        settings.levels.includes(lvl)
+                          ? "bg-blue-500/20 text-blue-400 border-blue-500/40 shadow-[0_0_15px_rgba(59,130,246,0.1)]"
+                          : "bg-white/5 text-slate-600 border-transparent hover:text-slate-400"
+                      }`}
+                    >
+                      L{lvl}
+                    </button>
+                  ))}
+                </div>
               </div>
 
               <div className="space-y-4">

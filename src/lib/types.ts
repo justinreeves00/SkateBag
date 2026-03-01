@@ -40,4 +40,5 @@ export interface DiceFilterSettings {
   excludeLanded: boolean;
   excludeLocked: boolean;
   categories: TrickCategory[];
+  levels: number[];
 }
