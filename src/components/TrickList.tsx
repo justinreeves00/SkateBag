@@ -31,20 +31,20 @@ export function TrickList({ tricks, isAuthenticated, userEmail }: TrickListProps
   const progress = tricks.length > 0 ? (landed / tricks.length) * 100 : 0;
 
   return (
-    <div className="min-h-screen text-white">
-      {/* Unified Sticky Header */}
-      <header className="sticky top-0 z-40 bg-black/80 backdrop-blur-3xl border-b border-white/5">
-        {/* User Nav Row - Integrated into Header */}
-        <div className="max-w-5xl mx-auto px-6 py-3 flex justify-between items-center border-b border-white/5">
+    <div className="min-h-screen text-white selection:bg-blue-500/30">
+      {/* Aurora Header */}
+      <header className="sticky top-0 z-40 aurora-glass border-b border-white/5">
+        {/* User Nav Row */}
+        <div className="max-w-6xl mx-auto px-6 py-3 flex justify-between items-center border-b border-white/5">
           <div className="flex items-center gap-3">
             {!isAuthenticated ? (
-              <span className="text-[9px] md:text-[10px] text-slate-500 font-bold uppercase tracking-widest leading-none py-1">
+              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest leading-none py-1">
                 Sign in to log tricks 🛹
               </span>
             ) : (
-              <div className="flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-xl border border-white/5">
-                <span className="text-[8px] text-slate-500 font-bold uppercase tracking-widest leading-none">Bag Holder:</span>
-                <span className="text-[10px] text-blue-400 font-bold leading-none truncate max-w-[120px] md:max-w-none">{userEmail}</span>
+              <div className="flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-full border border-white/10">
+                <div className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
+                <span className="text-[10px] text-blue-100 font-bold leading-none truncate max-w-[120px] md:max-w-none uppercase tracking-tighter">{userEmail}</span>
               </div>
             )}
           </div>
@@ -53,7 +53,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail }: TrickListProps
             {!isAuthenticated ? (
               <a
                 href="/login"
-                className="inline-block px-4 py-2 rounded-xl bg-blue-600 text-white text-[10px] font-bold uppercase tracking-widest hover:bg-blue-500 transition-all shadow-lg shadow-blue-600/20"
+                className="inline-block px-5 py-2 rounded-full bg-white text-black text-[10px] font-bold uppercase tracking-widest hover:bg-blue-400 transition-all shadow-lg"
               >
                 Sign in
               </a>
@@ -61,7 +61,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail }: TrickListProps
               <form action={signOut}>
                 <button
                   type="submit"
-                  className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-[10px] text-slate-400 font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 transition-all"
+                  className="px-5 py-2 rounded-full bg-white/5 border border-white/10 text-[10px] text-slate-300 font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 transition-all"
                 >
                   Sign out
                 </button>
@@ -71,81 +71,87 @@ export function TrickList({ tricks, isAuthenticated, userEmail }: TrickListProps
         </div>
 
         {/* Brand & Controls Row */}
-        <div className="max-w-5xl mx-auto px-6 py-8">
-          <div className="flex flex-col gap-8">
-            <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
-              <div className="space-y-4">
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-white text-black shadow-lg shrink-0">
-                    <SkateBagLogo size={32} />
+        <div className="max-w-6xl mx-auto px-6 py-10">
+          <div className="flex flex-col gap-10">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+              <div className="space-y-6">
+                <div className="flex items-center gap-5">
+                  <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-white text-black shadow-2xl shadow-blue-500/20 transform -rotate-3">
+                    <SkateBagLogo size={36} />
                   </div>
-                  <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-br from-white to-white/40 bg-clip-text text-transparent leading-[1.1] italic uppercase pr-6 py-1">
-                    SkateBag
-                  </h1>
+                  <div className="space-y-1">
+                    <h1 className="text-5xl font-black tracking-tighter bg-gradient-to-br from-white via-white to-white/20 bg-clip-text text-transparent leading-none uppercase">
+                      SkateBag
+                    </h1>
+                    <p className="text-[10px] font-bold text-blue-400/60 uppercase tracking-[0.4em] ml-1">
+                      What&apos;s in your bag?
+                    </p>
+                  </div>
                 </div>
                 
-                {/* Stats / Bag Toggle Button */}
-                <button 
-                  onClick={() => setStatusFilter(prev => {
-                    if (prev === "all") return "landed";
-                    if (prev === "landed") return "locked";
-                    return "all";
-                  })}
-                  className="group flex items-center gap-6 p-1 pr-6 rounded-2xl bg-white/[0.03] border border-white/5 hover:bg-white/[0.06] hover:border-white/10 transition-all text-left"
-                >
-                  <div className={`px-4 py-3 rounded-xl transition-all ${
-                    statusFilter === "all" ? "bg-blue-600 text-white" : 
-                    statusFilter === "landed" ? "bg-green-500 text-black" : "bg-indigo-500 text-white"
-                  }`}>
-                    <span className="text-[10px] font-black uppercase tracking-[0.2em] block leading-none mb-1 opacity-70">Bag Mode</span>
-                    <span className="text-xs font-bold uppercase tracking-widest leading-none">
-                      {statusFilter === "all" ? "Full Database" : statusFilter === "landed" ? "My Landed" : "My Locked"}
-                    </span>
-                  </div>
+                {/* Bag Toggle Control */}
+                <div className="flex items-center p-1 rounded-2xl bg-white/5 border border-white/5 w-fit">
+                  <button 
+                    onClick={() => setStatusFilter("all")}
+                    className={`px-4 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${statusFilter === "all" ? "bg-white text-black shadow-lg" : "text-slate-400 hover:text-white"}`}
+                  >
+                    Global
+                  </button>
+                  <button 
+                    onClick={() => setStatusFilter("landed")}
+                    className={`px-4 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${statusFilter === "landed" ? "bg-blue-500 text-white shadow-lg" : "text-slate-400 hover:text-white"}`}
+                  >
+                    Landed
+                  </button>
+                  <button 
+                    onClick={() => setStatusFilter("locked")}
+                    className={`px-4 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${statusFilter === "locked" ? "bg-purple-500 text-white shadow-lg" : "text-slate-400 hover:text-white"}`}
+                  >
+                    Locked
+                  </button>
+                </div>
+              </div>
 
-                  <div className="flex items-center gap-6">
+              {/* Stats & Search Area */}
+              <div className="flex-1 max-w-2xl w-full flex flex-col sm:flex-row items-end gap-6">
+                {isAuthenticated && (
+                  <div className="flex gap-10 mb-1 px-2">
                     <div className="flex flex-col">
-                      <span className="text-[9px] text-slate-500 uppercase font-bold tracking-widest">Progress</span>
-                      <div className="flex items-center gap-3 mt-0.5">
-                        <span className="text-xl font-bold tabular-nums">{landed}</span>
-                        <div className="w-16 h-1 bg-white/10 rounded-full overflow-hidden">
-                          <div 
-                            className="h-full bg-blue-500 rounded-full transition-all duration-1000" 
-                            style={{ width: `${progress}%` }} 
-                          />
+                      <span className="text-[10px] text-slate-500 uppercase font-bold tracking-[0.2em] mb-2">Mastery</span>
+                      <div className="flex items-end gap-3">
+                        <span className="text-3xl font-black tracking-tighter leading-none">{landed}</span>
+                        <div className="w-20 h-1 bg-white/5 rounded-full overflow-hidden mb-1.5">
+                          <div className="h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-1000" style={{ width: `${progress}%` }} />
                         </div>
                       </div>
                     </div>
-                    <div className="w-px h-6 bg-white/10" />
                     <div className="flex flex-col">
-                      <span className="text-[9px] text-slate-500 uppercase font-bold tracking-widest">On Lock</span>
-                      <span className="text-xl font-bold tabular-nums mt-0.5">{locked}</span>
+                      <span className="text-[10px] text-slate-500 uppercase font-bold tracking-[0.2em] mb-2">Ready</span>
+                      <span className="text-3xl font-black tracking-tighter leading-none">{locked}</span>
                     </div>
                   </div>
-                </button>
-              </div>
+                )}
 
-              {/* Search & Dice Control Area */}
-              <div className="w-full md:max-w-sm space-y-4">
-                <div className="flex items-center gap-2">
-                  <div className="relative flex-1">
-                    <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="text-slate-500">
+                <div className="flex-1 w-full space-y-4">
+                  <div className="relative group">
+                    <div className="absolute inset-y-0 left-5 flex items-center pointer-events-none transition-colors group-focus-within:text-blue-400 text-slate-500">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                         <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
                       </svg>
                     </div>
                     <input
                       type="text"
-                      placeholder="Search database..."
+                      placeholder="SCAN DATABASE..."
                       value={search}
                       onChange={(e) => setSearch(e.target.value)}
-                      className="w-full bg-white/[0.03] border border-white/10 rounded-2xl pl-11 pr-4 py-3.5 text-sm font-medium text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/50 transition-all"
+                      className="w-full bg-white/5 border border-white/10 rounded-full pl-14 pr-6 py-5 text-sm font-medium text-white placeholder-slate-600 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500/40 transition-all"
                     />
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                      <DiceButton tricks={filtered} />
+                    </div>
                   </div>
-                  {/* DiceButton is now rendered outside the header logic, but its UI trigger is here */}
-                  <DiceButton tricks={filtered} />
+                  <CategoryFilter active={category} onChange={setCategory} />
                 </div>
-                <CategoryFilter active={category} onChange={setCategory} />
               </div>
             </div>
           </div>
@@ -153,34 +159,32 @@ export function TrickList({ tricks, isAuthenticated, userEmail }: TrickListProps
       </header>
 
       {/* Main Content Area */}
-      <main className="max-w-5xl mx-auto px-6 pt-12 pb-32">
-        <div className="mb-10 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <h2 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">
-              {statusFilter === "all" ? "System Results" : statusFilter === "landed" ? "Mastered Tricks" : "Active Missions"}
-            </h2>
-            <span className="px-2 py-0.5 rounded bg-white/5 border border-white/10 text-[9px] font-mono text-blue-400">{filtered.length}</span>
-          </div>
-          <div className="h-px flex-1 bg-gradient-to-r from-white/10 to-transparent ml-6"></div>
+      <main className="max-w-6xl mx-auto px-6 pt-16 pb-32">
+        <div className="mb-12 flex items-center gap-6">
+          <h2 className="text-[11px] font-black text-blue-400 uppercase tracking-[0.4em] whitespace-nowrap">
+            {statusFilter === "all" ? "System Core" : statusFilter === "landed" ? "Verified Assets" : "Pending Deployment"}
+          </h2>
+          <div className="h-px w-full bg-gradient-to-r from-blue-500/20 to-transparent"></div>
+          <span className="text-[10px] font-bold text-slate-500 tabular-nums bg-white/5 px-3 py-1 rounded-full border border-white/5">{filtered.length} TRICKS</span>
         </div>
 
         {filtered.length === 0 ? (
-          <div className="py-32 flex flex-col items-center justify-center bg-white/[0.02] rounded-[3rem] border border-dashed border-white/10">
-            <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-6">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#334155" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <div className="py-40 flex flex-col items-center justify-center aurora-card rounded-[3rem] border-dashed border-white/10">
+            <div className="w-20 h-20 rounded-full bg-blue-500/5 flex items-center justify-center mb-8 border border-blue-500/10">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/>
               </svg>
             </div>
-            <p className="text-slate-400 font-medium mb-6 text-center px-6">No matching tricks found in this view</p>
+            <p className="text-slate-400 text-lg font-medium mb-8">No results found in current matrix</p>
             <button 
               onClick={() => { setSearch(""); setCategory("all"); setStatusFilter("all"); }}
-              className="px-8 py-3 bg-blue-600 hover:bg-blue-500 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all shadow-lg shadow-blue-600/20"
+              className="px-8 py-4 bg-white text-black hover:bg-blue-400 rounded-full text-xs font-black uppercase tracking-widest transition-all shadow-xl"
             >
-              Reset Selection
+              Reset Matrix
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filtered.map((trick) => (
               <TrickCard
                 key={trick.id}
