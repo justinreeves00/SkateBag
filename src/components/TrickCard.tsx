@@ -65,6 +65,11 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
     setCurrentVideoIndex((prev) => (prev + 1) % videoIds.length);
   };
 
+  const prevVideo = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCurrentVideoIndex((prev) => (prev - 1 + videoIds.length) % videoIds.length);
+  };
+
   const tryExact = (e: React.MouseEvent) => {
     e.stopPropagation();
     fetchVideos("exact");
@@ -205,12 +210,20 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
                   </button>
                 )}
                 {videoIds.length > 1 && (
-                  <button 
-                    onClick={nextVideo}
-                    className="text-[9px] font-black text-emerald-400 uppercase tracking-widest hover:text-white transition-colors"
-                  >
-                    Next Video ({currentVideoIndex + 1}/{videoIds.length})
-                  </button>
+                  <div className="flex gap-3">
+                    <button 
+                      onClick={prevVideo}
+                      className="text-[9px] font-black text-emerald-400 uppercase tracking-widest hover:text-white transition-colors"
+                    >
+                      Prev Video
+                    </button>
+                    <button 
+                      onClick={nextVideo}
+                      className="text-[9px] font-black text-emerald-400 uppercase tracking-widest hover:text-white transition-colors"
+                    >
+                      Next Video ({currentVideoIndex + 1}/{videoIds.length})
+                    </button>
+                  </div>
                 )}
               </div>
             </div>
