@@ -186,13 +186,13 @@ export function DiceButton({ tricks }: DiceButtonProps) {
                 onClick={roll}
                 className="flex-1 py-6 bg-white text-black rounded-[1.5rem] font-black uppercase tracking-widest hover:bg-emerald-400 transition-all shadow-[0_20px_40px_rgba(255,255,255,0.1)] hover:scale-[1.02] active:scale-95"
               >
-                New Sequence
+                Roll Again
               </button>
               <button
                 onClick={() => setResult(null)}
                 className="flex-1 py-6 bg-white/5 text-slate-400 rounded-[1.5rem] font-black uppercase tracking-widest hover:text-white hover:bg-white/10 transition-all border border-white/5"
               >
-                Abort
+                Close
               </button>
             </div>
           </div>
