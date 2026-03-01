@@ -18,34 +18,35 @@ export default async function Home() {
     .order("name");
 
   // Fetch user's trick statuses if logged in
-  let userTricksMap: Record<string, "landed" | "locked"> = {};
+  let userTricksMap: Record<string, { status: "landed" | "locked", consistency: number | null }> = {};
   if (user) {
     const { data: userTricks } = await supabase
       .from("user_tricks")
-      .select("trick_id, status")
+      .select("trick_id, status, consistency")
       .eq("user_id", user.id);
 
     if (userTricks) {
       userTricksMap = Object.fromEntries(
-        userTricks.map((ut) => [ut.trick_id, ut.status])
+        userTricks.map((ut) => [ut.trick_id, { status: ut.status, consistency: ut.consistency }])
       );
     }
   }
 
   const tricksWithStatus: TrickWithStatus[] = (tricks ?? []).map((trick) => ({
     ...trick,
-    userStatus: userTricksMap[trick.id] ?? null,
+    userStatus: userTricksMap[trick.id]?.status ?? null,
+    userConsistency: userTricksMap[trick.id]?.consistency ?? null,
   }));
 
   return (
-    <div>
+    <div className="relative">
       {/* User menu */}
       {user && (
-        <div className="fixed top-0 right-0 z-30 p-4">
+        <div className="fixed top-8 right-12 z-50">
           <form action={signOut}>
             <button
               type="submit"
-              className="text-xs text-[#444] hover:text-[#888] transition-colors"
+              className="px-3 py-1.5 rounded-lg bg-[#111] border border-[#1a1a1a] text-[10px] text-[#444] font-black uppercase tracking-widest hover:text-white transition-colors"
             >
               Sign out
             </button>
@@ -54,10 +55,10 @@ export default async function Home() {
       )}
 
       {!user && (
-        <div className="fixed top-0 right-0 z-30 p-4">
+        <div className="fixed top-8 right-12 z-50">
           <a
             href="/login"
-            className="text-xs text-[#e8ff00] hover:text-white transition-colors font-semibold"
+            className="px-3 py-1.5 rounded-lg bg-[#e8ff00] text-black text-[10px] font-black uppercase tracking-widest hover:bg-white transition-colors"
           >
             Sign in
           </a>

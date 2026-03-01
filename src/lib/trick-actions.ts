@@ -4,7 +4,11 @@ import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import type { TrickStatus } from "@/lib/types";
 
-export async function setTrickStatus(trickId: string, status: TrickStatus | null) {
+export async function setTrickStatus(
+  trickId: string, 
+  status: TrickStatus | null, 
+  consistency: number | null = null
+) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
@@ -22,7 +26,13 @@ export async function setTrickStatus(trickId: string, status: TrickStatus | null
     const { error } = await supabase
       .from("user_tricks")
       .upsert(
-        { user_id: user.id, trick_id: trickId, status, updated_at: new Date().toISOString() },
+        { 
+          user_id: user.id, 
+          trick_id: trickId, 
+          status, 
+          consistency,
+          updated_at: new Date().toISOString() 
+        },
         { onConflict: "user_id,trick_id" }
       );
 

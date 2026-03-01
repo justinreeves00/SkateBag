@@ -28,12 +28,14 @@ export interface UserTrick {
   user_id: string;
   trick_id: string;
   status: TrickStatus;
+  consistency: number | null;
   created_at: string;
   updated_at: string;
 }
 
 export interface TrickWithStatus extends Trick {
   userStatus: TrickStatus | null;
+  userConsistency: number | null;
 }
 
 export interface DiceFilterSettings {

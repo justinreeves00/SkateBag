@@ -22,15 +22,15 @@ interface CategoryFilterProps {
 
 export function CategoryFilter({ active, onChange }: CategoryFilterProps) {
   return (
-    <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
+    <div className="flex gap-2 overflow-x-auto pb-2 -mx-2 px-2 scrollbar-none no-scrollbar">
       {CATEGORIES.map((cat) => (
         <button
           key={cat.value}
           onClick={() => onChange(cat.value)}
-          className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest transition-all ${
+          className={`shrink-0 px-5 py-3 rounded-2xl text-[10px] font-black uppercase tracking-[0.1em] transition-all border ${
             active === cat.value
-              ? "bg-[#e8ff00] text-black"
-              : "bg-[#1a1a1a] text-[#666] hover:text-white"
+              ? "bg-[#e8ff00] text-black border-[#e8ff00] shadow-[0_0_15px_rgba(232,255,0,0.1)]"
+              : "bg-[#111] text-[#333] border-[#1a1a1a] hover:border-[#2a2a2a] hover:text-[#888]"
           }`}
         >
           {cat.label}
