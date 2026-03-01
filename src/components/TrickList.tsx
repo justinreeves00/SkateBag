@@ -23,47 +23,58 @@ export function TrickList({ tricks, isAuthenticated }: TrickListProps) {
 
   const landed = tricks.filter((t) => t.userStatus === "landed").length;
   const locked = tricks.filter((t) => t.userStatus === "locked").length;
+  const progress = tricks.length > 0 ? (landed / tricks.length) * 100 : 0;
 
   return (
-    <div className="min-h-screen bg-white text-black">
-      {/* Aggressive Header */}
-      <header className="border-b-[6px] border-black bg-white sticky top-0 z-40">
-        <div className="max-w-4xl mx-auto px-4 py-8">
-          <div className="flex flex-col gap-6">
-            <div className="flex items-start justify-between">
-              <div className="rotate-[-2deg] bg-black text-white p-4 zine-border inline-block">
-                <h1 className="text-5xl md:text-7xl font-black leading-[0.8] tracking-tighter">
-                  SKATEBAG
-                </h1>
-                <p className="text-xs font-bold tracking-[0.3em] mt-2 italic text-[#ff4d00]">
-                  WHAT&apos;S IN YOUR BAG? 🛹
-                </p>
-              </div>
-
+    <div className="min-h-screen text-white">
+      {/* Sleek Header */}
+      <header className="sticky top-0 z-40 bg-black/40 backdrop-blur-2xl border-b border-white/5">
+        <div className="max-w-5xl mx-auto px-6 py-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
+            <div className="space-y-4">
+              <h1 className="text-4xl font-extrabold tracking-tight bg-gradient-to-br from-white to-white/40 bg-clip-text text-transparent leading-none">
+                SkateBag 🛹
+              </h1>
+              <p className="text-sm font-medium text-slate-400 tracking-wide uppercase">
+                What&apos;s in your bag?
+              </p>
+              
               {isAuthenticated && (
-                <div className="flex flex-col items-end font-black uppercase text-sm leading-none pt-2">
-                  <div className="flex gap-4">
-                    <div className="text-right border-r-2 border-black pr-4">
-                      <span className="block text-3xl text-[#ff4d00]">{landed}</span>
-                      <span className="text-[10px]">LANDED</span>
+                <div className="flex items-center gap-6 pt-2">
+                  <div className="flex flex-col">
+                    <span className="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Progress</span>
+                    <div className="flex items-center gap-3">
+                      <span className="text-2xl font-bold tabular-nums">{landed}</span>
+                      <div className="w-24 h-1.5 bg-white/5 rounded-full overflow-hidden">
+                        <div 
+                          className="h-full bg-blue-500 rounded-full transition-all duration-1000" 
+                          style={{ width: `${progress}%` }} 
+                        />
+                      </div>
                     </div>
-                    <div className="text-right">
-                      <span className="block text-3xl">{locked}</span>
-                      <span className="text-[10px]">LOCKED</span>
-                    </div>
+                  </div>
+                  <div className="w-px h-8 bg-white/10" />
+                  <div className="flex flex-col">
+                    <span className="text-[10px] text-slate-500 uppercase font-bold tracking-widest">On Lock</span>
+                    <span className="text-2xl font-bold tabular-nums tracking-tight">{locked}</span>
                   </div>
                 </div>
               )}
             </div>
 
-            <div className="flex flex-col md:flex-row gap-4 mt-4">
-              <div className="relative flex-1">
+            <div className="flex-1 max-w-md w-full space-y-4">
+              <div className="relative">
+                <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-slate-500">
+                    <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+                  </svg>
+                </div>
                 <input
                   type="text"
-                  placeholder="SEARCH_THE_DATABASE..."
+                  placeholder="Search your database..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="w-full bg-white border-4 border-black p-4 text-sm font-black uppercase placeholder-black/30 focus:outline-none focus:bg-[#ff4d00] focus:text-white transition-all shadow-[4px_4px_0px_#000]"
+                  className="w-full bg-white/[0.03] border border-white/10 rounded-2xl pl-12 pr-4 py-4 text-sm font-medium text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/50 transition-all"
                 />
               </div>
               <CategoryFilter active={category} onChange={setCategory} />
@@ -72,29 +83,27 @@ export function TrickList({ tricks, isAuthenticated }: TrickListProps) {
         </div>
       </header>
 
-      {/* Main List Area */}
-      <main className="max-w-4xl mx-auto px-4 pt-12 pb-32">
-        <div className="mb-8 flex items-baseline justify-between border-b-4 border-black pb-2">
-          <h2 className="text-2xl font-black italic">
-            TRICK_LOG [{filtered.length}]
+      {/* Main Content Area */}
+      <main className="max-w-5xl mx-auto px-6 pt-12 pb-32">
+        <div className="mb-10 flex items-center justify-between">
+          <h2 className="text-xs font-bold text-slate-500 uppercase tracking-[0.2em]">
+            Database Results // {filtered.length}
           </h2>
-          <span className="text-[10px] font-bold uppercase tracking-widest bg-black text-white px-2 py-1">
-            FILTER: {category}
-          </span>
+          <div className="h-px flex-1 bg-gradient-to-r from-white/10 to-transparent ml-6"></div>
         </div>
 
         {filtered.length === 0 ? (
-          <div className="py-20 text-center border-4 border-dashed border-black">
-            <p className="text-xl font-black uppercase italic mb-4">NO TRICKS FOUND IN THE BAG</p>
+          <div className="py-32 flex flex-col items-center justify-center glass rounded-[2.5rem] border-dashed border-white/10">
+            <p className="text-slate-400 font-medium mb-6">No matching tricks found</p>
             <button 
               onClick={() => { setSearch(""); setCategory("all"); }}
-              className="zine-button"
+              className="px-6 py-3 bg-white/5 hover:bg-white/10 rounded-2xl text-xs font-bold uppercase tracking-widest transition-all"
             >
-              [ RESET_DATABASE ]
+              Clear Filters
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
             {filtered.map((trick) => (
               <TrickCard
                 key={trick.id}

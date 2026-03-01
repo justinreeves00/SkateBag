@@ -1,15 +1,9 @@
 import type { Metadata } from "next";
-import { Archivo_Black, Archivo } from "next/font/google";
+import { Geist } from "next/font/google";
 import "./globals.css";
 
-const archivoBlack = Archivo_Black({
-  weight: "400",
-  variable: "--font-archivo-black",
-  subsets: ["latin"],
-});
-
-const archivo = Archivo({
-  variable: "--font-archivo",
+const geist = Geist({
+  variable: "--font-geist",
   subsets: ["latin"],
 });
 
@@ -25,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${archivoBlack.variable} ${archivo.variable} antialiased`}>
+      <body className={`${geist.variable} antialiased`}>
         {children}
       </body>
     </html>
