@@ -23,96 +23,107 @@ export function TrickList({ tricks, isAuthenticated }: TrickListProps) {
 
   const landed = tricks.filter((t) => t.userStatus === "landed").length;
   const locked = tricks.filter((t) => t.userStatus === "locked").length;
+  const completion = tricks.length > 0 ? Math.round((landed / tricks.length) * 100) : 0;
 
   return (
-    <div className="min-h-screen bg-[#050505]">
-      {/* Header */}
-      <header className="sticky top-0 z-20 bg-[#050505]/80 backdrop-blur-xl border-b border-[#111]">
-        <div className="max-w-2xl mx-auto px-6 py-6 space-y-5">
-          {/* Title row */}
-          <div className="flex items-end justify-between">
-            <div className="space-y-1">
-              <h1 className="text-3xl font-black tracking-tight text-white uppercase leading-none">
-                SkateBag 🛹
-              </h1>
-              <p className="text-[#444] text-[10px] font-bold uppercase tracking-[0.2em]">
-                Trick Progression Tracker
-              </p>
-            </div>
-            {isAuthenticated && (
-              <div className="flex gap-4 text-[10px] font-black uppercase tracking-widest text-[#333]">
-                <div className="flex flex-col items-end">
-                  <span className="text-[#e8ff00] text-lg leading-none">{landed}</span>
-                  <span>Landed</span>
-                </div>
-                <div className="flex flex-col items-end">
-                  <span className="text-white text-lg leading-none">{locked}</span>
-                  <span>Locked</span>
-                </div>
+    <div className="min-h-screen">
+      {/* Tactical Header */}
+      <header className="sticky top-0 z-40 bg-[#0a0c10]/80 backdrop-blur-xl border-b border-[#1e232d]">
+        <div className="max-w-7xl mx-auto px-6 py-6">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div className="flex items-center gap-6">
+              <div className="flex flex-col">
+                <h1 className="text-2xl font-bold tracking-tight text-white flex items-center gap-2">
+                  SKATEBAG <span className="text-[#00f2ff]">v1.0</span>
+                </h1>
+                <p className="text-[10px] font-mono text-[#475569] uppercase tracking-[0.3em]">
+                  Tactical Trick Processor 🛹
+                </p>
               </div>
-            )}
-          </div>
-
-          {/* Search & Category */}
-          <div className="space-y-4">
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Find a trick..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="w-full bg-[#111] border border-[#1a1a1a] rounded-2xl px-5 py-4 text-sm text-white placeholder-[#333] focus:outline-none focus:ring-2 focus:ring-[#e8ff00]/20 focus:border-[#e8ff00]/50 transition-all"
-              />
-              {search && (
-                <button
-                  onClick={() => setSearch("")}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-[#1a1a1a] flex items-center justify-center text-[#444] hover:text-white transition-colors"
-                >
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-                </button>
+              
+              <div className="hidden sm:flex h-10 w-px bg-[#1e232d]" />
+              
+              {isAuthenticated && (
+                <div className="hidden sm:grid grid-cols-3 gap-8">
+                  <div className="flex flex-col">
+                    <span className="text-[9px] font-mono text-[#475569] uppercase tracking-widest mb-1">Status: Landed</span>
+                    <span className="text-sm font-bold text-[#00f2ff]">{landed}</span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[9px] font-mono text-[#475569] uppercase tracking-widest mb-1">Status: Locked</span>
+                    <span className="text-sm font-bold text-white">{locked}</span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[9px] font-mono text-[#475569] uppercase tracking-widest mb-1">Completion</span>
+                    <span className="text-sm font-bold text-white">{completion}%</span>
+                  </div>
+                </div>
               )}
             </div>
+
+            <div className="flex-1 max-w-md w-full">
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#475569" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+                  </svg>
+                </div>
+                <input
+                  type="text"
+                  placeholder="SCAN TRICK DATABASE..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="w-full bg-[#11141b] border border-[#1e232d] rounded-lg pl-11 pr-4 py-3 text-xs font-mono text-white placeholder-[#334155] focus:outline-none focus:border-[#00f2ff]/50 transition-all"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-6">
             <CategoryFilter active={category} onChange={setCategory} />
           </div>
         </div>
       </header>
 
-      {/* Main Content Area */}
-      <div className="max-w-2xl mx-auto px-6 pt-8 pb-32">
-        {/* Trick Count */}
-        <div className="mb-6 flex items-center justify-between">
-          <p className="text-[10px] text-[#333] font-black uppercase tracking-[0.2em]">
-            {filtered.length} trick{filtered.length !== 1 ? "s" : ""}
-            {category !== "all" ? ` in ${category}` : ""}
-          </p>
-          <div className="h-px flex-1 bg-[#111] ml-4"></div>
+      {/* Main Grid Area */}
+      <main className="max-w-7xl mx-auto px-6 pt-10 pb-32">
+        <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center gap-4">
+            <span className="text-[10px] font-mono text-[#475569] uppercase tracking-[0.2em]">
+              Showing {filtered.length} entries
+            </span>
+            <div className="w-12 h-px bg-[#1e232d]" />
+          </div>
+          
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-[#00f2ff] animate-pulse" />
+            <span className="text-[10px] font-mono text-[#00f2ff] uppercase tracking-widest">System Online</span>
+          </div>
         </div>
 
-        {/* Trick List */}
-        <div className="space-y-1">
-          {filtered.length === 0 ? (
-            <div className="py-24 text-center">
-              <p className="text-[#333] text-sm font-bold uppercase tracking-widest">No tricks found</p>
-              <button 
-                onClick={() => { setSearch(""); setCategory("all"); }}
-                className="mt-4 text-[#e8ff00] text-xs font-bold uppercase tracking-widest hover:text-white transition-colors"
-              >
-                Clear all filters
-              </button>
-            </div>
-          ) : (
-            filtered.map((trick) => (
+        {filtered.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-32 border border-[#1e232d] border-dashed rounded-3xl">
+            <p className="text-[#475569] font-mono text-sm tracking-widest uppercase mb-4">No Matches Found</p>
+            <button 
+              onClick={() => { setSearch(""); setCategory("all"); }}
+              className="text-[#00f2ff] text-[10px] font-black uppercase tracking-widest hover:text-white transition-colors"
+            >
+              [ RESET_FILTERS ]
+            </button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filtered.map((trick) => (
               <TrickCard
                 key={trick.id}
                 trick={trick}
                 isAuthenticated={isAuthenticated}
               />
-            ))
-          )}
-        </div>
-      </div>
+            ))}
+          </div>
+        )}
+      </main>
 
-      {/* Dice Button */}
       <DiceButton tricks={filtered} />
     </div>
   );
