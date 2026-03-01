@@ -37,7 +37,7 @@ export function TrickList({ tricks, isAuthenticated }: TrickListProps) {
                   SKATEBAG <span className="text-[#00f2ff]">v1.0</span>
                 </h1>
                 <p className="text-[10px] font-mono text-[#475569] uppercase tracking-[0.3em]">
-                  Tactical Trick Processor 🛹
+                  What&apos;s in your bag? 🛹
                 </p>
               </div>
               

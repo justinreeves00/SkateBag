@@ -9,8 +9,8 @@ export default function LoginPage() {
           <h1 className="text-4xl font-black tracking-tight text-white uppercase">
             Skatebag
           </h1>
-          <p className="mt-2 text-sm text-[#666] tracking-widest uppercase">
-            Every trick. Your progress.
+          <p className="mt-2 text-sm text-[#475569] tracking-widest uppercase font-mono italic">
+            What's in your bag? 🛹
           </p>
         </div>
 
