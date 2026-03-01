@@ -49,7 +49,6 @@ export function DiceButton({ tricks }: DiceButtonProps) {
       settings.categories.includes(t.category as TrickCategory)
     );
     
-    // Filter by difficulty level
     pool = pool.filter((t) => t.difficulty !== null && settings.levels.includes(t.difficulty));
     
     if (settings.excludeLanded) pool = pool.filter((t) => t.userStatus !== "landed");
@@ -86,16 +85,19 @@ export function DiceButton({ tricks }: DiceButtonProps) {
 
   return (
     <>
-      {/* Result Overlay */}
+      {/* Result Overlay Card */}
       {result && (
         <div
-          className="fixed inset-0 bg-black/95 backdrop-blur-3xl z-[100] flex items-center justify-center p-4 md:p-8 animate-in fade-in duration-500 overflow-y-auto"
+          className="fixed inset-0 bg-black/80 backdrop-blur-md z-[100] flex items-center justify-center p-4 md:p-8 animate-in fade-in duration-500"
           onClick={() => setResult(null)}
         >
-          <div className="max-w-2xl w-full text-center space-y-6 md:space-y-8 py-12 md:py-8" onClick={(e) => e.stopPropagation()}>
-            <div className="space-y-3 md:space-y-4">
+          <div 
+            className="max-w-2xl w-full bg-[#0f1115] rounded-[2.5rem] p-6 md:p-10 border border-white/10 shadow-2xl space-y-8 animate-in zoom-in-95 duration-300 overflow-y-auto max-h-[90vh] no-scrollbar" 
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="text-center space-y-4">
               <span className="px-4 py-1.5 rounded-full bg-blue-500/10 text-blue-400 text-[10px] font-bold uppercase tracking-[0.3em]">Random Selection Acquired</span>
-              <h2 className="text-4xl md:text-7xl font-extrabold tracking-tighter text-white italic">
+              <h2 className="text-4xl md:text-6xl font-extrabold tracking-tighter text-white italic">
                 {result.name}
               </h2>
               <div className="flex items-center justify-center gap-4 text-slate-500 text-xs font-medium uppercase tracking-widest">
@@ -106,7 +108,7 @@ export function DiceButton({ tricks }: DiceButtonProps) {
             </div>
 
             {/* Video Player */}
-            <div className="aspect-video w-full bg-black/40 rounded-2xl md:rounded-[2.5rem] overflow-hidden border border-white/5 relative shadow-2xl">
+            <div className="aspect-video w-full bg-black/40 rounded-2xl md:rounded-[2rem] overflow-hidden border border-white/5 relative shadow-inner">
               {videoId ? (
                 <iframe
                   width="100%"
@@ -120,7 +122,7 @@ export function DiceButton({ tricks }: DiceButtonProps) {
               ) : fetchingVideo ? (
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
                   <div className="w-8 h-8 border-2 border-blue-500/20 border-t-blue-500 rounded-full animate-spin" />
-                  <span className="text-[10px] font-bold text-slate-600 uppercase tracking-widest">Accessing Video Feed...</span>
+                  <span className="text-[10px] font-bold text-slate-600 uppercase tracking-widest">Accessing Feed...</span>
                 </div>
               ) : (
                 <div className="absolute inset-0 flex items-center justify-center">
@@ -129,16 +131,16 @@ export function DiceButton({ tricks }: DiceButtonProps) {
               )}
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+            <div className="flex flex-col sm:flex-row gap-4">
               <button
                 onClick={roll}
-                className="flex-1 py-5 bg-blue-600 text-white rounded-3xl font-bold uppercase tracking-widest hover:bg-blue-500 hover:scale-105 active:scale-95 transition-all shadow-[0_20px_40px_rgba(37,99,235,0.2)]"
+                className="flex-1 py-5 bg-blue-600 text-white rounded-2xl font-bold uppercase tracking-widest hover:bg-blue-500 hover:scale-[1.02] active:scale-95 transition-all shadow-lg"
               >
                 Roll Again
               </button>
               <button
                 onClick={() => setResult(null)}
-                className="flex-1 py-5 bg-white/5 text-slate-400 rounded-3xl font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 transition-all"
+                className="flex-1 py-5 bg-white/5 text-slate-400 rounded-2xl font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 transition-all"
               >
                 Dismiss
               </button>
@@ -147,17 +149,17 @@ export function DiceButton({ tricks }: DiceButtonProps) {
         </div>
       )}
 
-      {/* Settings Panel */}
+      {/* Settings Panel Card */}
       {showSettings && (
         <div
-          className="fixed inset-0 bg-black/60 backdrop-blur-md z-[100] flex items-center justify-center p-4 md:p-6 animate-in fade-in duration-300 overflow-y-auto"
+          className="fixed inset-0 bg-black/60 backdrop-blur-md z-[100] flex items-center justify-center p-4 md:p-6 animate-in fade-in duration-300"
           onClick={() => setShowSettings(false)}
         >
           <div
-            className="w-full max-w-2xl bg-[#0f1115] rounded-[2rem] md:rounded-[3rem] p-6 md:p-10 border border-white/10 shadow-2xl relative overflow-hidden my-8"
+            className="w-full max-w-2xl bg-[#0f1115] rounded-[2.5rem] p-8 md:p-10 border border-white/10 shadow-2xl relative overflow-y-auto max-h-[90vh] no-scrollbar animate-in zoom-in-95 duration-300"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between mb-8 md:mb-12">
+            <div className="flex items-center justify-between mb-10">
               <div className="space-y-1">
                 <h3 className="text-2xl font-bold text-white tracking-tight italic uppercase">Dice Logic</h3>
                 <p className="text-xs text-slate-500 font-medium">Configure random selection parameters</p>
@@ -174,7 +176,7 @@ export function DiceButton({ tricks }: DiceButtonProps) {
               <div className="grid grid-cols-2 gap-4">
                 <button
                   onClick={() => setSettings((s) => ({ ...s, excludeLanded: !s.excludeLanded }))}
-                  className={`flex flex-col gap-1 p-6 rounded-3xl border text-left transition-all ${
+                  className={`flex flex-col gap-1 p-6 rounded-[1.5rem] border text-left transition-all ${
                     settings.excludeLanded ? "bg-blue-600 border-blue-500 shadow-lg" : "bg-white/5 border-white/5 text-slate-400 hover:border-white/10"
                   }`}
                 >
@@ -183,7 +185,7 @@ export function DiceButton({ tricks }: DiceButtonProps) {
                 </button>
                 <button
                   onClick={() => setSettings((s) => ({ ...s, excludeLocked: !s.excludeLocked }))}
-                  className={`flex flex-col gap-1 p-6 rounded-3xl border text-left transition-all ${
+                  className={`flex flex-col gap-1 p-6 rounded-[1.5rem] border text-left transition-all ${
                     settings.excludeLocked ? "bg-indigo-600 border-indigo-500 shadow-lg" : "bg-white/5 border-white/5 text-slate-400 hover:border-white/10"
                   }`}
                 >
