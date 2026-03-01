@@ -3,6 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import type { TrickStatus } from "@/lib/types";
+import { redirect } from "next/navigation";
 
 export async function setTrickStatus(
   trickId: string, 
@@ -56,6 +57,64 @@ export async function updateTrickLevel(trickId: string, level: number) {
     .from("tricks")
     .update({ difficulty: level })
     .eq("id", trickId);
+
+  if (error) {
+    console.error(error.message);
+    return;
+  }
+
+  revalidatePath("/");
+  revalidatePath("/admin");
+}
+
+export async function submitTrickLevelSuggestion(trickId: string, level: number) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) return { error: "Not authenticated" };
+
+  const { error } = await supabase
+    .from("trick_suggestions")
+    .insert({
+      user_id: user.id,
+      trick_id: trickId,
+      suggested_level: level,
+      status: 'pending'
+    });
+
+  if (error) return { error: error.message };
+
+  return { success: true };
+}
+
+export async function handleTrickSuggestion(suggestionId: string, status: 'approved' | 'rejected') {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (user?.email !== 'justinreeves00@gmail.com') {
+    return;
+  }
+
+  // If approved, update the actual trick level first
+  if (status === 'approved') {
+    const { data: suggestion } = await supabase
+      .from("trick_suggestions")
+      .select("trick_id, suggested_level")
+      .eq("id", suggestionId)
+      .single();
+
+    if (suggestion) {
+      await supabase
+        .from("tricks")
+        .update({ difficulty: suggestion.suggested_level })
+        .eq("id", suggestion.trick_id);
+    }
+  }
+
+  const { error } = await supabase
+    .from("trick_suggestions")
+    .update({ status })
+    .eq("id", suggestionId);
 
   if (error) {
     console.error(error.message);

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { setTrickStatus } from "@/lib/trick-actions";
+import { setTrickStatus, submitTrickLevelSuggestion } from "@/lib/trick-actions";
 import type { TrickWithStatus, TrickStatus } from "@/lib/types";
 
 interface TrickCardProps {
@@ -15,6 +15,8 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
   const [consistency, setConsistency] = useState<number | null>(trick.userConsistency);
   const [loading, setLoading] = useState(false);
   const [showPrompt, setShowPrompt] = useState(false);
+  const [showLevelEdit, setShowLevelEdit] = useState(false);
+  const [suggestionSubmitted, setSuggestionSubmitted] = useState(false);
   const [videoIds, setVideoIds] = useState<string[]>([]);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [fetchingVideo, setFetchingVideo] = useState(false);
@@ -60,6 +62,20 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
     setShowPrompt(false);
   }
 
+  async function handleLevelSuggestion(level: number) {
+    if (!isAuthenticated || loading) return;
+    setLoading(true);
+    const result = await submitTrickLevelSuggestion(trick.id, level);
+    if (result.success) {
+      setSuggestionSubmitted(true);
+      setTimeout(() => {
+        setShowLevelEdit(false);
+        setSuggestionSubmitted(false);
+      }, 2000);
+    }
+    setLoading(false);
+  }
+
   const nextVideo = (e: React.MouseEvent) => {
     e.stopPropagation();
     setCurrentVideoIndex((prev) => (prev + 1) % videoIds.length);
@@ -93,9 +109,15 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
                 {trick.name}
               </h3>
               {trick.difficulty && (
-                <span className="text-[9px] px-2.5 py-1 rounded-full bg-white/5 text-slate-400 border border-white/5 font-black uppercase tracking-tighter">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (isAuthenticated) setShowLevelEdit(!showLevelEdit);
+                  }}
+                  className="text-[9px] px-2.5 py-1 rounded-full bg-white/5 text-slate-400 border border-white/5 font-black uppercase tracking-tighter hover:bg-emerald-500/10 hover:text-emerald-400 transition-all"
+                >
                   LVL {trick.difficulty}
-                </span>
+                </button>
               )}
             </div>
             <div className="flex items-center gap-3">
@@ -121,6 +143,37 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
             </svg>
           </div>
         </div>
+
+        {/* Level Edit Overlay */}
+        {showLevelEdit && (
+          <div className="bg-white/5 p-5 rounded-2xl border border-emerald-500/20 space-y-4 animate-in fade-in duration-300" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest">Suggest Level Change</span>
+              <button onClick={() => setShowLevelEdit(false)} className="text-slate-500 hover:text-white transition-colors">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+              </button>
+            </div>
+            {suggestionSubmitted ? (
+              <p className="text-emerald-400 text-xs font-bold uppercase text-center py-2 italic">Suggestion sent for review! 🛹</p>
+            ) : (
+              <div className="grid grid-cols-5 gap-2">
+                {[1, 2, 3, 4, 5].map((lvl) => (
+                  <button
+                    key={lvl}
+                    onClick={() => handleLevelSuggestion(lvl)}
+                    className={`h-10 rounded-xl font-black text-xs transition-all border ${
+                      trick.difficulty === lvl 
+                        ? "bg-white/10 text-emerald-400 border-white/20" 
+                        : "bg-white/5 text-slate-500 border-white/5 hover:text-white hover:border-emerald-500/30"
+                    }`}
+                  >
+                    {lvl}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Quick Log Buttons */}
         {isAuthenticated && (
