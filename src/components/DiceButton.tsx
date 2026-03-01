@@ -88,16 +88,16 @@ export function DiceButton({ tricks }: DiceButtonProps) {
       {/* Result Overlay Card */}
       {result && (
         <div
-          className="fixed inset-0 bg-black/80 backdrop-blur-md z-[100] flex items-center justify-center p-4 md:p-8 animate-in fade-in duration-500"
+          className="fixed inset-0 bg-black/90 backdrop-blur-xl z-[200] overflow-y-auto flex flex-col items-center justify-start py-12 px-4 md:px-8 animate-in fade-in duration-500"
           onClick={() => setResult(null)}
         >
           <div 
-            className="max-w-2xl w-full bg-[#0f1115] rounded-[2.5rem] p-6 md:p-10 border border-white/10 shadow-2xl space-y-8 animate-in zoom-in-95 duration-300 overflow-y-auto max-h-[90vh] no-scrollbar" 
+            className="max-w-2xl w-full bg-[#0f1115] rounded-[2.5rem] p-6 md:p-10 border border-white/10 shadow-2xl space-y-8 animate-in zoom-in-95 duration-300 relative my-auto" 
             onClick={(e) => e.stopPropagation()}
           >
             <div className="text-center space-y-4">
               <span className="px-4 py-1.5 rounded-full bg-blue-500/10 text-blue-400 text-[10px] font-bold uppercase tracking-[0.3em]">Random Selection Acquired</span>
-              <h2 className="text-4xl md:text-6xl font-extrabold tracking-tighter text-white italic">
+              <h2 className="text-4xl md:text-6xl font-extrabold tracking-tighter text-white italic leading-tight">
                 {result.name}
               </h2>
               <div className="flex items-center justify-center gap-4 text-slate-500 text-xs font-medium uppercase tracking-widest">
@@ -152,11 +152,11 @@ export function DiceButton({ tricks }: DiceButtonProps) {
       {/* Settings Panel Card */}
       {showSettings && (
         <div
-          className="fixed inset-0 bg-black/60 backdrop-blur-md z-[100] flex items-center justify-center p-4 md:p-6 animate-in fade-in duration-300"
+          className="fixed inset-0 bg-black/80 backdrop-blur-md z-[200] overflow-y-auto flex flex-col items-center justify-start py-12 px-4 md:px-6 animate-in fade-in duration-300"
           onClick={() => setShowSettings(false)}
         >
           <div
-            className="w-full max-w-2xl bg-[#0f1115] rounded-[2.5rem] p-8 md:p-10 border border-white/10 shadow-2xl relative overflow-y-auto max-h-[90vh] no-scrollbar animate-in zoom-in-95 duration-300"
+            className="w-full max-w-2xl bg-[#0f1115] rounded-[2.5rem] p-8 md:p-10 border border-white/10 shadow-2xl relative animate-in zoom-in-95 duration-300 my-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-10">
