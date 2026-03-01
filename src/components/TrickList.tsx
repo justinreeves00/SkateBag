@@ -47,7 +47,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail }: TrickListProps
                   <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                   <span className="text-[10px] text-emerald-100 font-bold leading-none truncate max-w-[120px] md:max-w-none uppercase tracking-tighter">{userEmail}</span>
                 </div>
-                {userEmail === "justin_reeves@me.com" && (
+                {userEmail === "justinreeves00@gmail.com" && (
                   <a 
                     href="/admin" 
                     className="text-[9px] font-black text-emerald-400 uppercase tracking-widest hover:text-white transition-colors bg-emerald-500/10 px-3 py-1.5 rounded-full border border-emerald-500/20"

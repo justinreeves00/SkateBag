@@ -7,7 +7,7 @@ export default async function AdminPage() {
   const { data: { user } } = await supabase.auth.getUser();
 
   // Simple admin check
-  if (!user || user.email !== "justin_reeves@me.com") {
+  if (!user || user.email !== "justinreeves00@gmail.com") {
     redirect("/");
   }
 

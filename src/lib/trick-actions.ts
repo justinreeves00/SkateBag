@@ -48,7 +48,7 @@ export async function updateTrickLevel(trickId: string, level: number) {
   const { data: { user } } = await supabase.auth.getUser();
 
   // Admin check - restrict to your email
-  if (user?.email !== 'justin_reeves@me.com') {
+  if (user?.email !== 'justinreeves00@gmail.com') {
     return { error: "Unauthorized" };
   }
 
