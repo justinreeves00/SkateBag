@@ -82,7 +82,7 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
                   <span className={`text-[10px] font-black uppercase tracking-widest ${
                     status === "landed" ? "text-emerald-400" : "text-emerald-200"
                   }`}>
-                    {status === "landed" ? "Mastered" : `Ready (${consistency ?? 0}/10)`}
+                    {status === "landed" ? "In Bag" : `Locked (${consistency ?? 0}/10)`}
                   </span>
                 </>
               )}
@@ -139,7 +139,7 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
           
           <div className="space-y-8">
             <div className="text-center space-y-2">
-              <h4 className="text-3xl font-black tracking-tighter text-white uppercase italic">Calibration</h4>
+              <h4 className="text-3xl font-black tracking-tighter text-white uppercase italic">Session Test</h4>
               <p className="text-slate-500 text-sm font-medium uppercase tracking-widest">Perform 10 attempts now.</p>
             </div>
             
@@ -172,7 +172,7 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
             <div className="flex items-center justify-between px-1">
               <div className="flex items-center gap-3">
                 <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Data stream</span>
+                <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Trick Feed</span>
               </div>
             </div>
 
@@ -190,11 +190,11 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
               ) : fetchingVideo ? (
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
                   <div className="w-8 h-8 border-3 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin" />
-                  <span className="text-[10px] font-bold text-slate-600 uppercase tracking-widest">Linking...</span>
+                  <span className="text-[10px] font-bold text-slate-600 uppercase tracking-widest">Searching...</span>
                 </div>
               ) : (
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-xs text-slate-700 font-bold uppercase tracking-[0.2em] italic">No visual data available</span>
+                  <span className="text-xs text-slate-700 font-bold uppercase tracking-[0.2em] italic">Video unavailable</span>
                 </div>
               )}
             </div>
@@ -205,7 +205,7 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
             <div className="space-y-8">
               {trick.history && (
                 <div className="space-y-4">
-                  <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Intelligence</span>
+                  <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Intel</span>
                   <p className="text-sm text-slate-300 leading-relaxed italic border-l-2 border-emerald-500/20 pl-5">"{trick.history}"</p>
                 </div>
               )}
@@ -213,7 +213,7 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
               <div className="flex gap-16">
                 {trick.inventor && (
                   <div className="space-y-2">
-                    <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Pioneer</span>
+                    <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Creator</span>
                     <p className="text-sm text-white font-bold tracking-tight uppercase">{trick.inventor}</p>
                   </div>
                 )}
@@ -235,7 +235,7 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
               </div>
               <div className="space-y-2">
                 <p className="text-[10px] font-black text-white uppercase tracking-[0.3em]">
-                  {status === "landed" ? "Verified Mastery" : "Protocol active"}
+                  {status === "landed" ? "Bagged!" : "Practice Session"}
                 </p>
                 <p className="text-sm text-slate-500 font-medium">
                   {status === "landed" ? "Logged in your bag" : "Repeat until consistent"}

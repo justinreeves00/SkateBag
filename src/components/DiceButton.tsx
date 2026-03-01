@@ -102,14 +102,14 @@ export function DiceButton({ tricks }: DiceButtonProps) {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="text-center space-y-6">
-              <span className="px-5 py-2 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-black uppercase tracking-[0.4em]">Target Identified</span>
+              <span className="px-5 py-2 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-black uppercase tracking-[0.4em]">Next Mission</span>
               <h2 className="text-5xl md:text-8xl font-black tracking-tighter text-white italic leading-[0.9]">
                 {result.name}
               </h2>
               <div className="flex items-center justify-center gap-6 text-slate-500 text-sm font-bold uppercase tracking-[0.2em]">
                 <span>{result.category}</span>
                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500/40" />
-                <span className="text-emerald-400 italic">Protocol {result.difficulty}</span>
+                <span className="text-emerald-400 italic">Tier {result.difficulty}</span>
               </div>
             </div>
 
@@ -128,7 +128,7 @@ export function DiceButton({ tricks }: DiceButtonProps) {
               ) : fetchingVideo ? (
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
                   <div className="w-10 h-10 border-3 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin" />
-                  <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest">Establishing Link...</span>
+                  <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest">Buffering...</span>
                 </div>
               ) : (
                 <div className="absolute inset-0 flex items-center justify-center">
@@ -142,13 +142,13 @@ export function DiceButton({ tricks }: DiceButtonProps) {
                 onClick={roll}
                 className="flex-1 py-6 bg-white text-black rounded-[1.5rem] font-black uppercase tracking-widest hover:bg-emerald-400 transition-all shadow-[0_20px_40px_rgba(255,255,255,0.1)] hover:scale-[1.02] active:scale-95"
               >
-                New Sequence
+                Roll Again
               </button>
               <button
                 onClick={() => setResult(null)}
                 className="flex-1 py-6 bg-white/5 text-slate-400 rounded-[1.5rem] font-black uppercase tracking-widest hover:text-white hover:bg-white/10 transition-all border border-white/5"
               >
-                Abort
+                Dismiss
               </button>
             </div>
           </div>
@@ -167,8 +167,8 @@ export function DiceButton({ tricks }: DiceButtonProps) {
           >
             <div className="flex items-center justify-between mb-14">
               <div className="space-y-2">
-                <h3 className="text-3xl font-black text-white tracking-tighter italic uppercase">Logic Matrix</h3>
-                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.3em]">Configure System Parameters</p>
+                <h3 className="text-3xl font-black text-white tracking-tighter italic uppercase">Session Logic</h3>
+                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.3em]">Configure Dice Parameters</p>
               </div>
               <button 
                 onClick={() => setShowSettings(false)} 
@@ -201,7 +201,7 @@ export function DiceButton({ tricks }: DiceButtonProps) {
               </div>
 
               <div className="space-y-6">
-                <span className="text-[10px] font-black text-slate-600 uppercase tracking-[0.4em]">Complexity Tiers</span>
+                <span className="text-[10px] font-black text-slate-600 uppercase tracking-[0.4em]">Levels</span>
                 <div className="flex flex-wrap gap-3">
                   {LEVEL_OPTIONS.map((lvl) => (
                     <button
@@ -220,7 +220,7 @@ export function DiceButton({ tricks }: DiceButtonProps) {
               </div>
 
               <div className="space-y-6">
-                <span className="text-[10px] font-black text-slate-600 uppercase tracking-[0.4em]">Operational Sectors</span>
+                <span className="text-[10px] font-black text-slate-600 uppercase tracking-[0.4em]">Categories</span>
                 <div className="flex flex-wrap gap-2.5">
                   {CATEGORY_OPTIONS.map((cat) => (
                     <button
