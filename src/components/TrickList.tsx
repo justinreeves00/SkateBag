@@ -4,6 +4,7 @@ import { useState } from "react";
 import { TrickCard } from "./TrickCard";
 import { CategoryFilter } from "./CategoryFilter";
 import { DiceButton } from "./DiceButton";
+import { SkateBagLogo } from "./Logo";
 import type { TrickWithStatus, TrickCategory } from "@/lib/types";
 
 interface TrickListProps {
@@ -36,9 +37,14 @@ export function TrickList({ tricks, isAuthenticated }: TrickListProps) {
             {/* Top row: Brand and Stats */}
             <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
               <div className="space-y-4">
-                <h1 className="text-4xl font-extrabold tracking-tight bg-gradient-to-br from-white to-white/40 bg-clip-text text-transparent leading-none">
-                  SkateBag 🛹
-                </h1>
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-white text-black shadow-lg">
+                    <SkateBagLogo size={32} />
+                  </div>
+                  <h1 className="text-4xl font-extrabold tracking-tight bg-gradient-to-br from-white to-white/40 bg-clip-text text-transparent leading-none italic uppercase">
+                    SkateBag
+                  </h1>
+                </div>
                 
                 {/* Stats / Bag Toggle Button */}
                 <button 
