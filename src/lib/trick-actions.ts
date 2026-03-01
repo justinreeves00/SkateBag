@@ -49,7 +49,7 @@ export async function updateTrickLevel(trickId: string, level: number) {
 
   // Admin check - restrict to your email
   if (user?.email !== 'justinreeves00@gmail.com') {
-    return { error: "Unauthorized" };
+    return;
   }
 
   const { error } = await supabase
@@ -57,11 +57,13 @@ export async function updateTrickLevel(trickId: string, level: number) {
     .update({ difficulty: level })
     .eq("id", trickId);
 
-  if (error) return { error: error.message };
+  if (error) {
+    console.error(error.message);
+    return;
+  }
 
   revalidatePath("/");
   revalidatePath("/admin");
-  return { success: true };
 }
 
 export async function getUserTricks() {
