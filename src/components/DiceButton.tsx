@@ -89,16 +89,16 @@ export function DiceButton({ tricks }: DiceButtonProps) {
       {/* Result Overlay */}
       {result && (
         <div
-          className="fixed inset-0 bg-black/95 backdrop-blur-3xl z-[100] flex items-center justify-center p-6 animate-in fade-in duration-500 overflow-y-auto no-scrollbar"
+          className="fixed inset-0 bg-black/95 backdrop-blur-3xl z-[100] flex items-center justify-center p-4 md:p-8 animate-in fade-in duration-500 overflow-y-auto no-scrollbar"
           onClick={() => setResult(null)}
         >
-          <div className="max-w-2xl w-full text-center space-y-8 my-auto" onClick={(e) => e.stopPropagation()}>
-            <div className="space-y-4">
+          <div className="max-w-2xl w-full text-center space-y-6 md:space-y-8 my-auto py-8" onClick={(e) => e.stopPropagation()}>
+            <div className="space-y-3 md:space-y-4">
               <span className="px-4 py-1.5 rounded-full bg-blue-500/10 text-blue-400 text-[10px] font-bold uppercase tracking-[0.3em]">Random Selection Acquired</span>
-              <h2 className="text-5xl md:text-7xl font-extrabold tracking-tighter text-white italic">
+              <h2 className="text-4xl md:text-7xl font-extrabold tracking-tighter text-white italic">
                 {result.name}
               </h2>
-              <div className="flex items-center justify-center gap-4 text-slate-500 text-sm font-medium uppercase tracking-widest">
+              <div className="flex items-center justify-center gap-4 text-slate-500 text-xs font-medium uppercase tracking-widest">
                 <span>{result.category}</span>
                 <span className="w-1 h-1 rounded-full bg-slate-800"></span>
                 <span className="text-blue-500">Level {result.difficulty}</span>
@@ -106,7 +106,7 @@ export function DiceButton({ tricks }: DiceButtonProps) {
             </div>
 
             {/* Video Player */}
-            <div className="aspect-video w-full bg-black/40 rounded-[2.5rem] overflow-hidden border border-white/5 relative shadow-2xl">
+            <div className="aspect-video w-full bg-black/40 rounded-2xl md:rounded-[2.5rem] overflow-hidden border border-white/5 relative shadow-2xl">
               {videoId ? (
                 <iframe
                   width="100%"
@@ -150,14 +150,14 @@ export function DiceButton({ tricks }: DiceButtonProps) {
       {/* Settings Panel */}
       {showSettings && (
         <div
-          className="fixed inset-0 bg-black/60 backdrop-blur-md z-[100] flex items-center justify-center p-6 animate-in fade-in duration-300"
+          className="fixed inset-0 bg-black/60 backdrop-blur-md z-[100] flex items-center justify-center p-4 md:p-6 animate-in fade-in duration-300"
           onClick={() => setShowSettings(false)}
         >
           <div
-            className="w-full max-w-2xl bg-[#0f1115] rounded-[3rem] p-10 border border-white/10 shadow-2xl relative overflow-hidden"
+            className="w-full max-w-2xl bg-[#0f1115] rounded-[2rem] md:rounded-[3rem] p-6 md:p-10 border border-white/10 shadow-2xl relative overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between mb-12">
+            <div className="flex items-center justify-between mb-8 md:mb-12">
               <div className="space-y-1">
                 <h3 className="text-2xl font-bold text-white tracking-tight italic uppercase">Dice Logic</h3>
                 <p className="text-xs text-slate-500 font-medium">Configure random selection parameters</p>

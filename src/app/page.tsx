@@ -41,16 +41,16 @@ export default async function Home() {
   return (
     <div className="relative">
       {/* Top Navigation Bar */}
-      <nav className="fixed top-0 left-0 w-full z-[100] px-6 py-4 flex justify-between items-center pointer-events-none">
-        <div className="flex flex-col pointer-events-auto bg-black/40 backdrop-blur-md border border-white/5 px-4 py-2 rounded-2xl">
+      <nav className="fixed top-0 left-0 w-full z-[100] px-4 md:px-6 py-4 flex justify-between items-center pointer-events-none">
+        <div className="flex flex-col pointer-events-auto bg-black/60 backdrop-blur-md border border-white/5 px-3 md:px-4 py-2 rounded-2xl max-w-[160px] md:max-w-none">
           {!user ? (
-            <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest leading-none py-1">
+            <span className="text-[9px] md:text-[10px] text-slate-500 font-bold uppercase tracking-widest leading-none py-1 whitespace-nowrap">
               Sign in to log tricks 🛹
             </span>
           ) : (
-            <div className="flex flex-col">
+            <div className="flex flex-col min-w-0">
               <span className="text-[8px] text-slate-500 font-bold uppercase tracking-widest leading-none">Bag Holder</span>
-              <span className="text-[10px] text-blue-400 font-bold leading-none mt-1">{user.email}</span>
+              <span className="text-[10px] text-blue-400 font-bold leading-none mt-1 truncate">{user.email}</span>
             </div>
           )}
         </div>

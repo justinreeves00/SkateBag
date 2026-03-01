@@ -41,7 +41,7 @@ export function TrickList({ tricks, isAuthenticated }: TrickListProps) {
                   <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-white text-black shadow-lg">
                     <SkateBagLogo size={32} />
                   </div>
-                  <h1 className="text-4xl font-extrabold tracking-tight bg-gradient-to-br from-white to-white/40 bg-clip-text text-transparent leading-none italic uppercase">
+                  <h1 className="text-4xl font-extrabold tracking-tight bg-gradient-to-br from-white to-white/40 bg-clip-text text-transparent leading-none italic uppercase pr-4">
                     SkateBag
                   </h1>
                 </div>
