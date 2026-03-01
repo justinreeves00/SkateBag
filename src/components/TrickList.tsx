@@ -186,7 +186,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail }: TrickListProps
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 items-start">
             {filtered.map((trick) => (
               <TrickCard
                 key={trick.id}
