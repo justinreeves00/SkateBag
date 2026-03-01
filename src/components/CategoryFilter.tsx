@@ -6,11 +6,9 @@ const CATEGORIES: { value: TrickCategory | "all"; label: string }[] = [
   { value: "all", label: "ALL" },
   { value: "flatground", label: "FLAT" },
   { value: "street", label: "STREET" },
-  { value: "rails", label: "RAILS" },
-  { value: "ledges", label: "LEDGES" },
+  { value: "ledge/rail", label: "LEDGE/RAIL" },
+  { value: "transition", label: "TRANS" },
   { value: "gaps", label: "GAPS" },
-  { value: "vert", label: "VERT" },
-  { value: "bowl", label: "BOWL" },
   { value: "freestyle", label: "FREE" },
   { value: "downhill", label: "HILL" },
 ];

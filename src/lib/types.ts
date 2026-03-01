@@ -3,11 +3,9 @@ export type TrickStatus = "landed" | "locked";
 export type TrickCategory =
   | "flatground"
   | "street"
-  | "rails"
-  | "ledges"
+  | "ledge/rail"
+  | "transition"
   | "gaps"
-  | "vert"
-  | "bowl"
   | "freestyle"
   | "downhill";
 

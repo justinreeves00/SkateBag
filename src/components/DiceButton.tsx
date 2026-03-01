@@ -8,7 +8,7 @@ interface DiceButtonProps {
 }
 
 const CATEGORY_OPTIONS: TrickCategory[] = [
-  "flatground", "street", "rails", "ledges", "gaps", "vert", "bowl", "freestyle", "downhill",
+  "flatground", "street", "ledge/rail", "transition", "gaps", "freestyle", "downhill",
 ];
 
 export function DiceButton({ tricks }: DiceButtonProps) {
