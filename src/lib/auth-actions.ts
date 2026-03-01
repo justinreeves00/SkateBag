@@ -20,6 +20,25 @@ export async function signInWithGoogle() {
   if (data.url) redirect(data.url);
 }
 
+export async function signInWithMagicLink(formData: FormData) {
+  const email = formData.get("email") as string;
+  if (!email) redirect("/login?error=missing_email");
+
+  const supabase = await createClient();
+  const headersList = await headers();
+  const origin = headersList.get("origin");
+
+  const { error } = await supabase.auth.signInWithOtp({
+    email,
+    options: {
+      emailRedirectTo: `${origin}/auth/callback`,
+    },
+  });
+
+  if (error) redirect("/login?error=magic_link_failed");
+  redirect("/login?message=check_email");
+}
+
 export async function signOut() {
   const supabase = await createClient();
   await supabase.auth.signOut();

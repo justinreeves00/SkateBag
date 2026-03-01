@@ -1,6 +1,12 @@
-import { signInWithGoogle } from "@/lib/auth-actions";
+import { signInWithGoogle, signInWithMagicLink } from "@/lib/auth-actions";
 
-export default function LoginPage() {
+export default async function LoginPage(props: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const searchParams = await props.searchParams;
+  const message = searchParams.message as string;
+  const error = searchParams.error as string;
+
   return (
     <main className="min-h-screen bg-black flex items-center justify-center px-6 relative overflow-hidden">
       {/* Background Glows */}
@@ -27,6 +33,17 @@ export default function LoginPage() {
 
         {/* Auth Buttons */}
         <div className="glass p-8 rounded-[2.5rem] border-white/10 space-y-6">
+          {message === "check_email" && (
+            <div className="p-4 rounded-xl bg-green-500/10 border border-green-500/20 text-green-400 text-xs font-bold text-center uppercase tracking-widest">
+              Check your email for the magic link!
+            </div>
+          )}
+          {error && (
+            <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-bold text-center uppercase tracking-widest">
+              {error === "magic_link_failed" ? "Failed to send magic link" : "Authentication failed"}
+            </div>
+          )}
+
           <form action={signInWithGoogle}>
             <button
               type="submit"
@@ -34,6 +51,28 @@ export default function LoginPage() {
             >
               <GoogleIcon />
               Continue with Google
+            </button>
+          </form>
+
+          <div className="flex items-center gap-4 py-2">
+            <div className="h-px flex-1 bg-white/5" />
+            <span className="text-[10px] text-slate-600 font-bold uppercase tracking-widest">or</span>
+            <div className="h-px flex-1 bg-white/5" />
+          </div>
+
+          <form action={signInWithMagicLink} className="space-y-4">
+            <input
+              name="email"
+              type="email"
+              placeholder="Enter your email..."
+              required
+              className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-4 text-sm font-medium text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/50 transition-all"
+            />
+            <button
+              type="submit"
+              className="w-full bg-blue-600 text-white font-bold py-5 px-8 rounded-2xl hover:bg-blue-500 transition-all text-sm tracking-widest uppercase shadow-lg shadow-blue-600/20 hover:scale-[1.02] active:scale-[0.98]"
+            >
+              Send Magic Link
             </button>
           </form>
           
