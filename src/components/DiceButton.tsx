@@ -89,10 +89,10 @@ export function DiceButton({ tricks }: DiceButtonProps) {
       {/* Result Overlay */}
       {result && (
         <div
-          className="fixed inset-0 bg-black/95 backdrop-blur-3xl z-[100] flex items-center justify-center p-4 md:p-8 animate-in fade-in duration-500 overflow-y-auto no-scrollbar"
+          className="fixed inset-0 bg-black/95 backdrop-blur-3xl z-[100] flex items-center justify-center p-4 md:p-8 animate-in fade-in duration-500 overflow-y-auto"
           onClick={() => setResult(null)}
         >
-          <div className="max-w-2xl w-full text-center space-y-6 md:space-y-8 my-auto py-8" onClick={(e) => e.stopPropagation()}>
+          <div className="max-w-2xl w-full text-center space-y-6 md:space-y-8 py-12 md:py-8" onClick={(e) => e.stopPropagation()}>
             <div className="space-y-3 md:space-y-4">
               <span className="px-4 py-1.5 rounded-full bg-blue-500/10 text-blue-400 text-[10px] font-bold uppercase tracking-[0.3em]">Random Selection Acquired</span>
               <h2 className="text-4xl md:text-7xl font-extrabold tracking-tighter text-white italic">
@@ -150,11 +150,11 @@ export function DiceButton({ tricks }: DiceButtonProps) {
       {/* Settings Panel */}
       {showSettings && (
         <div
-          className="fixed inset-0 bg-black/60 backdrop-blur-md z-[100] flex items-center justify-center p-4 md:p-6 animate-in fade-in duration-300"
+          className="fixed inset-0 bg-black/60 backdrop-blur-md z-[100] flex items-center justify-center p-4 md:p-6 animate-in fade-in duration-300 overflow-y-auto"
           onClick={() => setShowSettings(false)}
         >
           <div
-            className="w-full max-w-2xl bg-[#0f1115] rounded-[2rem] md:rounded-[3rem] p-6 md:p-10 border border-white/10 shadow-2xl relative overflow-hidden"
+            className="w-full max-w-2xl bg-[#0f1115] rounded-[2rem] md:rounded-[3rem] p-6 md:p-10 border border-white/10 shadow-2xl relative overflow-hidden my-8"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-8 md:mb-12">

@@ -30,8 +30,8 @@ export function TrickList({ tricks, isAuthenticated }: TrickListProps) {
 
   return (
     <div className="min-h-screen text-white">
-      {/* Sleek Header */}
-      <header className="sticky top-0 z-40 bg-black/60 backdrop-blur-3xl border-b border-white/5">
+      {/* Sleek Header - Adjusted top offset for fixed nav */}
+      <header className="sticky top-[72px] z-40 bg-black/60 backdrop-blur-3xl border-b border-white/5">
         <div className="max-w-5xl mx-auto px-6 py-8">
           <div className="flex flex-col gap-8">
             {/* Top row: Brand and Stats */}
@@ -41,7 +41,7 @@ export function TrickList({ tricks, isAuthenticated }: TrickListProps) {
                   <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-white text-black shadow-lg">
                     <SkateBagLogo size={32} />
                   </div>
-                  <h1 className="text-4xl font-extrabold tracking-tight bg-gradient-to-br from-white to-white/40 bg-clip-text text-transparent leading-none italic uppercase pr-4">
+                  <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-br from-white to-white/40 bg-clip-text text-transparent leading-[1.1] italic uppercase pr-4 py-1">
                     SkateBag
                   </h1>
                 </div>
