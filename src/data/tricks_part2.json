@@ -1,0 +1,594 @@
+[
+  {
+    "name": "50-50 Grind",
+    "category": "street",
+    "history": "Both trucks grind along a rail or ledge simultaneously. One of the most fundamental grind tricks and a cornerstone of street and ledge skating.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "how to 50-50 grind skateboard tutorial"
+  },
+  {
+    "name": "5-0 Grind",
+    "category": "street",
+    "history": "Only the back truck grinds the obstacle while the front is raised. The name comes from the nose being elevated at a '5 o'clock' angle.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "how to 5-0 grind skateboard tutorial"
+  },
+  {
+    "name": "Nosegrind",
+    "category": "street",
+    "history": "The front truck grinds on the obstacle while the back truck is elevated. The counterpart to the 5-0 and a staple of ledge and rail skating.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "how to nosegrind skateboard tutorial"
+  },
+  {
+    "name": "Crooked Grind",
+    "category": "street",
+    "history": "Also called a K-grind. The front truck grinds while the board is angled so the nose points down into or across the obstacle. A highly technical grind.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "how to crooked grind skateboard tutorial"
+  },
+  {
+    "name": "Salad Grind",
+    "category": "street",
+    "history": "The back truck grinds while the board is tilted at an angle (frontside). A stylish variation between a 5-0 and a boardslide.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "how to salad grind skateboard tutorial"
+  },
+  {
+    "name": "Overcrook",
+    "category": "street",
+    "history": "A crooked grind where the nose points upward past the ledge and the front truck grinds on the far side. The board goes 'over' the obstacle.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "how to overcrook grind skateboard tutorial"
+  },
+  {
+    "name": "Feeble Grind",
+    "category": "street",
+    "history": "The back truck grinds while the front truck hangs over on the far side of the obstacle (usually a rail). A fundamental rail trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "how to feeble grind skateboard tutorial"
+  },
+  {
+    "name": "Smith Grind",
+    "category": "street",
+    "history": "The back truck grinds the obstacle while the front truck hangs below and the board is angled. Named after Mike Smith who invented it in the early 1980s.",
+    "inventor": "Mike Smith",
+    "year": 1982,
+    "youtube_query": "how to smith grind skateboard tutorial"
+  },
+  {
+    "name": "Willy Grind",
+    "category": "street",
+    "history": "A grind where only the back truck makes contact and the board is nearly parallel to the obstacle, creating a unique angled position. Named after Willy Santos.",
+    "inventor": "Willy Santos",
+    "year": 1996,
+    "youtube_query": "willy grind skateboard tutorial"
+  },
+  {
+    "name": "Nose Blunt Grind",
+    "category": "street",
+    "history": "The nose of the board presses against the top of the obstacle while grinding, with the front truck locked on. A difficult stall-grind hybrid.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "nose blunt grind skateboard tutorial"
+  },
+  {
+    "name": "Blunt Grind",
+    "category": "street",
+    "history": "The tail of the board presses against the obstacle while the back truck grinds. Involves the tail making contact with the top surface.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "blunt grind skateboard tutorial"
+  },
+  {
+    "name": "Axle Stall",
+    "category": "street",
+    "history": "Both trucks come to a complete stop on top of an obstacle, then the skater drops back in. A foundational transition and ledge trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "how to axle stall skateboard tutorial"
+  },
+  {
+    "name": "Nosestall",
+    "category": "street",
+    "history": "The front truck stalls on the edge of an obstacle. Often used as a setup for other tricks or as a stylish pause in a line.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "how to nosestall skateboard tutorial"
+  },
+  {
+    "name": "Tailstall",
+    "category": "street",
+    "history": "The tail of the board stalls on the edge of an obstacle. A simple but effective trick used in transition and street skating.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "how to tailstall skateboard tutorial"
+  },
+  {
+    "name": "Boardslide",
+    "category": "street",
+    "history": "The board slides perpendicular to the obstacle (rail or ledge) with the middle of the board on the surface. A fundamental slide trick in street skating.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "how to boardslide skateboard tutorial"
+  },
+  {
+    "name": "Frontside Boardslide",
+    "category": "street",
+    "history": "A boardslide where the skater approaches frontside (chest facing the obstacle). Considered slightly more accessible than the backside version.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "how to frontside boardslide skateboard tutorial"
+  },
+  {
+    "name": "Backside Boardslide",
+    "category": "street",
+    "history": "A boardslide approached from the backside (back facing the obstacle). Requires blind commitment which makes it trickier to learn.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "how to backside boardslide skateboard tutorial"
+  },
+  {
+    "name": "Noseslide",
+    "category": "street",
+    "history": "The nose of the board slides along the obstacle while the tail is elevated. A very stylish and technical ledge trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "how to noseslide skateboard tutorial"
+  },
+  {
+    "name": "Tailslide",
+    "category": "street",
+    "history": "The tail of the board slides on the obstacle while the nose is elevated. Can be done frontside or backside.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "how to tailslide skateboard tutorial"
+  },
+  {
+    "name": "Lipslide",
+    "category": "street",
+    "history": "The board slides over the obstacle with the tail leading (opposite of a boardslide approach). The skater ollies over the obstacle and comes down on it sideways.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "how to lipslide skateboard tutorial"
+  },
+  {
+    "name": "Frontside Lipslide",
+    "category": "street",
+    "history": "A lipslide approached from the frontside, requiring the skater to ollie over the rail/ledge frontside.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "how to frontside lipslide skateboard tutorial"
+  },
+  {
+    "name": "Backside Lipslide",
+    "category": "street",
+    "history": "A lipslide approached from the backside. The skater must ollie over the rail and come down on it from behind.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "how to backside lipslide skateboard tutorial"
+  },
+  {
+    "name": "Darkslide",
+    "category": "street",
+    "history": "Invented by Rodney Mullen, the board is flipped upside down so the grip tape slides along the obstacle. One of the most iconic and technical slide tricks ever created.",
+    "inventor": "Rodney Mullen",
+    "year": 1995,
+    "youtube_query": "darkslide skateboard trick tutorial"
+  },
+  {
+    "name": "Gazelle Grind",
+    "category": "street",
+    "history": "A 540-degree body rotation combined with a grind on an obstacle. An extremely rare and advanced combination trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "gazelle grind skateboard trick"
+  },
+  {
+    "name": "Switch Crooked Grind",
+    "category": "street",
+    "history": "A crooked grind performed in switch stance. Adds significant difficulty to an already technical grind.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "switch crooked grind skateboard"
+  },
+  {
+    "name": "Nollie Crooked Grind",
+    "category": "street",
+    "history": "A crooked grind entered from nollie stance. The nose is popped to enter the grind.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "nollie crooked grind skateboard"
+  },
+  {
+    "name": "Switch 50-50",
+    "category": "street",
+    "history": "A 50-50 grind performed in switch stance. Both trucks grind while the skater rides in their non-dominant direction.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "switch 50-50 grind skateboard tutorial"
+  },
+  {
+    "name": "Switch Nosegrind",
+    "category": "street",
+    "history": "A nosegrind in switch stance. The front truck (now the weaker foot's side) grinds on the obstacle.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "switch nosegrind skateboard tutorial"
+  },
+  {
+    "name": "Switch Smith Grind",
+    "category": "street",
+    "history": "A Smith grind performed in switch stance. A significantly advanced version of the already technical Smith grind.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "switch smith grind skateboard tutorial"
+  },
+  {
+    "name": "Switch Feeble Grind",
+    "category": "street",
+    "history": "A feeble grind in switch stance. The back truck (weaker side) hangs on the far side of the rail while grinding.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "switch feeble grind skateboard"
+  },
+  {
+    "name": "Kickflip 50-50",
+    "category": "street",
+    "history": "A kickflip into a 50-50 grind. The board flips before landing in the grind position. A popular trick in tech street skating.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "kickflip 50-50 skateboard tutorial"
+  },
+  {
+    "name": "Heelflip Nosegrind",
+    "category": "street",
+    "history": "A heelflip that lands into a nosegrind. Requires precise flick and catch to enter the grind cleanly.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "heelflip nosegrind skateboard tutorial"
+  },
+  {
+    "name": "Kickflip Nosegrind",
+    "category": "street",
+    "history": "A kickflip entry into a nosegrind. A technical ledge trick combining a flip trick with the precision of the nosegrind.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "kickflip nosegrind skateboard tutorial"
+  },
+  {
+    "name": "Noseblunt Slide",
+    "category": "street",
+    "history": "The nose of the board digs into the top of the obstacle while sliding. An extremely technical ledge trick requiring perfect approach.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "how to noseblunt slide skateboard tutorial"
+  },
+  {
+    "name": "Blunt Slide",
+    "category": "street",
+    "history": "The tail of the board slides on the obstacle while stalled at an angle. A classic ledge trick combining the blunt stall with forward momentum.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "how to blunt slide skateboard tutorial"
+  },
+  {
+    "name": "Heelflip Boardslide",
+    "category": "street",
+    "history": "A heelflip into a boardslide position. Requires the board to be caught sideways after the heel flip rotation.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "heelflip boardslide skateboard tutorial"
+  },
+  {
+    "name": "Kickflip Boardslide",
+    "category": "street",
+    "history": "A kickflip into a boardslide. One of the classic tech ledge tricks.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "kickflip boardslide skateboard tutorial"
+  },
+  {
+    "name": "Hardflip Nosegrind",
+    "category": "street",
+    "history": "A hardflip into a nosegrind. An extremely technical combination rarely attempted.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "hardflip nosegrind skateboard"
+  },
+  {
+    "name": "Frontside Noseslide",
+    "category": "street",
+    "history": "A noseslide entered from the frontside. The skater's chest faces the obstacle during the slide.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "how to frontside noseslide skateboard tutorial"
+  },
+  {
+    "name": "Backside Noseslide",
+    "category": "street",
+    "history": "A noseslide entered from the backside. The skater's back faces the obstacle during the slide.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "how to backside noseslide skateboard tutorial"
+  },
+  {
+    "name": "Frontside Tailslide",
+    "category": "street",
+    "history": "A tailslide where the approach is frontside. A highly stylish trick when done on long ledges.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "how to frontside tailslide skateboard tutorial"
+  },
+  {
+    "name": "Backside Tailslide",
+    "category": "street",
+    "history": "A tailslide approached from the backside. Considered more difficult due to the blind commitment required.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "how to backside tailslide skateboard tutorial"
+  },
+  {
+    "name": "Nosegrind to Tailslide",
+    "category": "street",
+    "history": "A nosegrind that transitions into a tailslide mid-obstacle. An advanced ledge line trick requiring body repositioning during the trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "nosegrind to tailslide skateboard"
+  },
+  {
+    "name": "5-0 to Fakie",
+    "category": "street",
+    "history": "A 5-0 grind that exits by rolling backward in fakie. A smooth and stylish exit from a grind used on ledges and curbs.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "5-0 to fakie skateboard tutorial"
+  },
+  {
+    "name": "Nosegrind to Fakie",
+    "category": "street",
+    "history": "A nosegrind that exits rolling fakie. A clean technical finish to a nosegrind.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "nosegrind to fakie skateboard tutorial"
+  },
+  {
+    "name": "Boardslide to Fakie",
+    "category": "street",
+    "history": "A boardslide that exits fakie (rolling backward). A popular slide exit when going from the middle of a rail.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "boardslide to fakie skateboard tutorial"
+  },
+  {
+    "name": "Hurricane Grind",
+    "category": "street",
+    "history": "The back truck grinds backside while the nose pivots around and the front truck swings out to the backside. A classic grind combination.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "how to hurricane grind skateboard tutorial"
+  },
+  {
+    "name": "Frontside Hurricane",
+    "category": "street",
+    "history": "A hurricane grind entered from the frontside. Less common than the backside version and requires different approach mechanics.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "frontside hurricane grind skateboard tutorial"
+  },
+  {
+    "name": "Pivot Fakie",
+    "category": "street",
+    "history": "The tail stalls on an obstacle and the board pivots 180 degrees to exit fakie. A foundational trick in both street and transition skating.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "how to pivot fakie skateboard tutorial"
+  },
+  {
+    "name": "Nosepick",
+    "category": "street",
+    "history": "The nose of the board locks on the corner of an obstacle while the back end is lifted. A stylish stall trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "nosepick skateboard trick tutorial"
+  },
+  {
+    "name": "Tailpick",
+    "category": "street",
+    "history": "The tail picks on the corner of an obstacle while the nose is elevated. The counterpart to the nosepick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "tailpick skateboard trick tutorial"
+  },
+  {
+    "name": "Switch Boardslide",
+    "category": "street",
+    "history": "A boardslide performed in switch stance. The approach and body mechanics are reversed compared to the regular boardslide.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "switch boardslide skateboard tutorial"
+  },
+  {
+    "name": "Switch Noseslide",
+    "category": "street",
+    "history": "A noseslide in switch stance. A highly coveted tech slide trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "switch noseslide skateboard tutorial"
+  },
+  {
+    "name": "Switch Tailslide",
+    "category": "street",
+    "history": "A tailslide performed in switch stance. Considered one of the harder switch slide tricks.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "switch tailslide skateboard tutorial"
+  },
+  {
+    "name": "Nollie Noseslide",
+    "category": "street",
+    "history": "A noseslide entered from nollie stance. The nose is popped while approaching the obstacle.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "nollie noseslide skateboard tutorial"
+  },
+  {
+    "name": "Nollie Tailslide",
+    "category": "street",
+    "history": "A tailslide entered from nollie stance. The nollie pop launches the skater into the slide position.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "nollie tailslide skateboard tutorial"
+  },
+  {
+    "name": "Halfcab Noseslide",
+    "category": "street",
+    "history": "A half-cab (fakie backside 180) into a noseslide. A creative combination merging the spin entry with the technical slide.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "halfcab noseslide skateboard tutorial"
+  },
+  {
+    "name": "Halfcab Boardslide",
+    "category": "street",
+    "history": "A half-cab entry into a boardslide. The 180-degree spin sets up the perpendicular slide position.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "halfcab boardslide skateboard tutorial"
+  },
+  {
+    "name": "Kickflip Lipslide",
+    "category": "street",
+    "history": "A kickflip over the rail into a lipslide position. Requires the board to flip and then land across the obstacle.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "kickflip lipslide skateboard tutorial"
+  },
+  {
+    "name": "Heelflip Lipslide",
+    "category": "street",
+    "history": "A heelflip into a lipslide. The heel flick must be timed perfectly to set up the slide position.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "heelflip lipslide skateboard"
+  },
+  {
+    "name": "Nollie Boardslide",
+    "category": "street",
+    "history": "A boardslide entered from nollie stance. The nose is popped to launch into the perpendicular slide.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "nollie boardslide skateboard tutorial"
+  },
+  {
+    "name": "Fakie Boardslide",
+    "category": "street",
+    "history": "A boardslide entered while rolling fakie. The reverse approach creates unique spatial challenges.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "fakie boardslide skateboard tutorial"
+  },
+  {
+    "name": "360 Nosegrind",
+    "category": "street",
+    "history": "A 360 rotation into a nosegrind. Either the body or board completes a full spin before locking into the grind.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "360 nosegrind skateboard tutorial"
+  },
+  {
+    "name": "360 Flip Nosegrind",
+    "category": "street",
+    "history": "A 360 flip (tre flip) into a nosegrind. One of the most technical ledge tricks combining the iconic flip with a precise grind entry.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "360 flip nosegrind skateboard"
+  },
+  {
+    "name": "Tre Flip Crooked Grind",
+    "category": "street",
+    "history": "A 360 flip into a crooked grind. An extremely technical trick combining two very demanding tricks.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "tre flip crooked grind skateboard"
+  },
+  {
+    "name": "Wallie",
+    "category": "street",
+    "history": "The skater rides at a wall, presses their front truck or nose against it, and uses the wall to pop off and continue skating. An old-school-influenced trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "how to wallie skateboard tutorial"
+  },
+  {
+    "name": "Wallie Nosegrind",
+    "category": "street",
+    "history": "A wallie combined with a nosegrind off a wall or curb. A creative street trick seen in creative skating lines.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "wallie nosegrind skateboard tutorial"
+  },
+  {
+    "name": "Manny Pad 50-50",
+    "category": "street",
+    "history": "A 50-50 grind on a manual pad, an obstacle specifically designed for manuals and grinds at low height. A staple of skatepark and street plaza skating.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "50-50 grind manual pad skateboard"
+  },
+  {
+    "name": "Waxed Curb Slide",
+    "category": "street",
+    "history": "Any slide trick performed on a waxed concrete curb. Curb skating was foundational to street skating culture in the 1980s and 1990s.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "curb slide skateboard tricks tutorial"
+  },
+  {
+    "name": "Kinked Rail Boardslide",
+    "category": "rails",
+    "history": "A boardslide on a rail with one or more kinks (changes in angle). The skater must adjust position mid-slide to follow the kink.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "kinked rail boardslide skateboard"
+  },
+  {
+    "name": "Handrail Nosegrind",
+    "category": "rails",
+    "history": "A nosegrind on a handrail, typically on stairs. A highly technical and dangerous trick requiring precise lock-in.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "handrail nosegrind skateboard"
+  },
+  {
+    "name": "Handrail 50-50",
+    "category": "rails",
+    "history": "A 50-50 grind on a stair handrail. One of the classic rail tricks in street skating since the late 1980s.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "handrail 50-50 grind skateboard"
+  },
+  {
+    "name": "Pole Jam",
+    "category": "street",
+    "history": "The skater rides up a pole or post at an angle to pop off it. A creative street trick used in lines with urban architecture.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "pole jam skateboard trick tutorial"
+  },
+  {
+    "name": "Bench Noseslide",
+    "category": "street",
+    "history": "A noseslide on a park bench or similar ledge. Benches are classic street skating obstacles since the 1980s.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "bench noseslide skateboard tutorial"
+  }
+]
