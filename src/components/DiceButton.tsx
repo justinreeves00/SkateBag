@@ -163,7 +163,7 @@ export function DiceButton({ tricks }: DiceButtonProps) {
                   }`}
                 >
                   <span className={`text-[10px] font-bold uppercase tracking-widest ${settings.excludeLanded ? "text-white/60" : "text-slate-600"}`}>Filter</span>
-                  <span className={`text-sm font-bold ${settings.excludeLanded ? "text-white" : ""}`}>Exclude Mastered</span>
+                  <span className={`text-sm font-bold ${settings.excludeLanded ? "text-white" : ""}`}>Exclude Landed</span>
                 </button>
                 <button
                   onClick={() => setSettings((s) => ({ ...s, excludeLocked: !s.excludeLocked }))}
