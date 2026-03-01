@@ -4,13 +4,13 @@ import type { TrickCategory } from "@/lib/types";
 
 const CATEGORIES: { value: TrickCategory | "all"; label: string }[] = [
   { value: "all", label: "All" },
-  { value: "flatground", label: "Flat" },
+  { value: "flatground", label: "Flatground" },
   { value: "street", label: "Street" },
   { value: "ledge/rail", label: "Ledge/Rail" },
-  { value: "transition", label: "Trans" },
+  { value: "transition", label: "Transition" },
   { value: "gaps", label: "Gaps" },
-  { value: "freestyle", label: "Free" },
-  { value: "downhill", label: "Hill" },
+  { value: "freestyle", label: "Freestyle" },
+  { value: "downhill", label: "Downhill" },
 ];
 
 interface CategoryFilterProps {
