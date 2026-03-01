@@ -1,0 +1,410 @@
+[
+  {
+    "name": "Bert Slide (Pool)",
+    "category": "bowl",
+    "history": "A deep hand-drag carving slide in a bowl or pool, originating from Larry Bertlemann's surfing influence. One of the earliest identifiable named tricks in skateboarding.",
+    "inventor": "Larry Bertlemann",
+    "year": 1975,
+    "youtube_query": "bert slide pool bowl skateboard carving"
+  },
+  {
+    "name": "Early Grab",
+    "category": "vert",
+    "history": "Grabbing the board immediately at the beginning of the launch before reaching the peak of the air. A stylistic technique seen in old-school vert skating.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "early grab vert skateboard trick"
+  },
+  {
+    "name": "Judo Air",
+    "category": "vert",
+    "history": "The front foot kicks out forward while grabbing the board heel-side with the back hand. Resembles a judo kick. A classic vert trick from the 1980s.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "judo air skateboard vert trick tutorial"
+  },
+  {
+    "name": "Iguana Air",
+    "category": "vert",
+    "history": "A trick in which the back hand grabs the board while the legs are splayed out to the sides. The wide-legged position resembles an iguana. An old-school vert grab.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "iguana air skateboard vert trick"
+  },
+  {
+    "name": "Roast Beef",
+    "category": "vert",
+    "history": "The back hand grabs the heel edge of the board between the legs. A grab similar to the melon but with different arm positioning.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "roast beef grab skateboard trick"
+  },
+  {
+    "name": "Cannonball Grab",
+    "category": "vert",
+    "history": "Both knees are pulled up and both hands grab the board while in the air. Mimics a pool-diving cannonball position.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "cannonball grab skateboard vert trick"
+  },
+  {
+    "name": "Tincan",
+    "category": "vert",
+    "history": "Both hands grab the board near the rails while the legs are extended straight. A stylized variation of a double-grab.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "tincan grab skateboard vert trick"
+  },
+  {
+    "name": "Spaghetti Legs",
+    "category": "vert",
+    "history": "A loose, wobbly leg extension during a grab, where the legs are left dangling. More of a style variation than a specific trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "spaghetti legs skateboard vert trick"
+  },
+  {
+    "name": "Kickflip to Tail Stall",
+    "category": "vert",
+    "history": "A kickflip that lands in a tailstall on the ramp coping. Combines the flat-ground kickflip with a vert lip trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "kickflip tail stall vert skateboard tutorial"
+  },
+  {
+    "name": "Heelflip to Rock n Roll",
+    "category": "vert",
+    "history": "A heelflip on the ramp that lands in a rock-and-roll position on the coping. Mixes street-style flip tricks with vert lip tricks.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "heelflip rock and roll vert skateboard"
+  },
+  {
+    "name": "5-0 to Kickflip Out (Vert)",
+    "category": "vert",
+    "history": "A 5-0 grind on the vert coping that exits with a kickflip. A modern tech vert trick blending grinding and flip tricks.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "5-0 kickflip out vert ramp skateboard"
+  },
+  {
+    "name": "Channel Gap",
+    "category": "gaps",
+    "history": "An ollie or trick over a gap between two ramps or sections of a skatepark. The channel gap format is a classic skatepark design and trick challenge.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "channel gap skateboard trick tutorial"
+  },
+  {
+    "name": "Step-Up",
+    "category": "gaps",
+    "history": "Jumping up from a lower level to a higher one using an ollie. The step-up is the reverse challenge of a step-down or stair set.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "ollie step up skateboard trick tutorial"
+  },
+  {
+    "name": "Step-Down",
+    "category": "gaps",
+    "history": "Rolling or jumping from a higher surface to a lower one. Step-downs allow for speed and larger tricks due to the extra airtime.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "step down gap skateboard trick"
+  },
+  {
+    "name": "Beni Grind",
+    "category": "vert",
+    "history": "A 5-0 grind variation on vert where the board is tilted at an extreme angle. Named for a specific style developed in bowl and vert skating.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "beni grind vert skateboard bowl trick"
+  },
+  {
+    "name": "Three Sixty Spin",
+    "category": "vert",
+    "history": "A full 360-degree body spin in the air on a vert ramp, without the board flipping. A crowd-pleasing spin trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "360 spin vert skateboard trick tutorial"
+  },
+  {
+    "name": "Bean Plant",
+    "category": "vert",
+    "history": "The front foot is placed on the coping while the back foot is still on the board. An old-school plant trick from vert skating.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "bean plant skateboard vert trick tutorial"
+  },
+  {
+    "name": "Airborne 360 Grab",
+    "category": "vert",
+    "history": "A 360-degree spin combined with a grab while fully airborne on a vert ramp. A combination of rotation and style.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "360 grab vert skateboard trick tutorial"
+  },
+  {
+    "name": "Handstand Fingerflip",
+    "category": "freestyle",
+    "history": "A handstand on the board from which the board is then finger-flipped. An extremely advanced freestyle combination of gymnastics and board tricks.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "handstand fingerflip skateboard freestyle"
+  },
+  {
+    "name": "Nollie Flip to Nosegrind",
+    "category": "street",
+    "history": "A nollie kickflip that lands in a nosegrind. A creative and technical combination of a flip entry with the nose lock.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "nollie flip nosegrind skateboard trick"
+  },
+  {
+    "name": "Switch Heelflip Noseslide",
+    "category": "street",
+    "history": "A switch heelflip into a noseslide. Combining the difficulty of switch and heelflip with the precision of the noseslide.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "switch heelflip noseslide skateboard"
+  },
+  {
+    "name": "Switch Kickflip Noseslide",
+    "category": "street",
+    "history": "A switch kickflip into a noseslide. A very advanced tech street trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "switch kickflip noseslide skateboard"
+  },
+  {
+    "name": "Tré Flip to Tailslide",
+    "category": "street",
+    "history": "A 360 flip (tre flip) into a tailslide. One of the most demanding ledge trick combinations.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "tre flip tailslide skateboard trick"
+  },
+  {
+    "name": "Inward Heel Noseslide",
+    "category": "street",
+    "history": "An inward heelflip into a noseslide. Among the rarest and most technical flip-to-slide combinations.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "inward heel noseslide skateboard trick"
+  },
+  {
+    "name": "Bigspin to Boardslide",
+    "category": "street",
+    "history": "A bigspin (360 body + 360 board) into a boardslide. The full combination spin landing into a perpendicular slide.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "bigspin boardslide skateboard trick tutorial"
+  },
+  {
+    "name": "Underflip",
+    "category": "freestyle",
+    "history": "The board is flipped from underneath using the toes or sole of the foot. Related to the hospital flip but initiated from below the board.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "underflip skateboard trick tutorial"
+  },
+  {
+    "name": "Footwork Combo",
+    "category": "freestyle",
+    "history": "A rapid series of footwork maneuvers on the board without an ollie, often performed to music. A hallmark of competitive freestyle skateboarding.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "footwork combo skateboard freestyle trick"
+  },
+  {
+    "name": "Pogo Hop",
+    "category": "freestyle",
+    "history": "Multiple consecutive pogo (tail bounce) hops. A show-stopping freestyle sequence performed on the tail of the board.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "pogo hop skateboard freestyle sequence"
+  },
+  {
+    "name": "Fakie Blunt to Forward",
+    "category": "vert",
+    "history": "A fakie blunt stall on coping that exits rolling forward (not fakie). Requires the skater to pivot through the stall.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "fakie blunt to forward skateboard ramp"
+  },
+  {
+    "name": "Switch Rock to Fakie",
+    "category": "vert",
+    "history": "A rock to fakie performed in switch stance. The body mechanics are reversed while the front truck still needs to rock on the coping.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "switch rock to fakie skateboard ramp tutorial"
+  },
+  {
+    "name": "Nollie Rock to Fakie",
+    "category": "vert",
+    "history": "A rock to fakie from nollie stance. The nose pops to initiate the rock before pulling back to fakie.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "nollie rock to fakie skateboard ramp"
+  },
+  {
+    "name": "Kickflip Disaster",
+    "category": "vert",
+    "history": "A kickflip combined with a disaster (180 rotation to land centered on coping). The board flips as it rotates onto the coping.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "kickflip disaster skateboard ramp tutorial"
+  },
+  {
+    "name": "Heelflip Disaster",
+    "category": "vert",
+    "history": "A heelflip combined with a disaster on a ramp. An advanced ramp trick combining flip and coping technique.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "heelflip disaster skateboard ramp trick"
+  },
+  {
+    "name": "Revert",
+    "category": "flatground",
+    "history": "A 180-degree pivot performed while rolling, without leaving the ground. Used to change direction after tricks or as part of a combo.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "revert skateboard trick tutorial"
+  },
+  {
+    "name": "Kickflip Revert",
+    "category": "flatground",
+    "history": "A kickflip followed immediately by a 180-degree revert to land fakie. Combines the flip trick with the revert in one smooth motion.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "kickflip revert skateboard tutorial"
+  },
+  {
+    "name": "Heelflip Revert",
+    "category": "flatground",
+    "history": "A heelflip followed by a revert to land fakie. A smooth transition from a flip trick into a fakie stance.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "heelflip revert skateboard tutorial"
+  },
+  {
+    "name": "180 Nosegrind Revert",
+    "category": "street",
+    "history": "A nosegrind entered with a 180 that exits with a revert to regular. Combining the spin entry and revert exit creates a full circular flow.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "180 nosegrind revert skateboard trick"
+  },
+  {
+    "name": "Tailslide Revert",
+    "category": "street",
+    "history": "A tailslide that exits with a 180-degree revert. Changing from the slide's direction into a backward exit.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "tailslide revert skateboard tutorial"
+  },
+  {
+    "name": "Boardslide Revert",
+    "category": "street",
+    "history": "A boardslide that exits with a revert to fakie. A stylish way to exit a boardslide by spinning the body.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "boardslide revert skateboard tutorial"
+  },
+  {
+    "name": "Shoveit Revert",
+    "category": "flatground",
+    "history": "A pop shove-it followed by a revert. The board rotates backside 180 and then the body rotates to land fakie.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "shove it revert skateboard tutorial"
+  },
+  {
+    "name": "Varial Flip Revert",
+    "category": "flatground",
+    "history": "A varial kickflip followed by a revert to land fakie. Combines the shove-it kickflip with a landing pivot.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "varial flip revert skateboard tutorial"
+  },
+  {
+    "name": "Fake Heel",
+    "category": "flatground",
+    "history": "A fakie heelflip exiting to fakie (no rotation). One of the standard fakie flip tricks in modern skating.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "fakie heelflip skateboard tutorial"
+  },
+  {
+    "name": "Nollie Flip Nosegrind",
+    "category": "street",
+    "history": "A nollie kickflip into a nosegrind. A creative ledge combination using the nollie flip's momentum to lock into the grind.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "nollie flip nosegrind skateboard trick"
+  },
+  {
+    "name": "Kinked Nosegrind",
+    "category": "rails",
+    "history": "A nosegrind on a kinked (angled) rail. The change in angle during the grind requires body adjustment and is a benchmark street trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "kinked rail nosegrind skateboard trick"
+  },
+  {
+    "name": "Backside Kickflip Nosegrind",
+    "category": "street",
+    "history": "A backside 180 kickflip into a nosegrind. The spin sets up the grind approach from a creative direction.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "backside kickflip nosegrind skateboard"
+  },
+  {
+    "name": "Switch Smith to Fakie",
+    "category": "street",
+    "history": "A switch Smith grind that exits rolling fakie. Exits the grind by allowing the board to roll backward.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "switch smith to fakie skateboard trick"
+  },
+  {
+    "name": "Nose Grab (Flatground)",
+    "category": "flatground",
+    "history": "Grabbing the nose of the board while performing an ollie or other aerial trick. Shows height and control.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "nose grab ollie flatground skateboard tutorial"
+  },
+  {
+    "name": "Tail Grab (Flatground)",
+    "category": "flatground",
+    "history": "Grabbing the tail of the board during a flatground ollie. A classic style trick on flat or down gaps.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "tail grab ollie flatground skateboard tutorial"
+  },
+  {
+    "name": "Indy Grab (Flatground)",
+    "category": "flatground",
+    "history": "An indy grab performed on a flatground ollie. Used to show style and control in the air.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "indy grab flatground ollie skateboard tutorial"
+  },
+  {
+    "name": "Melon Grab (Flatground)",
+    "category": "flatground",
+    "history": "A melon grab performed during a flatground ollie. A clean grab demonstrating height and technique.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "melon grab flatground ollie skateboard tutorial"
+  },
+  {
+    "name": "Mute Grab (Flatground)",
+    "category": "flatground",
+    "history": "A mute grab on a flatground ollie. One of the most common grab variations used to add style to basic ollies.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "mute grab flatground ollie skateboard tutorial"
+  }
+]

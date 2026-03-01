@@ -1,0 +1,498 @@
+[
+  {
+    "name": "McTwist",
+    "category": "vert",
+    "history": "A 540-degree frontside inverted aerial (backside 540 with a backflip element) invented by Mike McGill in 1984 at a Swedish skate camp. One of the most celebrated tricks in vert history.",
+    "inventor": "Mike McGill",
+    "year": 1984,
+    "youtube_query": "McTwist skateboard vert trick Mike McGill"
+  },
+  {
+    "name": "900",
+    "category": "vert",
+    "history": "Two and a half aerial rotations (900 degrees). Tony Hawk became the first to land it in competition at the X Games in 1999 after years of attempts.",
+    "inventor": "Tony Hawk",
+    "year": 1999,
+    "youtube_query": "Tony Hawk 900 first ever X Games 1999"
+  },
+  {
+    "name": "720",
+    "category": "vert",
+    "history": "Two full aerial rotations (720 degrees). First landed by Tony Hawk in the early 1980s and later refined by many vert skaters.",
+    "inventor": "Tony Hawk",
+    "year": 1985,
+    "youtube_query": "720 skateboard vert trick tutorial"
+  },
+  {
+    "name": "540",
+    "category": "vert",
+    "history": "One and a half aerial rotations. A foundational spin trick on vert that bridged the gap between 360s and 720s.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "540 skateboard vert trick tutorial"
+  },
+  {
+    "name": "360 Aerial",
+    "category": "vert",
+    "history": "A full 360-degree spin done in the air above the coping on a vert ramp. A foundational vert trick from the early 1980s.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "360 aerial vert skateboard trick"
+  },
+  {
+    "name": "Indy Backside Air",
+    "category": "vert",
+    "history": "A backside air with an Indy grab (back hand grabs between the feet on the toe edge). The Indy grab was named after Independent Trucks, the sponsor of its inventor.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "indy grab backside air vert skateboard"
+  },
+  {
+    "name": "Frontside Air",
+    "category": "vert",
+    "history": "A basic vert trick where the skater launches frontside off the lip of the ramp and grabs the board while rotating 180 degrees frontside. A classic since the 1970s.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "frontside air vert skateboard tutorial"
+  },
+  {
+    "name": "Backside Air",
+    "category": "vert",
+    "history": "The skater launches backside off the coping, grabs the board, and re-enters going the same direction. A foundational vert trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "backside air vert skateboard tutorial"
+  },
+  {
+    "name": "Eggplant",
+    "category": "vert",
+    "history": "An inverted frontside aerial where the skater grabs the board and plants their hand on the coping. Invented by Steve Caballero, the name references its unusual shape.",
+    "inventor": "Steve Caballero",
+    "year": 1981,
+    "youtube_query": "eggplant trick vert skateboard"
+  },
+  {
+    "name": "Andrecht Invert",
+    "category": "vert",
+    "history": "A frontside invert where the back hand grabs the heel edge and the other hand is planted on the coping. Named after Dave Andrecht.",
+    "inventor": "Dave Andrecht",
+    "year": 1978,
+    "youtube_query": "andrecht invert skateboard vert trick"
+  },
+  {
+    "name": "Elguerial",
+    "category": "vert",
+    "history": "A frontside invert 540 combined into a single motion. Invented by Eddie Elguera in 1981 and considered a landmark trick in vert history.",
+    "inventor": "Eddie Elguera",
+    "year": 1981,
+    "youtube_query": "elguerial skateboard vert trick"
+  },
+  {
+    "name": "Miller Flip",
+    "category": "vert",
+    "history": "A frontside invert where the skater rotates the board 360 degrees while inverted. Invented by Darrell Miller.",
+    "inventor": "Darrell Miller",
+    "year": 1981,
+    "youtube_query": "miller flip vert skateboard invert"
+  },
+  {
+    "name": "Layback Air",
+    "category": "vert",
+    "history": "The skater leans back dramatically and slides their hand along the coping while keeping speed. An old school vert and pool trick from the 1970s.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "layback air vert skateboard trick"
+  },
+  {
+    "name": "Layback Grind",
+    "category": "vert",
+    "history": "A backside grind where the skater is laid back with their hand on the coping. A stylish old school trick from pool skating.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "layback grind skateboard pool trick"
+  },
+  {
+    "name": "Handplant",
+    "category": "vert",
+    "history": "A general term for tricks where the skater balances on their hand on the coping of a ramp or pool. A foundational family of vert tricks.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "handplant skateboard vert tutorial"
+  },
+  {
+    "name": "One-Handed Handplant",
+    "category": "vert",
+    "history": "A handplant performed on only one hand, requiring exceptional balance and upper body strength. An advanced variation of the standard handplant.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "one-handed handplant skateboard vert"
+  },
+  {
+    "name": "Gymnast Plant",
+    "category": "vert",
+    "history": "A handplant where both hands are placed on the coping and the skater balances in a gymnastics-style handstand position briefly.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "gymnast plant skateboard vert trick"
+  },
+  {
+    "name": "Ho Ho Plant",
+    "category": "vert",
+    "history": "Both hands are planted on the coping while the board is pushed up in the air. An extremely rare and comedic-looking vert trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "ho ho plant skateboard vert trick"
+  },
+  {
+    "name": "Christ Air",
+    "category": "vert",
+    "history": "Invented by Christian Hosoi, the skater extends both arms out to the side while holding the board with both hands under each arm, resembling a crucifixion pose.",
+    "inventor": "Christian Hosoi",
+    "year": 1984,
+    "youtube_query": "christ air skateboard trick Christian Hosoi"
+  },
+  {
+    "name": "Rocket Air",
+    "category": "vert",
+    "history": "Both feet are placed on the nose of the board while airborne, pointing the tail of the board straight down like a rocket. A showstopping vert trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "rocket air vert skateboard trick"
+  },
+  {
+    "name": "Madonna",
+    "category": "vert",
+    "history": "Invented by Tony Hawk, the front foot is kicked off the nose while the back foot remains on the tail. Named by Stacy Peralta after the pop star.",
+    "inventor": "Tony Hawk",
+    "year": 1984,
+    "youtube_query": "madonna skateboard trick vert Tony Hawk"
+  },
+  {
+    "name": "Seatbelt Grab",
+    "category": "vert",
+    "history": "The back hand reaches across to grab the toe edge of the board near the front. The crossing motion resembles fastening a seatbelt.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "seatbelt grab skateboard vert trick"
+  },
+  {
+    "name": "Japan Air",
+    "category": "vert",
+    "history": "The front hand grabs the heel edge of the board between the feet while both knees are bent up, creating a compact pose inspired by Japanese art.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "japan air skateboard grab vert trick"
+  },
+  {
+    "name": "Stalefish",
+    "category": "vert",
+    "history": "The back hand grabs the heel edge of the board between the feet. Invented by Tony Hawk and named after a stale Swedish fish pastry.",
+    "inventor": "Tony Hawk",
+    "year": 1984,
+    "youtube_query": "stalefish grab skateboard vert trick"
+  },
+  {
+    "name": "Mute Grab",
+    "category": "vert",
+    "history": "The front hand grabs the toe edge of the board between the feet. Named because the trick's inventor felt it was so obvious it was 'mute' or silent in innovation.",
+    "inventor": "Chris Weddle",
+    "year": 1983,
+    "youtube_query": "mute grab skateboard trick tutorial"
+  },
+  {
+    "name": "Indy Grab",
+    "category": "vert",
+    "history": "The back hand grabs the toe edge of the board between the feet. Named after Independent Trucks by Duane Peters, one of the most widely used grabs in skateboarding.",
+    "inventor": "Ted Nugent (attributed to team)",
+    "year": 1977,
+    "youtube_query": "indy grab skateboard tutorial"
+  },
+  {
+    "name": "Melon Grab",
+    "category": "vert",
+    "history": "The front hand grabs the heel edge between the feet. Named by Neil Blender after a melon shape the body forms. A classic vert grab.",
+    "inventor": "Neil Blender",
+    "year": 1983,
+    "youtube_query": "melon grab skateboard trick tutorial"
+  },
+  {
+    "name": "Tail Grab",
+    "category": "vert",
+    "history": "The back hand reaches back and grabs the tail of the board. A simple and clean grab popular in both vert and park skating.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "tail grab skateboard trick tutorial"
+  },
+  {
+    "name": "Nose Grab",
+    "category": "vert",
+    "history": "The front hand reaches forward and grabs the nose of the board. A clean and stylish grab often combined with extension tricks.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "nose grab skateboard trick tutorial"
+  },
+  {
+    "name": "Lien Air",
+    "category": "vert",
+    "history": "The front hand grabs the heel edge while leaning into the backside of the ramp. 'Lien' is 'Neil' spelled backward, attributed to Neil Blender.",
+    "inventor": "Neil Blender",
+    "year": 1983,
+    "youtube_query": "lien air skateboard vert grab trick"
+  },
+  {
+    "name": "Benihana",
+    "category": "vert",
+    "history": "Invented by Lester Kasai, the back foot is removed from the board and held while the hand grabs the board. Named after the Japanese restaurant chain.",
+    "inventor": "Lester Kasai",
+    "year": 1986,
+    "youtube_query": "benihana skateboard trick vert"
+  },
+  {
+    "name": "Stiffy",
+    "category": "vert",
+    "history": "The legs are straightened out completely during a grab. Any grab can become a stiffy by fully extending the legs, creating a rigid, dramatic silhouette.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "stiffy grab skateboard vert trick"
+  },
+  {
+    "name": "Slob Air",
+    "category": "vert",
+    "history": "A mute grab with the board twisted frontside. The term 'slob' comes from the laid-back posture the grab creates.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "slob air skateboard grab trick"
+  },
+  {
+    "name": "Crail Grab",
+    "category": "vert",
+    "history": "The back hand grabs the nose of the board while the legs are extended. A cross-body grab requiring flexibility and control.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "crail grab skateboard trick"
+  },
+  {
+    "name": "Crossbone",
+    "category": "vert",
+    "history": "A mute or indy grab where the grabbing arm is extended and crossed over the front of the body. Creates a dramatic crossed-arm visual.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "crossbone grab skateboard trick"
+  },
+  {
+    "name": "Gorilla Grip",
+    "category": "vert",
+    "history": "Both hands are used to grab the board with an overhand grip on the rails. An unusual and dramatic grab style.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "gorilla grip grab skateboard trick"
+  },
+  {
+    "name": "Kickflip McTwist",
+    "category": "vert",
+    "history": "A McTwist (540 inverted aerial) combined with a kickflip. An extremely rare and advanced vert trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "kickflip mctwist vert skateboard"
+  },
+  {
+    "name": "Varial McTwist",
+    "category": "vert",
+    "history": "A McTwist with a varial flip added. One of the rarest vert trick combinations.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "varial mctwist vert skateboard"
+  },
+  {
+    "name": "Heelflip Varial Lien",
+    "category": "vert",
+    "history": "A heelflip varial combined with a lien grab. A technical combination trick mixing flip tricks with vert grab mechanics.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "heelflip varial lien skateboard vert"
+  },
+  {
+    "name": "Kickflip to Fakie",
+    "category": "vert",
+    "history": "A kickflip performed on the vert ramp that lands fakie (rolling backward). Adapts street flat-ground tricks to vert transition.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "kickflip to fakie vert skateboard tutorial"
+  },
+  {
+    "name": "Ollie to Fakie",
+    "category": "vert",
+    "history": "An ollie on the vert ramp that lands fakie. One of the foundational transition tricks for learning to ride fakie on vert.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "ollie to fakie vert skateboard tutorial"
+  },
+  {
+    "name": "Rock to Fakie",
+    "category": "vert",
+    "history": "The front truck rocks on the coping briefly and then comes back down fakie. One of the first tricks beginner vert skaters learn.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "how to rock to fakie skateboard tutorial"
+  },
+  {
+    "name": "Rock and Roll",
+    "category": "vert",
+    "history": "The front truck rocks on the coping and then the skater rotates frontside to come back in. A classic vert and mini-ramp trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "how to rock and roll skateboard ramp tutorial"
+  },
+  {
+    "name": "Disaster",
+    "category": "vert",
+    "history": "The board is ollied to 180 degrees so that the center of the board lands on the coping, then the skater rolls back in. A quirky old-school ramp trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "how to disaster skateboard ramp tutorial"
+  },
+  {
+    "name": "Blunt to Fakie",
+    "category": "vert",
+    "history": "The tail is stalled on the coping while the nose is elevated, then the skater rolls back fakie. A classic ramp trick requiring commitment.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "how to blunt to fakie skateboard tutorial"
+  },
+  {
+    "name": "Kickturn",
+    "category": "vert",
+    "history": "The front trucks are lifted and the board pivots on the back trucks to change direction. The most basic vert/ramp maneuver and the foundation of all ramp skating.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "how to kickturn skateboard ramp tutorial"
+  },
+  {
+    "name": "Frontside Rock and Roll",
+    "category": "vert",
+    "history": "A rock and roll done frontside. The skater must lean into the frontside rotation to re-enter the ramp.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "frontside rock and roll skateboard tutorial"
+  },
+  {
+    "name": "Backside Disaster",
+    "category": "vert",
+    "history": "A disaster approached from the backside. The 180-degree rotation goes backside before the board balances on the coping.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "backside disaster skateboard ramp tutorial"
+  },
+  {
+    "name": "Inverted Aerial",
+    "category": "vert",
+    "history": "Any trick where the skater goes upside-down above the coping while performing a grab. A whole family of classic vert tricks from the 1970s-80s.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "inverted aerial skateboard vert trick"
+  },
+  {
+    "name": "Invert",
+    "category": "vert",
+    "history": "A one-handed handplant where the back hand grabs the heel edge while the other hand is planted on the coping. A foundational vert invert trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "how to invert skateboard vert tutorial"
+  },
+  {
+    "name": "Sad Plant",
+    "category": "vert",
+    "history": "A handplant where the front foot is removed from the board and placed on the coping while the skater is inverted. A creative variation on standard handplants.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "sad plant skateboard vert trick"
+  },
+  {
+    "name": "Nosebonk",
+    "category": "vert",
+    "history": "The nose of the board taps or bonks off an obstacle, wall, or the coping while airborne. A playful and creative trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "nosebonk skateboard trick"
+  },
+  {
+    "name": "Tailbonk",
+    "category": "vert",
+    "history": "The tail taps off an obstacle while airborne. The counterpart to the nosebonk.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "tailbonk skateboard trick"
+  },
+  {
+    "name": "Frontside Blunt",
+    "category": "vert",
+    "history": "A blunt stall approached frontside on a vert ramp or mini ramp. The tail locks on the coping with the body facing out.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "frontside blunt skateboard ramp tutorial"
+  },
+  {
+    "name": "Backside Blunt",
+    "category": "vert",
+    "history": "A blunt stall approached backside. Requires the back to face the coping during the stall.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "backside blunt skateboard ramp tutorial"
+  },
+  {
+    "name": "Alley-oop",
+    "category": "vert",
+    "history": "Any trick where the spin direction is opposite to the direction of travel. Used to add style and difficulty to standard spins on vert.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "alley oop skateboard vert trick"
+  },
+  {
+    "name": "Cess Slide",
+    "category": "vert",
+    "history": "A slide performed on the face of the ramp below the coping, rather than on the coping itself. An old school pool and vert trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "cess slide skateboard pool trick"
+  },
+  {
+    "name": "K-Grind",
+    "category": "street",
+    "history": "An alternative name for the crooked grind, named because the grind position resembles the letter K. Very common in tech street skating.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "k grind crooked grind skateboard tutorial"
+  },
+  {
+    "name": "Lipslide Shove-it Out",
+    "category": "street",
+    "history": "A lipslide where the exit is a pop shove-it, rotating the board 180 degrees to exit. A stylish way to end a lipslide.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "lipslide shove it out skateboard"
+  },
+  {
+    "name": "Noseslide Shove-it Out",
+    "category": "street",
+    "history": "A noseslide that exits with a shove-it, adding a 180-degree board rotation to the dismount.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "noseslide shove it out skateboard"
+  },
+  {
+    "name": "Backside Noseblunt Slide",
+    "category": "street",
+    "history": "A noseblunt slide approached from the backside. A very technical and rarely attempted variation.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "backside noseblunt slide skateboard"
+  },
+  {
+    "name": "Switch Blunt Slide",
+    "category": "street",
+    "history": "A blunt slide performed in switch stance. Extremely technical and rare in street skating.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "switch blunt slide skateboard"
+  }
+]

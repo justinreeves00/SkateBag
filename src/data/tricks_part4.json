@@ -1,0 +1,394 @@
+[
+  {
+    "name": "Manual",
+    "category": "street",
+    "history": "Balancing on the back two wheels while rolling. The skateboarding version of a wheelie. A fundamental skill that underpins countless combo tricks.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "how to manual skateboard tutorial beginner"
+  },
+  {
+    "name": "Nose Manual",
+    "category": "street",
+    "history": "Balancing on the front two wheels while rolling. Also called a nose wheelie. More difficult to control than a regular manual due to the nose weight.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "how to nose manual skateboard tutorial"
+  },
+  {
+    "name": "One Wheel Manual",
+    "category": "street",
+    "history": "Balancing on only one wheel (back right or back left) while rolling. Requires extreme balance and is considered a freestyle feat.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "one wheel manual skateboard trick"
+  },
+  {
+    "name": "Nose Manual Kickflip Out",
+    "category": "street",
+    "history": "A nose manual that exits with a kickflip. A classic tech combo trick combining a sustained manual with a flip exit.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "nose manual kickflip out skateboard tutorial"
+  },
+  {
+    "name": "Manual Kickflip Out",
+    "category": "street",
+    "history": "A manual that ends with a kickflip. One of the most common manual combo tricks in street skating.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "manual kickflip out skateboard tutorial"
+  },
+  {
+    "name": "Manual Heelflip Out",
+    "category": "street",
+    "history": "A manual exited with a heelflip. Requires maintaining balance through the manual before executing the flip.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "manual heelflip out skateboard tutorial"
+  },
+  {
+    "name": "Nose Manual Heelflip Out",
+    "category": "street",
+    "history": "A nose manual that exits with a heelflip. A technical combo requiring balance and precise foot placement.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "nose manual heelflip out skateboard"
+  },
+  {
+    "name": "Manual 360 Flip Out",
+    "category": "street",
+    "history": "A manual with a 360 flip (tre flip) exit. An impressive and technical combo trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "manual 360 flip out skateboard tutorial"
+  },
+  {
+    "name": "Nose Manual to Manual",
+    "category": "street",
+    "history": "Transitioning from a nose manual to a regular manual within the same combo. Requires extremely precise weight shifting.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "nose manual to manual skateboard tutorial"
+  },
+  {
+    "name": "Kickflip Manual",
+    "category": "street",
+    "history": "A kickflip into a manual. The flip trick sets up the back-wheel balance position.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "kickflip manual skateboard tutorial"
+  },
+  {
+    "name": "Heelflip Manual",
+    "category": "street",
+    "history": "A heelflip into a manual. A classic tech street combo trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "heelflip manual skateboard tutorial"
+  },
+  {
+    "name": "360 Flip Manual",
+    "category": "street",
+    "history": "A 360 flip (tre flip) into a manual. One of the most technical manual entry tricks.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "360 flip manual skateboard tutorial"
+  },
+  {
+    "name": "Varial Kickflip Manual",
+    "category": "street",
+    "history": "A varial kickflip into a manual. An intermediate-level tech combo.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "varial kickflip manual skateboard tutorial"
+  },
+  {
+    "name": "Casper Stall",
+    "category": "freestyle",
+    "history": "The board is balanced on its nose (or tail) with the grip tape facing up while the skater's foot holds it in place. Named after Bobby 'Casper' Boyden.",
+    "inventor": "Bobby Boyden",
+    "year": 1975,
+    "youtube_query": "casper stall skateboard freestyle trick"
+  },
+  {
+    "name": "Rail Stand",
+    "category": "freestyle",
+    "history": "The board is balanced vertically on one of its rails (side edges) while the skater stands on it. A classic Rodney Mullen freestyle trick.",
+    "inventor": "Rodney Mullen",
+    "year": 1982,
+    "youtube_query": "rail stand skateboard freestyle trick Rodney Mullen"
+  },
+  {
+    "name": "Pogo",
+    "category": "freestyle",
+    "history": "The board is stood on its tail and the skater bounces on it like a pogo stick. A classic freestyle trick popularized in the early 1980s.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "pogo skateboard freestyle trick"
+  },
+  {
+    "name": "Primo",
+    "category": "freestyle",
+    "history": "The board is balanced on its side (one rail and one wheel) while the skater balances on it. Named after professional skater Primo Desiderio.",
+    "inventor": "Primo Desiderio",
+    "year": 1980,
+    "youtube_query": "primo balance skateboard freestyle trick"
+  },
+  {
+    "name": "Headstand",
+    "category": "freestyle",
+    "history": "The skater balances on their head on the board while rolling. An extremely rare and gymnastic trick from the early days of freestyle skating.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "headstand skateboard freestyle trick"
+  },
+  {
+    "name": "360 Shove-it Casper",
+    "category": "freestyle",
+    "history": "A 360 shove-it that lands in a Casper (upside-down board) position. Combines a spin trick with a balance trick in one fluid motion.",
+    "inventor": "Rodney Mullen",
+    "year": 1983,
+    "youtube_query": "360 shove it casper skateboard freestyle"
+  },
+  {
+    "name": "One-Foot Manual",
+    "category": "freestyle",
+    "history": "A manual performed with only one foot on the board. A freestyle trick requiring exceptional balance.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "one foot manual skateboard freestyle"
+  },
+  {
+    "name": "No-Handed 50-50",
+    "category": "freestyle",
+    "history": "Performing a 50-50 grind without using hands for balance or assistance. A refined version of the standard grind emphasizing pure skill.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "no-handed 50-50 skateboard freestyle"
+  },
+  {
+    "name": "Helipop",
+    "category": "freestyle",
+    "history": "A nollie 360 backside shove-it combined with a flip. A freestyle trick that Rodney Mullen brought into street skating.",
+    "inventor": "Rodney Mullen",
+    "year": 1984,
+    "youtube_query": "helipop skateboard freestyle trick"
+  },
+  {
+    "name": "Casper Slide",
+    "category": "freestyle",
+    "history": "Sliding on the grip tape with the board upside down (Casper position). An advanced freestyle sliding trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "casper slide skateboard freestyle trick"
+  },
+  {
+    "name": "Anti Casper",
+    "category": "freestyle",
+    "history": "A variation of the Casper where the board is flipped the other direction. An obscure freestyle trick rarely performed outside of dedicated freestyle competitions.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "anti casper skateboard freestyle trick"
+  },
+  {
+    "name": "Endover",
+    "category": "freestyle",
+    "history": "A continuous series of 180-degree pivots alternating between nose and tail, creating a walking motion. A fundamental freestyle move from the 1960s.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "endover skateboard freestyle trick tutorial"
+  },
+  {
+    "name": "Spinner",
+    "category": "freestyle",
+    "history": "A flatground 360-degree body spin performed without lifting the board off the ground. An early freestyle fundamental trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "spinner skateboard freestyle trick"
+  },
+  {
+    "name": "Coffin",
+    "category": "freestyle",
+    "history": "The skater lies flat on their back on the board while rolling. A classic old-school trick that requires balance and fearlessness.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "coffin skateboard trick tutorial"
+  },
+  {
+    "name": "Footplant",
+    "category": "freestyle",
+    "history": "The skater plants one or both feet on the ground temporarily while doing a trick. A broad family of tricks popularized in both freestyle and early street skating.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "footplant skateboard trick tutorial"
+  },
+  {
+    "name": "Darkslide Manual",
+    "category": "freestyle",
+    "history": "Balancing in a manual while the board is flipped upside down (grip tape down). An incredibly difficult trick blending Rodney Mullen's darkslide concept with manual balance.",
+    "inventor": "Rodney Mullen",
+    "year": 1996,
+    "youtube_query": "darkslide manual skateboard Rodney Mullen"
+  },
+  {
+    "name": "Switchfoot 360 Shove-it",
+    "category": "freestyle",
+    "history": "A 360 shove-it where the skater switches from regular to switch stance during the trick. A Rodney Mullen specialty combining footwork with board tricks.",
+    "inventor": "Rodney Mullen",
+    "year": 1985,
+    "youtube_query": "switchfoot 360 shove it skateboard Rodney Mullen"
+  },
+  {
+    "name": "360 Casper",
+    "category": "freestyle",
+    "history": "The board rotates 360 degrees while in Casper (upside-down) position. An advanced freestyle combination trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "360 casper skateboard freestyle"
+  },
+  {
+    "name": "G-Turn",
+    "category": "freestyle",
+    "history": "A frontside 360-degree turn performed by pumping the board with alternating weight shifts rather than an ollie. A flowing old-school freestyle maneuver.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "G-turn skateboard freestyle trick"
+  },
+  {
+    "name": "Ollie Impossible Shove-it",
+    "category": "freestyle",
+    "history": "An impossible combined with a shove-it. The board wraps around the foot and rotates simultaneously. An extremely obscure Rodney Mullen-style combination.",
+    "inventor": "Rodney Mullen",
+    "year": 1986,
+    "youtube_query": "impossible shove it skateboard freestyle"
+  },
+  {
+    "name": "Handstand",
+    "category": "freestyle",
+    "history": "The skater performs a handstand on the board while rolling. A gymnastic trick from the earliest days of freestyle skateboarding.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "handstand skateboard freestyle trick"
+  },
+  {
+    "name": "Sit Down",
+    "category": "freestyle",
+    "history": "The skater sits down on the board while rolling, then stands back up. A casual-looking trick requiring precise balance.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "sit down skateboard trick freestyle"
+  },
+  {
+    "name": "Gorilla Grip Walk",
+    "category": "freestyle",
+    "history": "The skater grabs the board with both hands overhand while rolling and walks alongside the board. An old school freestyle exhibition move.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "gorilla grip walk skateboard freestyle"
+  },
+  {
+    "name": "Spacewalk",
+    "category": "freestyle",
+    "history": "A continuous slalom-style weaving trick where the skater shifts weight side to side rhythmically. Associated with freestyle and longboard dancing.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "spacewalk skateboard freestyle longboard trick"
+  },
+  {
+    "name": "Tiger Claw",
+    "category": "freestyle",
+    "history": "The back foot kicks the tail of the board up, the front hand catches it mid-air, and then the board is placed back under the feet. A unique Rodney Mullen freestyle trick.",
+    "inventor": "Rodney Mullen",
+    "year": 1984,
+    "youtube_query": "tiger claw skateboard trick Rodney Mullen"
+  },
+  {
+    "name": "Kick Nose Manual",
+    "category": "freestyle",
+    "history": "The skater kicks the board forward into a nose manual position without an ollie entry. A flow-based freestyle manual technique.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "kick nose manual skateboard freestyle"
+  },
+  {
+    "name": "Foot Drag",
+    "category": "freestyle",
+    "history": "One foot drags on the ground to slow down or control direction while the other foot remains on the board. Used for speed control and style.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "foot drag skateboard freestyle"
+  },
+  {
+    "name": "Two-Foot Walk",
+    "category": "freestyle",
+    "history": "The skater alternates between placing each foot on the ground while the board rolls underneath. A walking illusion trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "two foot walk skateboard freestyle trick"
+  },
+  {
+    "name": "540 Shove-it",
+    "category": "freestyle",
+    "history": "The board rotates 540 degrees (one and a half rotations) while the skater ollies. A more extreme version of the 360 shove-it.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "540 shove it skateboard trick tutorial"
+  },
+  {
+    "name": "720 Shove-it",
+    "category": "freestyle",
+    "history": "The board rotates 720 degrees (two full rotations) from a shove-it motion. Extremely rare and requires significant height to complete.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "720 shove it skateboard trick"
+  },
+  {
+    "name": "Ollie One-Footer",
+    "category": "flatground",
+    "history": "After an ollie, one foot is kicked off the board while the other foot maintains contact. A stylish old-school extension trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "ollie one footer skateboard trick tutorial"
+  },
+  {
+    "name": "Ollie Impossible to Manual",
+    "category": "freestyle",
+    "history": "An impossible trick that lands in a manual. A Rodney Mullen-inspired combination of two of his signature tricks.",
+    "inventor": "Rodney Mullen",
+    "year": 1986,
+    "youtube_query": "impossible to manual skateboard combo"
+  },
+  {
+    "name": "Nose Manual 360 Flip Out",
+    "category": "street",
+    "history": "A nose manual that exits with a 360 flip. One of the most technically demanding manual combo tricks.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "nose manual 360 flip out skateboard"
+  },
+  {
+    "name": "Kickflip to Noseslide",
+    "category": "street",
+    "history": "A kickflip that lands in a noseslide position. Requires the board to flip and then the nose to lock onto the obstacle.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "kickflip noseslide skateboard tutorial"
+  },
+  {
+    "name": "Heelflip to Noseslide",
+    "category": "street",
+    "history": "A heelflip entry into a noseslide. The heel flick must be controlled enough to align the nose for the slide.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "heelflip noseslide skateboard tutorial"
+  },
+  {
+    "name": "360 Flip to Boardslide",
+    "category": "street",
+    "history": "A 360 flip that lands in a boardslide position. The combination of the spinning flip and the perpendicular landing makes this extremely difficult.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "360 flip boardslide skateboard"
+  }
+]

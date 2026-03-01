@@ -1,0 +1,394 @@
+[
+  {
+    "name": "Daydream",
+    "category": "flatground",
+    "history": "A flatground trick where the board does a half-flip to the heel side and is then kicked back to normal. An obscure Rodney Mullen-influenced trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "daydream skateboard trick tutorial"
+  },
+  {
+    "name": "Switch Bigspin",
+    "category": "flatground",
+    "history": "A bigspin performed in switch stance. The full 360 body rotation combined with the board rotation from the non-dominant stance makes this very technical.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "switch bigspin skateboard tutorial"
+  },
+  {
+    "name": "Nollie Bigspin",
+    "category": "flatground",
+    "history": "A bigspin from nollie stance. The nose is popped and both body and board complete 360-degree backside rotations.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "nollie bigspin skateboard tutorial"
+  },
+  {
+    "name": "Nollie Frontside Bigspin",
+    "category": "flatground",
+    "history": "A frontside bigspin from nollie stance. The body and board rotate frontside 360 from a nollie pop.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "nollie frontside bigspin skateboard"
+  },
+  {
+    "name": "Fakie Frontside Bigspin",
+    "category": "flatground",
+    "history": "A frontside bigspin from fakie stance. Combines the reverse riding direction with the frontside 360 spin combination.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "fakie frontside bigspin skateboard tutorial"
+  },
+  {
+    "name": "Nollie 360 Frontside Flip",
+    "category": "flatground",
+    "history": "A frontside 360 kickflip from nollie stance. One of the most obscure and technical nollie spin-flip combinations.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "nollie frontside 360 kickflip skateboard"
+  },
+  {
+    "name": "Switch Big Flip",
+    "category": "flatground",
+    "history": "A big flip (backside 360 body + kickflip) in switch stance. An extremely rare switch combination trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "switch big flip skateboard trick"
+  },
+  {
+    "name": "Ghetto Bird Backside",
+    "category": "flatground",
+    "history": "A backside version of the ghetto bird. The body rotates backside 180 while the board kickflips.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "backside 180 kickflip ghetto bird skateboard"
+  },
+  {
+    "name": "Nollie Tre Flip",
+    "category": "flatground",
+    "history": "A 360 flip from nollie stance. The nollie pop drives the backside 360 shove-it with kickflip combination.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "nollie tre flip skateboard tutorial"
+  },
+  {
+    "name": "Fakie Tre Flip",
+    "category": "flatground",
+    "history": "A 360 flip from fakie stance. Some skaters find this more intuitive than the regular tre flip.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "fakie tre flip skateboard tutorial"
+  },
+  {
+    "name": "Switch Tre Flip",
+    "category": "flatground",
+    "history": "A 360 flip in switch stance. One of the most coveted switch tricks and a benchmark for technical skating ability.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "switch tre flip skateboard tutorial"
+  },
+  {
+    "name": "Noseblunt Stall",
+    "category": "vert",
+    "history": "A stall on the coping where the nose of the board wedges against the top edge of the coping while the front wheels hang over. A technical lip trick on vert and mini ramps.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "nose blunt stall skateboard ramp tutorial"
+  },
+  {
+    "name": "Blunt Fakie (Ramp)",
+    "category": "vert",
+    "history": "A blunt stall on coping that exits back into the ramp fakie. A fundamental ramp trick in mini ramp and vert skating.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "blunt fakie skateboard ramp tutorial"
+  },
+  {
+    "name": "Smith to Fakie",
+    "category": "vert",
+    "history": "A Smith grind on coping that exits fakie back into the ramp. A more stylish variation of the standard Smith exit.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "smith grind to fakie ramp skateboard tutorial"
+  },
+  {
+    "name": "Nosegrind to Shove-it Out",
+    "category": "street",
+    "history": "A nosegrind that exits with a pop shove-it. The 180-degree board rotation is added at the end of the grind.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "nosegrind shove it out skateboard tutorial"
+  },
+  {
+    "name": "50-50 to Kickflip Out",
+    "category": "street",
+    "history": "A 50-50 grind that exits with a kickflip. Adding the flip trick to the grind exit greatly increases difficulty.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "50-50 kickflip out skateboard tutorial"
+  },
+  {
+    "name": "Smith to Kickflip Out",
+    "category": "street",
+    "history": "A Smith grind that exits with a kickflip. A very technical ledge combo.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "smith grind kickflip out skateboard tutorial"
+  },
+  {
+    "name": "Crooked to Heelflip Out",
+    "category": "street",
+    "history": "A crooked grind that exits with a heelflip. Combining the technical K-grind with a heel flip exit.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "crooked grind heelflip out skateboard"
+  },
+  {
+    "name": "Feeble to Kickflip Out",
+    "category": "street",
+    "history": "A feeble grind that exits with a kickflip. An advanced rail trick that blends grind and flip technique.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "feeble grind kickflip out skateboard tutorial"
+  },
+  {
+    "name": "Ollie to Nosegrind",
+    "category": "street",
+    "history": "A clean ollie entry into a nosegrind. The foundational approach to nosegrinding a ledge or rail.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "ollie nosegrind skateboard tutorial"
+  },
+  {
+    "name": "Switch Lipslide",
+    "category": "street",
+    "history": "A lipslide in switch stance. The non-dominant approach adds significant difficulty to the already blind-commitment trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "switch lipslide skateboard tutorial"
+  },
+  {
+    "name": "Nollie Lipslide",
+    "category": "street",
+    "history": "A lipslide entered from nollie stance. The nose is popped and the board goes over the obstacle into the slide.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "nollie lipslide skateboard tutorial"
+  },
+  {
+    "name": "Fakie Nosegrind",
+    "category": "street",
+    "history": "A nosegrind entered from fakie stance. Rolling backward into a nosegrind is particularly challenging for spatial awareness.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "fakie nosegrind skateboard tutorial"
+  },
+  {
+    "name": "Fakie 5-0 Grind",
+    "category": "street",
+    "history": "A 5-0 grind entered from fakie stance. The backward approach changes the timing and mechanics of entering the grind.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "fakie 5-0 grind skateboard tutorial"
+  },
+  {
+    "name": "Frontside 180 Nosegrind",
+    "category": "street",
+    "history": "A frontside 180 spin into a nosegrind. The rotation sets up the grind position naturally in a smooth flow.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "frontside 180 nosegrind skateboard tutorial"
+  },
+  {
+    "name": "Backside 180 Nosegrind",
+    "category": "street",
+    "history": "A backside 180 that lands in a nosegrind. One of the classic smooth transitions from spin to grind.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "backside 180 nosegrind skateboard tutorial"
+  },
+  {
+    "name": "Frontside 180 50-50",
+    "category": "street",
+    "history": "A frontside 180 into a 50-50 grind. The rotation is used to approach the obstacle from a different angle.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "frontside 180 50-50 skateboard tutorial"
+  },
+  {
+    "name": "Backside 180 50-50",
+    "category": "street",
+    "history": "A backside 180 into a 50-50 grind. A classic combo trick combining the 180 spin with the fundamental grind.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "backside 180 50-50 skateboard tutorial"
+  },
+  {
+    "name": "Switch Overcrook",
+    "category": "street",
+    "history": "An overcrook grind in switch stance. One of the most technical switch grinds due to the nose-over-the-obstacle position.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "switch overcrook grind skateboard"
+  },
+  {
+    "name": "Fakie Crooked Grind",
+    "category": "street",
+    "history": "A crooked grind entered from fakie stance. The reverse approach makes locking the front truck into the K-grind position very challenging.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "fakie crooked grind skateboard tutorial"
+  },
+  {
+    "name": "Frontside Crooks",
+    "category": "street",
+    "history": "A frontside crooked grind. The nose angles toward the skater as they grind frontside along the obstacle.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "frontside crooks skateboard tutorial"
+  },
+  {
+    "name": "Nollie Bluntslide",
+    "category": "street",
+    "history": "A bluntslide entered from nollie stance. The nose is popped and the tail drops into the slide position.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "nollie blunt slide skateboard tutorial"
+  },
+  {
+    "name": "Fakie Bluntslide",
+    "category": "street",
+    "history": "A bluntslide entered from fakie stance. Rolling backward before dropping the tail into the slide.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "fakie blunt slide skateboard tutorial"
+  },
+  {
+    "name": "Switch Blunt Grind",
+    "category": "street",
+    "history": "A blunt grind performed in switch stance. Among the rarest switch lip tricks.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "switch blunt grind skateboard"
+  },
+  {
+    "name": "Cab to Grind",
+    "category": "street",
+    "history": "A fakie 360 (Caballerial) that lands in a grind. Combining the classic Cab spin with a ledge grind.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "cab to grind skateboard trick tutorial"
+  },
+  {
+    "name": "Nollie Flip to Tail",
+    "category": "street",
+    "history": "A nollie kickflip that lands in a tailstall on an obstacle. A creative flip-to-lip trick combination.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "nollie flip to tail stall skateboard"
+  },
+  {
+    "name": "Halfcab Flip",
+    "category": "flatground",
+    "history": "A fakie backside 180 combined with a kickflip (landing in regular). A natural combination of the half cab with a flip trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "halfcab flip skateboard tutorial"
+  },
+  {
+    "name": "Halfcab Heelflip",
+    "category": "flatground",
+    "history": "A half cab combined with a heelflip. The backside 180 and heel flip complement each other naturally.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "halfcab heelflip skateboard tutorial"
+  },
+  {
+    "name": "Halfcab Kickflip",
+    "category": "flatground",
+    "history": "A fakie 180 combined with a kickflip. A reliable and visually appealing trick in modern street skating.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "halfcab kickflip skateboard tutorial"
+  },
+  {
+    "name": "360 Pop Shove-it",
+    "category": "flatground",
+    "history": "The board completes a full 360-degree backside rotation via a shove-it motion. A foundational spinning board trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "360 pop shove it skateboard tutorial"
+  },
+  {
+    "name": "Frontside Kickflip (Curved Rail)",
+    "category": "rails",
+    "history": "A kickflip performed to lock onto a curved or curved stair rail frontside. Adapts the kickflip entry to more complex architectural features.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "frontside kickflip rail skateboard trick"
+  },
+  {
+    "name": "Drop-In",
+    "category": "vert",
+    "history": "The act of entering a vert ramp, half-pipe, or bowl from the top by pressing the tail on the coping and leaning in. A fundamental vert skill.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "how to drop in skateboard ramp tutorial"
+  },
+  {
+    "name": "Pump",
+    "category": "vert",
+    "history": "Using leg extension and compression in a curved transition to generate speed without pushing. The fundamental energy source for transition skating.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "how to pump skateboard transition tutorial"
+  },
+  {
+    "name": "Snap",
+    "category": "flatground",
+    "history": "A powerful, precise ollie pop where the tail slaps the ground cleanly. Considered the foundation of all modern street skating technique.",
+    "inventor": "Alan Gelfand",
+    "year": 1977,
+    "youtube_query": "snap ollie skateboard flatground technique"
+  },
+  {
+    "name": "Nollie Sal Flip",
+    "category": "flatground",
+    "history": "A nollie version of the sal flip (frontside 180 heelflip). Named after Sal Barbier who popularized the regular version.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "nollie sal flip skateboard trick"
+  },
+  {
+    "name": "Sal Flip",
+    "category": "flatground",
+    "history": "A frontside 180 heelflip. Named after Sal Barbier who standardized the name in the early 1990s street skating scene.",
+    "inventor": "Sal Barbier",
+    "year": 1992,
+    "youtube_query": "sal flip skateboard tutorial frontside 180 heelflip"
+  },
+  {
+    "name": "Fakie Sal Flip",
+    "category": "flatground",
+    "history": "A sal flip (frontside 180 heelflip) from fakie stance. Adding the fakie position to an already demanding trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "fakie sal flip skateboard tutorial"
+  },
+  {
+    "name": "Backside Heelflip",
+    "category": "flatground",
+    "history": "A heelflip combined with a backside 180 body rotation. The body rotates backside while the board heelflips.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "backside heelflip skateboard tutorial"
+  },
+  {
+    "name": "Frontside Heelflip",
+    "category": "flatground",
+    "history": "A heelflip combined with a frontside 180 body rotation. Also called a sal flip in some regions.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "frontside heelflip skateboard tutorial"
+  }
+]

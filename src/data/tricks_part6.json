@@ -1,0 +1,442 @@
+[
+  {
+    "name": "Coleman Slide",
+    "category": "downhill",
+    "history": "A hands-down slide on a longboard used to control speed going downhill. Named after Cliff Coleman who developed it for downhill safety.",
+    "inventor": "Cliff Coleman",
+    "year": 1975,
+    "youtube_query": "coleman slide longboard downhill tutorial"
+  },
+  {
+    "name": "Toeside Slide",
+    "category": "downhill",
+    "history": "A longboard slide where the toe edge of the board is used to initiate a sideways sliding stop. A fundamental downhill control technique.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "toeside slide longboard tutorial downhill"
+  },
+  {
+    "name": "Heelside Slide",
+    "category": "downhill",
+    "history": "A longboard slide initiated from the heel edge. The counterpart to the toeside slide, used for speed control on descents.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "heelside slide longboard tutorial downhill"
+  },
+  {
+    "name": "Stand-up Slide",
+    "category": "downhill",
+    "history": "A longboard slide performed without putting hands down on the pavement. Considered more advanced than the hands-down Coleman slide.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "stand up slide longboard downhill tutorial"
+  },
+  {
+    "name": "Pendulum Slide",
+    "category": "downhill",
+    "history": "A longboard slide where the board swings 180 degrees and swings back to continue in the original direction, resembling a pendulum.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "pendulum slide longboard tutorial"
+  },
+  {
+    "name": "Cheeky Slide",
+    "category": "downhill",
+    "history": "A switch heelside slide on a longboard. Performed with the non-dominant foot forward, adding difficulty to the slide.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "cheeky slide longboard tutorial"
+  },
+  {
+    "name": "Bluntslide (Longboard)",
+    "category": "downhill",
+    "history": "A slide on a longboard where the tail of the board drags during a slide. Adapted from street skating terminology to describe specific longboard slide positions.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "blunt slide longboard tutorial"
+  },
+  {
+    "name": "Ghost Ride",
+    "category": "downhill",
+    "history": "The skater steps off the moving longboard, lets it roll briefly, then steps back on. A stylish longboard trick showing board control and confidence.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "ghost ride longboard trick tutorial"
+  },
+  {
+    "name": "Cross-Step",
+    "category": "downhill",
+    "history": "Walking across the longboard by crossing one foot over the other while rolling. A fundamental longboard dancing move.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "cross step longboard dancing tutorial"
+  },
+  {
+    "name": "Peter Pan",
+    "category": "downhill",
+    "history": "A longboard dancing trick where one foot steps to the nose while the other leg swings out like a flying pose. Named for its resemblance to the fictional character's flying pose.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "peter pan longboard dancing trick tutorial"
+  },
+  {
+    "name": "Pirouette",
+    "category": "downhill",
+    "history": "A 360-degree spin performed while standing on a longboard, similar to a ballet pirouette. A longboard dancing move.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "pirouette longboard dancing trick tutorial"
+  },
+  {
+    "name": "Cannonball",
+    "category": "downhill",
+    "history": "Crouching into the tightest possible tuck position while bombing a hill to maximize speed. The fundamental aerodynamic position for downhill speed.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "cannonball tuck position longboard downhill"
+  },
+  {
+    "name": "Longboard Kickflip",
+    "category": "downhill",
+    "history": "A kickflip on a longboard. Much harder than on a street deck due to the board's length and weight.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "longboard kickflip trick tutorial"
+  },
+  {
+    "name": "No Comply 180 (Longboard)",
+    "category": "downhill",
+    "history": "A no comply with a 180-degree rotation on a longboard. Adapted from street skating to show creativity on longboards.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "no comply 180 longboard trick tutorial"
+  },
+  {
+    "name": "Shove-it (Longboard)",
+    "category": "downhill",
+    "history": "A shove-it on a longboard. The board rotates 180 degrees while the skater hops and lands back on it. More difficult on a long board.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "shove it longboard trick tutorial"
+  },
+  {
+    "name": "Speedcheck",
+    "category": "downhill",
+    "history": "A short, controlled slide used to bleed off speed during a downhill run without stopping completely. An essential downhill safety technique.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "speedcheck longboard downhill tutorial"
+  },
+  {
+    "name": "Sitdown Slide",
+    "category": "downhill",
+    "history": "A slide performed from a sitting or very low crouching position on a longboard. Used to stay low and control speed safely.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "sitdown slide longboard tutorial"
+  },
+  {
+    "name": "Switch Coleman",
+    "category": "downhill",
+    "history": "A Coleman slide performed in switch stance. Adds difficulty to the standard hands-down slide.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "switch coleman slide longboard tutorial"
+  },
+  {
+    "name": "Boardwalk Slide",
+    "category": "downhill",
+    "history": "A slide unique to longboarding where the board goes through a series of controlled sideways motions down a hill. Used for stylistic control.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "boardwalk slide longboard downhill trick"
+  },
+  {
+    "name": "Kickback",
+    "category": "downhill",
+    "history": "A footbrake technique where the dragging foot kicks backward to slow down. An alternative to slides for speed management.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "kickback footbrake longboard downhill"
+  },
+  {
+    "name": "Nose Press",
+    "category": "street",
+    "history": "Pressing the nose of the board down onto an obstacle while sliding. A variation between a noseslide and a nosegrind.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "nose press skateboard trick tutorial"
+  },
+  {
+    "name": "Tailpressure Flip",
+    "category": "flatground",
+    "history": "The tail is pressed down with the back foot and used to generate a flip rather than a traditional ollie pop. Creates a unique board rotation.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "tail pressure flip skateboard trick"
+  },
+  {
+    "name": "Frontside 360 Shove-it",
+    "category": "flatground",
+    "history": "The board rotates 360 degrees frontside without a body rotation. A rarely-seen board-only spin trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "frontside 360 shove it skateboard tutorial"
+  },
+  {
+    "name": "Nollie 360 Shove-it",
+    "category": "flatground",
+    "history": "A 360-degree shove-it from nollie stance. The nose is popped and the board completes a full backside rotation.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "nollie 360 shove it skateboard tutorial"
+  },
+  {
+    "name": "Fakie 360 Shove-it",
+    "category": "flatground",
+    "history": "A 360-degree shove-it from fakie stance. The board spins while the skater rolls backward.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "fakie 360 shove it skateboard tutorial"
+  },
+  {
+    "name": "Switch 360 Shove-it",
+    "category": "flatground",
+    "history": "A 360 shove-it in switch stance. The board rotates fully with the non-dominant foot leading.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "switch 360 shove it skateboard tutorial"
+  },
+  {
+    "name": "Tailwhip",
+    "category": "flatground",
+    "history": "The tail of the board is kicked sideways in a wide arc (whipping motion) rather than a standard shove-it. Primarily used in freestyle and scooter-influenced skating.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "tailwhip skateboard trick tutorial"
+  },
+  {
+    "name": "Primo to Kickflip",
+    "category": "freestyle",
+    "history": "The board is balanced on its rail in primo position, then kickflipped back to normal. A Rodney Mullen-influenced freestyle combination.",
+    "inventor": "Rodney Mullen",
+    "year": 1985,
+    "youtube_query": "primo to kickflip skateboard freestyle"
+  },
+  {
+    "name": "Nollie Hardflip Backside",
+    "category": "flatground",
+    "history": "A nollie hardflip with a backside orientation. One of the most obscure nollie hardflip variations.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "nollie hardflip backside skateboard"
+  },
+  {
+    "name": "Switch Inward Heelflip",
+    "category": "flatground",
+    "history": "An inward heelflip performed in switch stance. Among the rarest switch flip tricks in skateboarding.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "switch inward heelflip skateboard"
+  },
+  {
+    "name": "Fakie Inward Heelflip",
+    "category": "flatground",
+    "history": "An inward heelflip from fakie stance. The backside shove-it and heelflip are both executed while rolling backward.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "fakie inward heelflip skateboard tutorial"
+  },
+  {
+    "name": "Nollie Hardflip Frontside",
+    "category": "flatground",
+    "history": "A nollie frontside hardflip. An extremely rare and technical nollie variation.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "nollie frontside hardflip skateboard"
+  },
+  {
+    "name": "Oververt",
+    "category": "vert",
+    "history": "Going past vertical on a vert ramp, meaning the skater is briefly upside down relative to the ramp. Requires a very steep vert ramp and advanced skill.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "oververt vert skateboard ramp trick"
+  },
+  {
+    "name": "Late Kickflip",
+    "category": "flatground",
+    "history": "A kickflip where the flick happens after the peak of the ollie, causing a 'late' snap of the board. Creates a unique visual timing.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "late kickflip skateboard trick tutorial"
+  },
+  {
+    "name": "Late Heelflip",
+    "category": "flatground",
+    "history": "A heelflip flicked after the peak of the ollie. The delayed rotation gives the trick a stylish late snap appearance.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "late heelflip skateboard trick tutorial"
+  },
+  {
+    "name": "Late Shove-it",
+    "category": "flatground",
+    "history": "A shove-it executed after the peak of the ollie. The late timing gives a distinctive look to this simple trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "late shove it skateboard trick tutorial"
+  },
+  {
+    "name": "Late 180",
+    "category": "flatground",
+    "history": "A 180-degree body rotation initiated after the peak of the ollie. Adds a stylistic element of timing to the standard 180.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "late 180 skateboard trick tutorial"
+  },
+  {
+    "name": "Tailblock",
+    "category": "vert",
+    "history": "The tail of the board blocks against the coping while the board pauses at the top of the ramp. An old-school vert and pool lip trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "tailblock skateboard vert ramp trick"
+  },
+  {
+    "name": "Nosepick (Vert)",
+    "category": "vert",
+    "history": "The nose of the board presses against the coping while the tail hangs in the air. A stylish nose-first lip trick on vert ramps and pools.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "nosepick vert skateboard ramp trick"
+  },
+  {
+    "name": "Sweeper",
+    "category": "vert",
+    "history": "A trick where the board is swept out to the side while airborne, then swept back under the feet. An old-school vert trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "sweeper skateboard vert ramp trick"
+  },
+  {
+    "name": "Lipslide (Vert)",
+    "category": "vert",
+    "history": "A lipslide on the coping of a vert ramp. The board goes over the coping and slides along it perpendicular to the ramp.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "lipslide vert ramp skateboard trick"
+  },
+  {
+    "name": "Losi Grind",
+    "category": "street",
+    "history": "A backside 5-0 where the front foot is placed on the nose while grinding, named after Eric Loskop. A technical hybrid between a 5-0 and a noseblunt.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "losi grind skateboard trick"
+  },
+  {
+    "name": "Suski Grind",
+    "category": "street",
+    "history": "A frontside 5-0 grind where the nose is also pressing against the obstacle. Named after Eric Dressen by some accounts. A grind between a 5-0 and a nosegrind.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "suski grind skateboard trick tutorial"
+  },
+  {
+    "name": "Switch Hurricane",
+    "category": "street",
+    "history": "A hurricane grind in switch stance. An extremely advanced grind combining stance difficulty with the complexity of the hurricane.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "switch hurricane grind skateboard"
+  },
+  {
+    "name": "Cab Nosegrind",
+    "category": "street",
+    "history": "A fakie 360 (Caballerial) into a nosegrind. Combining the spin with the grind makes for a very creative trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "cab nosegrind skateboard trick"
+  },
+  {
+    "name": "Bigspin Boardslide",
+    "category": "street",
+    "history": "A bigspin (backside 360 body + backside 360 board) into a boardslide. An extremely technical and rare street trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "bigspin boardslide skateboard trick"
+  },
+  {
+    "name": "Frontside Bigspin Noseslide",
+    "category": "street",
+    "history": "A frontside bigspin into a noseslide. Combining the full spin with a precise nose-lock makes this exceptionally difficult.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "frontside bigspin noseslide skateboard"
+  },
+  {
+    "name": "Ollie to Grind",
+    "category": "street",
+    "history": "Any ollie that enters directly into a grind. The clean ollie-to-grind entry is fundamental to street and ledge skating.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "ollie to grind skateboard ledge tutorial"
+  },
+  {
+    "name": "Switch 5-0 Grind",
+    "category": "street",
+    "history": "A 5-0 grind in switch stance. The weaker foot is at the back while only the back truck grinds.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "switch 5-0 grind skateboard tutorial"
+  },
+  {
+    "name": "Nollie 50-50",
+    "category": "street",
+    "history": "A 50-50 grind entered from nollie stance. The nose pop launches the skater into the double-truck grind position.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "nollie 50-50 grind skateboard tutorial"
+  },
+  {
+    "name": "Fakie 50-50",
+    "category": "street",
+    "history": "A 50-50 grind from fakie stance. Rolling backward into a grind requires strong spatial awareness.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "fakie 50-50 grind skateboard tutorial"
+  },
+  {
+    "name": "Primo Flip to Regular",
+    "category": "freestyle",
+    "history": "A primo position that is flipped back to regular board orientation. Popularized by freestyle specialists in the 1980s.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "primo flip to regular skateboard freestyle"
+  },
+  {
+    "name": "Butterflip",
+    "category": "freestyle",
+    "history": "A trick where the board flips in a butterfly-like pattern. A very obscure and rarely categorized old-school freestyle trick.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "butterflip skateboard freestyle trick"
+  },
+  {
+    "name": "Spacewalk to Casper",
+    "category": "freestyle",
+    "history": "A spacewalk (alternating side-to-side pumping) that transitions into a Casper stall position. A flowing freestyle combination.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "spacewalk casper skateboard freestyle combo"
+  },
+  {
+    "name": "Fingerflip to Casper",
+    "category": "freestyle",
+    "history": "A fingerflip that lands in Casper (board upside-down). Combines the hand-assisted flip with the inverted board balance.",
+    "inventor": null,
+    "year": null,
+    "youtube_query": "fingerflip to casper skateboard freestyle"
+  }
+]
