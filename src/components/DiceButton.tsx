@@ -246,29 +246,29 @@ export function DiceButton({ tricks }: DiceButtonProps) {
 
   return (
     <>
-      {/* Header Inline Controls */}
-      <div className="flex items-center gap-3">
+      {/* Header Inline Controls - More compact for mobile */}
+      <div className="flex items-center gap-2 md:gap-3">
         <button
           onClick={() => setShowSettings(!showSettings)}
-          className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-emerald-400 transition-all shadow-xl group"
+          className="w-11 h-11 md:w-14 md:h-14 rounded-2xl bg-white/5 border border-white/5 flex items-center justify-center text-slate-400 hover:text-emerald-400 transition-all shadow-xl group shrink-0"
           title="Dice Parameters"
         >
-          <GearIcon size={22} />
+          <GearIcon size={20} />
         </button>
         <button
           onClick={roll}
           disabled={rolling}
-          className={`h-14 px-8 rounded-2xl flex items-center gap-4 transition-all border border-transparent ${
+          className={`h-11 md:h-14 px-4 md:px-8 rounded-2xl flex items-center gap-2 md:gap-4 transition-all border border-transparent shrink-0 ${
             rolling 
               ? "bg-emerald-950/50 border-white/5 scale-95" 
               : "bg-white text-black hover:bg-emerald-400 hover:scale-105 active:scale-95 shadow-2xl shadow-emerald-500/20"
           }`}
         >
           <div className={rolling ? "animate-spin" : ""}>
-            <DiceIcon size={24} />
+            <DiceIcon size={20} />
           </div>
-          <span className="text-[11px] font-black uppercase tracking-[0.3em]">
-            {rolling ? "Linking..." : "Generate"}
+          <span className="text-[9px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] whitespace-nowrap">
+            {rolling ? "..." : "Roll"}
           </span>
         </button>
       </div>
