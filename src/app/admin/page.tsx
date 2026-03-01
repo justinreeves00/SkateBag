@@ -35,27 +35,31 @@ export default async function AdminPage() {
             <div key={trick.id} className="aurora-card p-6 rounded-3xl flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div className="space-y-1">
                 <h3 className="text-xl font-bold uppercase italic">{trick.name}</h3>
-                <p className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">{trick.category} // CURRENT: LVL {trick.difficulty}</p>
+                <p className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">
+                  {trick.category} // CURRENT: LVL {trick.difficulty}
+                </p>
               </div>
 
               <div className="flex flex-wrap gap-2">
-                {[1, 2, 3, 4, 5].map((lvl) => (
-                  <form key={lvl} action={async () => {
-                    "use server";
-                    await updateTrickLevel(trick.id, lvl);
-                  }}>
-                    <button
-                      type="submit"
-                      className={`w-12 h-12 rounded-xl font-black transition-all border ${
-                        trick.difficulty === lvl
-                          ? "bg-emerald-500 text-black border-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.3)]"
-                          : "bg-white/5 text-slate-500 border-white/5 hover:border-emerald-500/50 hover:text-emerald-400"
-                      }`}
-                    >
-                      {lvl}
-                    </button>
-                  </form>
-                ))}
+                {[1, 2, 3, 4, 5].map((lvl) => {
+                  // Bind arguments to the server action
+                  const updateWithArgs = updateTrickLevel.bind(null, trick.id, lvl);
+                  
+                  return (
+                    <form key={lvl} action={updateWithArgs}>
+                      <button
+                        type="submit"
+                        className={`w-12 h-12 rounded-xl font-black transition-all border ${
+                          trick.difficulty === lvl
+                            ? "bg-emerald-500 text-black border-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.3)]"
+                            : "bg-white/5 text-slate-500 border-white/5 hover:border-emerald-500/50 hover:text-emerald-400"
+                        }`}
+                      >
+                        {lvl}
+                      </button>
+                    </form>
+                  );
+                })}
               </div>
             </div>
           ))}
