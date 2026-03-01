@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { TrickWithStatus, TrickCategory, DiceFilterSettings } from "@/lib/types";
 
 interface DiceButtonProps {
@@ -15,15 +15,32 @@ export function DiceButton({ tricks }: DiceButtonProps) {
   const [showSettings, setShowSettings] = useState(false);
   const [result, setResult] = useState<TrickWithStatus | null>(null);
   const [rolling, setRolling] = useState(false);
+  const [videoId, setVideoId] = useState<string | null>(null);
+  const [fetchingVideo, setFetchingVideo] = useState(false);
   const [settings, setSettings] = useState<DiceFilterSettings>({
     excludeLanded: false,
     excludeLocked: false,
     categories: [...CATEGORY_OPTIONS],
   });
 
+  // Fetch YouTube video ID when result changes
+  useEffect(() => {
+    if (result && result.youtube_query) {
+      setFetchingVideo(true);
+      setVideoId(null);
+      fetch(`/api/youtube?q=${encodeURIComponent(result.youtube_query)}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.videoId) setVideoId(data.videoId);
+        })
+        .finally(() => setFetchingVideo(false));
+    }
+  }, [result]);
+
   function roll() {
     setRolling(true);
     setResult(null);
+    setVideoId(null);
 
     let pool = tricks.filter((t) =>
       settings.categories.includes(t.category as TrickCategory)
@@ -56,13 +73,13 @@ export function DiceButton({ tricks }: DiceButtonProps) {
       {/* Result Overlay */}
       {result && (
         <div
-          className="fixed inset-0 bg-black/95 backdrop-blur-3xl z-[100] flex items-center justify-center p-8 animate-in fade-in duration-500"
+          className="fixed inset-0 bg-black/95 backdrop-blur-3xl z-[100] flex items-center justify-center p-6 animate-in fade-in duration-500 overflow-y-auto no-scrollbar"
           onClick={() => setResult(null)}
         >
-          <div className="max-w-xl w-full text-center space-y-12" onClick={(e) => e.stopPropagation()}>
+          <div className="max-w-2xl w-full text-center space-y-8 my-auto" onClick={(e) => e.stopPropagation()}>
             <div className="space-y-4">
               <span className="px-4 py-1.5 rounded-full bg-blue-500/10 text-blue-400 text-[10px] font-bold uppercase tracking-[0.3em]">Random Selection Acquired</span>
-              <h2 className="text-7xl font-extrabold tracking-tighter text-white italic">
+              <h2 className="text-5xl md:text-7xl font-extrabold tracking-tighter text-white italic">
                 {result.name}
               </h2>
               <div className="flex items-center justify-center gap-4 text-slate-500 text-sm font-medium uppercase tracking-widest">
@@ -72,16 +89,40 @@ export function DiceButton({ tricks }: DiceButtonProps) {
               </div>
             </div>
 
-            <div className="flex flex-col gap-4 max-w-xs mx-auto">
+            {/* Video Player */}
+            <div className="aspect-video w-full bg-black/40 rounded-[2.5rem] overflow-hidden border border-white/5 relative shadow-2xl">
+              {videoId ? (
+                <iframe
+                  width="100%"
+                  height="100%"
+                  src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`}
+                  title={`${result.name} tutorial`}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              ) : fetchingVideo ? (
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+                  <div className="w-8 h-8 border-2 border-blue-500/20 border-t-blue-500 rounded-full animate-spin" />
+                  <span className="text-[10px] font-bold text-slate-600 uppercase tracking-widest">Accessing Video Feed...</span>
+                </div>
+              ) : (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-xs text-slate-700 font-bold uppercase tracking-widest italic">Visual data unavailable</span>
+                </div>
+              )}
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
               <button
                 onClick={roll}
-                className="w-full py-5 bg-blue-600 text-white rounded-3xl font-bold uppercase tracking-widest hover:bg-blue-500 hover:scale-105 active:scale-95 transition-all shadow-[0_20px_40px_rgba(37,99,235,0.2)]"
+                className="flex-1 py-5 bg-blue-600 text-white rounded-3xl font-bold uppercase tracking-widest hover:bg-blue-500 hover:scale-105 active:scale-95 transition-all shadow-[0_20px_40px_rgba(37,99,235,0.2)]"
               >
                 Roll Again
               </button>
               <button
                 onClick={() => setResult(null)}
-                className="w-full py-5 bg-white/5 text-slate-400 rounded-3xl font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 transition-all"
+                className="flex-1 py-5 bg-white/5 text-slate-400 rounded-3xl font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 transition-all"
               >
                 Dismiss
               </button>
@@ -122,7 +163,7 @@ export function DiceButton({ tricks }: DiceButtonProps) {
                   }`}
                 >
                   <span className={`text-[10px] font-bold uppercase tracking-widest ${settings.excludeLanded ? "text-white/60" : "text-slate-600"}`}>Filter</span>
-                  <span className={`text-sm font-bold ${settings.excludeLanded ? "text-white" : ""}`}>Exclude Landed</span>
+                  <span className={`text-sm font-bold ${settings.excludeLanded ? "text-white" : ""}`}>Exclude Mastered</span>
                 </button>
                 <button
                   onClick={() => setSettings((s) => ({ ...s, excludeLocked: !s.excludeLocked }))}
