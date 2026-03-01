@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import type { TrickWithStatus, TrickCategory, DiceFilterSettings } from "@/lib/types";
 
 interface DiceButtonProps {
@@ -19,12 +20,17 @@ export function DiceButton({ tricks }: DiceButtonProps) {
   const [rolling, setRolling] = useState(false);
   const [videoId, setVideoId] = useState<string | null>(null);
   const [fetchingVideo, setFetchingVideo] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const [settings, setSettings] = useState<DiceFilterSettings>({
     excludeLanded: false,
     excludeLocked: false,
     categories: [...CATEGORY_OPTIONS],
     levels: [...LEVEL_OPTIONS],
   });
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Fetch YouTube video ID when result changes
   useEffect(() => {
@@ -83,12 +89,12 @@ export function DiceButton({ tricks }: DiceButtonProps) {
     }));
   }
 
-  return (
+  const overlays = (
     <>
       {/* Result Overlay Card */}
       {result && (
         <div
-          className="fixed inset-0 bg-black/90 backdrop-blur-xl z-[200] overflow-y-auto flex flex-col items-center justify-start py-12 px-4 md:px-8 animate-in fade-in duration-500"
+          className="fixed inset-0 bg-black/90 backdrop-blur-xl z-[9999] overflow-y-auto flex flex-col items-center justify-start py-12 px-4 md:px-8 animate-in fade-in duration-500"
           onClick={() => setResult(null)}
         >
           <div 
@@ -152,7 +158,7 @@ export function DiceButton({ tricks }: DiceButtonProps) {
       {/* Settings Panel Card */}
       {showSettings && (
         <div
-          className="fixed inset-0 bg-black/80 backdrop-blur-md z-[200] overflow-y-auto flex flex-col items-center justify-start py-12 px-4 md:px-6 animate-in fade-in duration-300"
+          className="fixed inset-0 bg-black/80 backdrop-blur-md z-[9999] overflow-y-auto flex flex-col items-center justify-start py-12 px-4 md:px-6 animate-in fade-in duration-300"
           onClick={() => setShowSettings(false)}
         >
           <div
@@ -235,7 +241,11 @@ export function DiceButton({ tricks }: DiceButtonProps) {
           </div>
         </div>
       )}
+    </>
+  );
 
+  return (
+    <>
       {/* Header Inline Controls */}
       <div className="flex items-center gap-2">
         <button
@@ -262,6 +272,8 @@ export function DiceButton({ tricks }: DiceButtonProps) {
           </span>
         </button>
       </div>
+
+      {mounted && createPortal(overlays, document.body)}
     </>
   );
 }

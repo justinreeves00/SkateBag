@@ -142,6 +142,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail }: TrickListProps
                       className="w-full bg-white/[0.03] border border-white/10 rounded-2xl pl-11 pr-4 py-3.5 text-sm font-medium text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/50 transition-all"
                     />
                   </div>
+                  {/* DiceButton is now rendered outside the header logic, but its UI trigger is here */}
                   <DiceButton tricks={filtered} />
                 </div>
                 <CategoryFilter active={category} onChange={setCategory} />
