@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "YouTube API not configured" }, { status: 503 });
   }
 
-  const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(query)}&type=video&maxResults=1&order=viewCount&key=${apiKey}`;
+  const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(query + " skateboard tutorial")}&type=video&maxResults=1&relevanceLanguage=en&key=${apiKey}`;
 
   try {
     const res = await fetch(url, { next: { revalidate: 86400 } }); // cache 24h
