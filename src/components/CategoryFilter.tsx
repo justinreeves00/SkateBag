@@ -43,7 +43,7 @@ export function CategoryFilter({ active, onChange }: CategoryFilterProps) {
         className="w-full flex items-center justify-between px-6 py-4 rounded-2xl bg-white/5 border border-white/10 text-slate-300 transition-all hover:bg-white/10 hover:border-white/20 active:scale-[0.98]"
       >
         <div className="flex flex-col items-start">
-          <span className="text-[8px] font-black text-emerald-500 uppercase tracking-[0.3em] mb-1">Sector</span>
+          <span className="text-[8px] font-black text-teal-500 uppercase tracking-[0.3em] mb-1">Sector</span>
           <span className="text-xs font-bold uppercase tracking-widest">{activeLabel}</span>
         </div>
         <div className={`transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}>
@@ -65,11 +65,11 @@ export function CategoryFilter({ active, onChange }: CategoryFilterProps) {
                 }}
                 className={`flex items-center gap-3 px-5 py-4 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
                   active === cat.value
-                    ? "bg-emerald-500 text-black shadow-lg"
-                    : "text-slate-500 hover:bg-white/5 hover:text-emerald-400"
+                    ? "bg-teal-500 text-black shadow-lg"
+                    : "text-slate-500 hover:bg-white/5 hover:text-teal-400"
                 }`}
               >
-                <div className={`w-1.5 h-1.5 rounded-full ${active === cat.value ? "bg-black" : "bg-emerald-500/20"}`} />
+                <div className={`w-1.5 h-1.5 rounded-full ${active === cat.value ? "bg-black" : "bg-teal-500/20"}`} />
                 {cat.label}
               </button>
             ))}

@@ -126,14 +126,14 @@ export function DiceButton({ tricks }: DiceButtonProps) {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="text-center space-y-6">
-              <span className="px-5 py-2 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-black uppercase tracking-[0.4em]">Next Mission</span>
+              <span className="px-5 py-2 rounded-full bg-teal-500/10 text-teal-400 text-[10px] font-black uppercase tracking-[0.4em]">Next Mission</span>
               <h2 className="text-5xl md:text-8xl font-black tracking-tighter text-white italic leading-[0.9]">
                 {result.name}
               </h2>
               <div className="flex items-center justify-center gap-6 text-slate-500 text-sm font-bold uppercase tracking-[0.2em]">
                 <span>{result.category}</span>
-                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500/40" />
-                <span className="text-emerald-400 italic">Tier {result.difficulty}</span>
+                <div className="w-1.5 h-1.5 rounded-full bg-teal-500/40" />
+                <span className="text-teal-400 italic">Tier {result.difficulty}</span>
               </div>
             </div>
 
@@ -145,7 +145,7 @@ export function DiceButton({ tricks }: DiceButtonProps) {
                   {searchMode === "query" && (
                     <button 
                       onClick={tryExact}
-                      className="text-[9px] font-black text-emerald-400 uppercase tracking-widest hover:text-white transition-colors"
+                      className="text-[9px] font-black text-teal-400 uppercase tracking-widest hover:text-white transition-colors"
                     >
                       Exact Search 🎯
                     </button>
@@ -154,13 +154,13 @@ export function DiceButton({ tricks }: DiceButtonProps) {
                     <div className="flex gap-3">
                       <button 
                         onClick={prevVideo}
-                        className="text-[9px] font-black text-emerald-400 uppercase tracking-widest hover:text-white transition-colors"
+                        className="text-[9px] font-black text-teal-400 uppercase tracking-widest hover:text-white transition-colors"
                       >
                         Prev Video
                       </button>
                       <button 
                         onClick={nextVideo}
-                        className="text-[9px] font-black text-emerald-400 uppercase tracking-widest hover:text-white transition-colors"
+                        className="text-[9px] font-black text-teal-400 uppercase tracking-widest hover:text-white transition-colors"
                       >
                         Next Video ({currentVideoIndex + 1}/{videoIds.length})
                       </button>
@@ -182,7 +182,7 @@ export function DiceButton({ tricks }: DiceButtonProps) {
                   />
                 ) : fetchingVideo ? (
                   <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
-                    <div className="w-10 h-10 border-3 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin" />
+                    <div className="w-10 h-10 border-3 border-teal-500/20 border-t-teal-500 rounded-full animate-spin" />
                     <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest">Buffering...</span>
                   </div>
                 ) : (
@@ -196,7 +196,7 @@ export function DiceButton({ tricks }: DiceButtonProps) {
             <div className="flex flex-col sm:flex-row gap-5 pt-4">
               <button
                 onClick={roll}
-                className="flex-1 py-6 bg-white text-black rounded-[1.5rem] font-black uppercase tracking-widest hover:bg-emerald-400 transition-all shadow-[0_20px_40px_rgba(255,255,255,0.1)] hover:scale-[1.02] active:scale-95"
+                className="flex-1 py-6 bg-white text-black rounded-[1.5rem] font-black uppercase tracking-widest hover:bg-teal-400 transition-all shadow-[0_20px_40px_rgba(255,255,255,0.1)] hover:scale-[1.02] active:scale-95"
               >
                 Roll Again
               </button>
@@ -239,7 +239,7 @@ export function DiceButton({ tricks }: DiceButtonProps) {
                 <button
                   onClick={() => setSettings((s) => ({ ...s, excludeLanded: !s.excludeLanded }))}
                   className={`flex flex-col gap-2 p-8 rounded-[2rem] border text-left transition-all ${
-                    settings.excludeLanded ? "bg-emerald-600 border-emerald-400 shadow-xl" : "bg-white/5 border-white/5 text-slate-500 hover:border-white/10 hover:bg-white/[0.07]"
+                    settings.excludeLanded ? "bg-teal-600 border-teal-400 shadow-xl" : "bg-white/5 border-white/5 text-slate-500 hover:border-white/10 hover:bg-white/[0.07]"
                   }`}
                 >
                   <span className={`text-[9px] font-black uppercase tracking-[0.2em] ${settings.excludeLanded ? "text-white/60" : "text-slate-600"}`}>Filter Mode</span>
@@ -248,7 +248,7 @@ export function DiceButton({ tricks }: DiceButtonProps) {
                 <button
                   onClick={() => setSettings((s) => ({ ...s, excludeLocked: !s.excludeLocked }))}
                   className={`flex flex-col gap-2 p-8 rounded-[2rem] border text-left transition-all ${
-                    settings.excludeLocked ? "bg-emerald-800 border-emerald-600 shadow-xl" : "bg-white/5 border-white/5 text-slate-500 hover:border-white/10 hover:bg-white/[0.07]"
+                    settings.excludeLocked ? "bg-teal-800 border-teal-600 shadow-xl" : "bg-white/5 border-white/5 text-slate-500 hover:border-white/10 hover:bg-white/[0.07]"
                   }`}
                 >
                   <span className={`text-[9px] font-black uppercase tracking-[0.2em] ${settings.excludeLocked ? "text-white/60" : "text-slate-600"}`}>Filter Mode</span>
@@ -265,7 +265,7 @@ export function DiceButton({ tricks }: DiceButtonProps) {
                       onClick={() => toggleLevel(lvl)}
                       className={`w-16 h-16 rounded-2xl text-base font-black transition-all border ${
                         settings.levels.includes(lvl)
-                          ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/40 shadow-xl scale-110"
+                          ? "bg-teal-500/20 text-teal-400 border-teal-500/40 shadow-xl scale-110"
                           : "bg-white/5 text-slate-600 border-transparent hover:text-slate-400"
                       }`}
                     >
@@ -306,7 +306,7 @@ export function DiceButton({ tricks }: DiceButtonProps) {
       <div className="flex items-center gap-2 md:gap-3">
         <button
           onClick={() => setShowSettings(!showSettings)}
-          className="w-11 h-11 md:w-14 md:h-14 rounded-2xl bg-white/5 border border-white/5 flex items-center justify-center text-slate-400 hover:text-emerald-400 transition-all shadow-xl group shrink-0"
+          className="w-11 h-11 md:w-14 md:h-14 rounded-2xl bg-white/5 border border-white/5 flex items-center justify-center text-slate-400 hover:text-teal-400 transition-all shadow-xl group shrink-0"
           title="Dice Parameters"
         >
           <GearIcon size={20} />
@@ -316,8 +316,8 @@ export function DiceButton({ tricks }: DiceButtonProps) {
           disabled={rolling}
           className={`h-11 md:h-14 px-4 md:px-8 rounded-2xl flex items-center gap-2 md:gap-4 transition-all border border-transparent shrink-0 ${
             rolling 
-              ? "bg-emerald-950/50 border-white/5 scale-95" 
-              : "bg-white text-black hover:bg-emerald-400 hover:scale-105 active:scale-95 shadow-2xl shadow-emerald-500/20"
+              ? "bg-teal-950/50 border-white/5 scale-95" 
+              : "bg-white text-black hover:bg-teal-400 hover:scale-105 active:scale-95 shadow-2xl shadow-teal-500/20"
           }`}
         >
           <div className={rolling ? "animate-spin" : ""}>

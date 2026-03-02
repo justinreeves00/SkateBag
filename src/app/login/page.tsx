@@ -11,20 +11,18 @@ export default async function LoginPage(props: {
   return (
     <main className="min-h-screen flex items-center justify-center px-6 relative overflow-hidden bg-[#020617]">
       {/* Aurora Glows */}
-      <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-emerald-600/20 blur-[120px] rounded-full animate-pulse" />
-      <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-emerald-900/20 blur-[120px] rounded-full animate-pulse [animation-delay:2s]" />
+      <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-teal-600/20 blur-[120px] rounded-full animate-pulse" />
+      <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-teal-900/20 blur-[120px] rounded-full animate-pulse [animation-delay:2s]" />
 
       <div className="w-full max-w-md relative z-10 space-y-12">
         {/* Logo / Brand */}
         <div className="text-center space-y-6">
-          <div className="inline-flex items-center justify-center w-24 h-24 rounded-3xl bg-white text-black mb-4 shadow-2xl shadow-emerald-500/20 transform -rotate-3 transition-transform hover:rotate-0 duration-500">
-            <SkateBagLogo size={56} />
-          </div>
+          <SkateBagLogo size={120} className="inline-block mb-4 shadow-2xl shadow-teal-500/20 transform -rotate-3 transition-transform hover:rotate-0 duration-500 rounded-[2.5rem]" />
           <div className="space-y-2">
             <h1 className="text-6xl font-black tracking-tighter text-white uppercase italic leading-none">
               Skatebag
             </h1>
-            <p className="text-emerald-400/60 font-bold tracking-[0.4em] uppercase text-[10px]">
+            <p className="text-teal-400/60 font-bold tracking-[0.4em] uppercase text-[10px]">
               What&apos;s in your bag? 🛹
             </p>
           </div>
@@ -33,7 +31,7 @@ export default async function LoginPage(props: {
         {/* Auth Card */}
         <div className="aurora-card p-10 rounded-[3rem] space-y-8">
           {message === "check_email" && (
-            <div className="p-5 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-black text-center uppercase tracking-widest leading-relaxed">
+            <div className="p-5 rounded-2xl bg-teal-500/10 border border-teal-500/20 text-teal-400 text-[10px] font-black text-center uppercase tracking-widest leading-relaxed">
               ACCESS_LINK SENT. CHECK YOUR INBOX.
             </div>
           )}
@@ -49,7 +47,7 @@ export default async function LoginPage(props: {
             <form action={signInWithGoogle}>
               <button
                 type="submit"
-                className="w-full flex items-center justify-center gap-4 bg-white text-black font-black py-5 px-8 rounded-2xl hover:bg-emerald-400 transition-all text-[11px] tracking-[0.2em] uppercase shadow-xl hover:scale-[1.02] active:scale-95"
+                className="w-full flex items-center justify-center gap-4 bg-white text-black font-black py-5 px-8 rounded-2xl hover:bg-teal-400 transition-all text-[11px] tracking-[0.2em] uppercase shadow-xl hover:scale-[1.02] active:scale-95"
               >
                 <GoogleIcon />
                 Login via Google
@@ -68,7 +66,7 @@ export default async function LoginPage(props: {
                 type="email"
                 placeholder="USER_EMAIL@DOMAIN.COM"
                 required
-                className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 text-xs font-mono text-white placeholder-slate-700 focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/40 transition-all"
+                className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 text-xs font-mono text-white placeholder-slate-700 focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500/40 transition-all"
               />
               <button
                 type="submit"

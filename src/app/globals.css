@@ -1,12 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --background: #020617;
-  --foreground: #ffffff;
-  --aurora-1: #10b981; /* Emerald */
-  --aurora-2: #059669; /* Darker Emerald */
-  --aurora-3: #34d399; /* Mint */
-  --aurora-4: #064e3b; /* Forest */
+  --background: #0f172a;
+  --foreground: #f1f5f9;
+  --aurora-1: #0d9488; /* Teal from the deck */
+  --aurora-2: #1e293b; /* Slate from the bag */
+  --aurora-3: #334155; /* Muted slate */
+  --aurora-4: #020617; /* Deepest background */
+  --accent: #2dd4bf; /* Vibrant teal for highlights */
 }
 
 * {
