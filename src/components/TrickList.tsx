@@ -86,7 +86,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail }: TrickListProps
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
               <div className="space-y-6">
                 <div className="flex items-center gap-5">
-                  <SkateBagLogo size={64} className="shadow-2xl shadow-teal-500/20 transform -rotate-3 shrink-0 rounded-2xl" />
+                  <SkateBagLogo size={64} className="shadow-2xl shadow-teal-500/20 transform -rotate-3 shrink-0" />
                   <div className="space-y-1">
                     <h1 className="text-5xl font-black tracking-tighter bg-gradient-to-br from-white via-white to-white/20 bg-clip-text text-transparent leading-none uppercase">
                       SkateBag
