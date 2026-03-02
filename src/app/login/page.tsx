@@ -17,7 +17,7 @@ export default async function LoginPage(props: {
       <div className="w-full max-w-md relative z-10 space-y-12">
         {/* Logo / Brand */}
         <div className="text-center space-y-6">
-          <SkateBagLogo size={120} className="inline-block mb-4 shadow-2xl shadow-teal-500/20 transform -rotate-3 transition-transform hover:rotate-0 duration-500" />
+          <SkateBagLogo size={120} className="inline-block mb-4 shadow-2xl shadow-teal-500/20 transform -rotate-3 transition-transform hover:rotate-0 duration-500 rounded-[2.8rem] overflow-hidden" />
           <div className="space-y-2">
             <h1 className="text-6xl font-black tracking-tighter text-white uppercase italic leading-none">
               Skatebag
