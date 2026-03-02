@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title: "SkateBag — What's in your bag?",
   description: "The definitive skateboarding trick database and tracker.",
   manifest: "/manifest.json",
-  themeColor: "#020617",
+  themeColor: "#2dd4bf",
   viewport: {
     width: "device-width",
     initialScale: 1,
