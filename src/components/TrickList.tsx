@@ -31,28 +31,28 @@ export function TrickList({ tricks, isAuthenticated, userEmail }: TrickListProps
   const progress = tricks.length > 0 ? (landed / tricks.length) * 100 : 0;
 
   return (
-    <div className="min-h-screen text-white selection:bg-[var(--neon-cyan)]/30">
-      {/* Cyber Header */}
-      <header className="sticky top-0 z-40 cyber-glass border-b border-white/10">
+    <div className="min-h-screen text-white selection:bg-[var(--safety-orange)]/30 pb-32">
+      {/* Industrial Header */}
+      <header className="sticky top-0 z-40 bg-[var(--background)] border-b-8 border-black">
         {/* User Nav Row */}
-        <div className="max-w-6xl mx-auto px-6 py-3 flex justify-between items-center border-b border-white/5">
+        <div className="max-w-6xl mx-auto px-6 py-3 flex justify-between items-center border-b-4 border-black">
           <div className="flex items-center gap-3">
             {!isAuthenticated ? (
-              <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest leading-none py-1">
-                Sign in to log tricks 🛹
+              <span className="text-[10px] text-slate-500 font-black uppercase tracking-widest leading-none py-1">
+                Awaiting clearance...
               </span>
             ) : (
               <>
-                <div className="flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-lg border border-white/10">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[var(--neon-cyan)] shadow-[0_0_5px_var(--neon-cyan)] animate-pulse" />
-                  <span className="text-[10px] text-white font-black leading-none truncate max-w-[120px] md:max-w-none uppercase tracking-tighter">{userEmail}</span>
+                <div className="flex items-center gap-2 bg-black px-3 py-1.5 border-2 border-white/10">
+                  <div className="w-2 h-2 bg-[var(--safety-orange)] shadow-[0_0_5px_var(--safety-orange)]" />
+                  <span className="text-[10px] text-white font-black leading-none truncate max-w-[120px] md:max-w-none uppercase tracking-widest">{userEmail}</span>
                 </div>
                 {userEmail === "justinreeves00@gmail.com" && (
                   <a 
                     href="/admin" 
-                    className="text-[9px] font-black text-[var(--neon-cyan)] uppercase tracking-widest hover:text-white transition-colors bg-[var(--neon-cyan)]/10 px-3 py-1.5 rounded-lg border border-[var(--neon-cyan)]/20"
+                    className="text-[9px] font-black text-black uppercase tracking-widest hover:bg-black hover:text-white transition-colors bg-[var(--caution-yellow)] px-3 py-1.5 border-2 border-black"
                   >
-                    Admin
+                    Control
                   </a>
                 )}
               </>
@@ -63,17 +63,17 @@ export function TrickList({ tricks, isAuthenticated, userEmail }: TrickListProps
             {!isAuthenticated ? (
               <a
                 href="/login"
-                className="inline-block px-5 py-2 rounded-sm bg-[var(--neon-cyan)] text-black text-[10px] font-black uppercase tracking-widest hover:brightness-110 transition-all shadow-[0_0_15px_rgba(0,243,255,0.4)]"
+                className="inline-block px-5 py-2 bg-white text-black text-[10px] font-black uppercase tracking-widest border-4 border-black shadow-[4px_4px_0px_#000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all"
               >
-                Sign in
+                Enter
               </a>
             ) : (
               <form action={signOut}>
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-sm bg-white/5 border border-white/10 text-[10px] text-slate-400 font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 transition-all"
+                  className="px-5 py-2 bg-black text-white text-[10px] font-black uppercase tracking-widest border-2 border-white/20 hover:bg-white hover:text-black transition-all"
                 >
-                  Sign out
+                  Exit
                 </button>
               </form>
             )}
@@ -81,41 +81,43 @@ export function TrickList({ tricks, isAuthenticated, userEmail }: TrickListProps
         </div>
 
         {/* Brand & Controls Row */}
-        <div className="max-w-6xl mx-auto px-6 py-10">
-          <div className="flex flex-col gap-10">
+        <div className="max-w-6xl mx-auto px-6 py-8">
+          <div className="flex flex-col gap-8">
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
               <div className="space-y-6">
                 <div className="flex items-center gap-5">
-                  <SkateBagLogo size={64} className="shadow-[0_0_30px_rgba(0,243,255,0.2)] transform -rotate-3 shrink-0" />
-                  <div className="space-y-1">
-                    <h1 className="text-5xl font-black tracking-tighter text-white leading-none uppercase italic">
+                  <div className="p-2 bg-white border-4 border-black shadow-[6px_6px_0px_#000] rotate-[-2deg]">
+                    <SkateBagLogo size={64} />
+                  </div>
+                  <div className="space-y-0">
+                    <h1 className="text-6xl font-black tracking-tighter text-white leading-none uppercase italic drop-shadow-[4px_4px_0px_#000]">
                       SkateBag
                     </h1>
-                    <p className="text-[10px] font-black text-[var(--neon-cyan)]/80 uppercase tracking-[0.4em] ml-1">
+                    <p className="text-[10px] font-black text-[var(--safety-orange)] uppercase tracking-[0.4em] ml-1 bg-black px-2 py-0.5 w-fit">
                       What&apos;s in your bag?
                     </p>
                   </div>
                 </div>
                 
                 {/* Bag Toggle Control */}
-                <div className="flex items-center p-1 rounded-xl bg-white/5 border border-white/10 w-fit">
+                <div className="flex items-center p-1 bg-black border-4 border-black w-fit">
                   <button 
                     onClick={() => setStatusFilter("all")}
-                    className={`px-4 py-2.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${statusFilter === "all" ? "bg-white text-black shadow-lg" : "text-slate-500 hover:text-white"}`}
+                    className={`px-4 py-2.5 text-[10px] font-black uppercase tracking-widest transition-all ${statusFilter === "all" ? "bg-white text-black" : "text-slate-500 hover:text-white"}`}
                   >
-                    All Tricks
+                    Vault
                   </button>
                   <button 
                     onClick={() => setStatusFilter("landed")}
-                    className={`px-4 py-2.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${statusFilter === "landed" ? "bg-[var(--neon-cyan)] text-black shadow-lg" : "text-slate-500 hover:text-white"}`}
+                    className={`px-4 py-2.5 text-[10px] font-black uppercase tracking-widest transition-all ${statusFilter === "landed" ? "bg-[var(--safety-orange)] text-white" : "text-slate-500 hover:text-white"}`}
                   >
                     Landed
                   </button>
                   <button 
                     onClick={() => setStatusFilter("locked")}
-                    className={`px-4 py-2.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${statusFilter === "locked" ? "bg-[var(--neon-magenta)] text-white shadow-lg" : "text-slate-500 hover:text-white"}`}
+                    className={`px-4 py-2.5 text-[10px] font-black uppercase tracking-widest transition-all ${statusFilter === "locked" ? "bg-[var(--caution-yellow)] text-black" : "text-slate-500 hover:text-white"}`}
                   >
-                    On Lock
+                    Locked
                   </button>
                 </div>
               </div>
@@ -123,19 +125,19 @@ export function TrickList({ tricks, isAuthenticated, userEmail }: TrickListProps
               {/* Stats & Search Area */}
               <div className="flex-1 max-w-2xl w-full flex flex-col sm:flex-row items-end gap-6">
                 {isAuthenticated && (
-                  <div className="flex gap-10 mb-1 px-2">
+                  <div className="flex gap-8 mb-1 px-2">
                     <div className="flex flex-col">
-                      <span className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em] mb-2">My Bag</span>
+                      <span className="text-[9px] text-slate-500 uppercase font-black tracking-widest mb-1">In Bag</span>
                       <div className="flex items-end gap-3">
-                        <span className="text-3xl font-black tracking-tighter leading-none">{landed}</span>
-                        <div className="w-20 h-1 bg-white/10 rounded-full overflow-hidden mb-1.5">
-                          <div className="h-full bg-[var(--neon-cyan)] shadow-[0_0_10px_var(--neon-cyan)] transition-all duration-1000" style={{ width: `${progress}%` }} />
+                        <span className="text-4xl font-black tracking-tighter leading-none text-white">{landed}</span>
+                        <div className="w-16 h-3 bg-black border-2 border-white/10 mb-1">
+                          <div className="h-full bg-[var(--safety-orange)]" style={{ width: `${progress}%` }} />
                         </div>
                       </div>
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em] mb-2">Practice</span>
-                      <span className="text-3xl font-black tracking-tighter leading-none text-[var(--neon-magenta)]">{locked}</span>
+                      <span className="text-[9px] text-slate-500 uppercase font-black tracking-widest mb-1">Practice</span>
+                      <span className="text-4xl font-black tracking-tighter leading-none text-[var(--caution-yellow)]">{locked}</span>
                     </div>
                   </div>
                 )}
@@ -143,17 +145,17 @@ export function TrickList({ tricks, isAuthenticated, userEmail }: TrickListProps
                 <div className="flex-1 w-full space-y-4">
                   <div className="relative group flex items-center gap-3">
                     <div className="relative flex-1">
-                      <div className="absolute inset-y-0 left-5 flex items-center pointer-events-none transition-colors group-focus-within:text-[var(--neon-cyan)] text-slate-500">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                      <div className="absolute inset-y-0 left-5 flex items-center pointer-events-none text-black z-10">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4">
                           <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
                         </svg>
                       </div>
                       <input
                         type="text"
-                        placeholder="SEARCH TRICKS..."
+                        placeholder="ENTER QUERY..."
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
-                        className="w-full bg-white/5 border border-white/10 rounded-xl pl-14 pr-6 py-5 text-sm font-black text-white placeholder-slate-700 focus:outline-none focus:ring-4 focus:ring-[var(--neon-cyan)]/10 focus:border-[var(--neon-cyan)]/40 transition-all uppercase tracking-widest"
+                        className="w-full bg-white border-4 border-black px-14 py-5 text-sm font-black text-black placeholder-slate-400 focus:outline-none focus:bg-[var(--caution-yellow)] transition-all uppercase tracking-widest shadow-[4px_4px_0px_#000]"
                       />
                     </div>
                     <div className="shrink-0">
@@ -169,32 +171,32 @@ export function TrickList({ tricks, isAuthenticated, userEmail }: TrickListProps
       </header>
 
       {/* Main Content Area */}
-      <main className="max-w-6xl mx-auto px-6 pt-16 pb-32">
-        <div className="mb-12 flex items-center gap-6">
-          <h2 className="text-[11px] font-black text-[var(--neon-cyan)] uppercase tracking-[0.4em] whitespace-nowrap italic">
-            {statusFilter === "all" ? "Trick Vault" : statusFilter === "landed" ? "In The Bag" : "Practice List"}
+      <main className="max-w-6xl mx-auto px-6 pt-12">
+        <div className="mb-10 flex items-center gap-4">
+          <h2 className="text-[14px] font-black text-white uppercase tracking-widest bg-black px-4 py-1 italic rotate-[-1deg]">
+            {statusFilter === "all" ? "Core Database" : statusFilter === "landed" ? "Active Inventory" : "Primary Targets"}
           </h2>
-          <div className="h-px w-full bg-gradient-to-r from-[var(--neon-cyan)]/30 to-transparent"></div>
-          <span className="text-[10px] font-black text-slate-400 tabular-nums bg-white/5 px-3 py-1 rounded-lg border border-white/10">{filtered.length} TRICKS</span>
+          <div className="h-1 flex-1 bg-black"></div>
+          <span className="text-[10px] font-black text-white bg-[var(--safety-orange)] px-3 py-1 border-2 border-black shadow-[2px_2px_0px_#000]">{filtered.length} UNITS</span>
         </div>
 
         {filtered.length === 0 ? (
-          <div className="py-40 flex flex-col items-center justify-center cyber-card rounded-3xl border-dashed border-white/10">
-            <div className="w-20 h-20 rounded-full bg-[var(--neon-cyan)]/5 flex items-center justify-center mb-8 border border-[var(--neon-cyan)]/10">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--neon-cyan)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <div className="py-32 flex flex-col items-center justify-center bg-black/20 border-8 border-black border-dashed">
+            <div className="w-20 h-20 bg-white border-4 border-black flex items-center justify-center mb-8 rotate-45 shadow-[8px_8px_0px_#000]">
+              <svg className="rotate-[-45deg]" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/>
               </svg>
             </div>
-            <p className="text-slate-500 text-lg font-black uppercase tracking-widest mb-8">No bangers found here</p>
+            <p className="text-white text-xl font-black uppercase tracking-widest mb-8 bg-black px-4 py-1">Zero Results</p>
             <button 
               onClick={() => { setSearch(""); setCategory("all"); setStatusFilter("all"); }}
-              className="px-8 py-4 bg-[var(--neon-cyan)] text-black hover:brightness-110 rounded-sm text-xs font-black uppercase tracking-widest transition-all shadow-[0_0_20px_var(--neon-cyan)]"
+              className="px-10 py-5 bg-[var(--safety-orange)] text-white border-4 border-black text-sm font-black uppercase tracking-widest hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none shadow-[6px_6px_0px_#000] transition-all"
             >
-              Reset Vault
+              Reset System
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10 items-start">
             {filtered.map((trick) => (
               <TrickCard
                 key={trick.id}

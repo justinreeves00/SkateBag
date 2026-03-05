@@ -9,34 +9,36 @@ export default async function LoginPage(props: {
   const error = searchParams.error as string;
 
   return (
-    <main className="min-h-screen flex items-center justify-center px-6 relative overflow-hidden bg-black">
-      {/* Cyber Glows */}
-      <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-[var(--neon-cyan)]/10 blur-[120px] rounded-full animate-pulse" />
-      <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-[var(--neon-magenta)]/10 blur-[120px] rounded-full animate-pulse [animation-delay:2s]" />
+    <main className="min-h-screen flex items-center justify-center px-6 relative overflow-hidden bg-[var(--background)]">
+      {/* Industrial Accents */}
+      <div className="absolute top-0 left-0 w-full h-24 bg-black border-b-8 border-[var(--safety-orange)] -skew-y-2 origin-top-left" />
+      <div className="absolute bottom-0 right-0 w-full h-24 bg-black border-t-8 border-[var(--caution-yellow)] skew-y-2 origin-bottom-right" />
 
-      <div className="w-full max-w-md relative z-10 space-y-12">
+      <div className="w-full max-w-md relative z-10 space-y-8">
         {/* Logo / Brand */}
-        <div className="text-center space-y-6">
-          <SkateBagLogo size={120} className="inline-block mb-4 shadow-[0_0_50px_rgba(0,243,255,0.2)] transform -rotate-3 transition-transform hover:rotate-0 duration-500" />
-          <div className="space-y-2">
-            <h1 className="text-6xl font-black tracking-tighter text-white uppercase italic leading-none">
+        <div className="text-center space-y-4">
+          <div className="inline-block p-4 bg-white border-8 border-black shadow-[12px_12px_0px_#000] rotate-[-3deg] transition-transform hover:rotate-0 duration-500">
+            <SkateBagLogo size={100} />
+          </div>
+          <div className="space-y-0">
+            <h1 className="text-7xl font-black tracking-tighter text-white uppercase italic drop-shadow-[6px_6px_0px_#000]">
               Skatebag
             </h1>
-            <p className="text-[var(--neon-cyan)]/80 font-black tracking-[0.4em] uppercase text-[10px]">
+            <p className="text-[var(--safety-orange)] font-black tracking-[0.4em] uppercase text-[12px] bg-black px-4 py-1 w-fit mx-auto">
               What&apos;s in your bag? 🛹
             </p>
           </div>
         </div>
 
         {/* Auth Card */}
-        <div className="cyber-card p-10 rounded-3xl space-y-8">
+        <div className="bg-white border-8 border-black p-10 shadow-[16px_16px_0px_#000] space-y-8 rotate-[1deg]">
           {message === "check_email" && (
-            <div className="p-5 rounded-xl bg-[var(--neon-cyan)]/10 border border-[var(--neon-cyan)]/20 text-[var(--neon-cyan)] text-[10px] font-black text-center uppercase tracking-widest leading-relaxed shadow-[0_0_15px_rgba(0,243,255,0.1)]">
+            <div className="p-4 bg-[var(--caution-yellow)] border-4 border-black text-black text-xs font-black text-center uppercase tracking-widest leading-relaxed">
               ACCESS_LINK SENT. CHECK YOUR INBOX.
             </div>
           )}
           {error && (
-            <div className="p-5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-[10px] font-black text-center uppercase tracking-widest leading-relaxed">
+            <div className="p-4 bg-black border-4 border-[var(--safety-orange)] text-[var(--safety-orange)] text-xs font-black text-center uppercase tracking-widest leading-relaxed">
               {error === "magic_link_failed" ? "LINK_DISPATCH_FAILURE" : 
                error === "google_failed" ? "AUTH_SEQUENCE_TERMINATED" : 
                decodeURIComponent(error).toUpperCase()}
@@ -47,17 +49,17 @@ export default async function LoginPage(props: {
             <form action={signInWithGoogle}>
               <button
                 type="submit"
-                className="w-full flex items-center justify-center gap-4 bg-[var(--neon-cyan)] text-black font-black py-5 px-8 rounded-xl hover:brightness-110 transition-all text-[11px] tracking-[0.2em] uppercase shadow-[0_0_20px_rgba(0,243,255,0.4)] hover:scale-[1.02] active:scale-95"
+                className="w-full flex items-center justify-center gap-4 bg-[var(--safety-orange)] text-white font-black py-5 px-8 border-4 border-black shadow-[6px_6px_0px_#000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all text-sm tracking-widest uppercase active:scale-95"
               >
                 <GoogleIcon />
                 Login via Google
               </button>
             </form>
 
-            <div className="flex items-center gap-5 py-4">
-              <div className="h-px flex-1 bg-white/5" />
-              <span className="text-[9px] text-slate-700 font-black uppercase tracking-[0.3em]">Direct Access</span>
-              <div className="h-px flex-1 bg-white/5" />
+            <div className="flex items-center gap-4 py-2">
+              <div className="h-1 flex-1 bg-black" />
+              <span className="text-[10px] text-black font-black uppercase tracking-widest bg-white px-2">Manual Access</span>
+              <div className="h-1 flex-1 bg-black" />
             </div>
 
             <form action={signInWithMagicLink} className="space-y-4">
@@ -66,25 +68,25 @@ export default async function LoginPage(props: {
                 type="email"
                 placeholder="USER_EMAIL@DOMAIN.COM"
                 required
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-5 text-xs font-black text-white placeholder-slate-800 focus:outline-none focus:ring-4 focus:ring-[var(--neon-cyan)]/10 focus:border-[var(--neon-cyan)]/40 transition-all uppercase tracking-widest"
+                className="w-full bg-slate-100 border-4 border-black px-6 py-5 text-xs font-black text-black placeholder-slate-400 focus:outline-none focus:bg-[var(--caution-yellow)] transition-all uppercase tracking-widest"
               />
               <button
                 type="submit"
-                className="w-full bg-white/5 text-slate-500 border border-white/10 font-black py-5 px-8 rounded-xl hover:bg-white hover:text-black transition-all text-[11px] tracking-[0.2em] uppercase hover:scale-[1.02] active:scale-95"
+                className="w-full bg-black text-white font-black py-5 px-8 border-4 border-black shadow-[6px_6px_0px_#000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all text-sm tracking-widest uppercase active:scale-95"
               >
                 Request Magic Link
               </button>
             </form>
           </div>
           
-          <p className="text-center text-[9px] text-slate-700 font-black uppercase tracking-[0.2em] leading-relaxed italic">
-            Biometric sync enabled. Multi-device support.
+          <p className="text-center text-[10px] text-slate-500 font-black uppercase tracking-widest leading-relaxed italic">
+            Industrial grade security enabled.
           </p>
         </div>
 
         <div className="text-center">
-          <p className="text-[9px] text-slate-800 font-black uppercase tracking-[0.3em]">
-            Database v1.0.4 // Connection Secured
+          <p className="text-[10px] text-white font-black uppercase tracking-widest bg-black px-4 py-1 w-fit mx-auto">
+            Database v1.0.5 // Link Secure
           </p>
         </div>
       </div>
@@ -94,7 +96,7 @@ export default async function LoginPage(props: {
 
 function GoogleIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
       <path
         d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
         fill="currentColor"
