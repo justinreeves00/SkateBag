@@ -44,27 +44,55 @@ export async function setTrickStatus(
   return { success: true };
 }
 
-export async function updateTrickLevel(trickId: string, level: number) {
+export async function deleteTrick(trickId: string) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  // Admin check - restrict to your email
-  if (user?.email !== 'justinreeves00@gmail.com') {
-    return;
-  }
+  if (user?.email !== 'justinreeves00@gmail.com') return { error: "Unauthorized" };
 
   const { error } = await supabase
     .from("tricks")
-    .update({ difficulty: level })
+    .delete()
     .eq("id", trickId);
 
-  if (error) {
-    console.error(error.message);
-    return;
-  }
-
+  if (error) return { error: error.message };
   revalidatePath("/");
   revalidatePath("/admin");
+  return { success: true };
+}
+
+export async function renameTrick(trickId: string, newName: string) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (user?.email !== 'justinreeves00@gmail.com') return { error: "Unauthorized" };
+
+  const { error } = await supabase
+    .from("tricks")
+    .update({ name: newName })
+    .eq("id", trickId);
+
+  if (error) return { error: error.message };
+  revalidatePath("/");
+  revalidatePath("/admin");
+  return { success: true };
+}
+
+export async function updateTrick(trickId: string, updates: Partial<{ name: string, category: string, difficulty: number, youtube_query: string }>) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (user?.email !== 'justinreeves00@gmail.com') return { error: "Unauthorized" };
+
+  const { error } = await supabase
+    .from("tricks")
+    .update(updates)
+    .eq("id", trickId);
+
+  if (error) return { error: error.message };
+  revalidatePath("/");
+  revalidatePath("/admin");
+  return { success: true };
 }
 
 export async function submitTrickLevelSuggestion(trickId: string, level: number) {
