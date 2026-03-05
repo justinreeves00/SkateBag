@@ -331,23 +331,6 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
                 )}
               </div>
             </div>
-
-            {/* Performance Metric */}
-            <div className="bg-white/5 rounded-3xl border border-white/10 p-10 flex flex-col items-center justify-center text-center gap-5">
-              <div className={`w-24 h-24 rounded-2xl flex items-center justify-center transition-all duration-1000 ${
-                status === "landed" ? "bg-[var(--neon-cyan)] shadow-[0_0_40px_rgba(0,243,255,0.4)] rotate-3" : "bg-white/5"
-              }`}>
-                {status === "landed" ? <CheckIcon size={48} color="black" /> : <SkateboardIcon size={48} color="#334155" />}
-              </div>
-              <div className="space-y-2">
-                <p className="text-[10px] font-black text-white uppercase tracking-[0.3em]">
-                  {status === "landed" ? "Bagged!" : "Practice Session"}
-                </p>
-                <p className="text-sm text-slate-500 font-medium">
-                  {status === "landed" ? "Logged in your bag" : "Repeat until consistent"}
-                </p>
-              </div>
-            </div>
           </div>
         </div>
       )}
