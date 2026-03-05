@@ -95,6 +95,24 @@ export async function updateTrick(trickId: string, updates: Partial<{ name: stri
   return { success: true };
 }
 
+export async function addTrick(trick: { name: string, category: string, difficulty: number, youtube_query?: string }) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (user?.email !== 'justinreeves00@gmail.com') return { error: "Unauthorized" };
+
+  const { data, error } = await supabase
+    .from("tricks")
+    .insert([trick])
+    .select()
+    .single();
+
+  if (error) return { error: error.message };
+  revalidatePath("/");
+  revalidatePath("/admin");
+  return { success: true, data };
+}
+
 export async function submitTrickLevelSuggestion(trickId: string, level: number) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();

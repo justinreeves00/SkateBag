@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { updateTrick, deleteTrick, handleTrickSuggestion } from "@/lib/trick-actions";
+import { updateTrick, deleteTrick, handleTrickSuggestion, addTrick } from "@/lib/trick-actions";
 import { SkateBagLogo } from "@/components/Logo";
 import type { Trick, TrickCategory } from "@/lib/types";
 
@@ -20,6 +20,14 @@ export function AdminClient({ initialTricks, suggestions }: AdminClientProps) {
   const [searchQuery, setSearchSearchQuery] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editForm, setEditForm] = useState<Partial<Trick>>({});
+  
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [addForm, setAddForm] = useState<{ name: string, category: TrickCategory, difficulty: number, youtube_query: string }>({
+    name: "",
+    category: "flatground",
+    difficulty: 1,
+    youtube_query: ""
+  });
 
   const filteredTricks = tricks.filter(t => {
     const matchesCategory = filterCategory === "all" || t.category === filterCategory;
@@ -43,6 +51,18 @@ export function AdminClient({ initialTricks, suggestions }: AdminClientProps) {
     }
   }
 
+  async function handleAdd(e: React.FormEvent) {
+    e.preventDefault();
+    if (!addForm.name.trim()) return;
+    
+    const res = await addTrick(addForm);
+    if (res.success && res.data) {
+      setTricks([res.data as Trick, ...tricks]);
+      setShowAddForm(false);
+      setAddForm({ name: "", category: "flatground", difficulty: 1, youtube_query: "" });
+    }
+  }
+
   return (
     <div className="max-w-6xl mx-auto space-y-12">
       <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-white/10 pb-8">
@@ -54,11 +74,86 @@ export function AdminClient({ initialTricks, suggestions }: AdminClientProps) {
           </div>
         </div>
         <div className="flex gap-3">
+          <button 
+            onClick={() => setShowAddForm(!showAddForm)}
+            className="px-6 py-3 rounded-lg bg-[var(--neon-cyan)] text-black text-[10px] font-black uppercase tracking-widest hover:brightness-110 transition-all shadow-[0_0_15px_rgba(0,243,255,0.3)]"
+          >
+            {showAddForm ? "Cancel Add" : "Deploy New Trick"}
+          </button>
           <a href="/" className="px-6 py-3 rounded-lg bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-all">
             Exit
           </a>
         </div>
       </header>
+
+      {/* Add Trick Form */}
+      {showAddForm && (
+        <section className="animate-in fade-in slide-in-from-top-4 duration-300">
+          <div className="cyber-card p-10 rounded-3xl border-[var(--neon-cyan)]/40 bg-[var(--neon-cyan)]/5">
+            <h2 className="text-2xl font-black italic uppercase mb-8 text-[var(--neon-cyan)]">New Trick Deployment</h2>
+            <form onSubmit={handleAdd} className="space-y-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="space-y-2">
+                  <label className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Identification (Name)</label>
+                  <input 
+                    type="text" 
+                    placeholder="E.G. KICKFLIP..."
+                    value={addForm.name}
+                    onChange={(e) => setAddForm({...addForm, name: e.target.value})}
+                    required
+                    autoFocus
+                    className="w-full bg-black border border-white/20 rounded-xl px-6 py-4 text-sm font-black uppercase italic text-white focus:border-[var(--neon-cyan)] outline-none transition-all"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Sector Assignment</label>
+                  <select 
+                    value={addForm.category}
+                    onChange={(e) => setAddForm({...addForm, category: e.target.value as any})}
+                    className="w-full bg-black border border-white/20 rounded-xl px-6 py-4 text-sm font-black uppercase text-white focus:border-[var(--neon-cyan)] outline-none transition-all"
+                  >
+                    {CATEGORIES.map(cat => <option key={cat} value={cat}>{cat.toUpperCase()}</option>)}
+                  </select>
+                </div>
+                <div className="space-y-2 md:col-span-2">
+                  <label className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Custom YouTube Query (Optional)</label>
+                  <input 
+                    type="text" 
+                    placeholder="E.G. HOW TO KICKFLIP PROPERLY..."
+                    value={addForm.youtube_query}
+                    onChange={(e) => setAddForm({...addForm, youtube_query: e.target.value})}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-sm font-black text-white focus:border-[var(--neon-cyan)] outline-none transition-all"
+                  />
+                </div>
+              </div>
+
+              <div className="flex flex-wrap items-center justify-between gap-8 pt-6 border-t border-white/10">
+                <div className="space-y-2">
+                  <label className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Threat Level (Difficulty)</label>
+                  <div className="flex gap-2">
+                    {[1, 2, 3, 4, 5].map(lvl => (
+                      <button 
+                        key={lvl}
+                        type="button"
+                        onClick={() => setAddForm({...addForm, difficulty: lvl})}
+                        className={`w-12 h-12 rounded-xl font-black transition-all border-2 ${addForm.difficulty === lvl ? "bg-[var(--neon-cyan)] text-black border-[var(--neon-cyan)] shadow-[0_0_15px_var(--neon-cyan)]" : "bg-black text-slate-500 border-white/10 hover:border-white/30"}`}
+                      >
+                        {lvl}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <button 
+                  type="submit"
+                  className="px-12 py-4 bg-[var(--neon-cyan)] text-black text-xs font-black uppercase tracking-widest rounded-xl hover:brightness-110 shadow-xl shadow-[var(--neon-cyan)]/20 active:scale-95 transition-all"
+                >
+                  Authorize Entry
+                </button>
+              </div>
+            </form>
+          </div>
+        </section>
+      )}
 
       {/* Suggestions Section */}
       {suggestions && suggestions.length > 0 && (
