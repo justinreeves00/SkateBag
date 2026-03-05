@@ -1,13 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0f172a;
-  --foreground: #f1f5f9;
-  --aurora-1: #0d9488; /* Teal from the deck */
-  --aurora-2: #1e293b; /* Slate from the bag */
-  --aurora-3: #334155; /* Muted slate */
-  --aurora-4: #020617; /* Deepest background */
-  --accent: #2dd4bf; /* Vibrant teal for highlights */
+  --background: #000000;
+  --foreground: #ffffff;
+  --neon-cyan: #00f3ff;
+  --neon-magenta: #ff00ff;
+  --surface: #0a0a0a;
+  --surface-muted: #121212;
+  --accent: var(--neon-cyan);
+  --glass-bg: rgba(10, 10, 10, 0.6);
+  --glass-border: rgba(0, 243, 255, 0.2);
 }
 
 * {
@@ -30,7 +32,7 @@ body {
   position: relative;
 }
 
-/* Aurora Background */
+/* Cyber Grid Background */
 body::before {
   content: "";
   position: fixed;
@@ -39,19 +41,27 @@ body::before {
   right: 0;
   bottom: 0;
   z-index: -1;
-  background: 
-    radial-gradient(circle at 20% 20%, var(--aurora-1) 0%, transparent 40%),
-    radial-gradient(circle at 80% 30%, var(--aurora-2) 0%, transparent 40%),
-    radial-gradient(circle at 40% 70%, var(--aurora-3) 0%, transparent 40%),
-    radial-gradient(circle at 70% 80%, var(--aurora-4) 0%, transparent 40%);
-  filter: blur(100px);
-  opacity: 0.15;
-  animation: aurora-float 20s ease-in-out infinite alternate;
+  background-image: 
+    linear-gradient(rgba(0, 243, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 243, 255, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: center;
+  mask-image: radial-gradient(circle at 50% 50%, black, transparent 80%);
 }
 
-@keyframes aurora-float {
-  0% { transform: scale(1) translate(0, 0); }
-  100% { transform: scale(1.2) translate(5%, 5%); }
+/* Cyber Glows */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -2;
+  background: 
+    radial-gradient(circle at 10% 10%, rgba(0, 243, 255, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 90% 90%, rgba(255, 0, 255, 0.1) 0%, transparent 40%);
+  filter: blur(80px);
 }
 
 /* Modern Scrollbar */
@@ -62,34 +72,32 @@ body::before {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--neon-cyan);
+  box-shadow: 0 0 10px var(--neon-cyan);
   border-radius: 10px;
 }
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
+
+/* Cyber Glassmorphism */
+.cyber-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Enhanced Glassmorphism */
-.aurora-card {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+.cyber-card:hover {
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
+  transform: translateY(-2px);
 }
 
-.aurora-card:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.15);
-  transform: translateY(-4px);
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
-}
-
-.aurora-glass {
-  background: rgba(0, 0, 0, 0.2);
+.cyber-glass {
+  background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(30px);
   -webkit-backdrop-filter: blur(30px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--glass-border);
 }
 
 .no-scrollbar::-webkit-scrollbar {
@@ -98,4 +106,22 @@ body::before {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* Utility High Contrast Buttons */
+.btn-cyber {
+  background: var(--neon-cyan);
+  color: #000;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 1rem 2rem;
+  border-radius: 0;
+  clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+  transition: all 0.2s;
+}
+
+.btn-cyber:hover {
+  filter: brightness(1.2);
+  box-shadow: 0 0 15px var(--neon-cyan);
 }

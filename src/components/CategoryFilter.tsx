@@ -40,11 +40,11 @@ export function CategoryFilter({ active, onChange }: CategoryFilterProps) {
     <div className="relative w-full" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between px-6 py-4 rounded-2xl bg-white/5 border border-white/10 text-slate-300 transition-all hover:bg-white/10 hover:border-white/20 active:scale-[0.98]"
+        className="w-full flex items-center justify-between px-6 py-4 rounded-xl bg-white/5 border border-white/10 text-slate-400 transition-all hover:bg-white/10 hover:border-[var(--neon-cyan)]/30 active:scale-[0.98]"
       >
         <div className="flex flex-col items-start">
-          <span className="text-[8px] font-black text-teal-500 uppercase tracking-[0.3em] mb-1">Sector</span>
-          <span className="text-xs font-bold uppercase tracking-widest">{activeLabel}</span>
+          <span className="text-[8px] font-black text-[var(--neon-cyan)] uppercase tracking-[0.3em] mb-1">Target Sector</span>
+          <span className="text-xs font-black uppercase tracking-widest text-white">{activeLabel}</span>
         </div>
         <div className={`transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
@@ -54,7 +54,7 @@ export function CategoryFilter({ active, onChange }: CategoryFilterProps) {
       </button>
 
       {isOpen && (
-        <div className="absolute top-full left-0 w-full mt-2 z-[60] bg-[#0f1115] border border-white/10 rounded-[2rem] shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+        <div className="absolute top-full left-0 w-full mt-2 z-[60] bg-[var(--surface)] border border-white/10 rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
           <div className="p-2 grid grid-cols-1 sm:grid-cols-2 gap-1">
             {CATEGORIES.map((cat) => (
               <button
@@ -63,13 +63,13 @@ export function CategoryFilter({ active, onChange }: CategoryFilterProps) {
                   onChange(cat.value);
                   setIsOpen(false);
                 }}
-                className={`flex items-center gap-3 px-5 py-4 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
+                className={`flex items-center gap-3 px-5 py-4 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${
                   active === cat.value
-                    ? "bg-teal-500 text-black shadow-lg"
-                    : "text-slate-500 hover:bg-white/5 hover:text-teal-400"
+                    ? "bg-[var(--neon-cyan)] text-black shadow-lg"
+                    : "text-slate-600 hover:bg-white/5 hover:text-[var(--neon-cyan)]"
                 }`}
               >
-                <div className={`w-1.5 h-1.5 rounded-full ${active === cat.value ? "bg-black" : "bg-teal-500/20"}`} />
+                <div className={`w-1.5 h-1.5 rounded-full ${active === cat.value ? "bg-black" : "bg-[var(--neon-cyan)]/20"}`} />
                 {cat.label}
               </button>
             ))}

@@ -9,34 +9,34 @@ export default async function LoginPage(props: {
   const error = searchParams.error as string;
 
   return (
-    <main className="min-h-screen flex items-center justify-center px-6 relative overflow-hidden bg-[#020617]">
-      {/* Aurora Glows */}
-      <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-teal-600/20 blur-[120px] rounded-full animate-pulse" />
-      <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-teal-900/20 blur-[120px] rounded-full animate-pulse [animation-delay:2s]" />
+    <main className="min-h-screen flex items-center justify-center px-6 relative overflow-hidden bg-black">
+      {/* Cyber Glows */}
+      <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-[var(--neon-cyan)]/10 blur-[120px] rounded-full animate-pulse" />
+      <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-[var(--neon-magenta)]/10 blur-[120px] rounded-full animate-pulse [animation-delay:2s]" />
 
       <div className="w-full max-w-md relative z-10 space-y-12">
         {/* Logo / Brand */}
         <div className="text-center space-y-6">
-          <SkateBagLogo size={120} className="inline-block mb-4 shadow-2xl shadow-teal-500/20 transform -rotate-3 transition-transform hover:rotate-0 duration-500" />
+          <SkateBagLogo size={120} className="inline-block mb-4 shadow-[0_0_50px_rgba(0,243,255,0.2)] transform -rotate-3 transition-transform hover:rotate-0 duration-500" />
           <div className="space-y-2">
             <h1 className="text-6xl font-black tracking-tighter text-white uppercase italic leading-none">
               Skatebag
             </h1>
-            <p className="text-teal-400/60 font-bold tracking-[0.4em] uppercase text-[10px]">
-              What&apos;s in your bag? 🛹
+            <p className="text-[var(--neon-cyan)]/80 font-black tracking-[0.4em] uppercase text-[10px]">
+              Visualizing your arsenal 🛹
             </p>
           </div>
         </div>
 
         {/* Auth Card */}
-        <div className="aurora-card p-10 rounded-[3rem] space-y-8">
+        <div className="cyber-card p-10 rounded-3xl space-y-8">
           {message === "check_email" && (
-            <div className="p-5 rounded-2xl bg-teal-500/10 border border-teal-500/20 text-teal-400 text-[10px] font-black text-center uppercase tracking-widest leading-relaxed">
+            <div className="p-5 rounded-xl bg-[var(--neon-cyan)]/10 border border-[var(--neon-cyan)]/20 text-[var(--neon-cyan)] text-[10px] font-black text-center uppercase tracking-widest leading-relaxed shadow-[0_0_15px_rgba(0,243,255,0.1)]">
               ACCESS_LINK SENT. CHECK YOUR INBOX.
             </div>
           )}
           {error && (
-            <div className="p-5 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-400 text-[10px] font-black text-center uppercase tracking-widest leading-relaxed">
+            <div className="p-5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-[10px] font-black text-center uppercase tracking-widest leading-relaxed">
               {error === "magic_link_failed" ? "LINK_DISPATCH_FAILURE" : 
                error === "google_failed" ? "AUTH_SEQUENCE_TERMINATED" : 
                decodeURIComponent(error).toUpperCase()}
@@ -47,7 +47,7 @@ export default async function LoginPage(props: {
             <form action={signInWithGoogle}>
               <button
                 type="submit"
-                className="w-full flex items-center justify-center gap-4 bg-white text-black font-black py-5 px-8 rounded-2xl hover:bg-teal-400 transition-all text-[11px] tracking-[0.2em] uppercase shadow-xl hover:scale-[1.02] active:scale-95"
+                className="w-full flex items-center justify-center gap-4 bg-[var(--neon-cyan)] text-black font-black py-5 px-8 rounded-xl hover:brightness-110 transition-all text-[11px] tracking-[0.2em] uppercase shadow-[0_0_20px_rgba(0,243,255,0.4)] hover:scale-[1.02] active:scale-95"
               >
                 <GoogleIcon />
                 Login via Google
@@ -56,7 +56,7 @@ export default async function LoginPage(props: {
 
             <div className="flex items-center gap-5 py-4">
               <div className="h-px flex-1 bg-white/5" />
-              <span className="text-[9px] text-slate-600 font-black uppercase tracking-[0.3em]">Direct Access</span>
+              <span className="text-[9px] text-slate-700 font-black uppercase tracking-[0.3em]">Direct Access</span>
               <div className="h-px flex-1 bg-white/5" />
             </div>
 
@@ -66,24 +66,24 @@ export default async function LoginPage(props: {
                 type="email"
                 placeholder="USER_EMAIL@DOMAIN.COM"
                 required
-                className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 text-xs font-mono text-white placeholder-slate-700 focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500/40 transition-all"
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-5 text-xs font-black text-white placeholder-slate-800 focus:outline-none focus:ring-4 focus:ring-[var(--neon-cyan)]/10 focus:border-[var(--neon-cyan)]/40 transition-all uppercase tracking-widest"
               />
               <button
                 type="submit"
-                className="w-full bg-white/5 text-slate-300 border border-white/10 font-black py-5 px-8 rounded-2xl hover:bg-white hover:text-black transition-all text-[11px] tracking-[0.2em] uppercase hover:scale-[1.02] active:scale-95"
+                className="w-full bg-white/5 text-slate-500 border border-white/10 font-black py-5 px-8 rounded-xl hover:bg-white hover:text-black transition-all text-[11px] tracking-[0.2em] uppercase hover:scale-[1.02] active:scale-95"
               >
                 Request Magic Link
               </button>
             </form>
           </div>
           
-          <p className="text-center text-[9px] text-slate-600 font-bold uppercase tracking-[0.2em] leading-relaxed">
+          <p className="text-center text-[9px] text-slate-700 font-black uppercase tracking-[0.2em] leading-relaxed italic">
             Biometric sync enabled. Multi-device support.
           </p>
         </div>
 
         <div className="text-center">
-          <p className="text-[9px] text-slate-700 font-bold uppercase tracking-[0.3em]">
+          <p className="text-[9px] text-slate-800 font-black uppercase tracking-[0.3em]">
             Database v1.0.4 // Connection Secured
           </p>
         </div>
