@@ -148,13 +148,13 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
         {showLevelEdit && (
           <div className="bg-black/40 p-5 rounded-2xl border border-[var(--neon-cyan)]/20 space-y-4 animate-in fade-in duration-300" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between">
-              <span className="text-[10px] font-black text-[var(--neon-cyan)] uppercase tracking-widest">Target Difficulty</span>
+              <span className="text-[10px] font-black text-[var(--neon-cyan)] uppercase tracking-widest">Suggest Level Change</span>
               <button onClick={() => setShowLevelEdit(false)} className="text-slate-500 hover:text-white transition-colors">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
               </button>
             </div>
             {suggestionSubmitted ? (
-              <p className="text-[var(--neon-cyan)] text-xs font-bold uppercase text-center py-2 italic">Relay sent to HQ 🛰️</p>
+              <p className="text-[var(--neon-cyan)] text-xs font-bold uppercase text-center py-2 italic">Suggestion sent for review! 🛹</p>
             ) : (
               <div className="grid grid-cols-5 gap-2">
                 {[1, 2, 3, 4, 5].map((lvl) => (
@@ -188,7 +188,7 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
               disabled={loading}
             >
               <CheckIcon size={18} />
-              <span>Bagged</span>
+              <span>Landed</span>
             </button>
             <button
               onClick={() => setShowPrompt(!showPrompt)}
@@ -200,7 +200,7 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
               disabled={loading}
             >
               <LockIcon size={16} />
-              <span>Locking</span>
+              <span>Locked</span>
             </button>
           </div>
         )}
@@ -218,8 +218,8 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
           
           <div className="space-y-8">
             <div className="text-center space-y-2">
-              <h4 className="text-3xl font-black tracking-tighter text-white uppercase italic">Calibration Test</h4>
-              <p className="text-slate-500 text-sm font-medium uppercase tracking-widest">Log successful reps out of 10</p>
+              <h4 className="text-3xl font-black tracking-tighter text-white uppercase italic">Session Test</h4>
+              <p className="text-slate-500 text-sm font-medium uppercase tracking-widest">Perform 10 attempts now.</p>
             </div>
             
             <div className="grid grid-cols-6 gap-3">
@@ -251,7 +251,7 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
             <div className="flex items-center justify-between px-1">
               <div className="flex items-center gap-3">
                 <div className="w-2 h-2 rounded-full bg-[var(--neon-cyan)] shadow-[0_0_8px_var(--neon-cyan)] animate-pulse" />
-                <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Tutorial Feed</span>
+                <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Trick Feed</span>
               </div>
               <div className="flex gap-4">
                 {searchMode === "query" && (
@@ -259,7 +259,7 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
                     onClick={tryExact}
                     className="text-[9px] font-black text-[var(--neon-cyan)] uppercase tracking-widest hover:text-white transition-colors"
                   >
-                    Exact Match 🎯
+                    Exact Match Search 🎯
                   </button>
                 )}
                 {videoIds.length > 1 && (
@@ -268,13 +268,13 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
                       onClick={prevVideo}
                       className="text-[9px] font-black text-[var(--neon-cyan)] uppercase tracking-widest hover:text-white transition-colors"
                     >
-                      PREV
+                      Prev Video
                     </button>
                     <button 
                       onClick={nextVideo}
                       className="text-[9px] font-black text-[var(--neon-cyan)] uppercase tracking-widest hover:text-white transition-colors"
                     >
-                      NEXT ({currentVideoIndex + 1}/{videoIds.length})
+                      Next Video ({currentVideoIndex + 1}/{videoIds.length})
                     </button>
                   </div>
                 )}
@@ -296,11 +296,11 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
               ) : fetchingVideo ? (
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
                   <div className="w-8 h-8 border-3 border-[var(--neon-cyan)]/20 border-t-[var(--neon-cyan)] rounded-full animate-spin" />
-                  <span className="text-[10px] font-bold text-slate-600 uppercase tracking-widest">Scanning...</span>
+                  <span className="text-[10px] font-bold text-slate-600 uppercase tracking-widest">Searching...</span>
                 </div>
               ) : (
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-xs text-slate-700 font-bold uppercase tracking-[0.2em] italic">No relay found</span>
+                  <span className="text-xs text-slate-700 font-bold uppercase tracking-[0.2em] italic">Video unavailable</span>
                 </div>
               )}
             </div>
@@ -311,7 +311,7 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
             <div className="space-y-8">
               {trick.history && (
                 <div className="space-y-4">
-                  <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Data Log</span>
+                  <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Intel</span>
                   <p className="text-sm text-slate-300 leading-relaxed italic border-l-2 border-[var(--neon-cyan)]/30 pl-5">"{trick.history}"</p>
                 </div>
               )}
@@ -319,13 +319,13 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
               <div className="flex gap-16">
                 {trick.inventor && (
                   <div className="space-y-2">
-                    <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Originator</span>
+                    <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Creator</span>
                     <p className="text-sm text-white font-black tracking-tight uppercase italic">{trick.inventor}</p>
                   </div>
                 )}
                 {trick.year && (
                   <div className="space-y-2">
-                    <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Stamped</span>
+                    <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Year</span>
                     <p className="text-sm text-white font-black tracking-tight uppercase">{trick.year}</p>
                   </div>
                 )}
@@ -341,10 +341,10 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
               </div>
               <div className="space-y-2">
                 <p className="text-[10px] font-black text-white uppercase tracking-[0.3em]">
-                  {status === "landed" ? "Mission Complete" : "Operational Target"}
+                  {status === "landed" ? "Bagged!" : "Practice Session"}
                 </p>
                 <p className="text-sm text-slate-500 font-medium">
-                  {status === "landed" ? "Stored in secure bag" : "Awaiting successful execution"}
+                  {status === "landed" ? "Logged in your bag" : "Repeat until consistent"}
                 </p>
               </div>
             </div>

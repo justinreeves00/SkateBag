@@ -43,7 +43,7 @@ export function CategoryFilter({ active, onChange }: CategoryFilterProps) {
         className="w-full flex items-center justify-between px-6 py-4 rounded-xl bg-white/5 border border-white/10 text-slate-400 transition-all hover:bg-white/10 hover:border-[var(--neon-cyan)]/30 active:scale-[0.98]"
       >
         <div className="flex flex-col items-start">
-          <span className="text-[8px] font-black text-[var(--neon-cyan)] uppercase tracking-[0.3em] mb-1">Target Sector</span>
+          <span className="text-[8px] font-black text-[var(--neon-cyan)] uppercase tracking-[0.3em] mb-1">Sector</span>
           <span className="text-xs font-black uppercase tracking-widest text-white">{activeLabel}</span>
         </div>
         <div className={`transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}>

@@ -39,7 +39,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail }: TrickListProps
           <div className="flex items-center gap-3">
             {!isAuthenticated ? (
               <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest leading-none py-1">
-                Awaiting authentication...
+                Sign in to log tricks 🛹
               </span>
             ) : (
               <>
@@ -52,7 +52,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail }: TrickListProps
                     href="/admin" 
                     className="text-[9px] font-black text-[var(--neon-cyan)] uppercase tracking-widest hover:text-white transition-colors bg-[var(--neon-cyan)]/10 px-3 py-1.5 rounded-lg border border-[var(--neon-cyan)]/20"
                   >
-                    Control
+                    Admin
                   </a>
                 )}
               </>
@@ -65,7 +65,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail }: TrickListProps
                 href="/login"
                 className="inline-block px-5 py-2 rounded-sm bg-[var(--neon-cyan)] text-black text-[10px] font-black uppercase tracking-widest hover:brightness-110 transition-all shadow-[0_0_15px_rgba(0,243,255,0.4)]"
               >
-                Access
+                Sign in
               </a>
             ) : (
               <form action={signOut}>
@@ -73,7 +73,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail }: TrickListProps
                   type="submit"
                   className="px-5 py-2 rounded-sm bg-white/5 border border-white/10 text-[10px] text-slate-400 font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 transition-all"
                 >
-                  Disconnect
+                  Sign out
                 </button>
               </form>
             )}
@@ -92,7 +92,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail }: TrickListProps
                       SkateBag
                     </h1>
                     <p className="text-[10px] font-black text-[var(--neon-cyan)]/80 uppercase tracking-[0.4em] ml-1">
-                      Visualizing your arsenal
+                      What&apos;s in your bag?
                     </p>
                   </div>
                 </div>
@@ -103,7 +103,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail }: TrickListProps
                     onClick={() => setStatusFilter("all")}
                     className={`px-4 py-2.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${statusFilter === "all" ? "bg-white text-black shadow-lg" : "text-slate-500 hover:text-white"}`}
                   >
-                    All Units
+                    All Tricks
                   </button>
                   <button 
                     onClick={() => setStatusFilter("landed")}
@@ -115,7 +115,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail }: TrickListProps
                     onClick={() => setStatusFilter("locked")}
                     className={`px-4 py-2.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${statusFilter === "locked" ? "bg-[var(--neon-magenta)] text-white shadow-lg" : "text-slate-500 hover:text-white"}`}
                   >
-                    Locked
+                    On Lock
                   </button>
                 </div>
               </div>
@@ -125,7 +125,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail }: TrickListProps
                 {isAuthenticated && (
                   <div className="flex gap-10 mb-1 px-2">
                     <div className="flex flex-col">
-                      <span className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em] mb-2">Stored</span>
+                      <span className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em] mb-2">My Bag</span>
                       <div className="flex items-end gap-3">
                         <span className="text-3xl font-black tracking-tighter leading-none">{landed}</span>
                         <div className="w-20 h-1 bg-white/10 rounded-full overflow-hidden mb-1.5">
@@ -134,7 +134,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail }: TrickListProps
                       </div>
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em] mb-2">Targeted</span>
+                      <span className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em] mb-2">Practice</span>
                       <span className="text-3xl font-black tracking-tighter leading-none text-[var(--neon-magenta)]">{locked}</span>
                     </div>
                   </div>
@@ -150,7 +150,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail }: TrickListProps
                       </div>
                       <input
                         type="text"
-                        placeholder="ENTER QUERY..."
+                        placeholder="SEARCH TRICKS..."
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                         className="w-full bg-white/5 border border-white/10 rounded-xl pl-14 pr-6 py-5 text-sm font-black text-white placeholder-slate-700 focus:outline-none focus:ring-4 focus:ring-[var(--neon-cyan)]/10 focus:border-[var(--neon-cyan)]/40 transition-all uppercase tracking-widest"
@@ -172,10 +172,10 @@ export function TrickList({ tricks, isAuthenticated, userEmail }: TrickListProps
       <main className="max-w-6xl mx-auto px-6 pt-16 pb-32">
         <div className="mb-12 flex items-center gap-6">
           <h2 className="text-[11px] font-black text-[var(--neon-cyan)] uppercase tracking-[0.4em] whitespace-nowrap italic">
-            {statusFilter === "all" ? "Core Database" : statusFilter === "landed" ? "Active Inventory" : "Primary Targets"}
+            {statusFilter === "all" ? "Trick Vault" : statusFilter === "landed" ? "In The Bag" : "Practice List"}
           </h2>
           <div className="h-px w-full bg-gradient-to-r from-[var(--neon-cyan)]/30 to-transparent"></div>
-          <span className="text-[10px] font-black text-slate-400 tabular-nums bg-white/5 px-3 py-1 rounded-lg border border-white/10">{filtered.length} UNITS</span>
+          <span className="text-[10px] font-black text-slate-400 tabular-nums bg-white/5 px-3 py-1 rounded-lg border border-white/10">{filtered.length} TRICKS</span>
         </div>
 
         {filtered.length === 0 ? (
@@ -185,12 +185,12 @@ export function TrickList({ tricks, isAuthenticated, userEmail }: TrickListProps
                 <circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/>
               </svg>
             </div>
-            <p className="text-slate-500 text-lg font-black uppercase tracking-widest mb-8">No matching data</p>
+            <p className="text-slate-500 text-lg font-black uppercase tracking-widest mb-8">No bangers found here</p>
             <button 
               onClick={() => { setSearch(""); setCategory("all"); setStatusFilter("all"); }}
               className="px-8 py-4 bg-[var(--neon-cyan)] text-black hover:brightness-110 rounded-sm text-xs font-black uppercase tracking-widest transition-all shadow-[0_0_20px_var(--neon-cyan)]"
             >
-              Reboot Search
+              Reset Vault
             </button>
           </div>
         ) : (

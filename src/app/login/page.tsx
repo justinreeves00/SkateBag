@@ -23,7 +23,7 @@ export default async function LoginPage(props: {
               Skatebag
             </h1>
             <p className="text-[var(--neon-cyan)]/80 font-black tracking-[0.4em] uppercase text-[10px]">
-              Visualizing your arsenal 🛹
+              What&apos;s in your bag? 🛹
             </p>
           </div>
         </div>
