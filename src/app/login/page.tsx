@@ -37,8 +37,8 @@ export default async function LoginPage(props: {
           )}
           {error && (
             <div className="p-5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-[10px] font-black text-center uppercase tracking-widest leading-relaxed">
-              {error === "magic_link_failed" ? "LINK_DISPATCH_FAILURE" : 
-               error === "google_failed" ? "AUTH_SEQUENCE_TERMINATED" : 
+              {error === "magic_link_failed" ? "Login sequence failed" : 
+               error === "google_failed" ? "External auth failed" : 
                decodeURIComponent(error).toUpperCase()}
             </div>
           )}
@@ -50,13 +50,13 @@ export default async function LoginPage(props: {
                 className="w-full flex items-center justify-center gap-4 bg-[var(--neon-cyan)] text-black font-black py-5 px-8 rounded-xl hover:brightness-110 transition-all text-[11px] tracking-[0.2em] uppercase shadow-[0_0_20px_rgba(0,243,255,0.4)] hover:scale-[1.02] active:scale-95"
               >
                 <GoogleIcon />
-                Login via Google
+                Sign in with Google
               </button>
             </form>
 
             <div className="flex items-center gap-5 py-4">
               <div className="h-px flex-1 bg-white/5" />
-              <span className="text-[9px] text-slate-700 font-black uppercase tracking-[0.3em]">Direct Access</span>
+              <span className="text-[9px] text-slate-700 font-black uppercase tracking-[0.3em]">Manual Sign-In</span>
               <div className="h-px flex-1 bg-white/5" />
             </div>
 
@@ -72,13 +72,13 @@ export default async function LoginPage(props: {
                 type="submit"
                 className="w-full bg-white/5 text-slate-500 border border-white/10 font-black py-5 px-8 rounded-xl hover:bg-white hover:text-black transition-all text-[11px] tracking-[0.2em] uppercase hover:scale-[1.02] active:scale-95"
               >
-                Request Magic Link
+                Send Magic Link
               </button>
             </form>
           </div>
           
           <p className="text-center text-[9px] text-slate-700 font-black uppercase tracking-[0.2em] leading-relaxed italic">
-            Biometric sync enabled. Multi-device support.
+            Pro Skater Authentication
           </p>
         </div>
 
@@ -94,7 +94,7 @@ export default async function LoginPage(props: {
 
 function GoogleIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
       <path
         d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
         fill="currentColor"

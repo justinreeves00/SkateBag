@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { TrickCard } from "./TrickCard";
 import { CategoryFilter } from "./CategoryFilter";
 import { DiceButton } from "./DiceButton";
@@ -17,6 +18,7 @@ interface TrickListProps {
 }
 
 export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: TrickListProps) {
+  const router = useRouter();
   const [category, setCategory] = useState<TrickCategory | "all">("all");
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | "landed" | "locked">("all");
@@ -29,6 +31,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
   useEffect(() => {
     if (userProfile?.display_name) {
       setDisplayName(userProfile.display_name);
+      setShowProfileSetup(false);
     }
   }, [userProfile?.display_name]);
 
@@ -51,6 +54,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
     if (res.success) {
       setShowProfileSetup(false);
       setShowSettingsModal(false);
+      router.refresh();
     }
     setIsUpdatingProfile(false);
   }
@@ -62,8 +66,8 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-xl p-6">
           <div className="w-full max-w-md cyber-card p-10 rounded-3xl space-y-8 animate-in zoom-in-95 duration-300">
             <div className="text-center space-y-3">
-              <h2 className="text-4xl font-black italic uppercase tracking-tighter text-white leading-none">Identity Check</h2>
-              <p className="text-[var(--neon-cyan)] text-[10px] font-black uppercase tracking-[0.4em]">Register your operator name</p>
+              <h2 className="text-4xl font-black italic uppercase tracking-tighter text-white leading-none">Welcome to SkateBag</h2>
+              <p className="text-[var(--neon-cyan)] text-[10px] font-black uppercase tracking-[0.4em]">Setup your profile</p>
             </div>
             <form onSubmit={handleProfileUpdate} className="space-y-6">
               <div className="space-y-2">
@@ -82,7 +86,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                 disabled={isUpdatingProfile}
                 className="w-full bg-[var(--neon-cyan)] text-black font-black py-5 px-8 rounded-xl hover:brightness-110 transition-all text-[11px] tracking-[0.2em] uppercase shadow-[0_0_20px_rgba(0,243,255,0.4)]"
               >
-                {isUpdatingProfile ? "Syncing..." : "Initialize Profile"}
+                {isUpdatingProfile ? "Saving..." : "Start Skating"}
               </button>
             </form>
           </div>
@@ -96,7 +100,6 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
             <div className="flex justify-between items-center">
               <div className="space-y-1">
                 <h2 className="text-3xl font-black italic uppercase tracking-tighter text-white leading-none">Settings</h2>
-                <p className="text-[var(--neon-cyan)] text-[9px] font-black uppercase tracking-[0.3em]">Configure Interface</p>
               </div>
               <button onClick={() => setShowSettingsModal(false)} className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-500 hover:text-white transition-all">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
@@ -138,7 +141,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                   type="submit"
                   className="w-full py-4 bg-red-500/10 text-red-500 border border-red-500/20 font-black uppercase tracking-widest text-[10px] rounded-xl hover:bg-red-500 hover:text-white transition-all"
                 >
-                  Disconnect Session
+                  Sign out
                 </button>
               </form>
             </div>
@@ -153,7 +156,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
           <div className="flex items-center gap-3">
             {!isAuthenticated ? (
               <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest leading-none py-1">
-                Awaiting authentication...
+                Sign in to log tricks 🛹
               </span>
             ) : (
               <>
@@ -177,7 +180,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                     href="/admin" 
                     className="text-[9px] font-black text-[var(--neon-cyan)] uppercase tracking-widest hover:text-white transition-colors bg-[var(--neon-cyan)]/10 px-3 py-1.5 rounded-lg border border-[var(--neon-cyan)]/20"
                   >
-                    Control
+                    Admin
                   </a>
                 )}
               </>
@@ -190,7 +193,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                 href="/login"
                 className="inline-block px-5 py-2 rounded-sm bg-[var(--neon-cyan)] text-black text-[10px] font-black uppercase tracking-widest hover:brightness-110 transition-all shadow-[0_0_15px_rgba(0,243,255,0.4)]"
               >
-                Access
+                Sign in
               </a>
             ) : (
               <button
@@ -215,7 +218,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                       SkateBag
                     </h1>
                     <p className="text-[10px] font-black text-[var(--neon-cyan)]/80 uppercase tracking-[0.4em] ml-1">
-                      Visualizing your arsenal
+                      What&apos;s in your bag?
                     </p>
                   </div>
                 </div>
@@ -226,7 +229,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                     onClick={() => setStatusFilter("all")}
                     className={`px-4 py-2.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${statusFilter === "all" ? "bg-white text-black shadow-lg" : "text-slate-500 hover:text-white"}`}
                   >
-                    All Units
+                    All Tricks
                   </button>
                   <button 
                     onClick={() => setStatusFilter("landed")}
@@ -248,7 +251,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                 {isAuthenticated && (
                   <div className="flex gap-10 mb-1 px-2">
                     <div className="flex flex-col">
-                      <span className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em] mb-2">Stored</span>
+                      <span className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em] mb-2">My Bag</span>
                       <div className="flex items-end gap-3">
                         <span className="text-3xl font-black tracking-tighter leading-none">{landed}</span>
                         <div className="w-20 h-1 bg-white/10 rounded-full overflow-hidden mb-1.5">
@@ -257,7 +260,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                       </div>
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em] mb-2">Targeted</span>
+                      <span className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em] mb-2">Practice</span>
                       <span className="text-3xl font-black tracking-tighter leading-none text-[var(--neon-magenta)]">{locked}</span>
                     </div>
                   </div>
@@ -273,7 +276,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                       </div>
                       <input
                         type="text"
-                        placeholder="ENTER QUERY..."
+                        placeholder="SEARCH TRICKS..."
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                         className="w-full bg-white/5 border border-white/10 rounded-xl pl-14 pr-6 py-5 text-sm font-black text-white placeholder-slate-700 focus:outline-none focus:ring-4 focus:ring-[var(--neon-cyan)]/10 focus:border-[var(--neon-cyan)]/40 transition-all uppercase tracking-widest"
@@ -295,10 +298,10 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
       <main className="max-w-6xl mx-auto px-6 pt-16 pb-32">
         <div className="mb-12 flex items-center gap-6">
           <h2 className="text-[11px] font-black text-[var(--neon-cyan)] uppercase tracking-[0.4em] whitespace-nowrap italic">
-            {statusFilter === "all" ? "Core Database" : statusFilter === "landed" ? "Active Inventory" : "Primary Targets"}
+            {statusFilter === "all" ? "Trick Vault" : statusFilter === "landed" ? "In The Bag" : "Practice List"}
           </h2>
           <div className="h-px w-full bg-gradient-to-r from-[var(--neon-cyan)]/30 to-transparent"></div>
-          <span className="text-[10px] font-black text-slate-400 tabular-nums bg-white/5 px-3 py-1 rounded-lg border border-white/10">{filtered.length} UNITS</span>
+          <span className="text-[10px] font-black text-slate-400 tabular-nums bg-white/5 px-3 py-1 rounded-lg border border-white/10">{filtered.length} TRICKS</span>
         </div>
 
         {filtered.length === 0 ? (
@@ -308,12 +311,12 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                 <circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/>
               </svg>
             </div>
-            <p className="text-slate-500 text-lg font-black uppercase tracking-widest mb-8">No matching data</p>
+            <p className="text-slate-500 text-lg font-black uppercase tracking-widest mb-8">No bangers found here</p>
             <button 
               onClick={() => { setSearch(""); setCategory("all"); setStatusFilter("all"); }}
               className="px-8 py-4 bg-[var(--neon-cyan)] text-black hover:brightness-110 rounded-sm text-xs font-black uppercase tracking-widest transition-all shadow-[0_0_20px_var(--neon-cyan)]"
             >
-              Reboot Search
+              Reset Vault
             </button>
           </div>
         ) : (

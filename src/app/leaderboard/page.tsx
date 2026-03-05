@@ -5,22 +5,12 @@ export default async function LeaderboardPage() {
   const supabase = await createClient();
 
   // Fetch users and their landed trick counts
-  const { data: leaderboard, error } = await supabase
+  const { data: profiles } = await supabase
     .from("profiles")
-    .select(`
-      id,
-      display_name,
-      avatar_url,
-      user_tricks (count)
-    `)
-    .eq("user_tricks.status", "landed");
+    .select("id, display_name, avatar_url");
 
-  if (error) {
-    console.error(error);
-  }
-
-  // Manually aggregate since Supabase's count in select is sometimes tricky with filters
-  const { data: trickCounts, error: countError } = await supabase
+  // Fetch trick counts
+  const { data: trickCounts } = await supabase
     .from("user_tricks")
     .select("user_id")
     .eq("status", "landed");
@@ -29,10 +19,6 @@ export default async function LeaderboardPage() {
   (trickCounts ?? []).forEach(ut => {
     countsMap[ut.user_id] = (countsMap[ut.user_id] || 0) + 1;
   });
-
-  const { data: profiles } = await supabase
-    .from("profiles")
-    .select("id, display_name, avatar_url");
 
   const sortedLeaderboard = (profiles ?? [])
     .map(p => ({
@@ -56,8 +42,8 @@ export default async function LeaderboardPage() {
           <div className="flex items-center gap-4">
             <SkateBagLogo size={48} className="shadow-[0_0_20px_rgba(0,243,255,0.2)] transform -rotate-3" />
             <div>
-              <h1 className="text-4xl font-black italic uppercase tracking-tighter">Global Leaderboard</h1>
-              <p className="text-[var(--neon-cyan)] text-[10px] font-black uppercase tracking-[0.4em] mt-1">Top Tier Operators</p>
+              <h1 className="text-4xl font-black italic uppercase tracking-tighter">Leaderboard</h1>
+              <p className="text-[var(--neon-cyan)] text-[10px] font-black uppercase tracking-[0.4em] mt-1">Top Skaters</p>
             </div>
           </div>
           <a href="/" className="px-6 py-3 rounded-lg bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-all">
@@ -84,10 +70,10 @@ export default async function LeaderboardPage() {
                   #{index + 1}
                 </span>
                 <div className="space-y-1">
-                  <h3 className="text-xl font-black uppercase italic">{user.display_name || "Unknown Operator"}</h3>
+                  <h3 className="text-xl font-black uppercase italic">{user.display_name || "Unknown Skater"}</h3>
                   <div className="flex items-center gap-2">
                     <div className={`w-1.5 h-1.5 rounded-full ${user.landedCount > 0 ? "bg-[var(--neon-cyan)] animate-pulse" : "bg-slate-800"}`} />
-                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Active Arsenal</p>
+                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Tricks Bagged</p>
                   </div>
                 </div>
               </div>
@@ -96,7 +82,7 @@ export default async function LeaderboardPage() {
                 <span className="text-4xl font-black tracking-tighter italic text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.1)]">
                   {user.landedCount}
                 </span>
-                <p className="text-[9px] font-black text-[var(--neon-cyan)] uppercase tracking-widest mt-1">Tricks Bagged</p>
+                <p className="text-[9px] font-black text-[var(--neon-cyan)] uppercase tracking-widest mt-1">Landed</p>
               </div>
             </div>
           ))}
@@ -104,8 +90,8 @@ export default async function LeaderboardPage() {
 
         {sortedLeaderboard.length === 0 && (
           <div className="py-20 text-center space-y-4 cyber-card rounded-3xl border-dashed">
-            <p className="text-slate-500 font-black uppercase tracking-[0.2em]">Data not found in sector</p>
-            <a href="/" className="inline-block px-8 py-4 bg-[var(--neon-cyan)] text-black text-[10px] font-black uppercase tracking-widest shadow-xl">Re-initialize</a>
+            <p className="text-slate-500 font-black uppercase tracking-[0.2em]">No skaters found</p>
+            <a href="/" className="inline-block px-8 py-4 bg-[var(--neon-cyan)] text-black text-[10px] font-black uppercase tracking-widest shadow-xl">Back to Base</a>
           </div>
         )}
       </div>

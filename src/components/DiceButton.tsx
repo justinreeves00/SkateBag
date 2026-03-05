@@ -156,13 +156,13 @@ export function DiceButton({ tricks }: DiceButtonProps) {
                         onClick={prevVideo}
                         className="text-[9px] font-black text-[var(--neon-cyan)] uppercase tracking-widest hover:text-white transition-colors"
                       >
-                        Prev Video
+                        Prev
                       </button>
                       <button 
                         onClick={nextVideo}
                         className="text-[9px] font-black text-[var(--neon-cyan)] uppercase tracking-widest hover:text-white transition-colors"
                       >
-                        Next Video ({currentVideoIndex + 1}/{videoIds.length})
+                        Next ({currentVideoIndex + 1}/{videoIds.length})
                       </button>
                     </div>
                   )}
@@ -183,7 +183,7 @@ export function DiceButton({ tricks }: DiceButtonProps) {
                 ) : fetchingVideo ? (
                   <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
                     <div className="w-10 h-10 border-3 border-[var(--neon-cyan)]/20 border-t-[var(--neon-cyan)] rounded-full animate-spin" />
-                    <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest">Buffering...</span>
+                    <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest">Searching...</span>
                   </div>
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center">
@@ -248,7 +248,7 @@ export function DiceButton({ tricks }: DiceButtonProps) {
                 <button
                   onClick={() => setSettings((s) => ({ ...s, excludeLocked: !s.excludeLocked }))}
                   className={`flex flex-col gap-2 p-8 rounded-2xl border text-left transition-all ${
-                    settings.excludeLocked ? "bg-[var(--neon-magenta)]/20 border-[var(--neon-magenta)] shadow-[0_0_15px_rgba(255,0,255,0.2)]" : "bg-white/5 border-white/10 text-slate-600 hover:border-white/20 hover:bg-white/[0.07]"
+                    settings.excludeLocked ? "bg-[var(--neon-magenta)]/20 border-[var(--neon-magenta)] shadow-[0_0_20px_var(--neon-magenta)]" : "bg-white/5 border-white/10 text-slate-600 hover:border-white/20 hover:bg-white/[0.07]"
                   }`}
                 >
                   <span className={`text-[9px] font-black uppercase tracking-[0.2em] ${settings.excludeLocked ? "text-[var(--neon-magenta)]" : "text-slate-700"}`}>Filter Mode</span>
