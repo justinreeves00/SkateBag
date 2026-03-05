@@ -25,6 +25,13 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
   const [isUpdatingProfile, setIsUpdatingProfile] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
 
+  // Sync displayName with prop when it changes
+  useEffect(() => {
+    if (userProfile?.display_name) {
+      setDisplayName(userProfile.display_name);
+    }
+  }, [userProfile?.display_name]);
+
   const filtered = tricks.filter((t) => {
     const matchesCategory = category === "all" || t.category === category;
     const matchesSearch = t.name.toLowerCase().includes(search.toLowerCase());
