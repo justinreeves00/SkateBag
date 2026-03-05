@@ -13,7 +13,7 @@ export default async function LeaderboardPage() {
   const { data: trickCounts } = await supabase
     .from("user_tricks")
     .select("user_id")
-    .eq("status", "landed");
+    .in("status", ["landed", "locked"]);
 
   const countsMap: Record<string, number> = {};
   (trickCounts ?? []).forEach(ut => {

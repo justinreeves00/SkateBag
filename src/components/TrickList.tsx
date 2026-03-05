@@ -45,11 +45,13 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
   const filtered = tricks.filter((t) => {
     const matchesCategory = category === "all" || t.category === category;
     const matchesSearch = t.name.toLowerCase().includes(search.toLowerCase());
-    const matchesStatus = statusFilter === "all" || t.userStatus === statusFilter;
+    const matchesStatus = 
+      statusFilter === "all" || 
+      (statusFilter === "landed" ? (t.userStatus === "landed" || t.userStatus === "locked") : t.userStatus === statusFilter);
     return matchesCategory && matchesSearch && matchesStatus;
   });
 
-  const landed = tricks.filter((t) => t.userStatus === "landed").length;
+  const landed = tricks.filter((t) => t.userStatus === "landed" || t.userStatus === "locked").length;
   const locked = tricks.filter((t) => t.userStatus === "locked").length;
   const progress = tricks.length > 0 ? (landed / tricks.length) * 100 : 0;
 

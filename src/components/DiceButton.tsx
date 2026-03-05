@@ -69,7 +69,7 @@ export function DiceButton({ tricks }: DiceButtonProps) {
     
     pool = pool.filter((t) => t.difficulty !== null && settings.levels.includes(t.difficulty));
     
-    if (settings.excludeLanded) pool = pool.filter((t) => t.userStatus !== "landed");
+    if (settings.excludeLanded) pool = pool.filter((t) => t.userStatus !== "landed" && t.userStatus !== "locked");
     if (settings.excludeLocked) pool = pool.filter((t) => t.userStatus !== "locked");
 
     setTimeout(() => {

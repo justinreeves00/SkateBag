@@ -130,7 +130,7 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
                   <span className={`text-[10px] font-black uppercase tracking-widest ${
                     status === "landed" ? "text-[var(--neon-cyan)]" : "text-[var(--neon-magenta)]"
                   }`}>
-                    {status === "landed" ? "In Bag" : `Locked (${consistency ?? 0}/10)`}
+                    {status === "locked" ? `In Bag (Locked ${consistency ?? 0}/10)` : "In Bag"}
                   </span>
                 </>
               )}
@@ -181,7 +181,7 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
             <button
               onClick={() => handleStatusToggle("landed")}
               className={`flex-1 h-12 rounded-xl flex items-center justify-center gap-2 font-black text-xs uppercase tracking-widest transition-all duration-300 ${
-                status === "landed"
+                (status === "landed" || status === "locked")
                   ? "bg-[var(--neon-cyan)] text-black shadow-[0_0_20px_var(--neon-cyan)]"
                   : "bg-white/5 text-slate-500 hover:text-white hover:bg-white/10 border border-white/10"
               }`}
