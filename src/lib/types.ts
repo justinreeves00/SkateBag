@@ -21,6 +21,14 @@ export interface Trick {
   created_at: string;
 }
 
+export interface Profile {
+  id: string;
+  display_name: string | null;
+  username: string | null;
+  avatar_url: string | null;
+  updated_at: string;
+}
+
 export interface UserTrick {
   id: string;
   user_id: string;

@@ -17,19 +17,29 @@ export default async function Home() {
     .order("difficulty")
     .order("name");
 
-  // Fetch user's trick statuses if logged in
+  // Fetch user's trick statuses and profile if logged in
   let userTricksMap: Record<string, { status: "landed" | "locked", consistency: number | null }> = {};
-  if (user) {
-    const { data: userTricks } = await supabase
-      .from("user_tricks")
-      .select("trick_id, status, consistency")
-      .eq("user_id", user.id);
+  let userProfile = null;
 
-    if (userTricks) {
+  if (user) {
+    const [tricksRes, profileRes] = await Promise.all([
+      supabase
+        .from("user_tricks")
+        .select("trick_id, status, consistency")
+        .eq("user_id", user.id),
+      supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", user.id)
+        .single()
+    ]);
+
+    if (tricksRes.data) {
       userTricksMap = Object.fromEntries(
-        userTricks.map((ut) => [ut.trick_id, { status: ut.status, consistency: ut.consistency }])
+        tricksRes.data.map((ut) => [ut.trick_id, { status: ut.status, consistency: ut.consistency }])
       );
     }
+    userProfile = profileRes.data;
   }
 
   const tricksWithStatus: TrickWithStatus[] = (tricks ?? []).map((trick) => ({
@@ -44,6 +54,7 @@ export default async function Home() {
         tricks={tricksWithStatus} 
         isAuthenticated={!!user} 
         userEmail={user?.email ?? null} 
+        userProfile={userProfile}
       />
     </div>
   );
