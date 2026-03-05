@@ -31,7 +31,7 @@ export default async function Home() {
         .from("profiles")
         .select("*")
         .eq("id", user.id)
-        .single()
+        .maybeSingle() // Use maybeSingle to avoid 406 errors if table exists but no row
     ]);
 
     if (tricksRes.data) {
@@ -39,6 +39,8 @@ export default async function Home() {
         tricksRes.data.map((ut) => [ut.trick_id, { status: ut.status, consistency: ut.consistency }])
       );
     }
+    
+    // If the profile query fails because the table doesn't exist, profileRes.data will be null
     userProfile = profileRes.data;
   }
 
