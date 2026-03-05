@@ -268,13 +268,13 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
                       onClick={prevVideo}
                       className="text-[9px] font-black text-[var(--neon-cyan)] uppercase tracking-widest hover:text-white transition-colors"
                     >
-                      Prev Video
+                      Prev
                     </button>
                     <button 
                       onClick={nextVideo}
                       className="text-[9px] font-black text-[var(--neon-cyan)] uppercase tracking-widest hover:text-white transition-colors"
                     >
-                      Next Video ({currentVideoIndex + 1}/{videoIds.length})
+                      Next ({currentVideoIndex + 1}/{videoIds.length})
                     </button>
                   </div>
                 )}

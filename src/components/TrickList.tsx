@@ -22,18 +22,25 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
   const [category, setCategory] = useState<TrickCategory | "all">("all");
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | "landed" | "locked">("all");
-  const [showProfileSetup, setShowProfileSetup] = useState(isAuthenticated && !userProfile?.display_name);
-  const [displayName, setDisplayName] = useState(userProfile?.display_name || "");
+  
+  // Track if we are currently forcing the setup modal closed (e.g. after successful save)
+  const [forceCloseSetup, setForceCloseSetup] = useState(false);
+  const [displayName, setDisplayName] = useState("");
   const [isUpdatingProfile, setIsUpdatingProfile] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
+  const [profileError, setProfileError] = useState<string | null>(null);
 
-  // Sync displayName with prop when it changes
+  // Sync displayName and setup visibility with prop
   useEffect(() => {
     if (userProfile?.display_name) {
       setDisplayName(userProfile.display_name);
-      setShowProfileSetup(false);
+      setForceCloseSetup(true); // Close setup if name exists
+    } else if (isAuthenticated) {
+      setForceCloseSetup(false); // Show setup if name is missing
     }
-  }, [userProfile?.display_name]);
+  }, [userProfile?.display_name, isAuthenticated]);
+
+  const showProfileSetup = isAuthenticated && !userProfile?.display_name && !forceCloseSetup;
 
   const filtered = tricks.filter((t) => {
     const matchesCategory = category === "all" || t.category === category;
@@ -50,11 +57,15 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
     e.preventDefault();
     if (!displayName.trim()) return;
     setIsUpdatingProfile(true);
+    setProfileError(null);
+    
     const res = await updateProfile(displayName.trim());
     if (res.success) {
-      setShowProfileSetup(false);
+      setForceCloseSetup(true);
       setShowSettingsModal(false);
       router.refresh();
+    } else {
+      setProfileError(res.error || "Update failed");
     }
     setIsUpdatingProfile(false);
   }
@@ -78,8 +89,10 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                   onChange={(e) => setDisplayName(e.target.value)}
                   placeholder="ENTER NAME..."
                   required
+                  autoFocus
                   className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-5 text-sm font-black text-white placeholder-slate-800 focus:outline-none focus:ring-4 focus:ring-[var(--neon-cyan)]/10 focus:border-[var(--neon-cyan)]/40 transition-all uppercase tracking-widest"
                 />
+                {profileError && <p className="text-red-500 text-[9px] font-black uppercase tracking-widest ml-1">{profileError}</p>}
               </div>
               <button
                 type="submit"
@@ -116,6 +129,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                   required
                   className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-5 text-sm font-black text-white placeholder-slate-800 focus:outline-none focus:ring-4 focus:ring-[var(--neon-cyan)]/10 focus:border-[var(--neon-cyan)]/40 transition-all uppercase tracking-widest"
                 />
+                {profileError && <p className="text-red-500 text-[9px] font-black uppercase tracking-widest ml-1">{profileError}</p>}
               </div>
               <button
                 type="submit"
@@ -173,7 +187,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                   href="/leaderboard" 
                   className="text-[9px] font-black text-slate-500 uppercase tracking-widest hover:text-[var(--neon-cyan)] transition-colors bg-white/5 px-3 py-1.5 rounded-lg border border-white/10"
                 >
-                  Ranks
+                  Leaderboard
                 </a>
                 {userEmail === "justinreeves00@gmail.com" && (
                   <a 

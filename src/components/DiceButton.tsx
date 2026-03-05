@@ -140,7 +140,7 @@ export function DiceButton({ tricks }: DiceButtonProps) {
             {/* Video Player */}
             <div className="space-y-4">
               <div className="flex items-center justify-between px-1">
-                <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Tutorial Feed</span>
+                <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Trick Feed</span>
                 <div className="flex gap-4">
                   {searchMode === "query" && (
                     <button 
@@ -187,7 +187,7 @@ export function DiceButton({ tricks }: DiceButtonProps) {
                   </div>
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-xs text-slate-700 font-bold uppercase tracking-[0.2em] italic">No visual relay available</span>
+                    <span className="text-xs text-slate-700 font-bold uppercase tracking-[0.2em] italic">Video unavailable</span>
                   </div>
                 )}
               </div>
@@ -223,8 +223,8 @@ export function DiceButton({ tricks }: DiceButtonProps) {
           >
             <div className="flex items-center justify-between mb-14">
               <div className="space-y-2">
-                <h3 className="text-3xl font-black text-white tracking-tighter italic uppercase">Session Logic</h3>
-                <p className="text-[10px] font-black text-slate-600 uppercase tracking-[0.3em]">Configure Dice Parameters</p>
+                <h3 className="text-3xl font-black text-white tracking-tighter italic uppercase">Dice Settings</h3>
+                <p className="text-[10px] font-black text-slate-600 uppercase tracking-[0.3em]">Configure Roll Parameters</p>
               </div>
               <button 
                 onClick={() => setShowSettings(false)} 
@@ -307,7 +307,7 @@ export function DiceButton({ tricks }: DiceButtonProps) {
         <button
           onClick={() => setShowSettings(!showSettings)}
           className="w-11 h-11 md:w-14 md:h-14 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-500 hover:text-[var(--neon-cyan)] transition-all shadow-xl group shrink-0"
-          title="Dice Parameters"
+          title="Dice Settings"
         >
           <GearIcon size={20} />
         </button>
