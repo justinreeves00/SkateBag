@@ -159,6 +159,12 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                     {userProfile?.display_name || userEmail}
                   </span>
                 </button>
+                <a 
+                  href="/leaderboard" 
+                  className="text-[9px] font-black text-slate-500 uppercase tracking-widest hover:text-[var(--neon-cyan)] transition-colors bg-white/5 px-3 py-1.5 rounded-lg border border-white/10"
+                >
+                  Ranks
+                </a>
                 {userEmail === "justinreeves00@gmail.com" && (
                   <a 
                     href="/admin" 
