@@ -116,14 +116,25 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
               </button>
             </form>
             <div className="h-px bg-white/5 w-full" />
-            <form action={signOut}>
-              <button
-                type="submit"
-                className="w-full py-4 bg-red-500/10 text-red-500 border border-red-500/20 font-black uppercase tracking-widest text-[10px] rounded-xl hover:bg-red-500 hover:text-white transition-all"
+            <div className="space-y-3">
+              <a 
+                href="https://github.com/justinreeves00/SkateBag/issues/new" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 w-full py-4 bg-white/5 text-slate-400 border border-white/10 font-black uppercase tracking-widest text-[10px] rounded-xl hover:text-white hover:bg-white/10 transition-all"
               >
-                Disconnect Session
-              </button>
-            </form>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22c5.5 0 10-4.5 10-10S17.5 2 12 2 2 6.5 2 12s4.5 10 10 10Z"/></svg>
+                Report Bug / Feature
+              </a>
+              <form action={signOut}>
+                <button
+                  type="submit"
+                  className="w-full py-4 bg-red-500/10 text-red-500 border border-red-500/20 font-black uppercase tracking-widest text-[10px] rounded-xl hover:bg-red-500 hover:text-white transition-all"
+                >
+                  Disconnect Session
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       )}
