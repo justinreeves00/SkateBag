@@ -276,7 +276,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                       </div>
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em] mb-2">Practice</span>
+                      <span className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em] mb-2">On Lock</span>
                       <span className="text-3xl font-black tracking-tighter leading-none text-[var(--neon-magenta)]">{locked}</span>
                     </div>
                   </div>
