@@ -1,32 +1,51 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0e0f12;
-  --foreground: #f5f7fa;
+  color-scheme: dark;
+  --background: #0d1014;
+  --foreground: #f2f6f8;
 
-  /* Accent pulled from logo board palette */
+  /* Logo-led accent system */
   --board-accent: #2dd4bf;
-  --board-accent-strong: #14b8a6;
-  --board-accent-soft: rgba(45, 212, 191, 0.18);
+  --board-accent-strong: #0ea5a7;
+  --board-accent-soft: rgba(45, 212, 191, 0.22);
+  --warn-accent: #f59e0b;
 
-  /* Core surface system */
-  --surface: #121419;
-  --surface-muted: #181b21;
-  --surface-elevated: #1d2129;
-  --border: #2a2f38;
-  --text-muted: #98a1af;
+  /* Concrete / grip surfaces */
+  --surface: #141922;
+  --surface-muted: #1b2330;
+  --surface-elevated: #232d3c;
+  --border: #2f3c4f;
+  --text-muted: #9bacbf;
 
-  /* Studio aliases */
+  /* Compatibility aliases */
   --studio-indigo: var(--board-accent);
   --studio-gray: var(--surface);
   --studio-muted: var(--text-muted);
   --accent: var(--board-accent);
-
-  /* Legacy neon aliases for existing components */
   --neon-cyan: var(--board-accent);
   --neon-magenta: #ff6e48;
-  --glass-bg: rgba(16, 18, 24, 0.7);
-  --glass-border: rgba(45, 212, 191, 0.2);
+  --glass-bg: rgba(20, 25, 34, 0.8);
+  --glass-border: rgba(45, 212, 191, 0.25);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color-scheme: light;
+    --background: #1b2330;
+    --foreground: #f6f8fa;
+    --board-accent: #22c7b2;
+    --board-accent-strong: #0ea59a;
+    --board-accent-soft: rgba(34, 199, 178, 0.2);
+    --warn-accent: #d97706;
+    --surface: #243041;
+    --surface-muted: #2b3950;
+    --surface-elevated: #32445f;
+    --border: #42577a;
+    --text-muted: #bbcae0;
+    --glass-bg: rgba(36, 48, 65, 0.85);
+    --glass-border: rgba(34, 199, 178, 0.26);
+  }
 }
 
 * {
@@ -46,71 +65,103 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 15px;
-  line-height: 1.45;
+  line-height: 1.5;
   min-height: 100vh;
   position: relative;
 }
 
-/* Subtle concrete/grip texture */
+/* Grip tape + concrete atmosphere */
 body::before {
   content: "";
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   z-index: -1;
-  opacity: 0.045;
   pointer-events: none;
+  opacity: 0.12;
   background-image:
-    radial-gradient(circle at 14% 18%, rgba(45, 212, 191, 0.08), transparent 38%),
-    radial-gradient(circle at 85% 85%, rgba(255, 110, 72, 0.06), transparent 42%),
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    radial-gradient(circle at 12% 18%, var(--board-accent-soft), transparent 42%),
+    radial-gradient(circle at 84% 84%, rgba(245, 158, 11, 0.14), transparent 45%),
+    repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0 1px, transparent 1px 6px),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* Studio Card Style */
+.cyber-card,
 .studio-card {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 38%), var(--studio-gray);
+  background:
+    linear-gradient(170deg, rgba(255, 255, 255, 0.04), transparent 40%),
+    repeating-linear-gradient(110deg, rgba(255, 255, 255, 0.015) 0 2px, transparent 2px 10px),
+    var(--surface);
   border: 1px solid var(--border);
-  transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+  border-radius: 1.35rem;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
+.cyber-card:hover,
 .studio-card:hover {
-  border-color: var(--board-accent-strong);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 42%), var(--surface-elevated);
+  border-color: color-mix(in oklab, var(--board-accent) 55%, var(--border));
+  transform: translateY(-3px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-/* Clean UI Elements */
+.cyber-glass {
+  background: color-mix(in oklab, var(--background) 88%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+
+.btn-cyber,
 .btn-studio {
-  background: var(--board-accent);
-  color: #0b1114;
-  font-weight: 700;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--board-accent) 90%, white), var(--board-accent-strong));
+  color: #041316;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  transition: all 0.2s;
+  letter-spacing: 0.08em;
+  border-radius: 1rem;
+  transition: transform 0.2s ease, filter 0.2s ease;
 }
 
+.btn-cyber:hover,
 .btn-studio:hover {
-  filter: brightness(1.1);
+  filter: saturate(1.08) brightness(1.05);
   transform: translateY(-1px);
 }
 
+.btn-cyber:active,
 .btn-studio:active {
   transform: translateY(0);
 }
 
-/* Modern Scrollbar */
-::-webkit-scrollbar {
-  width: 4px;
+.label-tag {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  background: color-mix(in oklab, var(--surface-muted) 70%, transparent);
+  padding: 4px 10px;
+  border-radius: 999px;
 }
+
+.text-glow {
+  text-shadow: 0 0 22px color-mix(in oklab, var(--board-accent) 35%, transparent);
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+}
+
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
-  background: #333333;
+  background: color-mix(in oklab, var(--border) 80%, black);
+  border-radius: 999px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: var(--board-accent-strong);
 }
@@ -118,71 +169,16 @@ body::before {
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
 
-/* Structured Label */
-.label-tag {
-  font-size: 10px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--studio-muted);
-  border: 1px solid var(--border);
-  padding: 2px 8px;
-  border-radius: 2px;
-}
-
-/* Legacy utility classes kept for pages still using cyber styles */
-.cyber-card {
-  background:
-    linear-gradient(165deg, rgba(255, 255, 255, 0.02), transparent 45%),
-    repeating-linear-gradient(
-      115deg,
-      rgba(255, 255, 255, 0.012) 0 2px,
-      transparent 2px 9px
-    ),
-    var(--surface);
-  border: 1px solid var(--border);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.06),
-    0 16px 32px rgba(0, 0, 0, 0.35);
-  transition: border-color 0.2s ease, transform 0.2s ease;
-}
-
-.cyber-card:hover {
-  border-color: rgba(45, 212, 191, 0.55);
-  transform: translateY(-2px);
-}
-
-.cyber-glass {
-  background: rgba(12, 13, 17, 0.9);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--border);
-}
-
-.text-glow {
-  text-shadow: 0 0 16px rgba(45, 212, 191, 0.3);
-}
-
-.btn-cyber {
-  background: var(--neon-cyan);
-  color: #0b1114;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  padding: 1rem 2rem;
-  border-radius: 0;
-  clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
-  transition: all 0.2s;
-}
-
-.btn-cyber:hover {
-  filter: brightness(1.1);
-  box-shadow: 0 0 15px var(--neon-cyan);
+@keyframes vibePulse {
+  0% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.06); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.9; }
 }
 
 @media (max-width: 640px) {
