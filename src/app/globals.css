@@ -2,21 +2,21 @@
 
 :root {
   color-scheme: dark;
-  --background: #0d1014;
-  --foreground: #f2f6f8;
+  --background: #141414;
+  --foreground: #e5e5e5;
 
-  /* Logo-led accent system */
-  --board-accent: #2dd4bf;
-  --board-accent-strong: #0ea5a7;
-  --board-accent-soft: rgba(45, 212, 191, 0.22);
-  --warn-accent: #f59e0b;
+  /* Concrete / Grip Tape Palette */
+  --board-accent: #ff5722; /* Safety orange */
+  --board-accent-strong: #e64a19;
+  --board-accent-soft: rgba(255, 87, 34, 0.15);
+  --warn-accent: #ffeb3b; /* Caution yellow */
 
-  /* Concrete / grip surfaces */
-  --surface: #141922;
-  --surface-muted: #1b2330;
-  --surface-elevated: #232d3c;
-  --border: #2f3c4f;
-  --text-muted: #9bacbf;
+  /* Surfaces */
+  --surface: #1e1e1e;
+  --surface-muted: #2a2a2a;
+  --surface-elevated: #333333;
+  --border: #3a3a3a;
+  --text-muted: #a0a0a0;
 
   /* Compatibility aliases */
   --studio-indigo: var(--board-accent);
@@ -24,28 +24,9 @@
   --studio-muted: var(--text-muted);
   --accent: var(--board-accent);
   --neon-cyan: var(--board-accent);
-  --neon-magenta: #ff6e48;
-  --glass-bg: rgba(20, 25, 34, 0.8);
-  --glass-border: rgba(45, 212, 191, 0.25);
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color-scheme: light;
-    --background: #1b2330;
-    --foreground: #f6f8fa;
-    --board-accent: #22c7b2;
-    --board-accent-strong: #0ea59a;
-    --board-accent-soft: rgba(34, 199, 178, 0.2);
-    --warn-accent: #d97706;
-    --surface: #243041;
-    --surface-muted: #2b3950;
-    --surface-elevated: #32445f;
-    --border: #42577a;
-    --text-muted: #bbcae0;
-    --glass-bg: rgba(36, 48, 65, 0.85);
-    --glass-border: rgba(34, 199, 178, 0.26);
-  }
+  --neon-magenta: var(--warn-accent);
+  --glass-bg: rgba(30, 30, 30, 0.9);
+  --glass-border: var(--border);
 }
 
 * {
@@ -64,13 +45,13 @@ body {
   font-family: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.5;
   min-height: 100vh;
   position: relative;
 }
 
-/* Grip tape + concrete atmosphere */
+/* Concrete and Grip Tape Texture */
 body::before {
   content: "";
   position: fixed;
@@ -78,92 +59,101 @@ body::before {
   z-index: -1;
   pointer-events: none;
   opacity: 0.12;
-  background-image:
-    radial-gradient(circle at 12% 18%, var(--board-accent-soft), transparent 42%),
-    radial-gradient(circle at 84% 84%, rgba(245, 158, 11, 0.14), transparent 45%),
-    repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0 1px, transparent 1px 6px),
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-image: 
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"),
+    radial-gradient(circle at 50% 0%, #2a2a2a 0%, #141414 100%);
+  background-blend-mode: overlay;
 }
 
 .cyber-card,
 .studio-card {
-  background:
-    linear-gradient(170deg, rgba(255, 255, 255, 0.04), transparent 40%),
-    repeating-linear-gradient(110deg, rgba(255, 255, 255, 0.015) 0 2px, transparent 2px 10px),
-    var(--surface);
+  background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 1.35rem;
-  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.07);
-  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+  border-radius: 8px; /* Clean, mobile-friendly radius */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle grip tape texture on cards */
+.cyber-card::after,
+.studio-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.04;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
 }
 
 .cyber-card:hover,
 .studio-card:hover {
-  border-color: color-mix(in oklab, var(--board-accent) 55%, var(--border));
-  transform: translateY(-3px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border-color: var(--board-accent);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
 }
 
 .cyber-glass {
-  background: color-mix(in oklab, var(--background) 88%, transparent);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: rgba(20, 20, 20, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
 }
 
 .btn-cyber,
 .btn-studio {
-  background: linear-gradient(180deg, color-mix(in oklab, var(--board-accent) 90%, white), var(--board-accent-strong));
-  color: #041316;
-  font-weight: 800;
+  background: var(--board-accent);
+  color: #ffffff;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  border-radius: 1rem;
-  transition: transform 0.2s ease, filter 0.2s ease;
+  letter-spacing: 0.05em;
+  border-radius: 6px;
+  transition: all 0.2s ease;
 }
 
 .btn-cyber:hover,
 .btn-studio:hover {
-  filter: saturate(1.08) brightness(1.05);
+  background: var(--board-accent-strong);
   transform: translateY(-1px);
 }
 
 .btn-cyber:active,
 .btn-studio:active {
-  transform: translateY(0);
+  transform: translateY(1px);
 }
 
 .label-tag {
-  font-size: 10px;
-  font-weight: 800;
+  font-size: 11px;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.11em;
-  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  color: var(--foreground);
   border: 1px solid var(--border);
-  background: color-mix(in oklab, var(--surface-muted) 70%, transparent);
-  padding: 4px 10px;
-  border-radius: 999px;
+  background: var(--surface-muted);
+  padding: 4px 8px;
+  border-radius: 4px;
 }
 
 .text-glow {
-  text-shadow: 0 0 22px color-mix(in oklab, var(--board-accent) 35%, transparent);
+  text-shadow: none;
 }
 
 ::-webkit-scrollbar {
-  width: 7px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: var(--background);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: color-mix(in oklab, var(--border) 80%, black);
-  border-radius: 999px;
+  background: var(--border);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--board-accent-strong);
+  background: var(--board-accent);
 }
 
 .no-scrollbar::-webkit-scrollbar {
@@ -173,16 +163,4 @@ body::before {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
-}
-
-@keyframes vibePulse {
-  0% { transform: scale(1); opacity: 0.9; }
-  50% { transform: scale(1.06); opacity: 1; }
-  100% { transform: scale(1); opacity: 0.9; }
-}
-
-@media (max-width: 640px) {
-  body {
-    font-size: 16px;
-  }
 }
