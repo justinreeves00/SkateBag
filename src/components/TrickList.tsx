@@ -225,9 +225,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
               <div className="space-y-6">
                 <div className="flex items-center gap-5">
-                  <div className="p-2 border-2 border-black bg-white rounded-xl rotate-[-2deg] shadow-lg">
-                    <SkateBagLogo size={64} />
-                  </div>
+                  <SkateBagLogo size={64} className="shadow-lg shadow-black/30 transform -rotate-2" />
                   <div className="space-y-0">
                     <h1 className="text-5xl font-black tracking-tighter text-white leading-none uppercase italic drop-shadow-lg">
                       SkateBag
