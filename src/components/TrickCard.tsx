@@ -93,19 +93,19 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
 
   return (
     <div
-      className={`cyber-card rounded-3xl flex flex-col group ${
-        expanded ? "bg-[var(--surface-muted)] border-[var(--board-accent)] shadow-lg shadow-black/30" : ""
+      className={`cyber-card flex flex-col group ${
+        expanded ? "bg-[var(--surface-muted)] border-[var(--board-accent)]" : ""
       }`}
     >
       {/* Interactive Zone */}
       <div
-        className="p-7 flex flex-col gap-6 cursor-pointer"
+        className="p-6 flex flex-col gap-6 cursor-pointer"
         onClick={() => setExpanded(!expanded)}
       >
         <div className="flex items-start justify-between gap-4">
           <div className="space-y-3">
             <div className="flex flex-wrap items-center gap-3">
-              <h3 className="text-xl font-black tracking-tight text-white group-hover:text-[var(--board-accent)] transition-colors uppercase italic">
+              <h3 className="text-xl font-black tracking-tight text-white group-hover:text-[var(--board-accent)] transition-colors uppercase italic drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
                 {trick.name}
               </h3>
               {trick.difficulty && (
@@ -114,21 +114,21 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
                     e.stopPropagation();
                     if (isAuthenticated) setShowLevelEdit(!showLevelEdit);
                   }}
-                  className="text-[9px] px-2.5 py-1 rounded-xl bg-[var(--surface-muted)] text-[var(--text-muted)] border border-[var(--border)] font-black uppercase tracking-tighter hover:bg-[var(--board-accent)] hover:text-[#041316] transition-all"
+                  className="label-tag hover:border-[var(--board-accent)] hover:text-white transition-all"
                 >
                   LVL {trick.difficulty}
                 </button>
               )}
             </div>
             <div className="flex items-center gap-3">
-              <span className="text-[10px] text-[var(--text-muted)] font-bold uppercase tracking-[0.2em]">
+              <span className="text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.2em]">
                 {trick.category}
               </span>
               {status && (
                 <>
-                  <div className="w-1 h-1 rounded-full bg-slate-800" />
-                  <span className={`text-[10px] font-black uppercase tracking-widest ${
-                    status === "landed" ? "text-[var(--board-accent)]" : "text-[#f59e0b]"
+                  <div className="w-1.5 h-1.5 bg-black rotate-45 border border-white/10" />
+                  <span className={`text-[10px] font-black uppercase tracking-widest drop-shadow-sm ${
+                    status === "landed" ? "text-[var(--board-accent)]" : "text-[var(--warn-accent)]"
                   }`}>
                     {status === "locked" ? `In Bag (Locked ${consistency ?? 0}/10)` : "In Bag"}
                   </span>
@@ -137,8 +137,8 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
             </div>
           </div>
 
-          <div className={`w-10 h-10 rounded-3xl flex items-center justify-center border transition-all duration-500 ${expanded ? "bg-[var(--surface-elevated)] border-[var(--board-accent)] rotate-180" : "bg-[var(--surface-muted)] border-[var(--border)]"}`}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+          <div className={`w-9 h-9 rounded-lg flex items-center justify-center border transition-all duration-300 ${expanded ? "bg-[var(--board-accent)] border-[var(--board-accent)] text-white rotate-180" : "bg-black/40 border-white/10 text-white/40"}`}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
               <path d="m6 9 6 6 6-6"/>
             </svg>
           </div>
@@ -146,25 +146,25 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
 
         {/* Level Edit Overlay */}
         {showLevelEdit && (
-          <div className="bg-black/40 p-5 rounded-3xl border border-[var(--board-accent)]/20 space-y-4 animate-in fade-in duration-300" onClick={(e) => e.stopPropagation()}>
+          <div className="bg-black/60 p-5 rounded-lg border border-white/10 space-y-4 animate-in fade-in duration-300" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-black text-[var(--board-accent)] uppercase tracking-widest">Suggest Level Change</span>
-              <button onClick={() => setShowLevelEdit(false)} className="text-[var(--text-muted)] hover:text-[var(--foreground)] transition-colors">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+              <button onClick={() => setShowLevelEdit(false)} className="text-[var(--text-muted)] hover:text-white transition-colors">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
               </button>
             </div>
             {suggestionSubmitted ? (
-              <p className="text-[var(--board-accent)] text-xs font-bold uppercase text-center py-2 italic">Suggestion sent for review! 🛹</p>
+              <p className="text-[var(--board-accent)] text-xs font-black uppercase text-center py-2 italic bg-black/40 border border-[var(--board-accent)]/20 rounded">Suggestion sent! 🛹</p>
             ) : (
               <div className="grid grid-cols-5 gap-2">
                 {[1, 2, 3, 4, 5].map((lvl) => (
                   <button
                     key={lvl}
                     onClick={() => handleLevelSuggestion(lvl)}
-                    className={`h-10 rounded-3xl font-black text-xs transition-all border ${
+                    className={`h-10 rounded-md font-black text-xs transition-all border ${
                       trick.difficulty === lvl 
-                        ? "bg-[var(--board-accent)] text-[#041316] border-[var(--board-accent)] shadow-lg shadow-black/30" 
-                        : "bg-[var(--surface-muted)] text-[var(--text-muted)] border-[var(--border)] hover:text-[var(--foreground)] hover:border-[var(--board-accent)]/30"
+                        ? "bg-[var(--board-accent)] text-white border-white shadow-lg" 
+                        : "bg-black/40 text-[var(--text-muted)] border-white/10 hover:text-white hover:bg-black/60"
                     }`}
                   >
                     {lvl}
@@ -177,30 +177,30 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
 
         {/* Quick Log Buttons */}
         {isAuthenticated && (
-          <div className="flex gap-3" onClick={(e) => e.stopPropagation()}>
+          <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
             <button
               onClick={() => handleStatusToggle("landed")}
-              className={`flex-1 h-12 rounded-3xl flex items-center justify-center gap-2 font-black text-xs uppercase tracking-widest transition-all duration-300 ${
+              className={`flex-1 h-11 rounded-lg flex items-center justify-center gap-2 font-black text-[10px] uppercase tracking-widest transition-all ${
                 (status === "landed" || status === "locked")
-                  ? "bg-[var(--board-accent)] text-[#041316] shadow-lg shadow-black/30"
-                  : "bg-[var(--surface-muted)] text-[var(--text-muted)] hover:text-[var(--foreground)] hover:bg-[var(--surface-elevated)] border border-[var(--border)]"
+                  ? "bg-[var(--board-accent)] text-white shadow-lg shadow-black/40"
+                  : "bg-black/40 text-[var(--text-muted)] hover:text-white border border-white/10"
               }`}
               disabled={loading}
             >
-              <CheckIcon size={18} />
+              <CheckIcon size={16} />
               <span>Landed</span>
             </button>
             <button
               onClick={() => setShowPrompt(!showPrompt)}
-              className={`flex-1 h-12 rounded-3xl flex items-center justify-center gap-2 font-black text-xs uppercase tracking-widest transition-all duration-300 ${
+              className={`flex-1 h-11 rounded-lg flex items-center justify-center gap-2 font-black text-[10px] uppercase tracking-widest transition-all ${
                 status === "locked"
-                  ? "bg-[#f59e0b] text-white shadow-lg shadow-black/30"
-                  : "bg-[var(--surface-muted)] text-[var(--text-muted)] hover:text-[var(--foreground)] hover:bg-[var(--surface-elevated)] border border-[var(--border)]"
+                  ? "bg-[var(--warn-accent)] text-black shadow-lg shadow-black/40"
+                  : "bg-black/40 text-[var(--text-muted)] hover:text-white border border-white/10"
               }`}
               disabled={loading}
             >
-              <LockIcon size={16} />
-              <span>Locked</span>
+              <LockIcon size={14} />
+              <span>On Lock</span>
             </button>
           </div>
         )}
@@ -208,29 +208,29 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
 
       {/* 10 Tries Overlay */}
       {showPrompt && (
-        <div className="absolute inset-0 z-20 bg-black/95 backdrop-blur-xl p-8 flex flex-col justify-center animate-in fade-in duration-300 rounded-3xl border border-[#f59e0b]/30">
+        <div className="absolute inset-0 z-20 bg-black/95 p-8 flex flex-col justify-center animate-in fade-in duration-300 border border-[var(--warn-accent)]/20">
           <button 
             onClick={(e) => { e.stopPropagation(); setShowPrompt(false); }}
-            className="absolute top-6 right-6 w-10 h-10 rounded-3xl bg-[var(--surface-muted)] flex items-center justify-center text-[var(--text-muted)] hover:text-[var(--foreground)] border border-[var(--border)]"
+            className="absolute top-4 right-4 w-10 h-10 rounded-lg bg-black/40 flex items-center justify-center text-[var(--text-muted)] hover:text-white border border-white/10 shadow-lg"
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
           </button>
           
           <div className="space-y-8">
             <div className="text-center space-y-2">
-              <h4 className="text-3xl font-black tracking-tighter text-white uppercase italic">Session Test</h4>
-              <p className="text-[var(--text-muted)] text-sm font-medium uppercase tracking-widest">Perform 10 attempts now.</p>
+              <h4 className="text-3xl font-black tracking-tighter text-white uppercase italic drop-shadow-lg">Session Test</h4>
+              <p className="text-[var(--warn-accent)] text-xs font-black uppercase tracking-widest bg-black/40 py-1 border border-[var(--warn-accent)]/10">Landed reps out of 10</p>
             </div>
             
-            <div className="grid grid-cols-6 gap-3">
+            <div className="grid grid-cols-6 gap-2">
               {[...Array(11)].map((_, i) => (
                 <button
                   key={i}
                   onClick={(e) => { e.stopPropagation(); handleStatusToggle("locked", i); }}
-                  className={`h-12 flex items-center justify-center text-sm font-black rounded-3xl transition-all ${
+                  className={`h-11 flex items-center justify-center text-xs font-black border transition-all ${
                     consistency === i && status === "locked"
-                      ? "bg-[#f59e0b] text-white shadow-lg"
-                      : "bg-[var(--surface-muted)] text-[var(--text-muted)] hover:bg-[var(--surface-elevated)] hover:text-[var(--foreground)] border border-[var(--border)]"
+                      ? "bg-[var(--warn-accent)] text-black border-white scale-110 shadow-lg"
+                      : "bg-black/40 text-[var(--text-muted)] hover:bg-black/60 hover:text-white border-white/10"
                   }`}
                 >
                   {i}
@@ -243,36 +243,36 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
 
       {/* Expanded Content */}
       {expanded && (
-        <div className="px-7 pb-10 space-y-10 animate-in fade-in duration-500">
-          <div className="h-px w-full bg-[var(--surface-elevated)]" />
+        <div className="px-6 pb-8 space-y-8 animate-in fade-in duration-500">
+          <div className="h-px w-full bg-white/5 shadow-[0_1px_0_rgba(255,255,255,0.02)]" />
 
           {/* Video Section */}
-          <div className="space-y-5">
-            <div className="flex items-center justify-between px-1">
-              <div className="flex items-center gap-3">
-                <div className="w-2 h-2 rounded-full bg-[var(--board-accent)] shadow-lg shadow-black/30 animate-pulse" />
-                <span className="text-[10px] font-black text-[var(--text-muted)] uppercase tracking-[0.3em]">Trick Feed</span>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 bg-[var(--board-accent)] rotate-45 shadow-[0_0_8px_var(--board-accent)]" />
+                <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Tutorial Feed</span>
               </div>
-              <div className="flex gap-4">
+              <div className="flex gap-2">
                 {searchMode === "query" && (
                   <button 
                     onClick={tryExact}
-                    className="text-[9px] font-black text-[var(--board-accent)] uppercase tracking-widest hover:text-[var(--foreground)] transition-colors"
+                    className="text-[9px] font-black text-black bg-[var(--warn-accent)] px-2 py-1 rounded shadow-sm hover:translate-y-[-1px] transition-transform uppercase tracking-widest"
                   >
-                    Exact Match Search 🎯
+                    Exact Search 🎯
                   </button>
                 )}
                 {videoIds.length > 1 && (
-                  <div className="flex gap-3">
+                  <div className="flex gap-2">
                     <button 
                       onClick={prevVideo}
-                      className="text-[9px] font-black text-[var(--board-accent)] uppercase tracking-widest hover:text-[var(--foreground)] transition-colors"
+                      className="text-[9px] font-black text-white bg-black/40 border border-white/10 px-2 py-1 rounded hover:bg-black/60 uppercase tracking-widest"
                     >
                       Prev
                     </button>
                     <button 
                       onClick={nextVideo}
-                      className="text-[9px] font-black text-[var(--board-accent)] uppercase tracking-widest hover:text-[var(--foreground)] transition-colors"
+                      className="text-[9px] font-black text-white bg-black/40 border border-white/10 px-2 py-1 rounded hover:bg-black/60 uppercase tracking-widest"
                     >
                       Next ({currentVideoIndex + 1}/{videoIds.length})
                     </button>
@@ -281,7 +281,7 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
               </div>
             </div>
 
-            <div className="aspect-[4/3] sm:aspect-video w-full bg-black/60 rounded-3xl overflow-hidden border border-[var(--border)] relative shadow-2xl">
+            <div className="aspect-video w-full bg-black rounded-lg overflow-hidden border-2 border-black relative shadow-2xl">
               {videoIds.length > 0 ? (
                 <iframe
                   key={videoIds[currentVideoIndex]}
@@ -294,39 +294,39 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
                   allowFullScreen
                 />
               ) : fetchingVideo ? (
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
-                  <div className="w-8 h-8 border-3 border-[var(--board-accent)]/20 border-t-[var(--board-accent)] rounded-full animate-spin" />
-                  <span className="text-[10px] font-bold text-slate-600 uppercase tracking-widest">Searching...</span>
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-[#0a0a0a]">
+                  <div className="w-8 h-8 border-2 border-[var(--board-accent)]/20 border-t-[var(--board-accent)] rounded-full animate-spin" />
+                  <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest">Intercepting...</span>
                 </div>
               ) : (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-xs text-[var(--text-muted)] font-bold uppercase tracking-[0.2em] italic">Video unavailable</span>
+                <div className="absolute inset-0 flex items-center justify-center bg-[#0a0a0a]">
+                  <span className="text-xs text-slate-700 font-black uppercase tracking-widest italic">Signal lost</span>
                 </div>
               )}
             </div>
           </div>
 
           {/* Info Grid */}
-          <div className="grid grid-cols-1 gap-10">
-            <div className="space-y-8">
+          <div className="grid grid-cols-1 gap-8">
+            <div className="space-y-6">
               {trick.history && (
-                <div className="space-y-4">
-                  <span className="text-[10px] font-black text-[var(--text-muted)] uppercase tracking-[0.3em]">Intel</span>
-                  <p className="text-sm text-slate-300 leading-relaxed italic border-l-2 border-[var(--board-accent)]/30 pl-5">"{trick.history}"</p>
+                <div className="space-y-3">
+                  <span className="text-[9px] font-black text-slate-600 uppercase tracking-[0.2em] bg-black/40 px-2 py-0.5 rounded w-fit block">Intel</span>
+                  <p className="text-sm text-slate-300 leading-relaxed italic border-l-2 border-[var(--board-accent)]/40 pl-4">{trick.history}</p>
                 </div>
               )}
               
-              <div className="flex gap-16">
+              <div className="flex gap-12 pt-2 border-t border-white/5">
                 {trick.inventor && (
-                  <div className="space-y-2">
-                    <span className="text-[10px] font-black text-[var(--text-muted)] uppercase tracking-[0.3em]">Creator</span>
-                    <p className="text-sm text-white font-black tracking-tight uppercase italic">{trick.inventor}</p>
+                  <div className="space-y-1">
+                    <span className="text-[9px] font-black text-slate-600 uppercase tracking-widest block">Creator</span>
+                    <p className="text-xs text-white font-black uppercase italic tracking-tight">{trick.inventor}</p>
                   </div>
                 )}
                 {trick.year && (
-                  <div className="space-y-2">
-                    <span className="text-[10px] font-black text-[var(--text-muted)] uppercase tracking-[0.3em]">Year</span>
-                    <p className="text-sm text-white font-black tracking-tight uppercase">{trick.year}</p>
+                  <div className="space-y-1">
+                    <span className="text-[9px] font-black text-slate-600 uppercase tracking-widest block">Year</span>
+                    <p className="text-xs text-white font-black uppercase tracking-tight">{trick.year}</p>
                   </div>
                 )}
               </div>
@@ -340,7 +340,7 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
 
 function CheckIcon({ size = 24, color = "currentColor" }: { size?: number, color?: string }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="5" strokeLinecap="round" strokeLinejoin="round">
       <path d="M20 6L9 17L4 12"/>
     </svg>
   );
@@ -348,18 +348,8 @@ function CheckIcon({ size = 24, color = "currentColor" }: { size?: number, color
 
 function LockIcon({ size = 24, color = "currentColor" }: { size?: number, color?: string }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-    </svg>
-  );
-}
-
-function SkateboardIcon({ size = 24, color = "currentColor" }: { size?: number, color?: string }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M18 11h2a2 2 0 0 1 2 2v3a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4v-3a2 2 0 0 1 2-2h2"/>
-      <circle cx="7" cy="11" r="2"/><circle cx="17" cy="11" r="2"/>
-      <path d="M6 15h12"/>
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+      <rect width="18" height="11" x="3" y="11" rx="1" ry="1"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
     </svg>
   );
 }

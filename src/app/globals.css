@@ -2,21 +2,28 @@
 
 :root {
   color-scheme: dark;
-  --background: #141414;
-  --foreground: #e5e5e5;
+  /* Concrete Background */
+  --background: #3a3a3a;
+  --foreground: #ffffff;
 
-  /* Concrete / Grip Tape Palette */
+  /* Concrete Palette */
+  --concrete-shadow: #2a2a2a;
+  --concrete-highlight: #4a4a4a;
+
+  /* Grip Tape Palette */
+  --grip-tape: #121212;
+  --grip-tape-muted: #1a1a1a;
+
+  /* Accents */
   --board-accent: #ff5722; /* Safety orange */
   --board-accent-strong: #e64a19;
-  --board-accent-soft: rgba(255, 87, 34, 0.15);
   --warn-accent: #ffeb3b; /* Caution yellow */
 
-  /* Surfaces */
-  --surface: #1e1e1e;
-  --surface-muted: #2a2a2a;
-  --surface-elevated: #333333;
-  --border: #3a3a3a;
-  --text-muted: #a0a0a0;
+  /* Surface Mappings */
+  --surface: var(--grip-tape);
+  --surface-muted: var(--grip-tape-muted);
+  --border: #444444;
+  --text-muted: #bbbbbb;
 
   /* Compatibility aliases */
   --studio-indigo: var(--board-accent);
@@ -25,8 +32,6 @@
   --accent: var(--board-accent);
   --neon-cyan: var(--board-accent);
   --neon-magenta: var(--warn-accent);
-  --glass-bg: rgba(30, 30, 30, 0.9);
-  --glass-border: var(--border);
 }
 
 * {
@@ -51,104 +56,111 @@ body {
   position: relative;
 }
 
-/* Concrete and Grip Tape Texture */
+/* Concrete Texture Background */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  opacity: 0.12;
+  opacity: 0.4;
+  background-color: var(--background);
   background-image: 
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"),
-    radial-gradient(circle at 50% 0%, #2a2a2a 0%, #141414 100%);
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"),
+    radial-gradient(circle at 50% 0%, var(--concrete-highlight) 0%, var(--background) 70%, var(--concrete-shadow) 100%);
   background-blend-mode: overlay;
 }
 
+/* Grip Tape Card Style */
 .cyber-card,
 .studio-card {
   background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 8px; /* Clean, mobile-friendly radius */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  box-shadow: 
+    4px 4px 10px rgba(0, 0, 0, 0.5),
+    inset 0 0 20px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
   position: relative;
   overflow: hidden;
 }
 
-/* Subtle grip tape texture on cards */
+/* Intense Grip Tape Grain */
 .cyber-card::after,
 .studio-card::after {
   content: "";
   position: absolute;
   inset: 0;
-  opacity: 0.04;
+  opacity: 0.15;
   pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='gripNoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23gripNoise)'/%3E%3C/svg%3E");
 }
 
 .cyber-card:hover,
 .studio-card:hover {
-  border-color: var(--board-accent);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6);
 }
 
 .cyber-glass {
-  background: rgba(20, 20, 20, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
+  background: rgba(30, 30, 30, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 2px solid #000000;
 }
 
 .btn-cyber,
 .btn-studio {
   background: var(--board-accent);
   color: #ffffff;
-  font-weight: 700;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  border-radius: 6px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   transition: all 0.2s ease;
+  box-shadow: 0 4px 0 var(--board-accent-strong);
 }
 
 .btn-cyber:hover,
 .btn-studio:hover {
-  background: var(--board-accent-strong);
+  filter: brightness(1.1);
   transform: translateY(-1px);
 }
 
 .btn-cyber:active,
 .btn-studio:active {
-  transform: translateY(1px);
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--board-accent-strong);
 }
 
 .label-tag {
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--foreground);
-  border: 1px solid var(--border);
-  background: var(--surface-muted);
-  padding: 4px 8px;
-  border-radius: 4px;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.4);
+  padding: 4px 10px;
+  border-radius: 6px;
 }
 
 .text-glow {
-  text-shadow: none;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--background);
+  background: #222222;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--border);
+  background: #555555;
   border-radius: 4px;
 }
 
