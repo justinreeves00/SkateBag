@@ -11,32 +11,32 @@ export default async function LoginPage(props: {
   return (
     <main className="min-h-screen flex items-center justify-center px-6 relative overflow-hidden bg-black">
       {/* Cyber Glows */}
-      <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-[var(--neon-cyan)]/10 blur-[120px] rounded-full animate-pulse" />
-      <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-[var(--neon-magenta)]/10 blur-[120px] rounded-full animate-pulse [animation-delay:2s]" />
+      <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-[var(--board-accent)]/10 blur-[120px] rounded-full animate-pulse" />
+      <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-[#f59e0b]/10 blur-[120px] rounded-full animate-pulse [animation-delay:2s]" />
 
       <div className="w-full max-w-md relative z-10 space-y-12">
         {/* Logo / Brand */}
         <div className="text-center space-y-6">
-          <SkateBagLogo size={120} className="inline-block mb-4 shadow-[0_0_50px_rgba(0,243,255,0.2)] transform -rotate-3 transition-transform hover:rotate-0 duration-500" />
+          <SkateBagLogo size={120} className="inline-block mb-4 shadow-lg shadow-black/30 transform -rotate-3 transition-transform hover:rotate-0 duration-500" />
           <div className="space-y-2">
             <h1 className="text-6xl font-black tracking-tighter text-white uppercase italic leading-none">
               Skatebag
             </h1>
-            <p className="text-[var(--neon-cyan)]/80 font-black tracking-[0.4em] uppercase text-[10px]">
+            <p className="text-[var(--board-accent)]/80 font-black tracking-[0.4em] uppercase text-[10px]">
               What&apos;s in your bag? 🛹
             </p>
           </div>
         </div>
 
         {/* Auth Card */}
-        <div className="cyber-card p-10 rounded-3xl space-y-8">
+        <div className="cyber-card p-10 rounded-2xl space-y-8">
           {message === "check_email" && (
-            <div className="p-5 rounded-xl bg-[var(--neon-cyan)]/10 border border-[var(--neon-cyan)]/20 text-[var(--neon-cyan)] text-[10px] font-black text-center uppercase tracking-widest leading-relaxed shadow-[0_0_15px_rgba(0,243,255,0.1)]">
+            <div className="p-5 rounded-lg bg-[var(--board-accent)]/10 border border-[var(--board-accent)]/20 text-[var(--board-accent)] text-[10px] font-black text-center uppercase tracking-widest leading-relaxed shadow-lg shadow-black/30">
               ACCESS_LINK SENT. CHECK YOUR INBOX.
             </div>
           )}
           {error && (
-            <div className="p-5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-[10px] font-black text-center uppercase tracking-widest leading-relaxed">
+            <div className="p-5 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-[10px] font-black text-center uppercase tracking-widest leading-relaxed">
               {error === "magic_link_failed" ? "Login sequence failed" : 
                error === "google_failed" ? "External auth failed" : 
                decodeURIComponent(error).toUpperCase()}
@@ -47,7 +47,7 @@ export default async function LoginPage(props: {
             <form action={signInWithGoogle}>
               <button
                 type="submit"
-                className="w-full flex items-center justify-center gap-4 bg-[var(--neon-cyan)] text-black font-black py-5 px-8 rounded-xl hover:brightness-110 transition-all text-[11px] tracking-[0.2em] uppercase shadow-[0_0_20px_rgba(0,243,255,0.4)] hover:scale-[1.02] active:scale-95"
+                className="w-full flex items-center justify-center gap-4 bg-[var(--board-accent)] text-black font-black py-5 px-8 rounded-lg hover:brightness-110 transition-all text-[11px] tracking-[0.2em] uppercase shadow-lg shadow-black/30 hover:scale-[1.02] active:scale-95"
               >
                 <GoogleIcon />
                 Sign in with Google
@@ -55,9 +55,9 @@ export default async function LoginPage(props: {
             </form>
 
             <div className="flex items-center gap-5 py-4">
-              <div className="h-px flex-1 bg-white/5" />
-              <span className="text-[9px] text-slate-700 font-black uppercase tracking-[0.3em]">Manual Sign-In</span>
-              <div className="h-px flex-1 bg-white/5" />
+              <div className="h-px flex-1 bg-[var(--surface-muted)]" />
+              <span className="text-[9px] text-[var(--text-muted)] font-black uppercase tracking-[0.3em]">Manual Sign-In</span>
+              <div className="h-px flex-1 bg-[var(--surface-muted)]" />
             </div>
 
             <form action={signInWithMagicLink} className="space-y-4">
@@ -66,18 +66,18 @@ export default async function LoginPage(props: {
                 type="email"
                 placeholder="USER_EMAIL@DOMAIN.COM"
                 required
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-5 text-xs font-black text-white placeholder-slate-800 focus:outline-none focus:ring-4 focus:ring-[var(--neon-cyan)]/10 focus:border-[var(--neon-cyan)]/40 transition-all uppercase tracking-widest"
+                className="w-full bg-[var(--surface-muted)] border border-[var(--border)] rounded-lg px-6 py-5 text-xs font-black text-white placeholder-slate-800 focus:outline-none focus:ring-4 focus:ring-[var(--board-accent)]/10 focus:border-[var(--board-accent)]/40 transition-all uppercase tracking-widest"
               />
               <button
                 type="submit"
-                className="w-full bg-white/5 text-slate-500 border border-white/10 font-black py-5 px-8 rounded-xl hover:bg-white hover:text-black transition-all text-[11px] tracking-[0.2em] uppercase hover:scale-[1.02] active:scale-95"
+                className="w-full bg-[var(--surface-muted)] text-slate-500 border border-[var(--border)] font-black py-5 px-8 rounded-lg hover:bg-[var(--board-accent)] hover:text-black transition-all text-[11px] tracking-[0.2em] uppercase hover:scale-[1.02] active:scale-95"
               >
                 Send Magic Link
               </button>
             </form>
           </div>
           
-          <p className="text-center text-[9px] text-slate-700 font-black uppercase tracking-[0.2em] leading-relaxed italic">
+          <p className="text-center text-[9px] text-[var(--text-muted)] font-black uppercase tracking-[0.2em] leading-relaxed italic">
             Pro Skater Authentication
           </p>
         </div>

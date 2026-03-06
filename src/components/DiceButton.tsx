@@ -118,22 +118,22 @@ export function DiceButton({ tricks }: DiceButtonProps) {
       {/* Result Overlay Card */}
       {result && (
         <div
-          className="fixed inset-0 bg-black/95 backdrop-blur-3xl z-[9999] overflow-y-auto flex flex-col items-center justify-start py-12 px-4 md:px-8 animate-in fade-in duration-500"
+          className="fixed inset-0 bg-black/95 backdrop-blur-xl z-[9999] overflow-y-auto flex flex-col items-center justify-start py-12 px-4 md:px-8 animate-in fade-in duration-500"
           onClick={() => setResult(null)}
         >
           <div 
-            className="max-w-3xl w-full bg-[var(--surface)] rounded-3xl p-8 md:p-14 border border-[var(--neon-cyan)] shadow-[0_0_50px_rgba(0,243,255,0.1)] space-y-10 animate-in zoom-in-95 duration-300 relative my-auto" 
+            className="max-w-3xl w-full bg-[var(--surface)] rounded-2xl p-8 md:p-14 border border-[var(--board-accent)] shadow-lg shadow-black/30 space-y-10 animate-in zoom-in-95 duration-300 relative my-auto" 
             onClick={(e) => e.stopPropagation()}
           >
             <div className="text-center space-y-6">
-              <span className="px-5 py-2 rounded-sm bg-[var(--neon-cyan)]/10 text-[var(--neon-cyan)] text-[10px] font-black uppercase tracking-[0.4em] border border-[var(--neon-cyan)]/20 shadow-[0_0_10px_rgba(0,243,255,0.1)]">Next Mission</span>
+              <span className="px-5 py-2 rounded-sm bg-[var(--board-accent)]/10 text-[var(--board-accent)] text-[10px] font-black uppercase tracking-[0.4em] border border-[var(--board-accent)]/20 shadow-lg shadow-black/30">Next Mission</span>
               <h2 className="text-5xl md:text-8xl font-black tracking-tighter text-white italic leading-[0.9] uppercase">
                 {result.name}
               </h2>
               <div className="flex items-center justify-center gap-6 text-slate-500 text-sm font-black uppercase tracking-[0.2em]">
                 <span>{result.category}</span>
-                <div className="w-1.5 h-1.5 rounded-full bg-[var(--neon-cyan)] shadow-[0_0_5px_var(--neon-cyan)]" />
-                <span className="text-[var(--neon-cyan)] italic">Tier {result.difficulty}</span>
+                <div className="w-1.5 h-1.5 rounded-full bg-[var(--board-accent)] shadow-lg shadow-black/30" />
+                <span className="text-[var(--board-accent)] italic">Tier {result.difficulty}</span>
               </div>
             </div>
 
@@ -145,7 +145,7 @@ export function DiceButton({ tricks }: DiceButtonProps) {
                   {searchMode === "query" && (
                     <button 
                       onClick={tryExact}
-                      className="text-[9px] font-black text-[var(--neon-cyan)] uppercase tracking-widest hover:text-white transition-colors"
+                      className="text-[9px] font-black text-[var(--board-accent)] uppercase tracking-widest hover:text-white transition-colors"
                     >
                       Exact Search 🎯
                     </button>
@@ -154,13 +154,13 @@ export function DiceButton({ tricks }: DiceButtonProps) {
                     <div className="flex gap-3">
                       <button 
                         onClick={prevVideo}
-                        className="text-[9px] font-black text-[var(--neon-cyan)] uppercase tracking-widest hover:text-white transition-colors"
+                        className="text-[9px] font-black text-[var(--board-accent)] uppercase tracking-widest hover:text-white transition-colors"
                       >
                         Prev
                       </button>
                       <button 
                         onClick={nextVideo}
-                        className="text-[9px] font-black text-[var(--neon-cyan)] uppercase tracking-widest hover:text-white transition-colors"
+                        className="text-[9px] font-black text-[var(--board-accent)] uppercase tracking-widest hover:text-white transition-colors"
                       >
                         Next ({currentVideoIndex + 1}/{videoIds.length})
                       </button>
@@ -168,7 +168,7 @@ export function DiceButton({ tricks }: DiceButtonProps) {
                   )}
                 </div>
               </div>
-              <div className="aspect-video w-full bg-black/60 rounded-3xl overflow-hidden border border-white/10 relative shadow-inner group/video">
+              <div className="aspect-video w-full bg-black/60 rounded-2xl overflow-hidden border border-[var(--border)] relative shadow-inner group/video">
                 {videoIds.length > 0 ? (
                   <iframe
                     key={videoIds[currentVideoIndex]}
@@ -182,12 +182,12 @@ export function DiceButton({ tricks }: DiceButtonProps) {
                   />
                 ) : fetchingVideo ? (
                   <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
-                    <div className="w-10 h-10 border-3 border-[var(--neon-cyan)]/20 border-t-[var(--neon-cyan)] rounded-full animate-spin" />
+                    <div className="w-10 h-10 border-3 border-[var(--board-accent)]/20 border-t-[var(--board-accent)] rounded-full animate-spin" />
                     <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest">Searching...</span>
                   </div>
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-xs text-slate-700 font-bold uppercase tracking-[0.2em] italic">Video unavailable</span>
+                    <span className="text-xs text-[var(--text-muted)] font-bold uppercase tracking-[0.2em] italic">Video unavailable</span>
                   </div>
                 )}
               </div>
@@ -196,13 +196,13 @@ export function DiceButton({ tricks }: DiceButtonProps) {
             <div className="flex flex-col sm:flex-row gap-5 pt-4">
               <button
                 onClick={roll}
-                className="flex-1 py-6 bg-[var(--neon-cyan)] text-black rounded-xl font-black uppercase tracking-widest hover:brightness-110 transition-all shadow-[0_0_20px_rgba(0,243,255,0.4)] hover:scale-[1.02] active:scale-95"
+                className="flex-1 py-6 bg-[var(--board-accent)] text-black rounded-lg font-black uppercase tracking-widest hover:brightness-110 transition-all shadow-lg shadow-black/30 hover:scale-[1.02] active:scale-95"
               >
                 Roll Again
               </button>
               <button
                 onClick={() => setResult(null)}
-                className="flex-1 py-6 bg-white/5 text-slate-400 rounded-xl font-black uppercase tracking-widest hover:text-white hover:bg-white/10 transition-all border border-white/10"
+                className="flex-1 py-6 bg-[var(--surface-muted)] text-slate-400 rounded-lg font-black uppercase tracking-widest hover:text-white hover:bg-[var(--surface-elevated)] transition-all border border-[var(--border)]"
               >
                 Close
               </button>
@@ -214,11 +214,11 @@ export function DiceButton({ tricks }: DiceButtonProps) {
       {/* Settings Panel Card */}
       {showSettings && (
         <div
-          className="fixed inset-0 bg-black/90 backdrop-blur-3xl z-[9999] overflow-y-auto flex flex-col items-center justify-start py-12 px-4 md:px-6 animate-in fade-in duration-300"
+          className="fixed inset-0 bg-black/90 backdrop-blur-xl z-[9999] overflow-y-auto flex flex-col items-center justify-start py-12 px-4 md:px-6 animate-in fade-in duration-300"
           onClick={() => setShowSettings(false)}
         >
           <div
-            className="w-full max-w-3xl bg-[var(--surface)] rounded-3xl p-10 md:p-14 border border-white/10 shadow-2xl relative animate-in zoom-in-95 duration-300 my-auto"
+            className="w-full max-w-3xl bg-[var(--surface)] rounded-2xl p-10 md:p-14 border border-[var(--border)] shadow-2xl relative animate-in zoom-in-95 duration-300 my-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-14">
@@ -228,7 +228,7 @@ export function DiceButton({ tricks }: DiceButtonProps) {
               </div>
               <button 
                 onClick={() => setShowSettings(false)} 
-                className="w-14 h-14 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-500 hover:text-white transition-all shadow-xl"
+                className="w-14 h-14 rounded-lg bg-[var(--surface-muted)] border border-[var(--border)] flex items-center justify-center text-slate-500 hover:text-white transition-all shadow-xl"
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
               </button>
@@ -239,34 +239,34 @@ export function DiceButton({ tricks }: DiceButtonProps) {
                 <button
                   onClick={() => setSettings((s) => ({ ...s, excludeLanded: !s.excludeLanded }))}
                   className={`flex flex-col gap-2 p-8 rounded-2xl border text-left transition-all ${
-                    settings.excludeLanded ? "bg-[var(--neon-cyan)]/20 border-[var(--neon-cyan)] shadow-[0_0_15px_rgba(0,243,255,0.2)]" : "bg-white/5 border-white/10 text-slate-600 hover:border-white/20 hover:bg-white/[0.07]"
+                    settings.excludeLanded ? "bg-[var(--board-accent)]/20 border-[var(--board-accent)] shadow-lg shadow-black/30" : "bg-[var(--surface-muted)] border-[var(--border)] text-slate-600 hover:border-[var(--board-accent)]/35 hover:bg-[var(--surface-elevated)]"
                   }`}
                 >
-                  <span className={`text-[9px] font-black uppercase tracking-[0.2em] ${settings.excludeLanded ? "text-[var(--neon-cyan)]" : "text-slate-700"}`}>Filter Mode</span>
+                  <span className={`text-[9px] font-black uppercase tracking-[0.2em] ${settings.excludeLanded ? "text-[var(--board-accent)]" : "text-[var(--text-muted)]"}`}>Filter Mode</span>
                   <span className={`text-lg font-black uppercase tracking-tight ${settings.excludeLanded ? "text-white" : ""}`}>Exclude Landed</span>
                 </button>
                 <button
                   onClick={() => setSettings((s) => ({ ...s, excludeLocked: !s.excludeLocked }))}
                   className={`flex flex-col gap-2 p-8 rounded-2xl border text-left transition-all ${
-                    settings.excludeLocked ? "bg-[var(--neon-magenta)]/20 border-[var(--neon-magenta)] shadow-[0_0_20px_var(--neon-magenta)]" : "bg-white/5 border-white/10 text-slate-600 hover:border-white/20 hover:bg-white/[0.07]"
+                    settings.excludeLocked ? "bg-[#f59e0b]/20 border-[#f59e0b] shadow-lg shadow-black/30" : "bg-[var(--surface-muted)] border-[var(--border)] text-slate-600 hover:border-[var(--board-accent)]/35 hover:bg-[var(--surface-elevated)]"
                   }`}
                 >
-                  <span className={`text-[9px] font-black uppercase tracking-[0.2em] ${settings.excludeLocked ? "text-[var(--neon-magenta)]" : "text-slate-700"}`}>Filter Mode</span>
+                  <span className={`text-[9px] font-black uppercase tracking-[0.2em] ${settings.excludeLocked ? "text-[#f59e0b]" : "text-[var(--text-muted)]"}`}>Filter Mode</span>
                   <span className={`text-lg font-black uppercase tracking-tight ${settings.excludeLocked ? "text-white" : ""}`}>Exclude Locked</span>
                 </button>
               </div>
 
               <div className="space-y-6">
-                <span className="text-[10px] font-black text-slate-700 uppercase tracking-[0.4em]">Levels</span>
+                <span className="text-[10px] font-black text-[var(--text-muted)] uppercase tracking-[0.4em]">Levels</span>
                 <div className="flex flex-wrap gap-3">
                   {LEVEL_OPTIONS.map((lvl) => (
                     <button
                       key={lvl}
                       onClick={() => toggleLevel(lvl)}
-                      className={`w-16 h-16 rounded-xl text-base font-black transition-all border ${
+                      className={`w-16 h-16 rounded-lg text-base font-black transition-all border ${
                         settings.levels.includes(lvl)
-                          ? "bg-[var(--neon-cyan)] text-black border-[var(--neon-cyan)] shadow-[0_0_15px_rgba(0,243,255,0.3)] scale-110"
-                          : "bg-white/5 text-slate-700 border-transparent hover:text-slate-500"
+                          ? "bg-[var(--board-accent)] text-black border-[var(--board-accent)] shadow-lg shadow-black/30 scale-110"
+                          : "bg-[var(--surface-muted)] text-[var(--text-muted)] border-transparent hover:text-slate-500"
                       }`}
                     >
                       {lvl}
@@ -276,16 +276,16 @@ export function DiceButton({ tricks }: DiceButtonProps) {
               </div>
 
               <div className="space-y-6">
-                <span className="text-[10px] font-black text-slate-700 uppercase tracking-[0.4em]">Categories</span>
+                <span className="text-[10px] font-black text-[var(--text-muted)] uppercase tracking-[0.4em]">Categories</span>
                 <div className="flex flex-wrap gap-2.5">
                   {CATEGORY_OPTIONS.map((cat) => (
                     <button
                       key={cat}
                       onClick={() => toggleCategory(cat)}
-                      className={`px-6 py-4 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all border ${
+                      className={`px-6 py-4 rounded-lg text-[10px] font-black uppercase tracking-[0.2em] transition-all border ${
                         settings.categories.includes(cat)
                           ? "bg-white/10 text-white border-white/20 shadow-lg scale-105"
-                          : "bg-white/5 text-slate-700 border-transparent hover:text-slate-500"
+                          : "bg-[var(--surface-muted)] text-[var(--text-muted)] border-transparent hover:text-slate-500"
                       }`}
                     >
                       {cat}
@@ -306,7 +306,7 @@ export function DiceButton({ tricks }: DiceButtonProps) {
       <div className="flex items-center gap-2 md:gap-3">
         <button
           onClick={() => setShowSettings(!showSettings)}
-          className="w-11 h-11 md:w-14 md:h-14 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-500 hover:text-[var(--neon-cyan)] transition-all shadow-xl group shrink-0"
+          className="w-11 h-11 md:w-14 md:h-14 rounded-lg bg-[var(--surface-muted)] border border-[var(--border)] flex items-center justify-center text-slate-500 hover:text-[var(--board-accent)] transition-all shadow-xl group shrink-0"
           title="Dice Settings"
         >
           <GearIcon size={20} />
@@ -314,10 +314,10 @@ export function DiceButton({ tricks }: DiceButtonProps) {
         <button
           onClick={roll}
           disabled={rolling}
-          className={`h-11 md:h-14 px-4 md:px-8 rounded-xl flex items-center gap-2 md:gap-4 transition-all border border-transparent shrink-0 ${
+          className={`h-11 md:h-14 px-4 md:px-8 rounded-lg flex items-center gap-2 md:gap-4 transition-all border border-transparent shrink-0 ${
             rolling 
-              ? "bg-[var(--surface-muted)] border-white/10 scale-95" 
-              : "bg-[var(--neon-cyan)] text-black hover:brightness-110 hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(0,243,255,0.4)]"
+              ? "bg-[var(--surface-muted)] border-[var(--border)] scale-95" 
+              : "bg-[var(--board-accent)] text-black hover:brightness-110 hover:scale-105 active:scale-95 shadow-lg shadow-black/30"
           }`}
         >
           <div className={rolling ? "animate-spin" : ""}>

@@ -93,8 +93,8 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
 
   return (
     <div
-      className={`cyber-card rounded-3xl flex flex-col group ${
-        expanded ? "bg-[var(--surface-muted)] border-[var(--neon-cyan)] shadow-[0_0_15px_rgba(0,243,255,0.1)]" : ""
+      className={`cyber-card rounded-2xl flex flex-col group ${
+        expanded ? "bg-[var(--surface-muted)] border-[var(--board-accent)] shadow-lg shadow-black/30" : ""
       }`}
     >
       {/* Interactive Zone */}
@@ -105,7 +105,7 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
         <div className="flex items-start justify-between gap-4">
           <div className="space-y-3">
             <div className="flex flex-wrap items-center gap-3">
-              <h3 className="text-xl font-black tracking-tight text-white group-hover:text-[var(--neon-cyan)] transition-colors uppercase italic">
+              <h3 className="text-xl font-black tracking-tight text-white group-hover:text-[var(--board-accent)] transition-colors uppercase italic">
                 {trick.name}
               </h3>
               {trick.difficulty && (
@@ -114,7 +114,7 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
                     e.stopPropagation();
                     if (isAuthenticated) setShowLevelEdit(!showLevelEdit);
                   }}
-                  className="text-[9px] px-2.5 py-1 rounded-sm bg-white/5 text-slate-500 border border-white/10 font-black uppercase tracking-tighter hover:bg-[var(--neon-cyan)] hover:text-black transition-all"
+                  className="text-[9px] px-2.5 py-1 rounded-sm bg-[var(--surface-muted)] text-slate-500 border border-[var(--border)] font-black uppercase tracking-tighter hover:bg-[var(--board-accent)] hover:text-black transition-all"
                 >
                   LVL {trick.difficulty}
                 </button>
@@ -128,7 +128,7 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
                 <>
                   <div className="w-1 h-1 rounded-full bg-slate-800" />
                   <span className={`text-[10px] font-black uppercase tracking-widest ${
-                    status === "landed" ? "text-[var(--neon-cyan)]" : "text-[var(--neon-magenta)]"
+                    status === "landed" ? "text-[var(--board-accent)]" : "text-[#f59e0b]"
                   }`}>
                     {status === "locked" ? `In Bag (Locked ${consistency ?? 0}/10)` : "In Bag"}
                   </span>
@@ -137,7 +137,7 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
             </div>
           </div>
 
-          <div className={`w-10 h-10 rounded-xl flex items-center justify-center border transition-all duration-500 ${expanded ? "bg-white/10 border-[var(--neon-cyan)] rotate-180" : "bg-white/5 border-white/10"}`}>
+          <div className={`w-10 h-10 rounded-lg flex items-center justify-center border transition-all duration-500 ${expanded ? "bg-white/10 border-[var(--board-accent)] rotate-180" : "bg-[var(--surface-muted)] border-[var(--border)]"}`}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
               <path d="m6 9 6 6 6-6"/>
             </svg>
@@ -146,15 +146,15 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
 
         {/* Level Edit Overlay */}
         {showLevelEdit && (
-          <div className="bg-black/40 p-5 rounded-2xl border border-[var(--neon-cyan)]/20 space-y-4 animate-in fade-in duration-300" onClick={(e) => e.stopPropagation()}>
+          <div className="bg-black/40 p-5 rounded-2xl border border-[var(--board-accent)]/20 space-y-4 animate-in fade-in duration-300" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between">
-              <span className="text-[10px] font-black text-[var(--neon-cyan)] uppercase tracking-widest">Suggest Level Change</span>
+              <span className="text-[10px] font-black text-[var(--board-accent)] uppercase tracking-widest">Suggest Level Change</span>
               <button onClick={() => setShowLevelEdit(false)} className="text-slate-500 hover:text-white transition-colors">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
               </button>
             </div>
             {suggestionSubmitted ? (
-              <p className="text-[var(--neon-cyan)] text-xs font-bold uppercase text-center py-2 italic">Suggestion sent for review! 🛹</p>
+              <p className="text-[var(--board-accent)] text-xs font-bold uppercase text-center py-2 italic">Suggestion sent for review! 🛹</p>
             ) : (
               <div className="grid grid-cols-5 gap-2">
                 {[1, 2, 3, 4, 5].map((lvl) => (
@@ -163,8 +163,8 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
                     onClick={() => handleLevelSuggestion(lvl)}
                     className={`h-10 rounded-lg font-black text-xs transition-all border ${
                       trick.difficulty === lvl 
-                        ? "bg-[var(--neon-cyan)] text-black border-[var(--neon-cyan)] shadow-[0_0_10px_var(--neon-cyan)]" 
-                        : "bg-white/5 text-slate-500 border-white/5 hover:text-white hover:border-[var(--neon-cyan)]/30"
+                        ? "bg-[var(--board-accent)] text-black border-[var(--board-accent)] shadow-lg shadow-black/30" 
+                        : "bg-[var(--surface-muted)] text-slate-500 border-[var(--border)] hover:text-white hover:border-[var(--board-accent)]/30"
                     }`}
                   >
                     {lvl}
@@ -180,10 +180,10 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
           <div className="flex gap-3" onClick={(e) => e.stopPropagation()}>
             <button
               onClick={() => handleStatusToggle("landed")}
-              className={`flex-1 h-12 rounded-xl flex items-center justify-center gap-2 font-black text-xs uppercase tracking-widest transition-all duration-300 ${
+              className={`flex-1 h-12 rounded-lg flex items-center justify-center gap-2 font-black text-xs uppercase tracking-widest transition-all duration-300 ${
                 (status === "landed" || status === "locked")
-                  ? "bg-[var(--neon-cyan)] text-black shadow-[0_0_20px_var(--neon-cyan)]"
-                  : "bg-white/5 text-slate-500 hover:text-white hover:bg-white/10 border border-white/10"
+                  ? "bg-[var(--board-accent)] text-black shadow-lg shadow-black/30"
+                  : "bg-[var(--surface-muted)] text-slate-500 hover:text-white hover:bg-[var(--surface-elevated)] border border-[var(--border)]"
               }`}
               disabled={loading}
             >
@@ -192,10 +192,10 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
             </button>
             <button
               onClick={() => setShowPrompt(!showPrompt)}
-              className={`flex-1 h-12 rounded-xl flex items-center justify-center gap-2 font-black text-xs uppercase tracking-widest transition-all duration-300 ${
+              className={`flex-1 h-12 rounded-lg flex items-center justify-center gap-2 font-black text-xs uppercase tracking-widest transition-all duration-300 ${
                 status === "locked"
-                  ? "bg-[var(--neon-magenta)] text-white shadow-[0_0_20px_var(--neon-magenta)]"
-                  : "bg-white/5 text-slate-500 hover:text-white hover:bg-white/10 border border-white/10"
+                  ? "bg-[#f59e0b] text-white shadow-lg shadow-black/30"
+                  : "bg-[var(--surface-muted)] text-slate-500 hover:text-white hover:bg-[var(--surface-elevated)] border border-[var(--border)]"
               }`}
               disabled={loading}
             >
@@ -208,10 +208,10 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
 
       {/* 10 Tries Overlay */}
       {showPrompt && (
-        <div className="absolute inset-0 z-20 bg-black/95 backdrop-blur-3xl p-8 flex flex-col justify-center animate-in fade-in duration-300 rounded-3xl border border-[var(--neon-magenta)]/30">
+        <div className="absolute inset-0 z-20 bg-black/95 backdrop-blur-xl p-8 flex flex-col justify-center animate-in fade-in duration-300 rounded-2xl border border-[#f59e0b]/30">
           <button 
             onClick={(e) => { e.stopPropagation(); setShowPrompt(false); }}
-            className="absolute top-6 right-6 w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-slate-400 hover:text-white border border-white/10"
+            className="absolute top-6 right-6 w-10 h-10 rounded-lg bg-[var(--surface-muted)] flex items-center justify-center text-slate-400 hover:text-white border border-[var(--border)]"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
           </button>
@@ -229,8 +229,8 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
                   onClick={(e) => { e.stopPropagation(); handleStatusToggle("locked", i); }}
                   className={`h-12 flex items-center justify-center text-sm font-black rounded-lg transition-all ${
                     consistency === i && status === "locked"
-                      ? "bg-[var(--neon-magenta)] text-white shadow-lg"
-                      : "bg-white/5 text-slate-500 hover:bg-white/10 hover:text-white border border-white/5"
+                      ? "bg-[#f59e0b] text-white shadow-lg"
+                      : "bg-[var(--surface-muted)] text-slate-500 hover:bg-[var(--surface-elevated)] hover:text-white border border-[var(--border)]"
                   }`}
                 >
                   {i}
@@ -250,14 +250,14 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
           <div className="space-y-5">
             <div className="flex items-center justify-between px-1">
               <div className="flex items-center gap-3">
-                <div className="w-2 h-2 rounded-full bg-[var(--neon-cyan)] shadow-[0_0_8px_var(--neon-cyan)] animate-pulse" />
+                <div className="w-2 h-2 rounded-full bg-[var(--board-accent)] shadow-lg shadow-black/30 animate-pulse" />
                 <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Trick Feed</span>
               </div>
               <div className="flex gap-4">
                 {searchMode === "query" && (
                   <button 
                     onClick={tryExact}
-                    className="text-[9px] font-black text-[var(--neon-cyan)] uppercase tracking-widest hover:text-white transition-colors"
+                    className="text-[9px] font-black text-[var(--board-accent)] uppercase tracking-widest hover:text-white transition-colors"
                   >
                     Exact Match Search 🎯
                   </button>
@@ -266,13 +266,13 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
                   <div className="flex gap-3">
                     <button 
                       onClick={prevVideo}
-                      className="text-[9px] font-black text-[var(--neon-cyan)] uppercase tracking-widest hover:text-white transition-colors"
+                      className="text-[9px] font-black text-[var(--board-accent)] uppercase tracking-widest hover:text-white transition-colors"
                     >
                       Prev
                     </button>
                     <button 
                       onClick={nextVideo}
-                      className="text-[9px] font-black text-[var(--neon-cyan)] uppercase tracking-widest hover:text-white transition-colors"
+                      className="text-[9px] font-black text-[var(--board-accent)] uppercase tracking-widest hover:text-white transition-colors"
                     >
                       Next ({currentVideoIndex + 1}/{videoIds.length})
                     </button>
@@ -281,7 +281,7 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
               </div>
             </div>
 
-            <div className="aspect-[4/3] sm:aspect-video w-full bg-black/60 rounded-3xl overflow-hidden border border-white/10 relative shadow-2xl">
+            <div className="aspect-[4/3] sm:aspect-video w-full bg-black/60 rounded-2xl overflow-hidden border border-[var(--border)] relative shadow-2xl">
               {videoIds.length > 0 ? (
                 <iframe
                   key={videoIds[currentVideoIndex]}
@@ -295,12 +295,12 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
                 />
               ) : fetchingVideo ? (
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
-                  <div className="w-8 h-8 border-3 border-[var(--neon-cyan)]/20 border-t-[var(--neon-cyan)] rounded-full animate-spin" />
+                  <div className="w-8 h-8 border-3 border-[var(--board-accent)]/20 border-t-[var(--board-accent)] rounded-full animate-spin" />
                   <span className="text-[10px] font-bold text-slate-600 uppercase tracking-widest">Searching...</span>
                 </div>
               ) : (
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-xs text-slate-700 font-bold uppercase tracking-[0.2em] italic">Video unavailable</span>
+                  <span className="text-xs text-[var(--text-muted)] font-bold uppercase tracking-[0.2em] italic">Video unavailable</span>
                 </div>
               )}
             </div>
@@ -312,7 +312,7 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
               {trick.history && (
                 <div className="space-y-4">
                   <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Intel</span>
-                  <p className="text-sm text-slate-300 leading-relaxed italic border-l-2 border-[var(--neon-cyan)]/30 pl-5">"{trick.history}"</p>
+                  <p className="text-sm text-slate-300 leading-relaxed italic border-l-2 border-[var(--board-accent)]/30 pl-5">"{trick.history}"</p>
                 </div>
               )}
               
