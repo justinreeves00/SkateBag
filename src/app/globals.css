@@ -1,15 +1,32 @@
 @import "tailwindcss";
 
 :root {
-  --background: #000000;
-  --foreground: #ffffff;
-  --neon-cyan: #00f3ff;
-  --neon-magenta: #ff00ff;
-  --surface: #0a0a0a;
-  --surface-muted: #121212;
-  --accent: var(--neon-cyan);
-  --glass-bg: rgba(10, 10, 10, 0.6);
-  --glass-border: rgba(0, 243, 255, 0.2);
+  --background: #0e0f12;
+  --foreground: #f5f7fa;
+
+  /* Accent pulled from logo board palette */
+  --board-accent: #2dd4bf;
+  --board-accent-strong: #14b8a6;
+  --board-accent-soft: rgba(45, 212, 191, 0.18);
+
+  /* Core surface system */
+  --surface: #121419;
+  --surface-muted: #181b21;
+  --surface-elevated: #1d2129;
+  --border: #2a2f38;
+  --text-muted: #98a1af;
+
+  /* Studio aliases */
+  --studio-indigo: var(--board-accent);
+  --studio-gray: var(--surface);
+  --studio-muted: var(--text-muted);
+  --accent: var(--board-accent);
+
+  /* Legacy neon aliases for existing components */
+  --neon-cyan: var(--board-accent);
+  --neon-magenta: #ff6e48;
+  --glass-bg: rgba(16, 18, 24, 0.7);
+  --glass-border: rgba(45, 212, 191, 0.2);
 }
 
 * {
@@ -28,11 +45,13 @@ body {
   font-family: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 15px;
+  line-height: 1.45;
   min-height: 100vh;
   position: relative;
 }
 
-/* Cyber Grid Background */
+/* Subtle concrete/grip texture */
 body::before {
   content: "";
   position: fixed;
@@ -41,63 +60,59 @@ body::before {
   right: 0;
   bottom: 0;
   z-index: -1;
-  background-image: 
-    linear-gradient(rgba(0, 243, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 243, 255, 0.05) 1px, transparent 1px);
-  background-size: 40px 40px;
-  background-position: center;
-  mask-image: radial-gradient(circle at 50% 50%, black, transparent 80%);
+  opacity: 0.045;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 14% 18%, rgba(45, 212, 191, 0.08), transparent 38%),
+    radial-gradient(circle at 85% 85%, rgba(255, 110, 72, 0.06), transparent 42%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
 }
 
-/* Cyber Glows */
-body::after {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: -2;
-  background: 
-    radial-gradient(circle at 10% 10%, rgba(0, 243, 255, 0.15) 0%, transparent 40%),
-    radial-gradient(circle at 90% 90%, rgba(255, 0, 255, 0.1) 0%, transparent 40%);
-  filter: blur(80px);
+/* Studio Card Style */
+.studio-card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 38%), var(--studio-gray);
+  border: 1px solid var(--border);
+  transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.studio-card:hover {
+  border-color: var(--board-accent-strong);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 42%), var(--surface-elevated);
+}
+
+/* Clean UI Elements */
+.btn-studio {
+  background: var(--board-accent);
+  color: #0b1114;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.btn-studio:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.btn-studio:active {
+  transform: translateY(0);
 }
 
 /* Modern Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 4px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--neon-cyan);
-  box-shadow: 0 0 10px var(--neon-cyan);
-  border-radius: 10px;
+  background: #333333;
 }
-
-/* Cyber Glassmorphism */
-.cyber-card {
-  background: var(--glass-bg);
-  backdrop-filter: blur(40px);
-  -webkit-backdrop-filter: blur(40px);
-  border: 1px solid var(--glass-border);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.cyber-card:hover {
-  border-color: var(--neon-cyan);
-  box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
-  transform: translateY(-2px);
-}
-
-.cyber-glass {
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
-  border-bottom: 1px solid var(--glass-border);
+::-webkit-scrollbar-thumb:hover {
+  background: var(--board-accent-strong);
 }
 
 .no-scrollbar::-webkit-scrollbar {
@@ -108,10 +123,44 @@ body::after {
   scrollbar-width: none;
 }
 
-/* Utility High Contrast Buttons */
+/* Structured Label */
+.label-tag {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--studio-muted);
+  border: 1px solid var(--border);
+  padding: 2px 8px;
+  border-radius: 2px;
+}
+
+/* Legacy utility classes kept for pages still using cyber styles */
+.cyber-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.cyber-card:hover {
+  border-color: rgba(45, 212, 191, 0.45);
+}
+
+.cyber-glass {
+  background: rgba(14, 15, 18, 0.78);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.text-glow {
+  text-shadow: 0 0 16px rgba(45, 212, 191, 0.3);
+}
+
 .btn-cyber {
   background: var(--neon-cyan);
-  color: #000;
+  color: #0b1114;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -122,6 +171,12 @@ body::after {
 }
 
 .btn-cyber:hover {
-  filter: brightness(1.2);
+  filter: brightness(1.1);
   box-shadow: 0 0 15px var(--neon-cyan);
+}
+
+@media (max-width: 640px) {
+  body {
+    font-size: 16px;
+  }
 }
