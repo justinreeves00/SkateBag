@@ -22,6 +22,8 @@ const CATEGORIES: TrickCategory[] = [
   "flatground", "street", "ledge/rail", "transition", "gaps", "freestyle", "downhill"
 ];
 
+const INSTALL_DISMISS_KEY = "skatebag-install-banner-dismissed-v2";
+
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
   userChoice: Promise<{ outcome: "accepted" | "dismissed"; platform: string }>;
@@ -66,6 +68,8 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [isPWA, setIsPWA] = useState(false);
   const [dismissedInstallPrompt, setDismissedInstallPrompt] = useState(false);
+  const [installMethod, setInstallMethod] = useState<"native" | "ios" | "browser">("browser");
+  const [showInstallGuide, setShowInstallGuide] = useState(false);
   const [showAuthPrompt, setShowAuthPrompt] = useState(false);
 
   useEffect(() => {
@@ -73,27 +77,32 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
 
     // Check if running as PWA
     const isStandalone = window.matchMedia("(display-mode: standalone)").matches || (window.navigator as any).standalone === true;
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
     setIsPWA(isStandalone);
-    setDismissedInstallPrompt(localStorage.getItem("skatebag-install-dismissed") === "true");
+    setDismissedInstallPrompt(localStorage.getItem(INSTALL_DISMISS_KEY) === "true");
+    setInstallMethod(isIOS ? "ios" : "browser");
 
     if (browserWindow.__skatebagInstallPrompt) {
       setInstallPrompt(browserWindow.__skatebagInstallPrompt);
+      setInstallMethod("native");
     }
 
     const handleInstallAvailable = (e: Event) => {
-      if (localStorage.getItem("skatebag-install-dismissed") === "true") {
+      if (localStorage.getItem(INSTALL_DISMISS_KEY) === "true") {
         return;
       }
 
       const customEvent = e as CustomEvent<BeforeInstallPromptEvent>;
       setInstallPrompt(customEvent.detail);
+      setInstallMethod("native");
     };
 
     const handleInstalled = () => {
-      localStorage.removeItem("skatebag-install-dismissed");
+      localStorage.removeItem(INSTALL_DISMISS_KEY);
       setInstallPrompt(null);
       setIsPWA(true);
       setDismissedInstallPrompt(false);
+      setShowInstallGuide(false);
     };
 
     window.addEventListener("pwa-install-available", handleInstallAvailable);
@@ -127,7 +136,10 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
   };
 
   async function handleInstallClick() {
-    if (!installPrompt) return;
+    if (!installPrompt || installMethod !== "native") {
+      setShowInstallGuide(true);
+      return;
+    }
     installPrompt.prompt();
     const { outcome } = await installPrompt.userChoice;
     if (outcome === "accepted") {
@@ -136,9 +148,10 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
   }
 
   function dismissInstallPrompt() {
-    localStorage.setItem("skatebag-install-dismissed", "true");
+    localStorage.setItem(INSTALL_DISMISS_KEY, "true");
     setDismissedInstallPrompt(true);
     setInstallPrompt(null);
+    setShowInstallGuide(false);
   }
 
   function handleCardInteract(id: string) {
@@ -249,6 +262,59 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
 
   return (
     <div className="min-h-screen text-white selection:bg-[var(--board-accent)]/30 pb-32">
+      {showInstallGuide && !isPWA && (
+        <div className="fixed inset-0 z-[1150] flex items-end justify-center bg-black/90 p-4 sm:items-center sm:p-6" onClick={() => setShowInstallGuide(false)}>
+          <div
+            className="w-full max-w-md rounded-[32px] border border-white/10 bg-[var(--surface)] p-8 shadow-[0_24px_80px_rgba(0,0,0,0.45)]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="space-y-3 text-center">
+              <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--text-muted)]">Add to Home Screen</p>
+              <h3 className="text-3xl font-black uppercase italic tracking-tight text-white">Install SkateBag</h3>
+              <p className="text-sm leading-relaxed text-[var(--text-muted)]">
+                {installMethod === "ios"
+                  ? "In Safari, tap Share, then tap Add to Home Screen. SkateBag will open full-screen like an app."
+                  : "Open your browser menu and choose Install App or Add to Home Screen to launch SkateBag like a native app."}
+              </p>
+            </div>
+
+            <div className="mt-8 space-y-3 rounded-[24px] border border-white/10 bg-black/25 p-5">
+              <div className="flex items-start gap-3">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-white/5 text-xs font-black text-white">1</div>
+                <p className="pt-2 text-sm font-medium text-white">
+                  {installMethod === "ios" ? "Tap the Share button in Safari." : "Open the browser menu for this page."}
+                </p>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-white/5 text-xs font-black text-white">2</div>
+                <p className="pt-2 text-sm font-medium text-white">
+                  {installMethod === "ios" ? "Choose Add to Home Screen." : "Choose Install App or Add to Home Screen."}
+                </p>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-white/5 text-xs font-black text-white">3</div>
+                <p className="pt-2 text-sm font-medium text-white">Launch SkateBag from your home screen for the app-style experience.</p>
+              </div>
+            </div>
+
+            <div className="mt-8 flex gap-3">
+              <button
+                onClick={() => setShowInstallGuide(false)}
+                className="flex-1 rounded-2xl border border-white/10 bg-black/30 px-4 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-[var(--text-muted)] transition-all hover:text-white"
+              >
+                Close
+              </button>
+              <button
+                onClick={dismissInstallPrompt}
+                className="flex-1 rounded-2xl bg-[var(--board-accent)] px-4 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-black transition-all hover:brightness-110"
+              >
+                Got It
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {showAuthPrompt && (
         <div className="fixed inset-0 z-[1100] flex items-center justify-center bg-black/90 p-6" onClick={() => setShowAuthPrompt(false)}>
           <div className="w-full max-w-sm rounded-[32px] border border-white/10 bg-[var(--surface)] p-8 shadow-2xl" onClick={(e) => e.stopPropagation()}>
@@ -312,7 +378,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
       )}
 
       {/* Settings Modal */}
-      {showSettingsModal && (
+      {isAuthenticated && showSettingsModal && (
         <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/95 p-6" onClick={() => setShowSettingsModal(false)}>
           <div className="w-full max-w-md cyber-card p-10 space-y-8 animate-in zoom-in-95 duration-300" onClick={(e) => e.stopPropagation()}>
             <div className="flex justify-between items-center">
@@ -480,12 +546,14 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
                   </button>
                   
-                  <button 
-                    onClick={() => setShowSettingsModal(true)}
-                    className="w-10 h-10 bg-black/40 border border-white/10 rounded-xl flex items-center justify-center text-slate-400 hover:text-white transition-all shrink-0"
-                  >
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
-                  </button>
+                  {isAuthenticated && (
+                    <button 
+                      onClick={() => setShowSettingsModal(true)}
+                      className="w-10 h-10 bg-black/40 border border-white/10 rounded-xl flex items-center justify-center text-slate-400 hover:text-white transition-all shrink-0"
+                    >
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                    </button>
+                  )}
                 </>
               )}
             </div>
@@ -495,14 +563,14 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
 
       {/* Main Grid Area */}
       <main className="max-w-6xl mx-auto px-6 pt-10 pb-32">
-        {!isPWA && installPrompt && !dismissedInstallPrompt && (
+        {!isPWA && !dismissedInstallPrompt && (
           <div className="mb-8 rounded-[28px] border border-white/10 bg-[var(--surface)]/95 p-5 shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
             <div className="flex items-start justify-between gap-4">
               <div className="space-y-2">
                 <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--text-muted)]">Add to Home Screen</p>
                 <h3 className="text-lg font-black uppercase italic tracking-tight text-white">Install SkateBag</h3>
                 <p className="max-w-xl text-sm leading-relaxed text-[var(--text-muted)]">
-                  Open SkateBag like an app with faster launch, full-screen browsing, and offline caching.
+                  Open SkateBag like an app with full-screen launch, faster return visits, and offline support.
                 </p>
               </div>
               <button
@@ -524,7 +592,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                 onClick={handleInstallClick}
                 className="rounded-2xl bg-[var(--board-accent)] px-5 py-3 text-[10px] font-black uppercase tracking-[0.25em] text-black transition-all hover:brightness-110"
               >
-                Install
+                {installMethod === "native" ? "Install" : "Add It"}
               </button>
             </div>
           </div>

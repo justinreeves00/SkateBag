@@ -25,7 +25,7 @@ export function TrickCard({ trick, isAuthenticated, onStatusChange, onInteract }
   const [searchMode, setSearchMode] = useState<"query" | "exact">("query");
 
   const fetchVideos = (mode: "query" | "exact") => {
-    const q = mode === "exact" ? trick.name : (trick.youtube_query || trick.name);
+    const q = trick.name;
     setFetchingVideo(true);
     setSearchMode(mode);
     fetch(`/api/youtube?q=${encodeURIComponent(q)}&mode=${mode}`)
@@ -43,7 +43,12 @@ export function TrickCard({ trick, isAuthenticated, onStatusChange, onInteract }
     if (expanded && videoIds.length === 0 && !fetchingVideo) {
       fetchVideos("query");
     }
-  }, [expanded, trick.youtube_query, videoIds.length, fetchingVideo]);
+  }, [expanded, trick.id, videoIds.length, fetchingVideo]);
+
+  useEffect(() => {
+    setStatus(trick.userStatus);
+    setConsistency(trick.userConsistency);
+  }, [trick.id, trick.userStatus, trick.userConsistency]);
 
   async function handleStatusToggle(newStatus: TrickStatus, value: number | null = null) {
     if (!isAuthenticated || loading) return;
