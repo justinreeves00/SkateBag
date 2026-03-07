@@ -111,7 +111,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
         const matchesCategory = category === "all" || t.category === category;
         const matchesSearch = t.name.toLowerCase().includes(search.toLowerCase());
         const matchesStatus = 
-          statusFilter === "all" || 
+          (statusFilter === "all" && (t.userStatus === null || t.userStatus === "learning" || t.userStatus === "locked")) || 
           (statusFilter === "landed" && (t.userStatus === "landed" || t.userStatus === "locked")) ||
           (statusFilter === "locked" && t.userStatus === "locked") ||
           (statusFilter === "learning" && t.userStatus === "learning");
@@ -132,7 +132,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
   const landed = localTricks.filter((t) => t.userStatus === "landed" || t.userStatus === "locked").length;
   const locked = localTricks.filter((t) => t.userStatus === "locked").length;
   const learning = localTricks.filter((t) => t.userStatus === "learning").length;
-  const progress = localTricks.length > 0 ? (landed / localTricks.length) * 100 : 0;
+  const unlearned = localTricks.filter((t) => t.userStatus === null || t.userStatus === "learning" || t.userStatus === "locked").length;
 
   async function handleProfileUpdate(e: React.FormEvent) {
     e.preventDefault();
@@ -390,11 +390,11 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-5 shrink-0">
                 <SkateBagLogo size={64} className="shadow-lg shadow-black/30 transform -rotate-2" />
-                <div className="space-y-0 hidden sm:block">
-                  <h1 className="text-5xl font-black tracking-tighter text-white leading-none uppercase italic drop-shadow-lg">
+                <div className="space-y-0">
+                  <h1 className="text-3xl sm:text-5xl font-black tracking-tighter text-white leading-none uppercase italic drop-shadow-lg">
                     SkateBag
                   </h1>
-                  <p className="text-[10px] font-black text-[var(--board-accent)] uppercase tracking-[0.4em] ml-1 bg-black px-2 py-0.5 w-fit">
+                  <p className="text-[9px] sm:text-[10px] font-black text-[var(--board-accent)] uppercase tracking-[0.4em] ml-1 bg-black px-2 py-0.5 w-fit">
                     What&apos;s in your bag?
                   </p>
                 </div>
@@ -425,14 +425,14 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
             <div className="space-y-8">
               {/* Status Pills */}
               {isAuthenticated && (
-                <div className="flex flex-wrap items-center gap-6">
+                <div className="flex flex-wrap items-center gap-x-10 gap-y-6">
                   <button
                     onClick={() => setStatusFilter("all")}
                     className="flex flex-col text-left hover:brightness-125 transition-all group"
                   >
-                    <span className={`text-[10px] uppercase font-black tracking-[0.2em] mb-1.5 transition-colors ${statusFilter === "all" ? "text-white" : "text-slate-500 group-hover:text-white"}`}>Vault</span>
+                    <span className={`text-[10px] uppercase font-black tracking-[0.2em] mb-1.5 transition-colors ${statusFilter === "all" ? "text-white" : "text-slate-500 group-hover:text-white"}`}>Unlearned</span>
                     <div className="h-10 flex items-center">
-                      <span className={`text-4xl font-black tracking-tighter leading-none transition-colors ${statusFilter === "all" ? "text-white" : "text-slate-800"}`}>{localTricks.length}</span>
+                      <span className={`text-4xl font-black tracking-tighter leading-none transition-colors ${statusFilter === "all" ? "text-white" : "text-slate-800"}`}>{unlearned}</span>
                     </div>
                   </button>
 
@@ -481,7 +481,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
       <main className="max-w-6xl mx-auto px-6 pt-16 pb-32">
         <div className="mb-12 flex items-center gap-6">
           <h2 className="text-[11px] font-black text-white uppercase tracking-[0.4em] whitespace-nowrap italic bg-black px-3 py-1 border border-white/5">
-            {statusFilter === "all" ? "Trick Vault" : 
+            {statusFilter === "all" ? "Unlearned Tricks" : 
              statusFilter === "landed" ? "In The Bag" : 
              statusFilter === "locked" ? "Mastered" : "In Progress"}
           </h2>
