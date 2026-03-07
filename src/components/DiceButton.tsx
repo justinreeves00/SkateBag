@@ -199,24 +199,25 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
               </div>
             )}
 
-            <div className="text-center space-y-4">
-              <div className="flex items-center justify-center gap-3">
-                <span className="px-3 py-1.5 rounded-lg bg-[var(--board-accent)]/10 text-[var(--board-accent)] text-[9px] font-black uppercase tracking-[0.3em] border border-[var(--board-accent)]/20">You Rolled</span>
-                <button 
-                  onClick={() => setShowSettings(true)}
-                  className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-[var(--text-muted)] hover:text-[var(--board-accent)] hover:border-[var(--board-accent)]/30 transition-all"
-                  title="Change Roll Settings"
-                >
-                  <FilterIcon size={14} />
-                </button>
-              </div>
-              <h2 className="text-5xl md:text-8xl font-black tracking-tighter text-white italic leading-[0.9] uppercase">
+            <div className="text-center space-y-3">
+              <span className="inline-block px-3 py-1.5 rounded-lg bg-[var(--board-accent)]/10 text-[var(--board-accent)] text-[9px] font-black uppercase tracking-[0.3em] border border-[var(--board-accent)]/20">You Rolled</span>
+              
+              <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-white italic leading-[0.9] uppercase">
                 {result.name}
               </h2>
-              <div className="flex items-center justify-center gap-6 text-[var(--text-muted)] text-sm font-black uppercase tracking-[0.2em]">
-                <span>{result.category}</span>
-                <div className="w-1.5 h-1.5 rounded-full bg-[var(--board-accent)] shadow-lg shadow-black/30" />
-                <span className="text-[var(--board-accent)] italic">Tier {result.difficulty}</span>
+              
+              <div className="flex items-center justify-center gap-3 flex-wrap">
+                <span className="text-[var(--text-muted)] text-xs font-black uppercase tracking-wider">{result.category}</span>
+                <span className="text-[var(--board-accent)]">•</span>
+                <span className="text-[var(--board-accent)] text-xs font-black uppercase tracking-wider italic">Level {result.difficulty}</span>
+                <span className="text-[var(--board-accent)]">•</span>
+                <button 
+                  onClick={() => setShowSettings(true)}
+                  className="w-6 h-6 rounded bg-white/5 border border-white/10 flex items-center justify-center text-[var(--text-muted)] hover:text-[var(--board-accent)] hover:border-[var(--board-accent)]/30 transition-all"
+                  title="Change Roll Settings"
+                >
+                  <FilterIcon size={12} />
+                </button>
               </div>
             </div>
 
@@ -319,29 +320,19 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
                 </div>
               )}
               
-              <div className="flex flex-col sm:flex-row gap-5">
-                <button
-                  onClick={() => setShowSettings(true)}
-                  className="flex-1 py-4 bg-[var(--surface-muted)] text-[var(--text-muted)] rounded-2xl font-black uppercase tracking-widest hover:text-[var(--foreground)] hover:bg-[var(--surface-elevated)] transition-all border border-[var(--border)] flex items-center justify-center gap-2"
-                >
-                  <FilterIcon size={16} />
-                  <span>Change Roll Options</span>
-                </button>
-              </div>
-              
-              <div className="flex flex-col sm:flex-row gap-5">
+              <div className="flex flex-col sm:flex-row gap-3">
                 <button
                   onClick={roll}
-                  className={`flex-1 py-6 bg-white text-black rounded-3xl font-black uppercase tracking-widest hover:brightness-110 transition-all shadow-lg shadow-black/30 hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-3 ${rolling ? "opacity-50" : ""}`}
+                  className={`flex-1 py-5 bg-white text-black rounded-2xl font-black uppercase tracking-widest hover:brightness-110 transition-all shadow-lg shadow-black/30 hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2 ${rolling ? "opacity-50" : ""}`}
                 >
                   <div className={rolling ? "animate-spin" : ""}>
-                    <DiceIcon size={20} />
+                    <DiceIcon size={18} />
                   </div>
                   <span>Roll Again</span>
                 </button>
                 <button
                   onClick={() => setResult(null)}
-                  className="flex-1 py-6 bg-[var(--surface-muted)] text-[var(--text-muted)] rounded-3xl font-black uppercase tracking-widest hover:text-[var(--foreground)] hover:bg-[var(--surface-elevated)] transition-all border border-[var(--border)]"
+                  className="flex-1 py-5 bg-[var(--surface-muted)] text-[var(--text-muted)] rounded-2xl font-black uppercase tracking-widest hover:text-[var(--foreground)] hover:bg-[var(--surface-elevated)] transition-all border border-[var(--border)]"
                 >
                   Close
                 </button>
