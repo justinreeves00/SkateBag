@@ -24,7 +24,7 @@ const CATEGORIES: TrickCategory[] = [
 
 export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: TrickListProps) {
   const router = useRouter();
-  const [category, setCategory] = useState<TrickCategory | "all">("all");
+  const [category, setCategory] = useState<TrickCategory | "all">("flatground");
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | "landed" | "locked" | "learning">("all");
   
@@ -386,60 +386,42 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
         {/* Brand & Stats Row */}
         <div className="max-w-6xl mx-auto px-6 py-10">
           <div className="flex flex-col gap-10">
-            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
-              <div className="space-y-6">
-                <div className="flex items-center gap-5">
-                  <SkateBagLogo size={64} className="shadow-lg shadow-black/30 transform -rotate-2" />
-                  <div className="space-y-0">
-                    <h1 className="text-5xl font-black tracking-tighter text-white leading-none uppercase italic drop-shadow-lg">
-                      SkateBag
-                    </h1>
-                    <p className="text-[10px] font-black text-[var(--board-accent)] uppercase tracking-[0.4em] ml-1 bg-black px-2 py-0.5 w-fit">
-                      What&apos;s in your bag?
-                    </p>
-                  </div>
-                </div>
-                
-                {/* Status Toggles */}
-                <div className="flex items-center p-1 rounded-xl bg-black border border-white/10 w-fit">
-                  <button 
-                    onClick={() => setStatusFilter("all")}
-                    className={`px-4 py-2.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${statusFilter === "all" ? "bg-white text-black" : "text-slate-500 hover:text-white"}`}
-                  >
-                    Vault
-                  </button>
-                  <button 
-                    onClick={() => setStatusFilter("learning")}
-                    className={`px-4 py-2.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${statusFilter === "learning" ? "bg-blue-500 text-white" : "text-slate-500 hover:text-white"}`}
-                  >
-                    Learning
-                  </button>
-                  <button 
-                    onClick={() => setStatusFilter("landed")}
-                    className={`px-4 py-2.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${statusFilter === "landed" ? "bg-[var(--board-accent)] text-white" : "text-slate-500 hover:text-white"}`}
-                  >
-                    Landed
-                  </button>
-                  <button 
-                    onClick={() => setStatusFilter("locked")}
-                    className={`px-4 py-2.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${statusFilter === "locked" ? "bg-[var(--warn-accent)] text-black" : "text-slate-500 hover:text-white"}`}
-                  >
-                    On Lock
-                  </button>
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-12">
+              <div className="flex items-center gap-5 shrink-0">
+                <SkateBagLogo size={64} className="shadow-lg shadow-black/30 transform -rotate-2" />
+                <div className="space-y-0">
+                  <h1 className="text-5xl font-black tracking-tighter text-white leading-none uppercase italic drop-shadow-lg">
+                    SkateBag
+                  </h1>
+                  <p className="text-[10px] font-black text-[var(--board-accent)] uppercase tracking-[0.4em] ml-1 bg-black px-2 py-0.5 w-fit">
+                    What&apos;s in your bag?
+                  </p>
                 </div>
               </div>
 
-              {/* Header Stats */}
-              <div className="flex-1 max-w-2xl w-full flex flex-col sm:flex-row items-end gap-10">
+              {/* Header Stats / Filters */}
+              <div className="flex-1 flex flex-col md:flex-row md:items-center gap-8">
                 {isAuthenticated && (
-                  <div className="flex gap-10 mb-1 px-2 items-stretch">
+                  <div className="flex flex-wrap items-center gap-x-8 gap-y-4 px-6 py-4 bg-black/40 rounded-2xl border border-white/5 backdrop-blur-sm">
+                    <button
+                      onClick={() => setStatusFilter("all")}
+                      className="flex flex-col text-left hover:brightness-125 transition-all group"
+                    >
+                      <span className={`text-[10px] uppercase font-black tracking-[0.2em] mb-2 transition-colors ${statusFilter === "all" ? "text-white" : "text-slate-500 group-hover:text-white"}`}>Vault</span>
+                      <div className="h-10 flex items-center">
+                        <span className={`text-4xl font-black tracking-tighter leading-none transition-colors ${statusFilter === "all" ? "text-white" : "text-slate-800"}`}>{localTricks.length}</span>
+                      </div>
+                    </button>
+
+                    <div className="w-px h-10 bg-white/5 hidden sm:block" />
+
                     <button
                       onClick={() => setStatusFilter("learning")}
                       className="flex flex-col text-left hover:brightness-125 transition-all group"
                     >
                       <span className={`text-[10px] uppercase font-black tracking-[0.2em] mb-2 transition-colors ${statusFilter === "learning" ? "text-blue-400" : "text-slate-500 group-hover:text-blue-400"}`}>In Progress</span>
                       <div className="h-10 flex items-center">
-                        <span className="text-4xl font-black tracking-tighter leading-none text-blue-400">{learning}</span>
+                        <span className={`text-4xl font-black tracking-tighter leading-none transition-colors ${statusFilter === "learning" ? "text-blue-400" : "text-blue-950"}`}>{learning}</span>
                       </div>
                     </button>
                     <button
@@ -448,7 +430,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                     >
                       <span className={`text-[10px] uppercase font-black tracking-[0.2em] mb-2 transition-colors ${statusFilter === "landed" ? "text-[var(--board-accent)]" : "text-slate-500 group-hover:text-[var(--board-accent)]"}`}>My Bag</span>
                       <div className="h-10 flex items-center">
-                        <span className="text-4xl font-black tracking-tighter leading-none text-[var(--board-accent)]">{landed}</span>
+                        <span className={`text-4xl font-black tracking-tighter leading-none transition-colors ${statusFilter === "landed" ? "text-[var(--board-accent)]" : "text-orange-950"}`}>{landed}</span>
                       </div>
                     </button>
                     <button
@@ -457,32 +439,30 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                     >
                       <span className={`text-[10px] uppercase font-black tracking-[0.2em] mb-2 transition-colors ${statusFilter === "locked" ? "text-[var(--warn-accent)]" : "text-slate-500 group-hover:text-[var(--warn-accent)]"}`}>On Lock</span>
                       <div className="h-10 flex items-center">
-                        <span className="text-4xl font-black tracking-tighter leading-none text-[var(--warn-accent)]">{locked}</span>
+                        <span className={`text-4xl font-black tracking-tighter leading-none transition-colors ${statusFilter === "locked" ? "text-[var(--warn-accent)]" : "text-yellow-950"}`}>{locked}</span>
                       </div>
-                    </button>                  </div>
+                    </button>
+                  </div>
                 )}
 
-                <div className="flex-1 w-full space-y-4">
-                  <div className="relative group flex items-center gap-3">
-                    <div className="relative flex-1">
-                      <div className="absolute inset-y-0 left-5 flex items-center pointer-events-none text-slate-500">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
-                        </svg>
-                      </div>
-                      <input
-                        type="text"
-                        placeholder="SEARCH TRICKS..."
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                        className="w-full bg-black border border-white/10 rounded-xl pl-14 pr-6 py-5 text-sm font-black text-white placeholder-slate-800 focus:outline-none focus:border-[var(--board-accent)]/40 transition-all uppercase tracking-widest"
-                      />
+                <div className="flex-1 relative group flex items-center gap-3">
+                  <div className="relative flex-1">
+                    <div className="absolute inset-y-0 left-5 flex items-center pointer-events-none text-slate-500">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+                      </svg>
                     </div>
-                    <div className="shrink-0">
-                      <DiceButton tricks={localTricks} isAuthenticated={isAuthenticated} onStatusChange={handleStatusChange} />
-                    </div>
+                    <input
+                      type="text"
+                      placeholder="SEARCH TRICKS..."
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)}
+                      className="w-full bg-black border border-white/10 rounded-2xl pl-14 pr-6 py-5 text-sm font-black text-white placeholder-slate-800 focus:outline-none focus:border-[var(--board-accent)]/40 transition-all uppercase tracking-widest"
+                    />
                   </div>
-                  <CategoryFilter active={category} onChange={setCategory} />
+                  <div className="shrink-0">
+                    <DiceButton tricks={localTricks} isAuthenticated={isAuthenticated} onStatusChange={handleStatusChange} />
+                  </div>
                 </div>
               </div>
             </div>
