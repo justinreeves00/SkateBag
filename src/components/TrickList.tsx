@@ -82,7 +82,6 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
   const [installMethod, setInstallMethod] = useState<"native" | "ios" | "browser">("browser");
   const [showInstallGuide, setShowInstallGuide] = useState(false);
   const [showAuthPrompt, setShowAuthPrompt] = useState(false);
-  const [showFirstVisitModal, setShowFirstVisitModal] = useState(false);
 
   useEffect(() => {
     const browserWindow = window as InstallPromptWindow;
@@ -140,15 +139,6 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
   }, [tricks]);
 
   
-  // Check first visit for install prompt
-  useEffect(() => {
-    const hasVisited = localStorage.getItem('skatebag-visited');
-    if (!hasVisited && !isPWA && isMobileInstallSurface) {
-      setShowFirstVisitModal(true);
-      localStorage.setItem('skatebag-visited', 'true');
-    }
-  }, [isPWA, isMobileInstallSurface]);
-
   const handleStatusChange = (id: string, status: TrickStatus | null, consistency: number | null) => {
     setStickyVisibleTrickId((currentSticky) => {
       if (!matchesStatusFilter(statusFilter, status)) {
@@ -696,7 +686,31 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
 
       {/* Main Grid Area */}
       <main className="max-w-6xl mx-auto px-6 pt-[140px] pb-32">
-        {/* Install prompt removed - now using first-visit modal and settings option */}
+        {/* Simple Install Banner - shows for all users not in PWA mode */}
+        {!isPWA && !dismissedInstallPrompt && (
+          <div className="mb-6 rounded-xl border border-[var(--board-accent)]/30 bg-[var(--board-accent)]/10 px-4 py-3 flex items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--board-accent)" strokeWidth="2">
+                <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 8v8"/><path d="M8 12h8"/>
+              </svg>
+              <p className="text-sm font-bold text-white">Add SkateBag to your Home Screen for the best experience</p>
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                onClick={handleInstallClick}
+                className="px-4 py-2 bg-[var(--board-accent)] text-black text-xs font-black uppercase tracking-wider rounded-lg hover:brightness-110 transition-all"
+              >
+                Install
+              </button>
+              <button
+                onClick={dismissInstallPrompt}
+                className="w-8 h-8 flex items-center justify-center text-[var(--text-muted)] hover:text-white transition-all"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+              </button>
+            </div>
+          </div>
+        )}
 
         <div className="mb-10 flex items-center gap-6">
           <h2 className="text-[11px] font-black text-white uppercase tracking-[0.4em] whitespace-nowrap italic bg-black px-3 py-1 border border-white/5">
