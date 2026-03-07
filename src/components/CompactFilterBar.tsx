@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import type { TrickCategory, TrickStatus } from "@/lib/types";
+import type { TrickCategory } from "@/lib/types";
 
 interface CompactFilterBarProps {
   category: TrickCategory | "all";
@@ -47,86 +47,110 @@ export function CompactFilterBar({
   trickCounts,
   isAuthenticated,
 }: CompactFilterBarProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [openPanel, setOpenPanel] = useState<"category" | "status" | "level" | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Close when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
+        setOpenPanel(null);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Close panel when selection changes
+  useEffect(() => {
+    setOpenPanel(null);
+  }, [category, statusFilter, levelFilter]);
+
   const activeCategory = CATEGORIES.find((c) => c.value === category)?.label ?? "All Tricks";
   const activeStatus = STATUS_OPTIONS.find((s) => s.value === statusFilter)?.label ?? "Unlearned";
-  const activeLevel = levelFilter === "all" ? "All Levels" : `Level ${levelFilter}`;
 
   return (
     <div ref={containerRef} className="relative">
-      {/* Compact Filter Bar */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className={`w-full flex items-center justify-between gap-3 px-4 py-3 rounded-2xl border transition-all ${
-          isOpen
-            ? "bg-white/10 border-white/20"
-            : "bg-black/20 border-white/5 hover:border-white/10"
-        }`}
-      >
-        <div className="flex items-center gap-2 overflow-hidden">
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            className="text-[var(--board-accent)] shrink-0"
-          >
-            <line x1="4" y1="21" x2="4" y2="14" />
-            <line x1="4" y1="10" x2="4" y2="3" />
-            <line x1="12" y1="21" x2="12" y2="12" />
-            <line x1="12" y1="8" x2="12" y2="3" />
-            <line x1="20" y1="21" x2="20" y2="16" />
-            <line x1="20" y1="12" x2="20" y2="3" />
-            <line x1="1" y1="14" x2="7" y2="14" />
-            <line x1="9" y1="8" x2="15" y2="8" />
-            <line x1="17" y1="16" x2="23" y2="16" />
-          </svg>
-          <div className="flex items-center gap-1.5 text-[11px] font-black uppercase tracking-wider text-white truncate">
-            <span className="text-[var(--board-accent)]">{activeCategory}</span>
-            <span className="text-white/30">•</span>
-            <span>{activeStatus}</span>
-            <span className="text-white/30">•</span>
-            <span className="text-[var(--text-muted)]">{activeLevel}</span>
-          </div>
-        </div>
-        <svg
-          width="14"
-          height="14"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.5"
-          className={`text-[var(--text-muted)] transition-transform duration-200 ${
-            isOpen ? "rotate-180" : ""
+      {/* Three Filter Buttons */}
+      <div className="flex items-center gap-2">
+        {/* Category Button */}
+        <button
+          onClick={() => setOpenPanel(openPanel === "category" ? null : "category")}
+          className={`flex-1 flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl border transition-all ${
+            openPanel === "category"
+              ? "bg-white/10 border-[var(--board-accent)]"
+              : "bg-black/20 border-white/5 hover:border-white/10"
           }`}
         >
-          <path d="m6 9 6 6 6-6" />
-        </svg>
-      </button>
+          <div className="flex items-center gap-2 min-w-0">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[var(--board-accent)] shrink-0">
+              <rect x="3" y="3" width="7" height="7" rx="1"/>
+              <rect x="14" y="3" width="7" height="7" rx="1"/>
+              <rect x="14" y="14" width="7" height="7" rx="1"/>
+              <rect x="3" y="14" width="7" height="7" rx="1"/>
+            </svg>
+            <span className="text-[10px] font-black uppercase tracking-wider text-white truncate">
+              {activeCategory}
+            </span>
+          </div>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className={`text-[var(--text-muted)] transition-transform duration-200 ${openPanel === "category" ? "rotate-180" : ""}`}>
+            <path d="m6 9 6 6 6-6" />
+          </svg>
+        </button>
 
-      {/* Dropdown Panel */}
-      {isOpen && (
-        <div className="absolute top-full left-0 right-0 mt-2 z-50 rounded-3xl border border-white/10 bg-[#1c1c1e] shadow-[0_24px_80px_rgba(0,0,0,0.5)] overflow-hidden animate-in slide-in-from-top-2 duration-200">
-          {/* Category Section */}
-          <div className="p-4 border-b border-white/5">
-            <p className="text-[9px] font-black uppercase tracking-[0.35em] text-[var(--text-muted)] mb-3">
-              Category
-            </p>
+        {/* Status Button */}
+        <button
+          onClick={() => setOpenPanel(openPanel === "status" ? null : "status")}
+          className={`flex-1 flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl border transition-all ${
+            openPanel === "status"
+              ? "bg-white/10 border-[var(--board-accent)]"
+              : "bg-black/20 border-white/5 hover:border-white/10"
+          }`}
+        >
+          <div className="flex items-center gap-2 min-w-0">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[var(--board-accent)] shrink-0">
+              <path d="M12 20h9"/>
+              <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>
+            </svg>
+            <span className="text-[10px] font-black uppercase tracking-wider text-white truncate">
+              {activeStatus}
+            </span>
+          </div>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className={`text-[var(--text-muted)] transition-transform duration-200 ${openPanel === "status" ? "rotate-180" : ""}`}>
+            <path d="m6 9 6 6 6-6" />
+          </svg>
+        </button>
+
+        {/* Level Button */}
+        <button
+          onClick={() => setOpenPanel(openPanel === "level" ? null : "level")}
+          className={`flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl border transition-all min-w-[90px] ${
+            openPanel === "level"
+              ? "bg-white/10 border-[var(--board-accent)]"
+              : "bg-black/20 border-white/5 hover:border-white/10"
+          }`}
+        >
+          <div className="flex items-center gap-2">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[var(--board-accent)] shrink-0">
+              <path d="M12 2v20"/>
+              <path d="M2 12h20"/>
+              <path d="m4.93 4.93 14.14 14.14"/>
+              <path d="m19.07 4.93-14.14 14.14"/>
+            </svg>
+            <span className="text-[10px] font-black uppercase tracking-wider text-white">
+              {levelFilter === "all" ? "All" : `L${levelFilter}`}
+            </span>
+          </div>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className={`text-[var(--text-muted)] transition-transform duration-200 ${openPanel === "level" ? "rotate-180" : ""}`}>
+            <path d="m6 9 6 6 6-6" />
+          </svg>
+        </button>
+      </div>
+
+      {/* Category Dropdown */}
+      {openPanel === "category" && (
+        <div className="absolute top-full left-0 right-0 mt-2 z-50 rounded-2xl border border-white/10 bg-[#1c1c1e] shadow-[0_24px_80px_rgba(0,0,0,0.5)] overflow-hidden animate-in slide-in-from-top-2 duration-200">
+          <div className="p-3">
             <div className="flex flex-wrap gap-2">
               {CATEGORIES.map((cat) => (
                 <button
@@ -143,12 +167,13 @@ export function CompactFilterBar({
               ))}
             </div>
           </div>
+        </div>
+      )}
 
-          {/* Status Section */}
-          <div className="p-4 border-b border-white/5">
-            <p className="text-[9px] font-black uppercase tracking-[0.35em] text-[var(--text-muted)] mb-3">
-              Status
-            </p>
+      {/* Status Dropdown */}
+      {openPanel === "status" && (
+        <div className="absolute top-full left-0 right-0 mt-2 z-50 rounded-2xl border border-white/10 bg-[#1c1c1e] shadow-[0_24px_80px_rgba(0,0,0,0.5)] overflow-hidden animate-in slide-in-from-top-2 duration-200">
+          <div className="p-3">
             <div className="flex flex-wrap gap-2">
               {STATUS_OPTIONS.map((status) => {
                 const count = isAuthenticated
@@ -173,16 +198,17 @@ export function CompactFilterBar({
               })}
             </div>
           </div>
+        </div>
+      )}
 
-          {/* Level Section */}
-          <div className="p-4">
-            <p className="text-[9px] font-black uppercase tracking-[0.35em] text-[var(--text-muted)] mb-3">
-              Difficulty
-            </p>
-            <div className="flex gap-2">
+      {/* Level Dropdown */}
+      {openPanel === "level" && (
+        <div className="absolute top-full left-0 right-0 mt-2 z-50 rounded-2xl border border-white/10 bg-[#1c1c1e] shadow-[0_24px_80px_rgba(0,0,0,0.5)] overflow-hidden animate-in slide-in-from-top-2 duration-200">
+          <div className="p-3">
+            <div className="flex items-center justify-center gap-2">
               <button
                 onClick={() => onLevelChange("all")}
-                className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-wider transition-all ${
+                className={`w-10 h-8 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all ${
                   levelFilter === "all"
                     ? "bg-[var(--board-accent)] text-black"
                     : "bg-white/5 text-[var(--text-muted)] hover:text-white hover:bg-white/10"
@@ -194,7 +220,7 @@ export function CompactFilterBar({
                 <button
                   key={lvl}
                   onClick={() => onLevelChange(lvl)}
-                  className={`w-10 h-10 rounded-xl text-[11px] font-black transition-all ${
+                  className={`w-8 h-8 rounded-lg text-[11px] font-black transition-all ${
                     levelFilter === lvl
                       ? "bg-[var(--board-accent)] text-black"
                       : "bg-white/5 text-[var(--text-muted)] hover:text-white hover:bg-white/10"
@@ -204,16 +230,6 @@ export function CompactFilterBar({
                 </button>
               ))}
             </div>
-          </div>
-
-          {/* Close Button */}
-          <div className="p-3 border-t border-white/5 bg-black/20">
-            <button
-              onClick={() => setIsOpen(false)}
-              className="w-full py-3 rounded-xl bg-white/5 text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] hover:text-white hover:bg-white/10 transition-all"
-            >
-              Done
-            </button>
           </div>
         </div>
       )}
