@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { TrickCard } from "./TrickCard";
-import { CategoryFilter } from "./CategoryFilter";
+import { CompactFilterBar } from "./CompactFilterBar";
 import { DiceButton } from "./DiceButton";
 import { SkateBagLogo } from "./Logo";
 import { signOut } from "@/lib/auth-actions";
@@ -67,8 +67,6 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
   const [displayName, setDisplayName] = useState("");
   const [isUpdatingProfile, setIsUpdatingProfile] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
-  const [showFiltersModal, setShowFiltersModal] = useState(false);
-  const [quickFilterPanel, setQuickFilterPanel] = useState<"status" | "level" | null>(null);
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const [profileError, setProfileError] = useState<string | null>(null);
 
@@ -247,10 +245,6 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
   useEffect(() => {
     setStickyVisibleTrickId(null);
   }, [category, levelFilter, search, statusFilter]);
-
-  useEffect(() => {
-    setQuickFilterPanel(null);
-  }, [category, levelFilter, statusFilter]);
 
   const landed = baseFiltered.filter((t) => t.userStatus === "landed" || t.userStatus === "locked").length;
   const locked = baseFiltered.filter((t) => t.userStatus === "locked").length;
@@ -589,83 +583,32 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
         </div>
       )}
 
-      {/* Filters Modal (Bottom Sheet Style) */}
-      {showFiltersModal && (
-        <div className="fixed inset-0 z-[1000] flex items-end justify-center bg-black/80 backdrop-blur-sm" onClick={() => setShowFiltersModal(false)}>
-          <div 
-            className="w-full max-w-xl bg-[#1c1c1e] rounded-t-[40px] p-8 pb-12 space-y-10 animate-in slide-in-from-bottom-full duration-500" 
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="w-12 h-1.5 bg-white/10 rounded-full mx-auto mb-2" />
-            
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-black italic uppercase tracking-tighter text-white">Filters</h2>
-              <button onClick={() => setShowFiltersModal(false)} className="text-slate-500 hover:text-white font-black text-[10px] uppercase tracking-widest">Done</button>
-            </div>
-
-            <div className="space-y-8">
-              <div className="space-y-4">
-                <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] ml-1">Category</span>
-                <CategoryFilter active={category} onChange={(cat) => { setCategory(cat); }} />
-              </div>
-
-              <div className="space-y-4">
-                <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] ml-1">Difficulty Level</span>
-                <div className="flex flex-wrap gap-3">
-                  <button
-                    onClick={() => setLevelFilter("all")}
-                    className={`flex-1 min-w-[100px] py-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all border-2 ${
-                      levelFilter === "all"
-                        ? "bg-white text-black border-white shadow-lg"
-                        : "bg-black/40 text-slate-500 border-white/5 hover:border-white/10 hover:text-white"
-                    }`}
-                  >
-                    All Levels
-                  </button>
-                  {[1, 2, 3, 4, 5].map((lvl) => (
-                    <button
-                      key={lvl}
-                      onClick={() => setLevelFilter(lvl)}
-                      className={`flex-1 min-w-[80px] py-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all border-2 ${
-                        levelFilter === lvl
-                          ? "bg-[var(--board-accent)] text-white border-[var(--board-accent)] shadow-lg"
-                          : "bg-black/40 text-slate-500 border-white/5 hover:border-white/10 hover:text-white"
-                      }`}
-                    >
-                      LVL {lvl}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Main Header */}
+      
+            {/* Main Header */}
       <header className="sticky top-0 z-[100] cyber-glass backdrop-blur-xl border-b border-white/5">
-        <div className="max-w-6xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between gap-4">
-            {/* Logo/Title Area - Shrinks when search is open on mobile */}
+        <div className="max-w-6xl mx-auto px-4 py-3">
+          {/* Top Row: Logo + Actions */}
+          <div className="flex items-center justify-between gap-3 mb-3">
+            {/* Logo */}
             {!isSearchExpanded && (
-              <div className="flex items-center gap-3 shrink-0">
-                <SkateBagLogo size={40} className="transform -rotate-2" />
-                <div className="space-y-1">
-                  <h1 className="text-2xl font-black tracking-tighter text-white uppercase italic leading-none">SkateBag</h1>
-                  <p className="text-[9px] font-black uppercase tracking-[0.32em] text-[var(--text-muted)]">Skateboard Tracker</p>
+              <div className="flex items-center gap-2 shrink-0">
+                <SkateBagLogo size={36} className="transform -rotate-2" />
+                <div>
+                  <h1 className="text-xl font-black tracking-tighter text-white uppercase italic leading-none">SkateBag</h1>
+                  <p className="text-[8px] font-black uppercase tracking-[0.3em] text-[var(--text-muted)]">Skateboard Tracker</p>
                 </div>
               </div>
             )}
 
-            {/* Dynamic Action Area */}
-            <div className={`flex items-center gap-2 transition-all duration-300 ${isSearchExpanded ? "flex-1" : ""}`}>
+            {/* Search + Actions */}
+            <div className={`flex items-center gap-2 ${isSearchExpanded ? "flex-1" : ""}`}>
               {/* Expandable Search */}
               <div className={`relative flex items-center transition-all duration-300 ${isSearchExpanded ? "flex-1" : "w-10 h-10"}`}>
                 <button 
                   onClick={() => setIsSearchExpanded(!isSearchExpanded)}
                   className={`absolute left-0 z-10 w-10 h-10 flex items-center justify-center text-slate-400 hover:text-white transition-all ${isSearchExpanded ? "bg-transparent" : "bg-black/40 rounded-xl border border-white/10"}`}
                 >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
                     <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
                   </svg>
                 </button>
@@ -682,122 +625,36 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
               </div>
 
               {!isSearchExpanded && (
-                <>
-                  <button 
-                    onClick={() => setShowFiltersModal(true)}
-                    className="w-10 h-10 bg-black/40 border border-white/10 rounded-xl flex items-center justify-center text-slate-400 hover:text-white transition-all shrink-0"
-                  >
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
-                  </button>
-                  
-                  <button 
-                    onClick={() => {
-                      if (isAuthenticated) {
-                        setShowSettingsModal(true);
-                        return;
-                      }
-                      promptLogin();
-                    }}
-                    className="w-10 h-10 bg-black/40 border border-white/10 rounded-xl flex items-center justify-center text-slate-400 hover:text-white transition-all shrink-0"
-                  >
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
-                  </button>
-                </>
+                <button 
+                  onClick={() => {
+                    if (isAuthenticated) {
+                      setShowSettingsModal(true);
+                      return;
+                    }
+                    promptLogin();
+                  }}
+                  className="w-10 h-10 bg-black/40 border border-white/10 rounded-xl flex items-center justify-center text-slate-400 hover:text-white transition-all shrink-0"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
               )}
             </div>
           </div>
+
+          {/* Compact Filter Bar */}
+          {!isSearchExpanded && (
+            <CompactFilterBar 
+              category={category} 
+              onCategoryChange={setCategory}
+              statusFilter={statusFilter}
+              onStatusChange={handleStatusFilterSelect}
+              levelFilter={levelFilter}
+              onLevelChange={setLevelFilter}
+              trickCounts={{ unlearned, landed, locked, learning }}
+              isAuthenticated={isAuthenticated}
+            />
+          )}
         </div>
-
-        {!isSearchExpanded && (
-          <div className="border-t border-white/5">
-            <div className="mx-auto flex max-w-6xl gap-2 overflow-x-auto px-6 py-3 no-scrollbar">
-              {CATEGORIES.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setCategory(cat)}
-                  className={`shrink-0 rounded-2xl px-4 py-2 text-[10px] font-black uppercase tracking-[0.22em] transition-all ${
-                    category === cat
-                      ? "bg-[var(--board-accent)] text-black"
-                      : "bg-black/25 text-[var(--text-muted)] hover:text-white"
-                  }`}
-                >
-                  {CATEGORY_LABELS[cat]}
-                </button>
-              ))}
-            </div>
-
-            <div className="mx-auto max-w-6xl px-6 pb-4">
-              <div className="rounded-[24px] border border-white/5 bg-black/20 px-3 py-3">
-                <div className="flex flex-wrap gap-2">
-                  <button
-                    onClick={() => setQuickFilterPanel((current) => current === "status" ? null : "status")}
-                    className="rounded-2xl border border-white/10 bg-black/25 px-4 py-2 text-[10px] font-black uppercase tracking-[0.22em] text-white"
-                  >
-                    View: {statusTabs.find((tab) => tab.value === statusFilter)?.label}
-                  </button>
-                  <button
-                    onClick={() => setQuickFilterPanel((current) => current === "level" ? null : "level")}
-                    className="rounded-2xl border border-white/10 bg-black/25 px-4 py-2 text-[10px] font-black uppercase tracking-[0.22em] text-white"
-                  >
-                    Level: {levelFilter === "all" ? "All" : levelFilter}
-                  </button>
-                  <button
-                    onClick={() => setShowFiltersModal(true)}
-                    className="rounded-2xl border border-white/10 bg-black/25 px-4 py-2 text-[10px] font-black uppercase tracking-[0.22em] text-[var(--text-muted)]"
-                  >
-                    More Filters
-                  </button>
-                </div>
-
-                {quickFilterPanel === "status" && (
-                  <div className="mt-3 flex flex-wrap gap-2 border-t border-white/5 pt-3">
-                    {statusTabs.map((tab) => (
-                      <button
-                        key={tab.value}
-                        onClick={() => handleStatusFilterSelect(tab.value)}
-                        className={`rounded-2xl px-4 py-2 text-[10px] font-black uppercase tracking-[0.22em] transition-all ${
-                          statusFilter === tab.value
-                            ? "bg-[var(--board-accent)] text-black"
-                            : "bg-white/5 text-[var(--text-muted)] hover:text-white"
-                        }`}
-                      >
-                        {tab.label}
-                      </button>
-                    ))}
-                  </div>
-                )}
-
-                {quickFilterPanel === "level" && (
-                  <div className="mt-3 flex flex-wrap gap-2 border-t border-white/5 pt-3">
-                    <button
-                      onClick={() => setLevelFilter("all")}
-                      className={`rounded-2xl px-4 py-2 text-[10px] font-black uppercase tracking-[0.22em] transition-all ${
-                        levelFilter === "all"
-                          ? "bg-[var(--board-accent)] text-black"
-                          : "bg-white/5 text-[var(--text-muted)] hover:text-white"
-                      }`}
-                    >
-                      All
-                    </button>
-                    {[1, 2, 3, 4, 5].map((lvl) => (
-                      <button
-                        key={lvl}
-                        onClick={() => setLevelFilter(lvl)}
-                        className={`h-10 w-10 rounded-2xl text-[10px] font-black transition-all ${
-                          levelFilter === lvl
-                            ? "bg-[var(--board-accent)] text-black"
-                            : "bg-white/5 text-[var(--text-muted)] hover:text-white"
-                        }`}
-                      >
-                        {lvl}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
       </header>
 
       {/* Main Grid Area */}
