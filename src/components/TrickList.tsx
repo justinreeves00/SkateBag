@@ -105,17 +105,23 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
   const showProfileSetup = isAuthenticated && !userProfile?.display_name && !forceCloseSetup;
 
   // Compute filtered list from localTricks
+  const baseFiltered = useMemo(() => {
+    return localTricks.filter((t) => {
+      const matchesCategory = category === "all" || t.category === category;
+      const matchesSearch = t.name.toLowerCase().includes(search.toLowerCase());
+      return matchesCategory && matchesSearch;
+    });
+  }, [localTricks, category, search]);
+
   const filtered = useMemo(() => {
-    return localTricks
+    return baseFiltered
       .filter((t) => {
-        const matchesCategory = category === "all" || t.category === category;
-        const matchesSearch = t.name.toLowerCase().includes(search.toLowerCase());
         const matchesStatus = 
           (statusFilter === "all" && (t.userStatus === null || t.userStatus === "learning" || t.userStatus === "locked")) || 
           (statusFilter === "landed" && (t.userStatus === "landed" || t.userStatus === "locked")) ||
           (statusFilter === "locked" && t.userStatus === "locked") ||
           (statusFilter === "learning" && t.userStatus === "learning");
-        return matchesCategory && matchesSearch && matchesStatus;
+        return matchesStatus;
       })
       .sort((a, b) => {
         // ALWAYS prioritize manual sort order if it exists
@@ -127,12 +133,12 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
         if (a.difficulty !== b.difficulty) return (a.difficulty ?? 0) - (b.difficulty ?? 0);
         return a.name.localeCompare(b.name);
       });
-  }, [localTricks, category, search, statusFilter]);
+  }, [baseFiltered, statusFilter]);
 
-  const landed = localTricks.filter((t) => t.userStatus === "landed" || t.userStatus === "locked").length;
-  const locked = localTricks.filter((t) => t.userStatus === "locked").length;
-  const learning = localTricks.filter((t) => t.userStatus === "learning").length;
-  const unlearned = localTricks.filter((t) => t.userStatus === null || t.userStatus === "learning" || t.userStatus === "locked").length;
+  const landed = baseFiltered.filter((t) => t.userStatus === "landed" || t.userStatus === "locked").length;
+  const locked = baseFiltered.filter((t) => t.userStatus === "locked").length;
+  const learning = baseFiltered.filter((t) => t.userStatus === "learning").length;
+  const unlearned = baseFiltered.filter((t) => t.userStatus === null || t.userStatus === "learning" || t.userStatus === "locked").length;
 
   async function handleProfileUpdate(e: React.FormEvent) {
     e.preventDefault();
