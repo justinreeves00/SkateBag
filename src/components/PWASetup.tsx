@@ -32,6 +32,13 @@ export function PWASetup() {
 
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
 
+    // Try to lock orientation if API is supported
+    if (typeof screen !== "undefined" && (screen as any).orientation?.lock) {
+      (screen as any).orientation.lock("portrait-primary").catch(() => {
+        // Silently fail as browsers usually require fullscreen for this
+      });
+    }
+
     // Check if app is already installed
     window.addEventListener("appinstalled", () => {
       setDeferredPrompt(null);

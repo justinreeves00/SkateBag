@@ -63,22 +63,33 @@ function SortableTrickCard({
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    zIndex: isDragging ? 50 : 1,
-    opacity: isDragging ? 0.8 : 1,
+    zIndex: isDragging ? 100 : 1,
+    opacity: isDragging ? 0.5 : 1,
   };
 
   return (
-    <div ref={setNodeRef} style={style} className="relative group/sortable">
+    <div ref={setNodeRef} style={style} className="relative group/sortable h-full">
       {isDraggable && (
         <div 
           {...attributes} 
           {...listeners}
-          className="absolute -left-3 top-1/2 -translate-y-1/2 w-8 h-12 flex items-center justify-center cursor-grab active:cursor-grabbing z-30 opacity-0 group-hover/sortable:opacity-100 transition-opacity bg-[var(--surface-elevated)] rounded-l-lg border border-white/5 border-r-0"
+          className={`absolute -left-10 top-1/2 -translate-y-1/2 w-10 h-24 flex items-center justify-center cursor-grab active:cursor-grabbing z-30 transition-all bg-[var(--board-accent)]/5 hover:bg-[var(--board-accent)]/20 rounded-l-2xl border-l-2 border-y-2 border-[var(--board-accent)]/20 ${isDragging ? "cursor-grabbing" : ""}`}
+          title="Drag to reorder"
         >
-          <svg width="12" height="18" viewBox="0 0 12 18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-            <circle cx="2" cy="3" r="1" fill="currentColor"/><circle cx="2" cy="9" r="1" fill="currentColor"/><circle cx="2" cy="15" r="1" fill="currentColor"/>
-            <circle cx="8" cy="3" r="1" fill="currentColor"/><circle cx="8" cy="9" r="1" fill="currentColor"/><circle cx="8" cy="15" r="1" fill="currentColor"/>
-          </svg>
+          <div className="flex flex-col gap-1.5 opacity-40">
+            <div className="flex gap-1">
+              <div className="w-1.5 h-1.5 rounded-full bg-[var(--board-accent)]" />
+              <div className="w-1.5 h-1.5 rounded-full bg-[var(--board-accent)]" />
+            </div>
+            <div className="flex gap-1">
+              <div className="w-1.5 h-1.5 rounded-full bg-[var(--board-accent)]" />
+              <div className="w-1.5 h-1.5 rounded-full bg-[var(--board-accent)]" />
+            </div>
+            <div className="flex gap-1">
+              <div className="w-1.5 h-1.5 rounded-full bg-[var(--board-accent)]" />
+              <div className="w-1.5 h-1.5 rounded-full bg-[var(--board-accent)]" />
+            </div>
+          </div>
         </div>
       )}
       <TrickCard trick={trick} isAuthenticated={isAuthenticated} />
@@ -172,13 +183,13 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
         return matchesCategory && matchesSearch && matchesStatus;
       })
       .sort((a, b) => {
-        // If status filter is active, use manual sort order if it exists
-        if (statusFilter !== "all") {
-          const orderA = a.sortOrder ?? 999999;
-          const orderB = b.sortOrder ?? 999999;
-          if (orderA !== orderB) return orderA - orderB;
-        }
-        // Fallback to name for base list
+        // ALWAYS prioritize manual sort order if it exists
+        const orderA = a.sortOrder ?? 999999;
+        const orderB = b.sortOrder ?? 999999;
+        if (orderA !== orderB) return orderA - orderB;
+        
+        // Fallback to name/difficulty
+        if (a.difficulty !== b.difficulty) return (a.difficulty ?? 0) - (b.difficulty ?? 0);
         return a.name.localeCompare(b.name);
       });
   }, [localTricks, category, search, statusFilter]);
@@ -219,10 +230,8 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
       setLocalTricks(updatedLocalTricks);
 
       // Save to database
-      // We update the sort_order of the moved item
       await updateTrickOrder(active.id as string, newIndex + 1);
       
-      // Optimization: We could update others too, but for simplicity we'll let the DB handle it or re-fetch
       router.refresh();
     }
   }
@@ -260,10 +269,9 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
     setIsSuggesting(false);
   }
 
-  // Sorting is enabled only for the admin user when viewing Landed or Locked lists (Issue #6)
+  // Sorting is enabled only for the admin user when no search or category filters are active
   const isSortingEnabled = isAuthenticated && 
                            userEmail === "justinreeves00@gmail.com" && 
-                           statusFilter !== "all" && 
                            search === "" && 
                            category === "all";
 
@@ -599,7 +607,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
             collisionDetection={closestCenter}
             onDragEnd={handleDragEnd}
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 items-start">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12 gap-y-8 items-start pl-10 md:pl-12">
               <SortableContext
                 items={filtered.map((t) => t.id)}
                 strategy={verticalListSortingStrategy}

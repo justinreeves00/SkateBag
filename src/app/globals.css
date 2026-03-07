@@ -177,25 +177,18 @@ body::before {
   scrollbar-width: none;
 }
 
-/* Orientation Lock UI for mobile */
+/* Orientation "Force" for mobile web */
 @media screen and (max-width: 1024px) and (orientation: landscape) {
-  /* Only show warning if not in full screen (like video) */
-  html:not(:fullscreen) body::after {
-    content: "Please rotate your device to portrait mode 🛹";
+  /* When the user turns their phone sideways, we rotate the app so it stays portrait relative to them */
+  html:not(:fullscreen) body {
     position: fixed;
-    inset: 0;
-    z-index: 99999;
-    background: var(--background);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 2rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    font-style: italic;
-    color: var(--board-accent);
-    font-size: 1.25rem;
+    top: 0;
+    left: 0;
+    width: 100vh;
+    height: 100vw;
+    transform: rotate(-90deg);
+    transform-origin: top left;
+    margin-top: 100vh;
+    overflow: hidden;
   }
 }
