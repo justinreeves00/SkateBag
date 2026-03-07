@@ -385,12 +385,12 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
 
         {/* Brand & Stats Row */}
         <div className="max-w-6xl mx-auto px-6 py-10">
-          <div className="flex flex-col gap-12">
-            {/* Top Row: Logo and Stats */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
+          <div className="flex flex-col gap-10">
+            {/* Top Row: Brand and Primary Actions */}
+            <div className="flex items-center justify-between">
               <div className="flex items-center gap-5 shrink-0">
                 <SkateBagLogo size={64} className="shadow-lg shadow-black/30 transform -rotate-2" />
-                <div className="space-y-0">
+                <div className="space-y-0 hidden sm:block">
                   <h1 className="text-5xl font-black tracking-tighter text-white leading-none uppercase italic drop-shadow-lg">
                     SkateBag
                   </h1>
@@ -400,81 +400,85 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                 </div>
               </div>
 
-              {/* Header Stats / Filters */}
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => setShowSettingsModal(true)}
+                  className="w-12 h-12 bg-black/40 border border-white/10 rounded-xl flex items-center justify-center text-slate-500 hover:text-white hover:border-white/20 transition-all shadow-lg"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>
+                  </svg>
+                </button>
+                <DiceButton tricks={localTricks} isAuthenticated={isAuthenticated} onStatusChange={handleStatusChange} />
+              </div>
+            </div>
+
+            {/* Middle Row: Big Search Input */}
+            <div className="relative group">
+              <div className="absolute inset-y-0 left-6 flex items-center pointer-events-none text-slate-500">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                  <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+                </svg>
+              </div>
+              <input
+                type="text"
+                placeholder="SEARCH YOUR TRICK ARSENAL..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full bg-black border-2 border-white/5 rounded-2xl pl-16 pr-8 py-6 text-lg font-black text-white placeholder-slate-800 focus:outline-none focus:border-[var(--board-accent)]/40 transition-all uppercase tracking-widest shadow-2xl"
+              />
+            </div>
+
+            {/* Bottom Section: Filters */}
+            <div className="space-y-8">
+              {/* Status Pills */}
               {isAuthenticated && (
-                <div className="flex flex-wrap items-center gap-x-10 gap-y-4 px-8 py-5 bg-black/40 rounded-2xl border border-white/5 backdrop-blur-sm">
+                <div className="flex flex-wrap items-center gap-6">
                   <button
                     onClick={() => setStatusFilter("all")}
                     className="flex flex-col text-left hover:brightness-125 transition-all group"
                   >
-                    <span className={`text-[10px] uppercase font-black tracking-[0.2em] mb-2 transition-colors ${statusFilter === "all" ? "text-white" : "text-slate-500 group-hover:text-white"}`}>Vault</span>
+                    <span className={`text-[10px] uppercase font-black tracking-[0.2em] mb-1.5 transition-colors ${statusFilter === "all" ? "text-white" : "text-slate-500 group-hover:text-white"}`}>Vault</span>
                     <div className="h-10 flex items-center">
                       <span className={`text-4xl font-black tracking-tighter leading-none transition-colors ${statusFilter === "all" ? "text-white" : "text-slate-800"}`}>{localTricks.length}</span>
                     </div>
                   </button>
 
-                  <div className="w-px h-10 bg-white/5 hidden sm:block" />
+                  <div className="w-px h-8 bg-white/10 hidden sm:block mx-2" />
 
                   <button
                     onClick={() => setStatusFilter("learning")}
                     className="flex flex-col text-left hover:brightness-125 transition-all group"
                   >
-                    <span className={`text-[10px] uppercase font-black tracking-[0.2em] mb-2 transition-colors ${statusFilter === "learning" ? "text-blue-400" : "text-slate-500 group-hover:text-blue-400"}`}>In Progress</span>
+                    <span className={`text-[10px] uppercase font-black tracking-[0.2em] mb-1.5 transition-colors ${statusFilter === "learning" ? "text-blue-400" : "text-slate-500 group-hover:text-blue-400"}`}>In Progress</span>
                     <div className="h-10 flex items-center">
                       <span className={`text-4xl font-black tracking-tighter leading-none transition-colors ${statusFilter === "learning" ? "text-blue-400" : "text-blue-950"}`}>{learning}</span>
                     </div>
                   </button>
+
                   <button
                     onClick={() => setStatusFilter("landed")}
                     className="flex flex-col text-left hover:brightness-125 transition-all group"
                   >
-                    <span className={`text-[10px] uppercase font-black tracking-[0.2em] mb-2 transition-colors ${statusFilter === "landed" ? "text-[var(--board-accent)]" : "text-slate-500 group-hover:text-[var(--board-accent)]"}`}>My Bag</span>
+                    <span className={`text-[10px] uppercase font-black tracking-[0.2em] mb-1.5 transition-colors ${statusFilter === "landed" ? "text-[var(--board-accent)]" : "text-slate-500 group-hover:text-[var(--board-accent)]"}`}>My Bag</span>
                     <div className="h-10 flex items-center">
                       <span className={`text-4xl font-black tracking-tighter leading-none transition-colors ${statusFilter === "landed" ? "text-[var(--board-accent)]" : "text-orange-950"}`}>{landed}</span>
                     </div>
                   </button>
+
                   <button
                     onClick={() => setStatusFilter("locked")}
                     className="flex flex-col text-left hover:brightness-125 transition-all group"
                   >
-                    <span className={`text-[10px] uppercase font-black tracking-[0.2em] mb-2 transition-colors ${statusFilter === "locked" ? "text-[var(--warn-accent)]" : "text-slate-500 group-hover:text-[var(--warn-accent)]"}`}>On Lock</span>
+                    <span className={`text-[10px] uppercase font-black tracking-[0.2em] mb-1.5 transition-colors ${statusFilter === "locked" ? "text-[var(--warn-accent)]" : "text-slate-500 group-hover:text-[var(--warn-accent)]"}`}>On Lock</span>
                     <div className="h-10 flex items-center">
                       <span className={`text-4xl font-black tracking-tighter leading-none transition-colors ${statusFilter === "locked" ? "text-[var(--warn-accent)]" : "text-yellow-950"}`}>{locked}</span>
                     </div>
                   </button>
                 </div>
               )}
-            </div>
 
-            {/* Bottom Row: Search and Categories */}
-            <div className="space-y-8">
-              <div className="flex flex-col md:flex-row md:items-center gap-4">
-                <div className="flex-1 relative group">
-                  <div className="absolute inset-y-0 left-5 flex items-center pointer-events-none text-slate-500">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                      <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
-                    </svg>
-                  </div>
-                  <input
-                    type="text"
-                    placeholder="SEARCH TRICKS..."
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    className="w-full bg-black border border-white/10 rounded-2xl pl-14 pr-6 py-5 text-sm font-black text-white placeholder-slate-800 focus:outline-none focus:border-[var(--board-accent)]/40 transition-all uppercase tracking-widest"
-                  />
-                </div>
-                <div className="shrink-0 flex items-center gap-3">
-                  <button
-                    onClick={() => setShowSettingsModal(true)}
-                    className="w-[60px] h-[60px] bg-black/40 border border-white/10 rounded-2xl flex items-center justify-center text-slate-500 hover:text-white hover:border-white/20 transition-all shadow-xl"
-                  >
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                      <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>
-                    </svg>
-                  </button>
-                  <DiceButton tricks={localTricks} isAuthenticated={isAuthenticated} onStatusChange={handleStatusChange} />
-                </div>
-              </div>
+              {/* Category Row */}
               <CategoryFilter active={category} onChange={setCategory} />
             </div>
           </div>
