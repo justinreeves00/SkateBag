@@ -613,10 +613,10 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
           <div className="flex items-center justify-between gap-3 mb-3">
             {/* Logo - Always visible */}
             <div className="flex items-center gap-2 shrink-0">
-              <SkateBagLogo size={36} className="transform -rotate-2" />
+              <SkateBagLogo size={40} className="transform -rotate-2" />
               <div>
-                <h1 className="text-xl font-black tracking-tighter text-white uppercase italic leading-none">SkateBag</h1>
-                <p className="text-[8px] font-black uppercase tracking-[0.3em] text-[var(--text-muted)]">What's in your bag?</p>
+                <h1 className="text-2xl font-black tracking-tighter text-white uppercase italic leading-none">SkateBag</h1>
+                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--text-muted)]">What's in your bag?</p>
               </div>
             </div>
 
