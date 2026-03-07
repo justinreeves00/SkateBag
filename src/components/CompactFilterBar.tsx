@@ -31,10 +31,10 @@ const CATEGORIES: { value: TrickCategory | "all"; label: string }[] = [
 ];
 
 const STATUS_OPTIONS = [
-  { value: "all" as const, label: "Unlearned", key: "unlearned" },
+  { value: "all" as const, label: "On Deck", key: "unlearned" },
   { value: "learning" as const, label: "In Progress", key: "learning" },
-  { value: "landed" as const, label: "My Bag", key: "landed" },
-  { value: "locked" as const, label: "On Lock", key: "locked" },
+  { value: "landed" as const, label: "Landed", key: "landed" },
+  { value: "locked" as const, label: "Locked", key: "locked" },
 ];
 
 export function CompactFilterBar({
@@ -103,7 +103,7 @@ export function CompactFilterBar({
 
         {/* Status Section */}
         <div className="flex-1 flex flex-col gap-1">
-          <span className="text-[8px] font-black uppercase tracking-[0.25em] text-[var(--text-muted)] pl-1">Your Bag</span>
+          <span className="text-[8px] font-black uppercase tracking-[0.25em] text-[var(--text-muted)] pl-1">Status</span>
           <button
             onClick={() => setOpenPanel(openPanel === "status" ? null : "status")}
             className={`flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl border transition-all ${
@@ -186,7 +186,7 @@ export function CompactFilterBar({
       {openPanel === "status" && (
         <div className="absolute top-full left-0 right-0 mt-2 z-[200] w-full rounded-2xl border border-white/10 bg-[#1c1c1e] shadow-[0_24px_80px_rgba(0,0,0,0.5)] overflow-hidden">
           <div className="px-3 pt-3 pb-2 border-b border-white/10 bg-white/5">
-            <p className="text-[10px] font-black uppercase tracking-[0.25em] text-white">Your Bag</p>
+            <p className="text-[10px] font-black uppercase tracking-[0.25em] text-white">Status</p>
           </div>
           <div className="p-3">
             <div className="flex flex-wrap gap-2">

@@ -292,10 +292,10 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
   }
 
   const statusTabs = [
-    { value: "all" as const, label: "Unlearned", count: unlearned, guestCount: `${tricks.length}` },
+    { value: "all" as const, label: "On Deck", count: unlearned, guestCount: `${tricks.length}` },
     { value: "learning" as const, label: "In Progress", count: learning, guestCount: "Track" },
-    { value: "landed" as const, label: "My Bag", count: landed, guestCount: "Track" },
-    { value: "locked" as const, label: "On Lock", count: locked, guestCount: "Track" },
+    { value: "landed" as const, label: "Landed", count: landed, guestCount: "Track" },
+    { value: "locked" as const, label: "Locked", count: locked, guestCount: "Track" },
   ];
 
   return (
@@ -708,9 +708,9 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
 
         <div className="mb-10 flex items-center gap-6">
           <h2 className="text-[11px] font-black text-white uppercase tracking-[0.4em] whitespace-nowrap italic bg-black px-3 py-1 border border-white/5">
-            {statusFilter === "all" ? "Unlearned" : 
-             statusFilter === "landed" ? "My Bag" : 
-             statusFilter === "locked" ? "On Lock" : "In Progress"}
+            {statusFilter === "all" ? "On Deck" : 
+             statusFilter === "landed" ? "Landed" : 
+             statusFilter === "locked" ? "Locked" : "In Progress"}
           </h2>
           <div className="h-px w-full bg-white/5 shadow-[0_1px_0_rgba(255,255,255,0.02)]"></div>
           <span className="text-[10px] font-black text-slate-500 tabular-nums uppercase tracking-widest">{filtered.length} Tricks</span>
