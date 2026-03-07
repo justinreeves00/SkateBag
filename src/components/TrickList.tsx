@@ -606,9 +606,44 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
       )}
 
       
-            {/* Main Header */}
-      <header className="fixed top-0 left-0 right-0 z-[100] cyber-glass backdrop-blur-xl border-b border-white/5">
-        <div className="max-w-6xl mx-auto px-4 py-3">
+            {/* iOS-Style Install Banner - Fixed at top */}
+      {!isPWA && !dismissedInstallPrompt && isMobileInstallSurface && (
+        <div className="fixed top-0 left-0 right-0 z-[200] bg-[#1c1c1e]/98 backdrop-blur-xl border-b border-white/10 shadow-2xl">
+          <div className="max-w-6xl mx-auto px-4 py-3">
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex items-center gap-3 flex-1">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[var(--board-accent)] to-[var(--board-accent-strong)] flex items-center justify-center shadow-lg">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 8v8"/><path d="M8 12h8"/>
+                  </svg>
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm font-semibold text-white leading-tight">Add to Home Screen</p>
+                  <p className="text-[11px] text-[var(--text-muted)] leading-tight mt-0.5">Install SkateBag for quick access</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 shrink-0">
+                <button
+                  onClick={dismissInstallPrompt}
+                  className="w-8 h-8 flex items-center justify-center text-[var(--text-muted)] hover:text-white transition-all"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </button>
+                <button
+                  onClick={handleInstallClick}
+                  className="px-5 py-2.5 bg-[var(--board-accent)] text-black text-[13px] font-bold rounded-xl hover:brightness-110 active:scale-95 transition-all shadow-lg"
+                >
+                  Add
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Main Header */}
+      <header className={`cyber-glass backdrop-blur-xl border-b border-white/5 ${!isPWA && !dismissedInstallPrompt && isMobileInstallSurface ? 'mt-[60px]' : ''}`}>
+        <div className="max-w-6xl mx-auto px-4 py-3 sticky top-0 z-[100]">
           {/* Top Row: Logo + Actions */}
           <div className="flex items-center justify-between gap-3 mb-3">
             {/* Logo - Always visible */}
@@ -693,31 +728,6 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
 
       {/* Main Grid Area */}
       <main className="max-w-6xl mx-auto px-6 pt-[140px] pb-32">
-        {/* Simple Install Banner - shows for all users not in PWA mode */}
-        {!isPWA && !dismissedInstallPrompt && (
-          <div className="mb-6 rounded-xl border border-[var(--board-accent)]/30 bg-[var(--board-accent)]/10 px-4 py-3 flex items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--board-accent)" strokeWidth="2">
-                <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 8v8"/><path d="M8 12h8"/>
-              </svg>
-              <p className="text-sm font-bold text-white">Add SkateBag to your Home Screen for the best experience</p>
-            </div>
-            <div className="flex items-center gap-2 shrink-0">
-              <button
-                onClick={handleInstallClick}
-                className="px-4 py-2 bg-[var(--board-accent)] text-black text-xs font-black uppercase tracking-wider rounded-lg hover:brightness-110 transition-all"
-              >
-                Install
-              </button>
-              <button
-                onClick={dismissInstallPrompt}
-                className="w-8 h-8 flex items-center justify-center text-[var(--text-muted)] hover:text-white transition-all"
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-              </button>
-            </div>
-          </div>
-        )}
 
         <div className="mb-10 flex items-center gap-6">
           <h2 className="text-[11px] font-black text-white uppercase tracking-[0.4em] whitespace-nowrap italic bg-black px-3 py-1 border border-white/5">
