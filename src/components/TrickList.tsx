@@ -611,7 +611,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
           <div className="max-w-6xl mx-auto px-4 py-2.5">
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-3 flex-1">
-                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[var(--board-accent)] to-[var(--board-accent-strong)] flex items-center justify-center shadow-lg scale-110">
+                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[var(--board-accent)] to-[var(--board-accent-strong)] flex items-center justify-center shadow-lg">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
                     <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 8v8"/><path d="M8 12h8"/>
                   </svg>
@@ -647,7 +647,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
           <div className="flex items-center justify-between gap-3 mb-3">
             {/* Logo - Always visible */}
             <div className="flex items-center gap-2 shrink-0">
-              <SkateBagLogo size={40} className="transform -rotate-2" />
+              <SkateBagLogo size={40} />
               <div>
                 <h1 className="text-2xl font-black tracking-tighter text-white uppercase italic leading-none">SkateBag</h1>
                 <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--text-muted)]">What's in your bag?</p>

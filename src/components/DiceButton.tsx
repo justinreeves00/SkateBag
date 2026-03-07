@@ -455,37 +455,37 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
 
   return (
     <>
-      {/* Header Inline Controls - Dice first, settings on right */}
-      <div className="flex items-center gap-2 md:gap-3">
+      {/* Header Inline Controls - Centered dice button */}
+      <div className="flex items-center justify-center gap-3">
         {/* Main Roll Button - Large Die Icon */}
         <button
           onClick={roll}
           disabled={rolling}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
-          className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center transition-all border shrink-0 ${
+          className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all border shrink-0 ${
             rolling 
               ? "bg-[var(--surface-muted)] border-[var(--border)] scale-95" 
-              : "bg-[var(--board-accent)] text-black hover:brightness-110 hover:scale-[1.05] active:scale-95 shadow-xl shadow-black/40 border-transparent"
+              : "bg-[var(--board-accent)] text-black hover:brightness-110 hover:scale-105 active:scale-95 shadow-xl shadow-black/40 border-transparent"
           }`}
           title="Roll Dice"
         >
           <div className={`transition-transform duration-300 ${rolling ? "animate-spin" : isHovered ? "animate-[dice-roll_0.5s_ease-in-out]" : ""}`}>
-            <DiceIcon size={24} />
+            <DiceIcon size={26} />
           </div>
         </button>
         
         {/* Settings Button - On the right */}
         <button
           onClick={() => setShowSettings(!showSettings)}
-          className={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center transition-all group shrink-0 border ${
+          className={`w-11 h-11 rounded-xl flex items-center justify-center transition-all group shrink-0 border ${
             showSettings 
               ? "bg-[var(--board-accent)] border-[var(--board-accent)] text-black" 
               : "bg-black/40 border-white/5 text-slate-500 hover:text-white hover:border-white/20 shadow-lg"
           }`}
           title="Dice Settings"
         >
-          <FilterIcon size={16} />
+          <FilterIcon size={18} />
         </button>
       </div>
 
