@@ -215,14 +215,21 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
   const showProfileSetup = isAuthenticated && !userProfile?.display_name && !forceCloseSetup;
 
   // Compute filtered list from localTricks
+  // Search is universal - it searches ALL tricks regardless of category filter
+  const searchFiltered = useMemo(() => {
+    if (!search) return localTricks;
+    return localTricks.filter((t) => 
+      t.name.toLowerCase().includes(search.toLowerCase())
+    );
+  }, [localTricks, search]);
+
   const baseFiltered = useMemo(() => {
-    return localTricks.filter((t) => {
+    return searchFiltered.filter((t) => {
       const matchesCategory = category === "all" || t.category === category;
       const matchesLevel = levelFilter === "all" || t.difficulty === levelFilter;
-      const matchesSearch = t.name.toLowerCase().includes(search.toLowerCase());
-      return matchesCategory && matchesLevel && matchesSearch;
+      return matchesCategory && matchesLevel;
     });
-  }, [localTricks, category, levelFilter, search]);
+  }, [searchFiltered, category, levelFilter]);
 
   const filtered = useMemo(() => {
     return baseFiltered
