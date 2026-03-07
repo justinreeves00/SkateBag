@@ -459,6 +459,13 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
             </form>
             <div className="h-px bg-white/5 w-full" />
             <div className="space-y-3">
+              <a 
+                href="/admin" 
+                className="flex items-center justify-center gap-2 w-full py-4 bg-[var(--board-accent)]/20 text-[var(--board-accent)] border border-[var(--board-accent)]/30 font-black uppercase tracking-widest text-[10px] rounded-lg hover:bg-[var(--board-accent)] hover:text-black transition-all"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/><path d="M12 14v7"/><path d="M8 21h8"/></svg>
+                Admin Panel
+              </a>
               <button
                 onClick={() => {
                   setShowSettingsModal(false);
@@ -472,12 +479,6 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
               >
                 Suggest Missing Trick
               </button>
-              <a 
-                href="/admin" 
-                className="flex items-center justify-center gap-2 w-full py-4 bg-black/40 text-slate-400 border border-white/10 font-black uppercase tracking-widest text-[10px] rounded-lg hover:text-white hover:bg-black/60 transition-all"
-              >
-                Admin Panel
-              </a>
               <a 
                 href="/leaderboard" 
                 className="flex items-center justify-center gap-2 w-full py-4 bg-black/40 text-slate-400 border border-white/10 font-black uppercase tracking-widest text-[10px] rounded-lg hover:text-white hover:bg-black/60 transition-all"
