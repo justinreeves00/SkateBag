@@ -22,6 +22,27 @@ const CATEGORIES: TrickCategory[] = [
   "flatground", "street", "ledge/rail", "transition", "gaps", "freestyle", "downhill"
 ];
 
+interface BeforeInstallPromptEvent extends Event {
+  prompt: () => Promise<void>;
+  userChoice: Promise<{ outcome: "accepted" | "dismissed"; platform: string }>;
+}
+
+type InstallPromptWindow = Window & {
+  __skatebagInstallPrompt?: BeforeInstallPromptEvent;
+};
+
+function matchesStatusFilter(
+  statusFilter: "all" | "landed" | "locked" | "learning",
+  userStatus: TrickStatus | null
+) {
+  return (
+    (statusFilter === "all" && userStatus === null) ||
+    (statusFilter === "landed" && (userStatus === "landed" || userStatus === "locked")) ||
+    (statusFilter === "locked" && userStatus === "locked") ||
+    (statusFilter === "learning" && userStatus === "learning")
+  );
+}
+
 export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: TrickListProps) {
   const router = useRouter();
   const [category, setCategory] = useState<TrickCategory | "all">("flatground");
@@ -39,23 +60,40 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
 
   // Local state for tricks
   const [localTricks, setLocalTricks] = useState<TrickWithStatus[]>([]);
+  const [stickyVisibleTrickId, setStickyVisibleTrickId] = useState<string | null>(null);
 
   // PWA Install State
-  const [installPrompt, setInstallPrompt] = useState<any>(null);
+  const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [isPWA, setIsPWA] = useState(false);
+  const [dismissedInstallPrompt, setDismissedInstallPrompt] = useState(false);
+  const [showAuthPrompt, setShowAuthPrompt] = useState(false);
 
   useEffect(() => {
+    const browserWindow = window as InstallPromptWindow;
+
     // Check if running as PWA
     const isStandalone = window.matchMedia("(display-mode: standalone)").matches || (window.navigator as any).standalone === true;
     setIsPWA(isStandalone);
+    setDismissedInstallPrompt(localStorage.getItem("skatebag-install-dismissed") === "true");
 
-    const handleInstallAvailable = (e: any) => {
-      setInstallPrompt(e.detail);
+    if (browserWindow.__skatebagInstallPrompt) {
+      setInstallPrompt(browserWindow.__skatebagInstallPrompt);
+    }
+
+    const handleInstallAvailable = (e: Event) => {
+      if (localStorage.getItem("skatebag-install-dismissed") === "true") {
+        return;
+      }
+
+      const customEvent = e as CustomEvent<BeforeInstallPromptEvent>;
+      setInstallPrompt(customEvent.detail);
     };
 
     const handleInstalled = () => {
+      localStorage.removeItem("skatebag-install-dismissed");
       setInstallPrompt(null);
       setIsPWA(true);
+      setDismissedInstallPrompt(false);
     };
 
     window.addEventListener("pwa-install-available", handleInstallAvailable);
@@ -73,6 +111,14 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
   }, [tricks]);
 
   const handleStatusChange = (id: string, status: TrickStatus | null, consistency: number | null) => {
+    setStickyVisibleTrickId((currentSticky) => {
+      if (!matchesStatusFilter(statusFilter, status)) {
+        return id;
+      }
+
+      return currentSticky === id ? null : currentSticky;
+    });
+
     setLocalTricks((prev) => 
       prev.map((t) => 
         t.id === id ? { ...t, userStatus: status, userConsistency: consistency } : t
@@ -87,6 +133,29 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
     if (outcome === "accepted") {
       setInstallPrompt(null);
     }
+  }
+
+  function dismissInstallPrompt() {
+    localStorage.setItem("skatebag-install-dismissed", "true");
+    setDismissedInstallPrompt(true);
+    setInstallPrompt(null);
+  }
+
+  function handleCardInteract(id: string) {
+    setStickyVisibleTrickId((currentSticky) => (currentSticky && currentSticky !== id ? null : currentSticky));
+  }
+
+  function promptLogin() {
+    setShowAuthPrompt(true);
+  }
+
+  function handleStatusFilterSelect(nextFilter: "all" | "landed" | "locked" | "learning") {
+    if (!isAuthenticated && nextFilter !== "all") {
+      promptLogin();
+      return;
+    }
+
+    setStatusFilter(nextFilter);
   }
 
   // Suggest Trick State
@@ -120,12 +189,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
   const filtered = useMemo(() => {
     return baseFiltered
       .filter((t) => {
-        const matchesStatus = 
-          (statusFilter === "all" && t.userStatus === null) || 
-          (statusFilter === "landed" && (t.userStatus === "landed" || t.userStatus === "locked")) ||
-          (statusFilter === "locked" && t.userStatus === "locked") ||
-          (statusFilter === "learning" && t.userStatus === "learning");
-        return matchesStatus;
+        return matchesStatusFilter(statusFilter, t.userStatus) || t.id === stickyVisibleTrickId;
       })
       .sort((a, b) => {
         // Difficulty sorting (Ascending: 1, 2, 3...)
@@ -139,7 +203,11 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
         // Fallback to name
         return a.name.localeCompare(b.name);
       });
-  }, [baseFiltered, statusFilter]);
+  }, [baseFiltered, statusFilter, stickyVisibleTrickId]);
+
+  useEffect(() => {
+    setStickyVisibleTrickId(null);
+  }, [category, levelFilter, search, statusFilter]);
 
   const landed = baseFiltered.filter((t) => t.userStatus === "landed" || t.userStatus === "locked").length;
   const locked = baseFiltered.filter((t) => t.userStatus === "locked").length;
@@ -181,6 +249,34 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
 
   return (
     <div className="min-h-screen text-white selection:bg-[var(--board-accent)]/30 pb-32">
+      {showAuthPrompt && (
+        <div className="fixed inset-0 z-[1100] flex items-center justify-center bg-black/90 p-6" onClick={() => setShowAuthPrompt(false)}>
+          <div className="w-full max-w-sm rounded-[32px] border border-white/10 bg-[var(--surface)] p-8 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            <div className="space-y-3 text-center">
+              <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--text-muted)]">Track Progress</p>
+              <h3 className="text-3xl font-black uppercase italic tracking-tight text-white">Log in to save tricks</h3>
+              <p className="text-sm leading-relaxed text-[var(--text-muted)]">
+                Your bag and on lock progress only sync once you&apos;re signed in.
+              </p>
+            </div>
+            <div className="mt-8 flex gap-3">
+              <button
+                onClick={() => setShowAuthPrompt(false)}
+                className="flex-1 rounded-2xl border border-white/10 bg-black/30 px-4 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-[var(--text-muted)] transition-all hover:text-white"
+              >
+                Maybe Later
+              </button>
+              <button
+                onClick={() => router.push("/login")}
+                className="flex-1 rounded-2xl bg-[var(--board-accent)] px-4 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-black transition-all hover:brightness-110"
+              >
+                Log In
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Profile Setup Modal */}
       {showProfileSetup && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 p-6">
@@ -249,7 +345,14 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
             <div className="h-px bg-white/5 w-full" />
             <div className="space-y-3">
               <button
-                onClick={() => { setShowSettingsModal(false); setShowSuggestModal(true); }}
+                onClick={() => {
+                  setShowSettingsModal(false);
+                  if (!isAuthenticated) {
+                    promptLogin();
+                    return;
+                  }
+                  setShowSuggestModal(true);
+                }}
                 className="flex items-center justify-center gap-2 w-full py-4 bg-white/5 text-slate-400 border border-white/10 font-black uppercase tracking-widest text-[10px] rounded-lg hover:text-white hover:bg-white/10 transition-all"
               >
                 Suggest Missing Trick
@@ -392,6 +495,41 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
 
       {/* Main Grid Area */}
       <main className="max-w-6xl mx-auto px-6 pt-10 pb-32">
+        {!isPWA && installPrompt && !dismissedInstallPrompt && (
+          <div className="mb-8 rounded-[28px] border border-white/10 bg-[var(--surface)]/95 p-5 shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
+            <div className="flex items-start justify-between gap-4">
+              <div className="space-y-2">
+                <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--text-muted)]">Add to Home Screen</p>
+                <h3 className="text-lg font-black uppercase italic tracking-tight text-white">Install SkateBag</h3>
+                <p className="max-w-xl text-sm leading-relaxed text-[var(--text-muted)]">
+                  Open SkateBag like an app with faster launch, full-screen browsing, and offline caching.
+                </p>
+              </div>
+              <button
+                onClick={dismissInstallPrompt}
+                className="flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-black/20 text-[var(--text-muted)] transition-all hover:text-white"
+                aria-label="Dismiss install prompt"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+              </button>
+            </div>
+            <div className="mt-5 flex gap-3">
+              <button
+                onClick={dismissInstallPrompt}
+                className="rounded-2xl border border-white/10 bg-black/20 px-5 py-3 text-[10px] font-black uppercase tracking-[0.25em] text-[var(--text-muted)] transition-all hover:text-white"
+              >
+                Not Now
+              </button>
+              <button
+                onClick={handleInstallClick}
+                className="rounded-2xl bg-[var(--board-accent)] px-5 py-3 text-[10px] font-black uppercase tracking-[0.25em] text-black transition-all hover:brightness-110"
+              >
+                Install
+              </button>
+            </div>
+          </div>
+        )}
+
         <div className="mb-10 flex items-center gap-6">
           <h2 className="text-[11px] font-black text-white uppercase tracking-[0.4em] whitespace-nowrap italic bg-black px-3 py-1 border border-white/5">
             {statusFilter === "all" ? "Unlearned" : 
@@ -420,6 +558,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                 trick={trick}
                 isAuthenticated={isAuthenticated}
                 onStatusChange={handleStatusChange}
+                onInteract={handleCardInteract}
               />
             ))}
           </div>
@@ -435,7 +574,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
       <nav className="fixed bottom-0 left-0 right-0 z-[100] bg-[#1c1c1e]/90 backdrop-blur-2xl border-t border-white/5 px-4 pb-8 pt-3 shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
         <div className="max-w-md mx-auto flex items-center justify-between">
           <button
-            onClick={() => setStatusFilter("all")}
+            onClick={() => handleStatusFilterSelect("all")}
             className="flex flex-col items-center gap-1.5 flex-1 transition-all group"
           >
             <div className={`text-xl font-black tracking-tighter leading-none transition-colors ${statusFilter === "all" ? "text-white" : "text-slate-700 group-hover:text-slate-500"}`}>
@@ -448,7 +587,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
           </button>
 
           <button
-            onClick={() => setStatusFilter("learning")}
+            onClick={() => handleStatusFilterSelect("learning")}
             className="flex flex-col items-center gap-1.5 flex-1 transition-all group"
           >
             <div className={`text-xl font-black tracking-tighter leading-none transition-colors ${statusFilter === "learning" ? "text-blue-400" : "text-blue-900 group-hover:text-blue-800"}`}>
@@ -461,7 +600,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
           </button>
 
           <button
-            onClick={() => setStatusFilter("landed")}
+            onClick={() => handleStatusFilterSelect("landed")}
             className="flex flex-col items-center gap-1.5 flex-1 transition-all group"
           >
             <div className={`text-xl font-black tracking-tighter leading-none transition-colors ${statusFilter === "landed" ? "text-[var(--board-accent)]" : "text-orange-950 group-hover:text-orange-900"}`}>
@@ -474,7 +613,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
           </button>
 
           <button
-            onClick={() => setStatusFilter("locked")}
+            onClick={() => handleStatusFilterSelect("locked")}
             className="flex flex-col items-center gap-1.5 flex-1 transition-all group"
           >
             <div className={`text-xl font-black tracking-tighter leading-none transition-colors ${statusFilter === "locked" ? "text-[var(--warn-accent)]" : "text-yellow-950 group-hover:text-yellow-900"}`}>

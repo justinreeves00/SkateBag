@@ -2,33 +2,64 @@
 
 import { useEffect, useState } from "react";
 
+interface BeforeInstallPromptEvent extends Event {
+  prompt: () => Promise<void>;
+  userChoice: Promise<{ outcome: "accepted" | "dismissed"; platform: string }>;
+}
+
+type InstallPromptWindow = Window & {
+  __skatebagInstallPrompt?: BeforeInstallPromptEvent;
+};
+
 export function PWASetup() {
   const [showIOSBanner, setShowIOSBanner] = useState(false);
   const [showInstructions, setShowInstructions] = useState(false);
-  const [isStandalone, setIsStandalone] = useState(false);
 
   useEffect(() => {
+    const browserWindow = window as InstallPromptWindow;
+
     // Check if already installed
-    const standalone = window.matchMedia("(display-mode: standalone)").matches || (window.navigator as any).standalone === true;
-    setIsStandalone(standalone);
+    const standalone =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      (window.navigator as any).standalone === true;
 
     // Register Service Worker
+    const registerServiceWorker = () => {
+      navigator.serviceWorker.register("/sw.js").then(
+        function () {
+          console.log("ServiceWorker registration successful");
+        },
+        function (err) {
+          console.log("ServiceWorker registration failed: ", err);
+        }
+      );
+    };
+
     if ("serviceWorker" in navigator) {
-      window.addEventListener("load", function () {
-        navigator.serviceWorker.register("/sw.js").then(
-          function (registration) {
-            console.log("ServiceWorker registration successful");
-          },
-          function (err) {
-            console.log("ServiceWorker registration failed: ", err);
-          }
-        );
-      });
+      if (document.readyState === "complete") {
+        registerServiceWorker();
+      } else {
+        window.addEventListener("load", registerServiceWorker, { once: true });
+      }
     }
 
     // Detect iOS
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
-    
+
+    const handleBeforeInstallPrompt = (event: Event) => {
+      const installEvent = event as BeforeInstallPromptEvent;
+      installEvent.preventDefault();
+      browserWindow.__skatebagInstallPrompt = installEvent;
+      window.dispatchEvent(new CustomEvent("pwa-install-available", { detail: installEvent }));
+    };
+
+    const handleInstalled = () => {
+      browserWindow.__skatebagInstallPrompt = undefined;
+      setShowIOSBanner(false);
+      window.dispatchEvent(new Event("pwa-installed"));
+      console.log("PWA was installed");
+    };
+
     // Show iOS banner if on iOS and not already installed
     if (isIOS && !standalone) {
       const hasDismissed = localStorage.getItem("pwa-banner-dismissed");
@@ -37,11 +68,14 @@ export function PWASetup() {
       }
     }
 
-    // Check if app is already installed
-    window.addEventListener("appinstalled", () => {
-      setShowIOSBanner(false);
-      console.log("PWA was installed");
-    });
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt as EventListener);
+    window.addEventListener("appinstalled", handleInstalled);
+
+    return () => {
+      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt as EventListener);
+      window.removeEventListener("appinstalled", handleInstalled);
+      window.removeEventListener("load", registerServiceWorker);
+    };
   }, []);
 
   const dismissBanner = () => {

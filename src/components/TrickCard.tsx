@@ -8,9 +8,10 @@ interface TrickCardProps {
   trick: TrickWithStatus;
   isAuthenticated: boolean;
   onStatusChange?: (id: string, status: TrickStatus | null, consistency: number | null) => void;
+  onInteract?: (id: string) => void;
 }
 
-export function TrickCard({ trick, isAuthenticated, onStatusChange }: TrickCardProps) {
+export function TrickCard({ trick, isAuthenticated, onStatusChange, onInteract }: TrickCardProps) {
   const [expanded, setExpanded] = useState(false);
   const [status, setStatus] = useState<TrickStatus | null>(trick.userStatus);
   const [consistency, setConsistency] = useState<number | null>(trick.userConsistency);
@@ -27,7 +28,7 @@ export function TrickCard({ trick, isAuthenticated, onStatusChange }: TrickCardP
     const q = mode === "exact" ? trick.name : (trick.youtube_query || trick.name);
     setFetchingVideo(true);
     setSearchMode(mode);
-    fetch(`/api/youtube?q=${encodeURIComponent(q)}`)
+    fetch(`/api/youtube?q=${encodeURIComponent(q)}&mode=${mode}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.videoIds && data.videoIds.length > 0) {
@@ -105,7 +106,10 @@ export function TrickCard({ trick, isAuthenticated, onStatusChange }: TrickCardP
       {/* Interactive Zone */}
       <div
         className="p-6 flex flex-col gap-6 cursor-pointer"
-        onClick={() => setExpanded(!expanded)}
+        onClick={() => {
+          onInteract?.(trick.id);
+          setExpanded(!expanded);
+        }}
       >
         <div className="flex items-start justify-between gap-4">
           <div className="space-y-3">
@@ -117,6 +121,7 @@ export function TrickCard({ trick, isAuthenticated, onStatusChange }: TrickCardP
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
+                    onInteract?.(trick.id);
                     if (isAuthenticated) setShowLevelEdit(!showLevelEdit);
                   }}
                   className="label-tag hover:border-[var(--board-accent)] hover:text-white transition-all"
@@ -188,7 +193,10 @@ export function TrickCard({ trick, isAuthenticated, onStatusChange }: TrickCardP
         {isAuthenticated && (
           <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
             <button
-              onClick={() => handleStatusToggle("learning")}
+              onClick={() => {
+                onInteract?.(trick.id);
+                handleStatusToggle("learning");
+              }}
               className={`flex-1 h-11 rounded-lg flex items-center justify-center gap-2 font-black text-[10px] uppercase tracking-widest transition-all ${
                 status === "learning"
                   ? "bg-blue-500 text-white shadow-lg shadow-black/40"
@@ -200,7 +208,10 @@ export function TrickCard({ trick, isAuthenticated, onStatusChange }: TrickCardP
               <span>Learning</span>
             </button>
             <button
-              onClick={() => handleStatusToggle("landed")}
+              onClick={() => {
+                onInteract?.(trick.id);
+                handleStatusToggle("landed");
+              }}
               className={`flex-1 h-11 rounded-lg flex items-center justify-center gap-2 font-black text-[10px] uppercase tracking-widest transition-all ${
                 (status === "landed" || status === "locked")
                   ? "bg-[var(--board-accent)] text-white shadow-lg shadow-black/40"
@@ -212,7 +223,10 @@ export function TrickCard({ trick, isAuthenticated, onStatusChange }: TrickCardP
               <span>Landed</span>
             </button>
             <button
-              onClick={() => setShowPrompt(!showPrompt)}
+              onClick={() => {
+                onInteract?.(trick.id);
+                setShowPrompt(!showPrompt);
+              }}
               className={`flex-1 h-11 rounded-lg flex items-center justify-center gap-2 font-black text-[10px] uppercase tracking-widest transition-all ${
                 status === "locked"
                   ? "bg-[var(--warn-accent)] text-black shadow-lg shadow-black/40"
