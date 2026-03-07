@@ -257,7 +257,7 @@ export function TrickCard({ trick, isAuthenticated, onStatusChange, onInteract, 
               disabled={loading}
             >
               <LockIcon size={14} />
-              <span>On Lock</span>
+              <span>Locked</span>
             </button>
           </div>
         )}

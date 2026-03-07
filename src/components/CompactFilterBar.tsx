@@ -67,7 +67,7 @@ export function CompactFilterBar({
   }, [category, statusFilter, levelFilter]);
 
   const activeCategory = CATEGORIES.find((c) => c.value === category)?.label ?? "All Tricks";
-  const activeStatus = STATUS_OPTIONS.find((s) => s.value === statusFilter)?.label ?? "Unlearned";
+  const activeStatus = STATUS_OPTIONS.find((s) => s.value === statusFilter)?.label ?? "On Deck";
 
   return (
     <div ref={containerRef} className="relative">
