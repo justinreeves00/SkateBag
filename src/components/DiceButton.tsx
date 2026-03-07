@@ -475,11 +475,6 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
           </div>
         </button>
         
-        {/* Selected Category Display */}
-        <div className="hidden md:block rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-[9px] font-black uppercase tracking-[0.15em] text-[var(--text-muted)]">
-          {settings.categories.length === 1 ? settings.categories[0] : `${settings.categories.length} cats`}
-        </div>
-        
         {/* Settings Button - On the right */}
         <button
           onClick={() => setShowSettings(!showSettings)}
