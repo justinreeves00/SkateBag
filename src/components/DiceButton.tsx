@@ -77,6 +77,8 @@ export function DiceButton({ tricks, isAuthenticated }: DiceButtonProps) {
     
     if (settings.consistencyMode) {
       pool = pool.filter((t) => t.userStatus === "landed");
+    } else if (settings.projectMode) {
+      pool = pool.filter((t) => t.userStatus === "learning");
     } else {
       if (settings.excludeLanded) pool = pool.filter((t) => t.userStatus !== "landed" && t.userStatus !== "locked");
       if (settings.excludeLocked) pool = pool.filter((t) => t.userStatus !== "locked");
@@ -263,22 +265,30 @@ export function DiceButton({ tricks, isAuthenticated }: DiceButtonProps) {
             {/* Actions Grid */}
             <div className="grid grid-cols-1 gap-5 pt-4">
               {isAuthenticated && (
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-3 gap-3">
+                  <button
+                    disabled={updating}
+                    onClick={() => handleStatusToggle("learning")}
+                    className="flex-1 py-4 bg-blue-500/10 text-blue-400 rounded-2xl font-black uppercase tracking-widest hover:bg-blue-500 hover:text-white transition-all border border-blue-500/20 flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50 text-[9px]"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v4"/><path d="m16.2 7.8 2.9-2.9"/><path d="M18 12h4"/><path d="m16.2 16.2 2.9 2.9"/><path d="M12 18v4"/><path d="m4.9 19.1 2.9-2.9"/><path d="M2 12h4"/><path d="m4.9 4.9 2.9 2.9"/></svg>
+                    <span>Learning</span>
+                  </button>
                   <button
                     disabled={updating}
                     onClick={() => handleStatusToggle("landed")}
-                    className="flex-1 py-5 bg-[var(--board-accent)]/10 text-[var(--board-accent)] rounded-3xl font-black uppercase tracking-widest hover:bg-[var(--board-accent)] hover:text-[#041316] transition-all border border-[var(--board-accent)]/30 flex items-center justify-center gap-3 active:scale-95 disabled:opacity-50"
+                    className="flex-1 py-4 bg-[var(--board-accent)]/10 text-[var(--board-accent)] rounded-2xl font-black uppercase tracking-widest hover:bg-[var(--board-accent)] hover:text-[#041316] transition-all border border-[var(--board-accent)]/30 flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50 text-[9px]"
                   >
-                    <CheckIcon size={18} />
+                    <CheckIcon size={16} />
                     <span>Landed</span>
                   </button>
                   <button
                     disabled={updating}
                     onClick={() => setShowPrompt(true)}
-                    className="flex-1 py-5 bg-[var(--warn-accent)]/10 text-[var(--warn-accent)] rounded-3xl font-black uppercase tracking-widest hover:bg-[var(--warn-accent)] hover:text-black transition-all border border-[var(--warn-accent)]/30 flex items-center justify-center gap-3 active:scale-95 disabled:opacity-50"
+                    className="flex-1 py-4 bg-[var(--warn-accent)]/10 text-[var(--warn-accent)] rounded-2xl font-black uppercase tracking-widest hover:bg-[var(--warn-accent)] hover:text-black transition-all border border-[var(--warn-accent)]/30 flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50 text-[9px]"
                   >
-                    <LockIcon size={16} />
-                    <span>Lock it in</span>
+                    <LockIcon size={14} />
+                    <span>Lock it</span>
                   </button>
                 </div>
               )}
@@ -329,25 +339,39 @@ export function DiceButton({ tricks, isAuthenticated }: DiceButtonProps) {
             </div>
 
             <div className="space-y-12">
-              <div className="grid grid-cols-1 gap-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <button
-                  onClick={() => setSettings((s) => ({ ...s, consistencyMode: !s.consistencyMode }))}
-                  className={`flex items-center justify-between p-8 rounded-3xl border text-left transition-all ${
+                  onClick={() => setSettings((s) => ({ ...s, consistencyMode: !s.consistencyMode, projectMode: false }))}
+                  className={`flex items-center justify-between p-6 rounded-3xl border text-left transition-all ${
                     settings.consistencyMode ? "bg-[var(--warn-accent)]/20 border-[var(--warn-accent)] shadow-lg shadow-black/30" : "bg-[var(--surface-muted)] border-[var(--border)] text-slate-600 hover:border-[var(--warn-accent)]/35 hover:bg-[var(--surface-elevated)]"
                   }`}
                 >
-                  <div className="flex flex-col gap-2">
-                    <span className={`text-[9px] font-black uppercase tracking-[0.2em] ${settings.consistencyMode ? "text-[var(--warn-accent)]" : "text-[var(--text-muted)]"}`}>Mission Mode</span>
-                    <span className={`text-xl font-black uppercase tracking-tight ${settings.consistencyMode ? "text-white" : ""}`}>Roll for Consistency</span>
-                    <p className="text-[10px] text-slate-500 font-medium normal-case">Only rolls tricks you have already landed.</p>
+                  <div className="flex flex-col gap-1">
+                    <span className={`text-[8px] font-black uppercase tracking-[0.2em] ${settings.consistencyMode ? "text-[var(--warn-accent)]" : "text-[var(--text-muted)]"}`}>Mission Mode</span>
+                    <span className={`text-base font-black uppercase tracking-tight ${settings.consistencyMode ? "text-white" : ""}`}>Roll for Consistency</span>
                   </div>
-                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center border-2 transition-all ${settings.consistencyMode ? "bg-[var(--warn-accent)] border-[var(--warn-accent)] text-black rotate-12" : "border-white/10 text-slate-700"}`}>
-                    <LockIcon size={24} />
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center border-2 transition-all ${settings.consistencyMode ? "bg-[var(--warn-accent)] border-[var(--warn-accent)] text-black rotate-12" : "border-white/10 text-slate-700"}`}>
+                    <LockIcon size={20} />
+                  </div>
+                </button>
+
+                <button
+                  onClick={() => setSettings((s) => ({ ...s, projectMode: !s.projectMode, consistencyMode: false }))}
+                  className={`flex items-center justify-between p-6 rounded-3xl border text-left transition-all ${
+                    settings.projectMode ? "bg-blue-500/20 border-blue-500 shadow-lg shadow-black/30" : "bg-[var(--surface-muted)] border-[var(--border)] text-slate-600 hover:border-blue-500/35 hover:bg-[var(--surface-elevated)]"
+                  }`}
+                >
+                  <div className="flex flex-col gap-1">
+                    <span className={`text-[8px] font-black uppercase tracking-[0.2em] ${settings.projectMode ? "text-blue-400" : "text-[var(--text-muted)]"}`}>Project Mode</span>
+                    <span className={`text-base font-black uppercase tracking-tight ${settings.projectMode ? "text-white" : ""}`}>Roll for Projects</span>
+                  </div>
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center border-2 transition-all ${settings.projectMode ? "bg-blue-500 border-blue-500 text-white -rotate-12" : "border-white/10 text-slate-700"}`}>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v4"/><path d="m16.2 7.8 2.9-2.9"/><path d="M18 12h4"/><path d="m16.2 16.2 2.9 2.9"/><path d="M12 18v4"/><path d="m4.9 19.1 2.9-2.9"/><path d="M2 12h4"/><path d="m4.9 4.9 2.9 2.9"/></svg>
                   </div>
                 </button>
               </div>
 
-              {!settings.consistencyMode && (
+              {!settings.consistencyMode && !settings.projectMode && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 animate-in slide-in-from-top-4 duration-300">
                   <button
                     onClick={() => setSettings((s) => ({ ...s, excludeLanded: !s.excludeLanded }))}

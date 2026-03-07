@@ -128,9 +128,13 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
                 <>
                   <div className="w-1.5 h-1.5 bg-black rotate-45 border border-white/10" />
                   <span className={`text-[10px] font-black uppercase tracking-widest drop-shadow-sm ${
-                    status === "landed" ? "text-[var(--board-accent)]" : "text-[var(--warn-accent)]"
+                    status === "landed" ? "text-[var(--board-accent)]" : 
+                    status === "locked" ? "text-[var(--warn-accent)]" :
+                    "text-blue-400"
                   }`}>
-                    {status === "locked" ? `In Bag (Locked ${consistency ?? 0}/10)` : "In Bag"}
+                    {status === "locked" ? `In Bag (Locked ${consistency ?? 0}/10)` : 
+                     status === "landed" ? "In Bag" :
+                     "Learning"}
                   </span>
                 </>
               )}
@@ -178,6 +182,18 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
         {/* Quick Log Buttons */}
         {isAuthenticated && (
           <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={() => handleStatusToggle("learning")}
+              className={`flex-1 h-11 rounded-lg flex items-center justify-center gap-2 font-black text-[10px] uppercase tracking-widest transition-all ${
+                status === "learning"
+                  ? "bg-blue-500 text-white shadow-lg shadow-black/40"
+                  : "bg-black/40 text-[var(--text-muted)] hover:text-white border border-white/10"
+              }`}
+              disabled={loading}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v4"/><path d="m16.2 7.8 2.9-2.9"/><path d="M18 12h4"/><path d="m16.2 16.2 2.9 2.9"/><path d="M12 18v4"/><path d="m4.9 19.1 2.9-2.9"/><path d="M2 12h4"/><path d="m4.9 4.9 2.9 2.9"/></svg>
+              <span>Learning</span>
+            </button>
             <button
               onClick={() => handleStatusToggle("landed")}
               className={`flex-1 h-11 rounded-lg flex items-center justify-center gap-2 font-black text-[10px] uppercase tracking-widest transition-all ${

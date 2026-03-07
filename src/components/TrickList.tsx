@@ -169,8 +169,8 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
     }
   }, [userProfile?.display_name, isAuthenticated]);
 
-  const showProfileSetup = isAuthenticated && !userProfile?.display_name && !forceCloseSetup;
-
+  const [statusFilter, setStatusFilter] = useState<"all" | "landed" | "locked" | "learning">("all");
+  ...
   // Compute filtered list from localTricks to allow smooth DnD
   const filtered = useMemo(() => {
     return localTricks
@@ -179,7 +179,9 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
         const matchesSearch = t.name.toLowerCase().includes(search.toLowerCase());
         const matchesStatus = 
           statusFilter === "all" || 
-          (statusFilter === "landed" ? (t.userStatus === "landed" || t.userStatus === "locked") : t.userStatus === statusFilter);
+          (statusFilter === "landed" && (t.userStatus === "landed" || t.userStatus === "locked")) ||
+          (statusFilter === "locked" && t.userStatus === "locked") ||
+          (statusFilter === "learning" && t.userStatus === "learning");
         return matchesCategory && matchesSearch && matchesStatus;
       })
       .sort((a, b) => {
@@ -514,7 +516,13 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                     onClick={() => setStatusFilter("all")}
                     className={`px-4 py-2.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${statusFilter === "all" ? "bg-white text-black" : "text-slate-500 hover:text-white"}`}
                   >
-                    All Tricks
+                    Vault
+                  </button>
+                  <button 
+                    onClick={() => setStatusFilter("learning")}
+                    className={`px-4 py-2.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${statusFilter === "learning" ? "bg-blue-500 text-white" : "text-slate-500 hover:text-white"}`}
+                  >
+                    Learning
                   </button>
                   <button 
                     onClick={() => setStatusFilter("landed")}
@@ -534,22 +542,35 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
               {/* Header Stats */}
               <div className="flex-1 max-w-2xl w-full flex flex-col sm:flex-row items-end gap-10">
                 {isAuthenticated && (
-                  <div className="flex gap-12 mb-1 px-2">
-                    <div className="flex flex-col">
+                  <div className="flex gap-10 mb-1 px-2">
+                    <button 
+                      onClick={() => setStatusFilter("learning")}
+                      className="flex flex-col text-left hover:brightness-125 transition-all"
+                    >
+                      <span className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em] mb-2">Projects</span>
+                      <span className="text-4xl font-black tracking-tighter leading-none text-blue-400 drop-shadow-md">{learning}</span>
+                    </button>
+                    <button 
+                      onClick={() => setStatusFilter("landed")}
+                      className="flex flex-col text-left hover:brightness-125 transition-all"
+                    >
                       <span className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em] mb-2">My Bag</span>
                       <div className="flex items-end gap-3 h-10">
                         <span className="text-4xl font-black tracking-tighter leading-none">{landed}</span>
-                        <div className="w-20 h-2 bg-black border border-white/10 rounded-sm overflow-hidden mb-1.5">
+                        <div className="w-16 h-2 bg-black border border-white/10 rounded-sm overflow-hidden mb-1.5">
                           <div className="h-full bg-[var(--board-accent)] transition-all duration-1000" style={{ width: `${progress}%` }} />
                         </div>
                       </div>
-                    </div>
-                    <div className="flex flex-col">
+                    </button>
+                    <button 
+                      onClick={() => setStatusFilter("locked")}
+                      className="flex flex-col text-left hover:brightness-125 transition-all"
+                    >
                       <span className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em] mb-2">On Lock</span>
                       <div className="flex items-end h-10">
                         <span className="text-4xl font-black tracking-tighter leading-none text-[var(--warn-accent)] drop-shadow-md">{locked}</span>
                       </div>
-                    </div>
+                    </button>
                   </div>
                 )}
 
@@ -585,7 +606,9 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
       <main className="max-w-6xl mx-auto px-6 pt-16 pb-32">
         <div className="mb-12 flex items-center gap-6">
           <h2 className="text-[11px] font-black text-white uppercase tracking-[0.4em] whitespace-nowrap italic bg-black px-3 py-1 border border-white/5">
-            {statusFilter === "all" ? "Trick Vault" : statusFilter === "landed" ? "In The Bag" : "Practice List"}
+            {statusFilter === "all" ? "Trick Vault" : 
+             statusFilter === "landed" ? "In The Bag" : 
+             statusFilter === "locked" ? "Mastered" : "Current Projects"}
           </h2>
           <div className="h-px w-full bg-white/5 shadow-[0_1px_0_rgba(255,255,255,0.02)]"></div>
           <span className="text-[10px] font-black text-slate-500 tabular-nums">{filtered.length} UNITS</span>

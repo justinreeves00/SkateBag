@@ -1,4 +1,4 @@
-export type TrickStatus = "landed" | "locked";
+export type TrickStatus = "landed" | "locked" | "learning";
 
 export type TrickCategory =
   | "flatground"
@@ -55,4 +55,5 @@ export interface DiceFilterSettings {
   categories: TrickCategory[];
   levels: number[];
   consistencyMode?: boolean;
+  projectMode?: boolean;
 }

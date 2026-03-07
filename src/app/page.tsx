@@ -20,7 +20,7 @@ export default async function Home() {
 
   // Fetch user's trick statuses and profile if logged in
   let userTricksMap: Record<string, { 
-    status: "landed" | "locked", 
+    status: "landed" | "locked" | "learning", 
     consistency: number | null,
     sort_order: number | null,
     is_manually_sorted: boolean | null
