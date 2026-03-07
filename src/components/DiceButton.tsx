@@ -455,38 +455,41 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
 
   return (
     <>
-      {/* Header Inline Controls - Centered dice button */}
-      <div className="flex items-center justify-center gap-3">
-        {/* Main Roll Button - Large Die Icon */}
-        <button
-          onClick={roll}
-          disabled={rolling}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all border shrink-0 ${
-            rolling 
-              ? "bg-[var(--surface-muted)] border-[var(--border)] scale-95" 
-              : "bg-[var(--board-accent)] text-black hover:brightness-110 hover:scale-105 active:scale-95 shadow-xl shadow-black/40 border-transparent"
-          }`}
-          title="Roll Dice"
-        >
-          <div className={`transition-transform duration-300 ${rolling ? "animate-spin" : isHovered ? "animate-[dice-roll_0.5s_ease-in-out]" : ""}`}>
-            <DiceIcon size={26} />
-          </div>
-        </button>
-        
-        {/* Settings Button - On the right */}
-        <button
-          onClick={() => setShowSettings(!showSettings)}
-          className={`w-11 h-11 rounded-xl flex items-center justify-center transition-all group shrink-0 border ${
-            showSettings 
-              ? "bg-[var(--board-accent)] border-[var(--board-accent)] text-black" 
-              : "bg-black/40 border-white/5 text-slate-500 hover:text-white hover:border-white/20 shadow-lg"
-          }`}
-          title="Dice Settings"
-        >
-          <FilterIcon size={18} />
-        </button>
+      {/* Floating Dice Button - Anchored to middle-right */}
+      <div className="fixed right-6 top-1/2 -translate-y-1/2 z-[90]">
+        {/* Two-Panel Unified Button */}
+        <div className="flex flex-col rounded-2xl overflow-hidden shadow-2xl shadow-black/40 border border-white/10">
+          {/* Roll Button - Top Panel */}
+          <button
+            onClick={roll}
+            disabled={rolling}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            className={`w-14 h-14 flex items-center justify-center transition-all ${
+              rolling 
+                ? "bg-[var(--surface-muted)] scale-95" 
+                : "bg-[var(--board-accent)] hover:brightness-110 active:scale-95"
+            }`}
+            title="Roll Dice"
+          >
+            <div className={`transition-transform duration-300 ${rolling ? "animate-spin" : isHovered ? "animate-[dice-roll_0.5s_ease-in-out]" : ""}`}>
+              <DiceIcon size={26} />
+            </div>
+          </button>
+          
+          {/* Settings Button - Bottom Panel */}
+          <button
+            onClick={() => setShowSettings(!showSettings)}
+            className={`w-14 h-14 flex items-center justify-center transition-all border-t border-white/10 ${
+              showSettings 
+                ? "bg-[var(--board-accent)] text-black" 
+                : "bg-[#1c1c1e] text-slate-500 hover:text-white"
+            }`}
+            title="Dice Settings"
+          >
+            <FilterIcon size={18} />
+          </button>
+        </div>
       </div>
 
       {mounted && createPortal(overlays, document.body)}
