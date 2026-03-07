@@ -158,7 +158,7 @@ export function CompactFilterBar({
 
       {/* Category Dropdown */}
       {openPanel === "category" && (
-        <div className="absolute top-full left-0 right-0 mt-2 z-[200] rounded-2xl border border-white/10 bg-[#1c1c1e] shadow-[0_24px_80px_rgba(0,0,0,0.5)] overflow-hidden">
+        <div className="absolute top-full left-0 right-0 mt-2 z-[200] w-full rounded-2xl border border-white/10 bg-[#1c1c1e] shadow-[0_24px_80px_rgba(0,0,0,0.5)] overflow-hidden">
           <div className="px-3 pt-3 pb-2 border-b border-white/10 bg-white/5">
             <p className="text-[10px] font-black uppercase tracking-[0.25em] text-white">Categories</p>
           </div>
@@ -184,7 +184,7 @@ export function CompactFilterBar({
 
       {/* Status Dropdown */}
       {openPanel === "status" && (
-        <div className="absolute top-full left-0 right-0 mt-2 z-[200] rounded-2xl border border-white/10 bg-[#1c1c1e] shadow-[0_24px_80px_rgba(0,0,0,0.5)] overflow-hidden">
+        <div className="absolute top-full left-0 right-0 mt-2 z-[200] w-full rounded-2xl border border-white/10 bg-[#1c1c1e] shadow-[0_24px_80px_rgba(0,0,0,0.5)] overflow-hidden">
           <div className="px-3 pt-3 pb-2 border-b border-white/10 bg-white/5">
             <p className="text-[10px] font-black uppercase tracking-[0.25em] text-white">Your Bag</p>
           </div>
@@ -218,7 +218,7 @@ export function CompactFilterBar({
 
       {/* Level Dropdown */}
       {openPanel === "level" && (
-        <div className="absolute top-full left-0 right-0 mt-2 z-[200] rounded-2xl border border-white/10 bg-[#1c1c1e] shadow-[0_24px_80px_rgba(0,0,0,0.5)] overflow-hidden">
+        <div className="absolute top-full left-0 right-0 mt-2 z-[200] w-full rounded-2xl border border-white/10 bg-[#1c1c1e] shadow-[0_24px_80px_rgba(0,0,0,0.5)] overflow-hidden">
           <div className="px-3 pt-3 pb-2 border-b border-white/10 bg-white/5">
             <p className="text-[10px] font-black uppercase tracking-[0.25em] text-white">Difficulty</p>
           </div>
