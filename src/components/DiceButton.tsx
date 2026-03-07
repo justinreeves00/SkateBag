@@ -31,7 +31,7 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
   const [settings, setSettings] = useState<DiceFilterSettings>({
     excludeLanded: false,
     excludeLocked: false,
-    categories: [...CATEGORY_OPTIONS],
+    categories: ["flatground"],
     levels: [...LEVEL_OPTIONS],
     consistencyMode: false,
   });
@@ -41,12 +41,12 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
   }, []);
 
   const fetchVideos = (mode: "query" | "exact", trick: TrickWithStatus) => {
-    const q = mode === "exact" ? trick.name : (trick.youtube_query || trick.name);
+    const q = trick.name;
     setFetchingVideo(true);
     setVideoIds([]);
     setCurrentVideoIndex(0);
     setSearchMode(mode);
-    fetch(`/api/youtube?q=${encodeURIComponent(q)}`)
+    fetch(`/api/youtube?q=${encodeURIComponent(q)}&mode=${mode}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.videoIds && data.videoIds.length > 0) {
@@ -117,7 +117,7 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
   function selectCategory(cat: TrickCategory | "all") {
     setSettings((prev) => ({
       ...prev,
-      categories: cat === "all" ? [...CATEGORY_OPTIONS] : [cat],
+      categories: [cat === "all" ? "flatground" : cat],
     }));
   }
 
@@ -207,6 +207,8 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
                 <span>{result.category}</span>
                 <div className="w-1.5 h-1.5 rounded-full bg-[var(--board-accent)] shadow-lg shadow-black/30" />
                 <span className="text-[var(--board-accent)] italic">Tier {result.difficulty}</span>
+                <div className="w-1.5 h-1.5 rounded-full bg-[var(--board-accent)] shadow-lg shadow-black/30" />
+                <span className="text-white/80">Roll: {settings.categories[0]}</span>
               </div>
             </div>
 
@@ -273,7 +275,11 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
                   <button
                     disabled={updating}
                     onClick={() => handleStatusToggle("learning")}
-                    className="flex-1 py-4 bg-blue-500/10 text-blue-400 rounded-2xl font-black uppercase tracking-widest hover:bg-blue-500 hover:text-white transition-all border border-blue-500/20 flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50 text-[9px]"
+                    className={`flex-1 py-4 rounded-2xl font-black uppercase tracking-widest transition-all border flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50 text-[9px] ${
+                      result.userStatus === "learning"
+                        ? "bg-blue-500 text-white border-blue-500"
+                        : "bg-blue-500/10 text-blue-400 hover:bg-blue-500 hover:text-white border-blue-500/20"
+                    }`}
                   >
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v4"/><path d="m16.2 7.8 2.9-2.9"/><path d="M18 12h4"/><path d="m16.2 16.2 2.9 2.9"/><path d="M12 18v4"/><path d="m4.9 19.1 2.9-2.9"/><path d="M2 12h4"/><path d="m4.9 4.9 2.9 2.9"/></svg>
                     <span>Learning</span>
@@ -281,7 +287,11 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
                   <button
                     disabled={updating}
                     onClick={() => handleStatusToggle("landed")}
-                    className="flex-1 py-4 bg-[var(--board-accent)]/10 text-[var(--board-accent)] rounded-2xl font-black uppercase tracking-widest hover:bg-[var(--board-accent)] hover:text-[#041316] transition-all border border-[var(--board-accent)]/30 flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50 text-[9px]"
+                    className={`flex-1 py-4 rounded-2xl font-black uppercase tracking-widest transition-all border flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50 text-[9px] ${
+                      result.userStatus === "landed" || result.userStatus === "locked"
+                        ? "bg-[var(--board-accent)] text-[#041316] border-[var(--board-accent)]"
+                        : "bg-[var(--board-accent)]/10 text-[var(--board-accent)] hover:bg-[var(--board-accent)] hover:text-[#041316] border-[var(--board-accent)]/30"
+                    }`}
                   >
                     <CheckIcon size={16} />
                     <span>Landed</span>
@@ -289,7 +299,11 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
                   <button
                     disabled={updating}
                     onClick={() => setShowPrompt(true)}
-                    className="flex-1 py-4 bg-[var(--warn-accent)]/10 text-[var(--warn-accent)] rounded-2xl font-black uppercase tracking-widest hover:bg-[var(--warn-accent)] hover:text-black transition-all border border-[var(--warn-accent)]/30 flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50 text-[9px]"
+                    className={`flex-1 py-4 rounded-2xl font-black uppercase tracking-widest transition-all border flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50 text-[9px] ${
+                      result.userStatus === "locked"
+                        ? "bg-[var(--warn-accent)] text-black border-[var(--warn-accent)]"
+                        : "bg-[var(--warn-accent)]/10 text-[var(--warn-accent)] hover:bg-[var(--warn-accent)] hover:text-black border-[var(--warn-accent)]/30"
+                    }`}
                   >
                     <LockIcon size={14} />
                     <span>Lock it</span>
@@ -326,36 +340,36 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
           onClick={() => setShowSettings(false)}
         >
           <div
-            className="w-full max-w-3xl bg-[var(--surface)] rounded-3xl p-10 md:p-14 border border-[var(--border)] shadow-2xl relative animate-in zoom-in-95 duration-300 my-auto"
+            className="w-full max-w-2xl bg-[var(--surface)] rounded-3xl p-6 md:p-8 border border-[var(--border)] shadow-2xl relative animate-in zoom-in-95 duration-300 my-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between mb-14">
+            <div className="flex items-center justify-between mb-8">
               <div className="space-y-2">
-                <h3 className="text-3xl font-black text-white tracking-tighter italic uppercase">Dice Settings</h3>
+                <h3 className="text-2xl font-black text-white tracking-tighter italic uppercase">Dice Settings</h3>
                 <p className="text-[10px] font-black text-slate-600 uppercase tracking-[0.3em]">Configure Roll Parameters</p>
               </div>
               <button 
                 onClick={() => setShowSettings(false)} 
-                className="w-14 h-14 rounded-3xl bg-[var(--surface-muted)] border border-[var(--border)] flex items-center justify-center text-[var(--text-muted)] hover:text-[var(--foreground)] transition-all shadow-xl"
+                className="w-11 h-11 rounded-2xl bg-[var(--surface-muted)] border border-[var(--border)] flex items-center justify-center text-[var(--text-muted)] hover:text-[var(--foreground)] transition-all shadow-xl"
               >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
               </button>
             </div>
 
-            <div className="space-y-12">
-              <div className="grid grid-cols-1 gap-5">
+            <div className="space-y-8">
+              <div className="grid grid-cols-1 gap-3">
                 <button
                   onClick={() => setSettings((s) => ({ ...s, consistencyMode: !s.consistencyMode }))}
-                  className={`flex items-center justify-between p-6 rounded-3xl border text-left transition-all ${
+                  className={`flex items-center justify-between p-4 rounded-3xl border text-left transition-all ${
                     settings.consistencyMode ? "bg-[var(--warn-accent)]/20 border-[var(--warn-accent)] shadow-lg shadow-black/30" : "bg-[var(--surface-muted)] border-[var(--border)] text-slate-600 hover:border-[var(--warn-accent)]/35 hover:bg-[var(--surface-elevated)]"
                   }`}
                 >
                   <div className="flex flex-col gap-1">
                     <span className={`text-[8px] font-black uppercase tracking-[0.2em] ${settings.consistencyMode ? "text-[var(--warn-accent)]" : "text-[var(--text-muted)]"}`}>Mission Mode</span>
-                    <span className={`text-base font-black uppercase tracking-tight ${settings.consistencyMode ? "text-white" : ""}`}>Roll for Consistency</span>
+                    <span className={`text-sm font-black uppercase tracking-tight ${settings.consistencyMode ? "text-white" : ""}`}>Roll for Consistency</span>
                   </div>
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center border-2 transition-all ${settings.consistencyMode ? "bg-[var(--warn-accent)] border-[var(--warn-accent)] text-black rotate-12" : "border-white/10 text-slate-700"}`}>
-                    <LockIcon size={20} />
+                  <div className={`w-9 h-9 rounded-xl flex items-center justify-center border-2 transition-all ${settings.consistencyMode ? "bg-[var(--warn-accent)] border-[var(--warn-accent)] text-black rotate-12" : "border-white/10 text-slate-700"}`}>
+                    <LockIcon size={16} />
                   </div>
                 </button>
                 <p className="text-[10px] text-slate-500 font-medium leading-relaxed px-2">
@@ -364,24 +378,24 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
               </div>
 
               {!settings.consistencyMode && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 animate-in slide-in-from-top-4 duration-300">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 animate-in slide-in-from-top-4 duration-300">
                   <button
                     onClick={() => setSettings((s) => ({ ...s, excludeLanded: !s.excludeLanded }))}
-                    className={`flex flex-col gap-2 p-8 rounded-3xl border text-left transition-all ${
+                    className={`flex flex-col gap-1 p-5 rounded-3xl border text-left transition-all ${
                       settings.excludeLanded ? "bg-[var(--board-accent)]/20 border-[var(--board-accent)] shadow-lg shadow-black/30" : "bg-[var(--surface-muted)] border-[var(--border)] text-slate-600 hover:border-[var(--board-accent)]/35 hover:bg-[var(--surface-elevated)]"
                     }`}
                   >
                     <span className={`text-[9px] font-black uppercase tracking-[0.2em] ${settings.excludeLanded ? "text-[var(--board-accent)]" : "text-[var(--text-muted)]"}`}>Filter Mode</span>
-                    <span className={`text-lg font-black uppercase tracking-tight ${settings.excludeLanded ? "text-white" : ""}`}>Exclude Landed</span>
+                    <span className={`text-sm font-black uppercase tracking-tight ${settings.excludeLanded ? "text-white" : ""}`}>Exclude Landed</span>
                   </button>
                   <button
                     onClick={() => setSettings((s) => ({ ...s, excludeLocked: !s.excludeLocked }))}
-                    className={`flex flex-col gap-2 p-8 rounded-3xl border text-left transition-all ${
+                    className={`flex flex-col gap-1 p-5 rounded-3xl border text-left transition-all ${
                       settings.excludeLocked ? "bg-[#f59e0b]/20 border-[#f59e0b] shadow-lg shadow-black/30" : "bg-[var(--surface-muted)] border-[var(--border)] text-slate-600 hover:border-[var(--board-accent)]/35 hover:bg-[var(--surface-elevated)]"
                     }`}
                   >
                     <span className={`text-[9px] font-black uppercase tracking-[0.2em] ${settings.excludeLocked ? "text-[#f59e0b]" : "text-[var(--text-muted)]"}`}>Filter Mode</span>
-                    <span className={`text-lg font-black uppercase tracking-tight ${settings.excludeLocked ? "text-white" : ""}`}>Exclude Locked</span>
+                    <span className={`text-sm font-black uppercase tracking-tight ${settings.excludeLocked ? "text-white" : ""}`}>Exclude Locked</span>
                   </button>
                 </div>
               )}
@@ -393,7 +407,7 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
                     <button
                       key={lvl}
                       onClick={() => toggleLevel(lvl)}
-                      className={`w-16 h-16 rounded-3xl text-base font-black transition-all border ${
+                      className={`w-12 h-12 rounded-2xl text-sm font-black transition-all border ${
                         settings.levels.includes(lvl)
                           ? "bg-[var(--board-accent)] text-[#041316] border-[var(--board-accent)] shadow-lg shadow-black/30 scale-110"
                           : "bg-[var(--surface-muted)] text-[var(--text-muted)] border-transparent hover:text-[var(--text-muted)]"
@@ -408,21 +422,11 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
               <div className="space-y-6">
                 <span className="text-[10px] font-black text-[var(--text-muted)] uppercase tracking-[0.4em]">Categories</span>
                 <div className="flex flex-wrap gap-2.5">
-                  <button
-                    onClick={() => selectCategory("all")}
-                    className={`px-6 py-4 rounded-3xl text-[10px] font-black uppercase tracking-[0.2em] transition-all border ${
-                      settings.categories.length === CATEGORY_OPTIONS.length
-                        ? "bg-[var(--surface-elevated)] text-white border-white/20 shadow-lg scale-105"
-                        : "bg-[var(--surface-muted)] text-[var(--text-muted)] border-transparent hover:text-[var(--text-muted)]"
-                    }`}
-                  >
-                    ALL
-                  </button>
                   {CATEGORY_OPTIONS.map((cat) => (
                     <button
                       key={cat}
                       onClick={() => selectCategory(cat)}
-                      className={`px-6 py-4 rounded-3xl text-[10px] font-black uppercase tracking-[0.2em] transition-all border ${
+                      className={`px-4 py-3 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all border ${
                         settings.categories.length === 1 && settings.categories.includes(cat)
                           ? "bg-[var(--surface-elevated)] text-white border-white/20 shadow-lg scale-105"
                           : "bg-[var(--surface-muted)] text-[var(--text-muted)] border-transparent hover:text-[var(--text-muted)]"
@@ -464,13 +468,16 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
               : "bg-[var(--board-accent)] text-black hover:brightness-110 hover:scale-[1.02] active:scale-95 shadow-xl shadow-black/40"
           }`}
         >
-          <div className={rolling ? "animate-spin" : ""}>
+          <div className={rolling ? "animate-spin" : "animate-[dice-wobble_2.8s_ease-in-out_infinite]"}>
             <DiceIcon size={20} />
           </div>
           <span className="text-[10px] md:text-[12px] font-black uppercase tracking-[0.3em] md:tracking-[0.4em] whitespace-nowrap">
             {rolling ? "..." : "Roll"}
           </span>
         </button>
+        <div className="hidden rounded-2xl border border-white/10 bg-black/30 px-3 py-2 text-[9px] font-black uppercase tracking-[0.2em] text-[var(--text-muted)] md:block">
+          {settings.categories[0]}
+        </div>
       </div>
 
       {mounted && createPortal(overlays, document.body)}

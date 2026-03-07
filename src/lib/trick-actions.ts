@@ -209,6 +209,55 @@ export async function handleNewTrickSuggestion(suggestionId: string, status: 'ap
   return { success: true };
 }
 
+export async function reportTrickIssue(input: {
+  trickName: string;
+  category: string;
+  difficulty: number | null;
+  issueType: string;
+  details?: string;
+  reporterName?: string | null;
+}) {
+  const title = `[Trick] ${input.trickName}: ${input.issueType}`;
+  const body = [
+    `Trick: ${input.trickName}`,
+    `Category: ${input.category}`,
+    `Difficulty: ${input.difficulty ?? "Unknown"}`,
+    `Issue type: ${input.issueType}`,
+    `Reporter: ${input.reporterName || "Anonymous"}`,
+    "",
+    "Details:",
+    input.details?.trim() || "(no extra details provided)",
+  ].join("\n");
+
+  const draftUrl = `https://github.com/justinreeves00/SkateBag/issues/new?title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}`;
+  const token = process.env.GITHUB_ISSUES_TOKEN;
+
+  if (!token) {
+    return { success: true, mode: "draft", url: draftUrl };
+  }
+
+  const response = await fetch("https://api.github.com/repos/justinreeves00/SkateBag/issues", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/vnd.github+json",
+      Authorization: `Bearer ${token}`,
+      "X-GitHub-Api-Version": "2022-11-28",
+    },
+    body: JSON.stringify({
+      title,
+      body,
+    }),
+  });
+
+  if (!response.ok) {
+    return { success: true, mode: "draft", url: draftUrl };
+  }
+
+  const data = await response.json();
+  return { success: true, mode: "created", url: data.html_url as string };
+}
+
 export async function getUserTricks() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();

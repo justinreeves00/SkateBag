@@ -22,6 +22,17 @@ const CATEGORIES: TrickCategory[] = [
   "flatground", "street", "ledge/rail", "transition", "gaps", "freestyle", "downhill"
 ];
 
+const CATEGORY_LABELS: Record<TrickCategory | "all", string> = {
+  all: "All Spots",
+  flatground: "Flatground",
+  street: "Street",
+  "ledge/rail": "Ledge / Rail",
+  transition: "Transition",
+  gaps: "Gaps",
+  freestyle: "Freestyle",
+  downhill: "Downhill",
+};
+
 const INSTALL_DISMISS_KEY = "skatebag-install-banner-dismissed-v2";
 
 interface BeforeInstallPromptEvent extends Event {
@@ -57,6 +68,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
   const [isUpdatingProfile, setIsUpdatingProfile] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
   const [showFiltersModal, setShowFiltersModal] = useState(false);
+  const [quickFilterPanel, setQuickFilterPanel] = useState<"status" | "level" | null>(null);
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const [profileError, setProfileError] = useState<string | null>(null);
 
@@ -182,7 +194,12 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
 
   // Suggest Trick State
   const [showSuggestModal, setShowSuggestModal] = useState(false);
-  const [suggestForm, setSuggestForm] = useState({ name: "", category: "flatground" as TrickCategory, description: "" });
+  const [suggestForm, setSuggestForm] = useState({
+    name: "",
+    category: "flatground" as TrickCategory,
+    difficulty: 1,
+    description: "",
+  });
   const [isSuggesting, setIsSuggesting] = useState(false);
   const [suggestSuccess, setSuggestSuccess] = useState(false);
 
@@ -231,6 +248,10 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
     setStickyVisibleTrickId(null);
   }, [category, levelFilter, search, statusFilter]);
 
+  useEffect(() => {
+    setQuickFilterPanel(null);
+  }, [category, levelFilter, statusFilter]);
+
   const landed = baseFiltered.filter((t) => t.userStatus === "landed" || t.userStatus === "locked").length;
   const locked = baseFiltered.filter((t) => t.userStatus === "locked").length;
   const learning = baseFiltered.filter((t) => t.userStatus === "learning").length;
@@ -257,17 +278,31 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
     e.preventDefault();
     if (!suggestForm.name.trim()) return;
     setIsSuggesting(true);
-    const res = await submitNewTrickSuggestion(suggestForm.name, suggestForm.category, suggestForm.description);
+    const description = [
+      `Suggested difficulty: ${suggestForm.difficulty}`,
+      "Applies to all skaters if approved.",
+      suggestForm.description.trim(),
+    ]
+      .filter(Boolean)
+      .join("\n\n");
+    const res = await submitNewTrickSuggestion(suggestForm.name, suggestForm.category, description);
     if (res.success) {
       setSuggestSuccess(true);
       setTimeout(() => {
         setShowSuggestModal(false);
         setSuggestSuccess(false);
-        setSuggestForm({ name: "", category: "flatground", description: "" });
+        setSuggestForm({ name: "", category: "flatground", difficulty: 1, description: "" });
       }, 2000);
     }
     setIsSuggesting(false);
   }
+
+  const statusTabs = [
+    { value: "all" as const, label: "Unlearned", count: unlearned, guestCount: `${tricks.length}` },
+    { value: "learning" as const, label: "Progress", count: learning, guestCount: "Track" },
+    { value: "landed" as const, label: "My Bag", count: landed, guestCount: "Track" },
+    { value: "locked" as const, label: "On Lock", count: locked, guestCount: "Track" },
+  ];
 
   return (
     <div className="min-h-screen text-white selection:bg-[var(--board-accent)]/30 pb-32">
@@ -457,6 +492,103 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
         </div>
       )}
 
+      {showSuggestModal && isAuthenticated && (
+        <div className="fixed inset-0 z-[1050] flex items-center justify-center bg-black/90 p-4" onClick={() => setShowSuggestModal(false)}>
+          <div className="w-full max-w-lg rounded-[32px] border border-white/10 bg-[var(--surface)] p-8 shadow-[0_24px_80px_rgba(0,0,0,0.45)]" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-start justify-between gap-4">
+              <div className="space-y-2">
+                <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--text-muted)]">Community Review</p>
+                <h3 className="text-3xl font-black uppercase italic tracking-tight text-white">Add Missing Trick</h3>
+              </div>
+              <button
+                onClick={() => setShowSuggestModal(false)}
+                className="flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-black/20 text-[var(--text-muted)] transition-all hover:text-white"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+              </button>
+            </div>
+
+            <div className="mt-6 rounded-[24px] border border-white/10 bg-black/20 p-4">
+              <p className="text-sm leading-relaxed text-[var(--text-muted)]">
+                Approved tricks become part of the shared list for everyone, so set the category and difficulty you think fits all skaters best.
+              </p>
+            </div>
+
+            <form onSubmit={handleSuggest} className="mt-6 space-y-5">
+              <div className="space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-[0.25em] text-[var(--text-muted)]">Trick Name</label>
+                <input
+                  type="text"
+                  value={suggestForm.name}
+                  onChange={(e) => setSuggestForm((prev) => ({ ...prev, name: e.target.value }))}
+                  required
+                  className="w-full rounded-2xl border border-white/10 bg-black/30 px-5 py-4 text-sm font-black uppercase tracking-[0.12em] text-white outline-none transition-all focus:border-[var(--board-accent)]"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black uppercase tracking-[0.25em] text-[var(--text-muted)]">Category</label>
+                  <select
+                    value={suggestForm.category}
+                    onChange={(e) => setSuggestForm((prev) => ({ ...prev, category: e.target.value as TrickCategory }))}
+                    className="w-full rounded-2xl border border-white/10 bg-black/30 px-5 py-4 text-sm font-black uppercase tracking-[0.12em] text-white outline-none transition-all focus:border-[var(--board-accent)]"
+                  >
+                    {CATEGORIES.map((cat) => (
+                      <option key={cat} value={cat}>{CATEGORY_LABELS[cat]}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black uppercase tracking-[0.25em] text-[var(--text-muted)]">Difficulty</label>
+                  <div className="grid grid-cols-5 gap-2">
+                    {[1, 2, 3, 4, 5].map((lvl) => (
+                      <button
+                        key={lvl}
+                        type="button"
+                        onClick={() => setSuggestForm((prev) => ({ ...prev, difficulty: lvl }))}
+                        className={`h-12 rounded-2xl border text-sm font-black transition-all ${
+                          suggestForm.difficulty === lvl
+                            ? "border-[var(--board-accent)] bg-[var(--board-accent)] text-black"
+                            : "border-white/10 bg-black/30 text-[var(--text-muted)] hover:text-white"
+                        }`}
+                      >
+                        {lvl}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-[0.25em] text-[var(--text-muted)]">Notes</label>
+                <textarea
+                  value={suggestForm.description}
+                  onChange={(e) => setSuggestForm((prev) => ({ ...prev, description: e.target.value }))}
+                  rows={4}
+                  className="w-full rounded-2xl border border-white/10 bg-black/30 px-5 py-4 text-sm font-medium text-white outline-none transition-all focus:border-[var(--board-accent)]"
+                />
+              </div>
+
+              {suggestSuccess ? (
+                <div className="rounded-2xl border border-[var(--board-accent)]/30 bg-[var(--board-accent)]/10 px-5 py-4 text-center text-[11px] font-black uppercase tracking-[0.22em] text-[var(--board-accent)]">
+                  Suggestion sent for review
+                </div>
+              ) : (
+                <button
+                  type="submit"
+                  disabled={isSuggesting}
+                  className="w-full rounded-2xl bg-[var(--board-accent)] px-5 py-4 text-[10px] font-black uppercase tracking-[0.25em] text-black transition-all hover:brightness-110 disabled:opacity-60"
+                >
+                  {isSuggesting ? "Sending..." : "Submit Trick"}
+                </button>
+              )}
+            </form>
+          </div>
+        </div>
+      )}
+
       {/* Filters Modal (Bottom Sheet Style) */}
       {showFiltersModal && (
         <div className="fixed inset-0 z-[1000] flex items-end justify-center bg-black/80 backdrop-blur-sm" onClick={() => setShowFiltersModal(false)}>
@@ -518,7 +650,10 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
             {!isSearchExpanded && (
               <div className="flex items-center gap-3 shrink-0">
                 <SkateBagLogo size={40} className="transform -rotate-2" />
-                <h1 className="text-2xl font-black tracking-tighter text-white uppercase italic leading-none">SkateBag</h1>
+                <div className="space-y-1">
+                  <h1 className="text-2xl font-black tracking-tighter text-white uppercase italic leading-none">SkateBag</h1>
+                  <p className="text-[9px] font-black uppercase tracking-[0.32em] text-[var(--text-muted)]">Skateboard Tracker</p>
+                </div>
               </div>
             )}
 
@@ -572,6 +707,97 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
             </div>
           </div>
         </div>
+
+        {!isSearchExpanded && (
+          <div className="border-t border-white/5">
+            <div className="mx-auto flex max-w-6xl gap-2 overflow-x-auto px-6 py-3 no-scrollbar">
+              {CATEGORIES.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setCategory(cat)}
+                  className={`shrink-0 rounded-2xl px-4 py-2 text-[10px] font-black uppercase tracking-[0.22em] transition-all ${
+                    category === cat
+                      ? "bg-[var(--board-accent)] text-black"
+                      : "bg-black/25 text-[var(--text-muted)] hover:text-white"
+                  }`}
+                >
+                  {CATEGORY_LABELS[cat]}
+                </button>
+              ))}
+            </div>
+
+            <div className="mx-auto max-w-6xl px-6 pb-4">
+              <div className="rounded-[24px] border border-white/5 bg-black/20 px-3 py-3">
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    onClick={() => setQuickFilterPanel((current) => current === "status" ? null : "status")}
+                    className="rounded-2xl border border-white/10 bg-black/25 px-4 py-2 text-[10px] font-black uppercase tracking-[0.22em] text-white"
+                  >
+                    View: {statusTabs.find((tab) => tab.value === statusFilter)?.label}
+                  </button>
+                  <button
+                    onClick={() => setQuickFilterPanel((current) => current === "level" ? null : "level")}
+                    className="rounded-2xl border border-white/10 bg-black/25 px-4 py-2 text-[10px] font-black uppercase tracking-[0.22em] text-white"
+                  >
+                    Level: {levelFilter === "all" ? "All" : levelFilter}
+                  </button>
+                  <button
+                    onClick={() => setShowFiltersModal(true)}
+                    className="rounded-2xl border border-white/10 bg-black/25 px-4 py-2 text-[10px] font-black uppercase tracking-[0.22em] text-[var(--text-muted)]"
+                  >
+                    More Filters
+                  </button>
+                </div>
+
+                {quickFilterPanel === "status" && (
+                  <div className="mt-3 flex flex-wrap gap-2 border-t border-white/5 pt-3">
+                    {statusTabs.map((tab) => (
+                      <button
+                        key={tab.value}
+                        onClick={() => handleStatusFilterSelect(tab.value)}
+                        className={`rounded-2xl px-4 py-2 text-[10px] font-black uppercase tracking-[0.22em] transition-all ${
+                          statusFilter === tab.value
+                            ? "bg-[var(--board-accent)] text-black"
+                            : "bg-white/5 text-[var(--text-muted)] hover:text-white"
+                        }`}
+                      >
+                        {tab.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                {quickFilterPanel === "level" && (
+                  <div className="mt-3 flex flex-wrap gap-2 border-t border-white/5 pt-3">
+                    <button
+                      onClick={() => setLevelFilter("all")}
+                      className={`rounded-2xl px-4 py-2 text-[10px] font-black uppercase tracking-[0.22em] transition-all ${
+                        levelFilter === "all"
+                          ? "bg-[var(--board-accent)] text-black"
+                          : "bg-white/5 text-[var(--text-muted)] hover:text-white"
+                      }`}
+                    >
+                      All
+                    </button>
+                    {[1, 2, 3, 4, 5].map((lvl) => (
+                      <button
+                        key={lvl}
+                        onClick={() => setLevelFilter(lvl)}
+                        className={`h-10 w-10 rounded-2xl text-[10px] font-black transition-all ${
+                          levelFilter === lvl
+                            ? "bg-[var(--board-accent)] text-black"
+                            : "bg-white/5 text-[var(--text-muted)] hover:text-white"
+                        }`}
+                      >
+                        {lvl}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </header>
 
       {/* Main Grid Area */}
@@ -618,7 +844,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
              statusFilter === "locked" ? "On Lock" : "In Progress"}
           </h2>
           <div className="h-px w-full bg-white/5 shadow-[0_1px_0_rgba(255,255,255,0.02)]"></div>
-          <span className="text-[10px] font-black text-slate-500 tabular-nums uppercase tracking-widest">{filtered.length} Units</span>
+          <span className="text-[10px] font-black text-slate-500 tabular-nums uppercase tracking-widest">{filtered.length} Tricks</span>
         </div>
 
         {filtered.length === 0 ? (
@@ -640,6 +866,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                 isAuthenticated={isAuthenticated}
                 onStatusChange={handleStatusChange}
                 onInteract={handleCardInteract}
+                reporterName={userProfile?.display_name ?? null}
               />
             ))}
           </div>
@@ -652,59 +879,40 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
       </div>
 
       {/* Bottom Navigation Tab Bar */}
-      <nav className="fixed bottom-0 left-0 right-0 z-[100] bg-[#1c1c1e]/90 backdrop-blur-2xl border-t border-white/5 px-4 pb-8 pt-3 shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
-        <div className="max-w-md mx-auto flex items-center justify-between">
-          <button
-            onClick={() => handleStatusFilterSelect("all")}
-            className="flex flex-col items-center gap-1.5 flex-1 transition-all group"
-          >
-            <div className={`text-xl font-black tracking-tighter leading-none transition-colors ${statusFilter === "all" ? "text-white" : "text-slate-700 group-hover:text-slate-500"}`}>
-              {unlearned}
-            </div>
-            <span className={`text-[9px] font-black uppercase tracking-widest transition-colors ${statusFilter === "all" ? "text-white" : "text-slate-600 group-hover:text-slate-400"}`}>
-              Unlearned
-            </span>
-            {statusFilter === "all" && <div className="w-4 h-1 bg-[var(--board-accent)] rounded-full mt-0.5" />}
-          </button>
+      <nav className="fixed bottom-0 left-0 right-0 z-[100] border-t border-white/5 bg-[#1c1c1e]/95 px-3 pt-2 shadow-[0_-10px_40px_rgba(0,0,0,0.5)] backdrop-blur-2xl">
+        <div className="mx-auto grid max-w-md grid-cols-4 gap-1.5 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
+          {statusTabs.map((tab) => {
+            const isActive = statusFilter === tab.value;
+            const displayValue = isAuthenticated ? `${tab.count}` : tab.guestCount;
+            const accentClass =
+              tab.value === "learning"
+                ? "text-blue-400"
+                : tab.value === "locked"
+                  ? "text-[var(--warn-accent)]"
+                  : tab.value === "landed"
+                    ? "text-[var(--board-accent)]"
+                    : "text-white";
 
-          <button
-            onClick={() => handleStatusFilterSelect("learning")}
-            className="flex flex-col items-center gap-1.5 flex-1 transition-all group"
-          >
-            <div className={`text-xl font-black tracking-tighter leading-none transition-colors ${statusFilter === "learning" ? "text-blue-400" : "text-blue-900 group-hover:text-blue-800"}`}>
-              {learning}
-            </div>
-            <span className={`text-[9px] font-black uppercase tracking-widest transition-colors ${statusFilter === "learning" ? "text-blue-400" : "text-slate-600 group-hover:text-slate-400"}`}>
-              Progress
-            </span>
-            {statusFilter === "learning" && <div className="w-4 h-1 bg-blue-400 rounded-full mt-0.5" />}
-          </button>
-
-          <button
-            onClick={() => handleStatusFilterSelect("landed")}
-            className="flex flex-col items-center gap-1.5 flex-1 transition-all group"
-          >
-            <div className={`text-xl font-black tracking-tighter leading-none transition-colors ${statusFilter === "landed" ? "text-[var(--board-accent)]" : "text-orange-950 group-hover:text-orange-900"}`}>
-              {landed}
-            </div>
-            <span className={`text-[9px] font-black uppercase tracking-widest transition-colors ${statusFilter === "landed" ? "text-[var(--board-accent)]" : "text-slate-600 group-hover:text-slate-400"}`}>
-              My Bag
-            </span>
-            {statusFilter === "landed" && <div className="w-4 h-1 bg-[var(--board-accent)] rounded-full mt-0.5" />}
-          </button>
-
-          <button
-            onClick={() => handleStatusFilterSelect("locked")}
-            className="flex flex-col items-center gap-1.5 flex-1 transition-all group"
-          >
-            <div className={`text-xl font-black tracking-tighter leading-none transition-colors ${statusFilter === "locked" ? "text-[var(--warn-accent)]" : "text-yellow-950 group-hover:text-yellow-900"}`}>
-              {locked}
-            </div>
-            <span className={`text-[9px] font-black uppercase tracking-widest transition-colors ${statusFilter === "locked" ? "text-[var(--warn-accent)]" : "text-slate-600 group-hover:text-slate-400"}`}>
-              On Lock
-            </span>
-            {statusFilter === "locked" && <div className="w-4 h-1 bg-[var(--warn-accent)] rounded-full mt-0.5" />}
-          </button>
+            return (
+              <button
+                key={tab.value}
+                onClick={() => handleStatusFilterSelect(tab.value)}
+                className={`flex min-h-[62px] flex-col items-center justify-center rounded-2xl border px-1 py-2 transition-all ${
+                  isActive
+                    ? "border-white/10 bg-white/[0.08]"
+                    : "border-transparent bg-transparent"
+                }`}
+              >
+                <div className={`text-[17px] font-black leading-none tabular-nums ${isActive ? accentClass : "text-slate-500"}`}>
+                  {displayValue}
+                </div>
+                <span className={`mt-1 text-[8px] font-black uppercase tracking-[0.18em] ${isActive ? "text-white" : "text-slate-500"}`}>
+                  {tab.label}
+                </span>
+                <div className={`mt-1 h-1 w-5 rounded-full ${isActive ? "bg-[var(--board-accent)]" : "bg-transparent"}`} />
+              </button>
+            );
+          })}
         </div>
       </nav>
     </div>

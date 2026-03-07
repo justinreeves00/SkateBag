@@ -177,6 +177,24 @@ body::before {
   scrollbar-width: none;
 }
 
+@keyframes dice-wobble {
+  0%, 100% {
+    transform: rotate(0deg) scale(1);
+  }
+  20% {
+    transform: rotate(-12deg) scale(1.04);
+  }
+  40% {
+    transform: rotate(12deg) scale(1.04);
+  }
+  60% {
+    transform: rotate(-8deg) scale(1.02);
+  }
+  80% {
+    transform: rotate(8deg) scale(1.02);
+  }
+}
+
 /* Orientation "Force" for mobile web */
 @media screen and (max-width: 1024px) and (orientation: landscape) {
   /* When the user turns their phone sideways, we rotate the app so it stays portrait relative to them */

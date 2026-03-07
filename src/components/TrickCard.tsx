@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { setTrickStatus, submitTrickLevelSuggestion } from "@/lib/trick-actions";
+import { reportTrickIssue, setTrickStatus, submitTrickLevelSuggestion } from "@/lib/trick-actions";
 import type { TrickWithStatus, TrickStatus } from "@/lib/types";
 
 interface TrickCardProps {
@@ -9,14 +9,19 @@ interface TrickCardProps {
   isAuthenticated: boolean;
   onStatusChange?: (id: string, status: TrickStatus | null, consistency: number | null) => void;
   onInteract?: (id: string) => void;
+  reporterName?: string | null;
 }
 
-export function TrickCard({ trick, isAuthenticated, onStatusChange, onInteract }: TrickCardProps) {
+export function TrickCard({ trick, isAuthenticated, onStatusChange, onInteract, reporterName }: TrickCardProps) {
   const [expanded, setExpanded] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showPrompt, setShowPrompt] = useState(false);
   const [showLevelEdit, setShowLevelEdit] = useState(false);
   const [suggestionSubmitted, setSuggestionSubmitted] = useState(false);
+  const [showIssueReport, setShowIssueReport] = useState(false);
+  const [issueType, setIssueType] = useState("incorrect name");
+  const [issueDetails, setIssueDetails] = useState("");
+  const [isReportingIssue, setIsReportingIssue] = useState(false);
   const [videoIds, setVideoIds] = useState<string[]>([]);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [fetchingVideo, setFetchingVideo] = useState(false);
@@ -92,6 +97,27 @@ export function TrickCard({ trick, isAuthenticated, onStatusChange, onInteract }
     e.stopPropagation();
     fetchVideos("exact");
   };
+
+  async function openIssueDraft() {
+    setIsReportingIssue(true);
+    const result = await reportTrickIssue({
+      trickName: trick.name,
+      category: trick.category,
+      difficulty: trick.difficulty,
+      issueType,
+      details: issueDetails,
+      reporterName,
+    });
+
+    if (result.url) {
+      window.open(result.url, "_blank", "noopener,noreferrer");
+    }
+
+    setIsReportingIssue(false);
+    setShowIssueReport(false);
+    setIssueDetails("");
+    setIssueType("incorrect name");
+  }
 
   return (
     <div
@@ -239,26 +265,27 @@ export function TrickCard({ trick, isAuthenticated, onStatusChange, onInteract }
 
       {/* 10 Tries Overlay */}
       {showPrompt && (
-        <div className="absolute inset-0 z-20 bg-black/98 backdrop-blur-md p-8 flex flex-col justify-center animate-in fade-in duration-300 border border-[var(--warn-accent)]/20 rounded-xl">
-          <button
-            onClick={(e) => { e.stopPropagation(); setShowPrompt(false); }}
-            className="absolute top-4 right-4 w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-[var(--text-muted)] hover:text-white border border-white/10 shadow-lg transition-all"
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-          </button>
-
-          <div className="space-y-8">
-            <div className="text-center space-y-2">
-              <h4 className="text-3xl font-black tracking-tighter text-white uppercase italic drop-shadow-lg">Session Test</h4>
-              <p className="text-[var(--warn-accent)] text-[10px] font-black uppercase tracking-[0.2em] bg-black/40 py-1.5 border border-[var(--warn-accent)]/10">Landed reps out of 10</p>
+        <div className="absolute inset-0 z-20 flex items-center justify-center rounded-xl bg-black/88 p-4 backdrop-blur-md animate-in fade-in duration-300">
+          <div className="w-full max-w-sm rounded-[28px] border border-[var(--warn-accent)]/20 bg-[var(--surface)] p-5 shadow-2xl">
+            <div className="flex items-start justify-between gap-4">
+              <div className="space-y-1">
+                <h4 className="text-2xl font-black tracking-tighter text-white uppercase italic">Session Test</h4>
+                <p className="text-[var(--warn-accent)] text-[9px] font-black uppercase tracking-[0.25em]">Landed reps out of 10</p>
+              </div>
+              <button
+                onClick={(e) => { e.stopPropagation(); setShowPrompt(false); }}
+                className="flex h-9 w-9 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-[var(--text-muted)] transition-all hover:text-white"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+              </button>
             </div>
 
-            <div className="grid grid-cols-4 gap-2 max-w-[280px] mx-auto">
+            <div className="mt-5 grid grid-cols-4 gap-2">
               {[...Array(11)].map((_, i) => (
                 <button
                   key={i}
                   onClick={(e) => { e.stopPropagation(); handleStatusToggle("locked", i); }}
-                  className={`h-12 flex items-center justify-center text-xs font-black border transition-all ${
+                  className={`h-11 rounded-2xl text-xs font-black border transition-all ${
                     trick.userConsistency === i && trick.userStatus === "locked"
                       ? "bg-[var(--warn-accent)] text-black border-white shadow-[0_0_20px_rgba(255,235,59,0.3)] z-10"
                       : "bg-black/40 text-[var(--text-muted)] hover:bg-black/60 hover:text-white border-white/10"
@@ -360,6 +387,74 @@ export function TrickCard({ trick, isAuthenticated, onStatusChange, onInteract }
                   </div>
                 )}
               </div>
+
+              <div className="pt-2">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowIssueReport(true);
+                  }}
+                  className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--text-muted)] transition-all hover:text-white"
+                >
+                  Report an issue with the trick
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showIssueReport && (
+        <div className="absolute inset-0 z-30 flex items-center justify-center rounded-xl bg-black/92 p-4 backdrop-blur-md animate-in fade-in duration-300">
+          <div className="w-full max-w-md rounded-[28px] border border-white/10 bg-[var(--surface)] p-5 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-start justify-between gap-4">
+              <div className="space-y-1">
+                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--text-muted)]">GitHub Draft</p>
+                <h4 className="text-2xl font-black uppercase italic tracking-tight text-white">Report Trick Issue</h4>
+              </div>
+              <button
+                onClick={() => setShowIssueReport(false)}
+                className="flex h-9 w-9 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-[var(--text-muted)] transition-all hover:text-white"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+              </button>
+            </div>
+
+            <div className="mt-5 space-y-4">
+              <select
+                value={issueType}
+                onChange={(e) => setIssueType(e.target.value)}
+                className="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm font-black uppercase tracking-[0.12em] text-white outline-none"
+              >
+                <option value="incorrect name">Incorrect Name</option>
+                <option value="wrong category">Wrong Category</option>
+                <option value="wrong difficulty">Wrong Difficulty</option>
+                <option value="duplicate">Duplicate</option>
+                <option value="other">Other</option>
+              </select>
+              <textarea
+                value={issueDetails}
+                onChange={(e) => setIssueDetails(e.target.value)}
+                rows={4}
+                className="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white outline-none"
+                placeholder="What should be fixed?"
+              />
+            </div>
+
+            <div className="mt-5 flex gap-3">
+              <button
+                onClick={() => setShowIssueReport(false)}
+                className="flex-1 rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-[var(--text-muted)]"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={openIssueDraft}
+                disabled={isReportingIssue}
+                className="flex-1 rounded-2xl bg-[var(--board-accent)] px-4 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-black disabled:opacity-60"
+              >
+                {isReportingIssue ? "Opening..." : "Open Issue"}
+              </button>
             </div>
           </div>
         </div>
