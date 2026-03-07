@@ -349,76 +349,76 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
           onClick={() => setShowSettings(false)}
         >
           <div
-            className="w-full max-w-2xl bg-[var(--surface)] rounded-3xl p-6 md:p-8 border border-[var(--border)] shadow-2xl relative animate-in zoom-in-95 duration-300 my-auto"
+            className="w-full max-w-2xl bg-[var(--surface)] rounded-2xl p-5 md:p-6 border border-[var(--border)] shadow-2xl relative animate-in zoom-in-95 duration-300 my-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between mb-8">
-              <div className="space-y-2">
-                <h3 className="text-2xl font-black text-white tracking-tighter italic uppercase">Dice Settings</h3>
-                <p className="text-[10px] font-black text-slate-600 uppercase tracking-[0.3em]">Configure Roll Parameters</p>
+            <div className="flex items-center justify-between mb-6">
+              <div className="space-y-1">
+                <h3 className="text-xl font-black text-white tracking-tighter italic uppercase">Dice Settings</h3>
+                <p className="text-[9px] font-black text-slate-600 uppercase tracking-[0.3em]">Configure Roll Parameters</p>
               </div>
               <button 
                 onClick={() => setShowSettings(false)} 
-                className="w-11 h-11 rounded-2xl bg-[var(--surface-muted)] border border-[var(--border)] flex items-center justify-center text-[var(--text-muted)] hover:text-[var(--foreground)] transition-all shadow-xl"
+                className="w-9 h-9 rounded-xl bg-[var(--surface-muted)] border border-[var(--border)] flex items-center justify-center text-[var(--text-muted)] hover:text-[var(--foreground)] transition-all shadow-lg"
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
               </button>
             </div>
 
-            <div className="space-y-8">
-              <div className="grid grid-cols-1 gap-3">
+            <div className="space-y-6">
+              <div className="grid grid-cols-1 gap-2">
                 <button
                   onClick={() => setSettings((s) => ({ ...s, consistencyMode: !s.consistencyMode }))}
-                  className={`flex items-center justify-between p-4 rounded-3xl border text-left transition-all ${
+                  className={`flex items-center justify-between p-3 rounded-2xl border text-left transition-all ${
                     settings.consistencyMode ? "bg-[var(--warn-accent)]/20 border-[var(--warn-accent)] shadow-lg shadow-black/30" : "bg-[var(--surface-muted)] border-[var(--border)] text-slate-600 hover:border-[var(--warn-accent)]/35 hover:bg-[var(--surface-elevated)]"
                   }`}
                 >
-                  <div className="flex flex-col gap-1">
+                  <div className="flex flex-col gap-0.5">
                     <span className={`text-[8px] font-black uppercase tracking-[0.2em] ${settings.consistencyMode ? "text-[var(--warn-accent)]" : "text-[var(--text-muted)]"}`}>Mission Mode</span>
-                    <span className={`text-sm font-black uppercase tracking-tight ${settings.consistencyMode ? "text-white" : ""}`}>Roll for Consistency</span>
+                    <span className={`text-xs font-black uppercase tracking-tight ${settings.consistencyMode ? "text-white" : ""}`}>Roll for Consistency</span>
                   </div>
-                  <div className={`w-9 h-9 rounded-xl flex items-center justify-center border-2 transition-all ${settings.consistencyMode ? "bg-[var(--warn-accent)] border-[var(--warn-accent)] text-black rotate-12" : "border-white/10 text-slate-700"}`}>
-                    <LockIcon size={16} />
+                  <div className={`w-7 h-7 rounded-lg flex items-center justify-center border-2 transition-all ${settings.consistencyMode ? "bg-[var(--warn-accent)] border-[var(--warn-accent)] text-black rotate-12" : "border-white/10 text-slate-700"}`}>
+                    <LockIcon size={14} />
                   </div>
                 </button>
-                <p className="text-[10px] text-slate-500 font-medium leading-relaxed px-2">
+                <p className="text-[9px] text-slate-500 font-medium leading-relaxed px-2">
                   When enabled, the dice will only roll tricks from your <span className="text-[var(--board-accent)]">Landed</span> list. Use this to test your consistency and move tricks to <span className="text-[var(--warn-accent)]">Locked</span>.
                 </p>
               </div>
 
               {!settings.consistencyMode && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 animate-in slide-in-from-top-4 duration-300">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 animate-in slide-in-from-top-4 duration-300">
                   <button
                     onClick={() => setSettings((s) => ({ ...s, excludeLanded: !s.excludeLanded }))}
-                    className={`flex flex-col gap-1 p-5 rounded-3xl border text-left transition-all ${
+                    className={`flex flex-col gap-0.5 p-3 rounded-2xl border text-left transition-all ${
                       settings.excludeLanded ? "bg-[var(--board-accent)]/20 border-[var(--board-accent)] shadow-lg shadow-black/30" : "bg-[var(--surface-muted)] border-[var(--border)] text-slate-600 hover:border-[var(--board-accent)]/35 hover:bg-[var(--surface-elevated)]"
                     }`}
                   >
-                    <span className={`text-[9px] font-black uppercase tracking-[0.2em] ${settings.excludeLanded ? "text-[var(--board-accent)]" : "text-[var(--text-muted)]"}`}>Filter Mode</span>
-                    <span className={`text-sm font-black uppercase tracking-tight ${settings.excludeLanded ? "text-white" : ""}`}>Exclude Landed</span>
+                    <span className={`text-[8px] font-black uppercase tracking-[0.2em] ${settings.excludeLanded ? "text-[var(--board-accent)]" : "text-[var(--text-muted)]"}`}>Filter Mode</span>
+                    <span className={`text-xs font-black uppercase tracking-tight ${settings.excludeLanded ? "text-white" : ""}`}>Exclude Landed</span>
                   </button>
                   <button
                     onClick={() => setSettings((s) => ({ ...s, excludeLocked: !s.excludeLocked }))}
-                    className={`flex flex-col gap-1 p-5 rounded-3xl border text-left transition-all ${
+                    className={`flex flex-col gap-0.5 p-3 rounded-2xl border text-left transition-all ${
                       settings.excludeLocked ? "bg-[#f59e0b]/20 border-[#f59e0b] shadow-lg shadow-black/30" : "bg-[var(--surface-muted)] border-[var(--border)] text-slate-600 hover:border-[var(--board-accent)]/35 hover:bg-[var(--surface-elevated)]"
                     }`}
                   >
-                    <span className={`text-[9px] font-black uppercase tracking-[0.2em] ${settings.excludeLocked ? "text-[#f59e0b]" : "text-[var(--text-muted)]"}`}>Filter Mode</span>
-                    <span className={`text-sm font-black uppercase tracking-tight ${settings.excludeLocked ? "text-white" : ""}`}>Exclude Locked</span>
+                    <span className={`text-[8px] font-black uppercase tracking-[0.2em] ${settings.excludeLocked ? "text-[#f59e0b]" : "text-[var(--text-muted)]"}`}>Filter Mode</span>
+                    <span className={`text-xs font-black uppercase tracking-tight ${settings.excludeLocked ? "text-white" : ""}`}>Exclude Locked</span>
                   </button>
                 </div>
               )}
 
-              <div className="space-y-6">
-                <span className="text-[10px] font-black text-[var(--text-muted)] uppercase tracking-[0.4em]">Levels</span>
-                <div className="flex flex-wrap gap-3">
+              <div className="space-y-3">
+                <span className="text-[9px] font-black text-[var(--text-muted)] uppercase tracking-[0.4em]">Levels</span>
+                <div className="flex flex-wrap gap-2">
                   {LEVEL_OPTIONS.map((lvl) => (
                     <button
                       key={lvl}
                       onClick={() => toggleLevel(lvl)}
-                      className={`w-12 h-12 rounded-2xl text-sm font-black transition-all border ${
+                      className={`w-9 h-9 rounded-xl text-xs font-black transition-all border ${
                         settings.levels.includes(lvl)
-                          ? "bg-[var(--board-accent)] text-[#041316] border-[var(--board-accent)] shadow-lg shadow-black/30 scale-110"
+                          ? "bg-[var(--board-accent)] text-[#041316] border-[var(--board-accent)] shadow-lg shadow-black/30 scale-105"
                           : "bg-[var(--surface-muted)] text-[var(--text-muted)] border-transparent hover:text-[var(--text-muted)]"
                       }`}
                     >
@@ -428,14 +428,14 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
                 </div>
               </div>
 
-              <div className="space-y-6">
-                <span className="text-[10px] font-black text-[var(--text-muted)] uppercase tracking-[0.4em]">Categories</span>
-                <div className="flex flex-wrap gap-2.5">
+              <div className="space-y-3">
+                <span className="text-[9px] font-black text-[var(--text-muted)] uppercase tracking-[0.4em]">Categories</span>
+                <div className="flex flex-wrap gap-2">
                   {CATEGORY_OPTIONS.map((cat) => (
                     <button
                       key={cat}
                       onClick={() => selectCategory(cat)}
-                      className={`px-4 py-3 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all border ${
+                      className={`px-3 py-2 rounded-xl text-[9px] font-black uppercase tracking-[0.15em] transition-all border ${
                         settings.categories.length === 1 && settings.categories.includes(cat)
                           ? "bg-[var(--surface-elevated)] text-white border-white/20 shadow-lg scale-105"
                           : "bg-[var(--surface-muted)] text-[var(--text-muted)] border-transparent hover:text-[var(--text-muted)]"
