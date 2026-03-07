@@ -9,10 +9,11 @@ const geist = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "SkateBag — What's in your bag?",
-  description: "The definitive skateboarding trick database and tracker.",
+  metadataBase: new URL("https://skatebag.app"),
+  title: "SkateBag — Visualize your trick arsenal",
+  description: "The definitive skateboarding trick database and tracker. Log your tricks, test your consistency, and climb the ranks.",
   manifest: "/manifest.json",
-  themeColor: "#2dd4bf",
+  themeColor: "#00f3ff",
   viewport: {
     width: "device-width",
     initialScale: 1,
@@ -24,6 +25,21 @@ export const metadata: Metadata = {
     statusBarStyle: "black-translucent",
     title: "SkateBag",
   },
+  openGraph: {
+    title: "SkateBag",
+    description: "Visualize your skateboarding trick arsenal.",
+    url: "https://skatebag.app",
+    siteName: "SkateBag",
+    images: [
+      {
+        url: "/app-icon.png",
+        width: 512,
+        height: 512,
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -32,7 +48,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="bg-black">
       <body className={`${geist.variable} antialiased`}>
         <PWASetup />
         {children}
