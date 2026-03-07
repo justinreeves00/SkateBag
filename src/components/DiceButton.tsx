@@ -8,6 +8,7 @@ import type { TrickWithStatus, TrickCategory, DiceFilterSettings, TrickStatus } 
 interface DiceButtonProps {
   tricks: TrickWithStatus[];
   isAuthenticated: boolean;
+  onStatusChange?: (id: string, status: TrickStatus | null, consistency: number | null) => void;
 }
 
 const CATEGORY_OPTIONS: TrickCategory[] = [
@@ -16,7 +17,7 @@ const CATEGORY_OPTIONS: TrickCategory[] = [
 
 const LEVEL_OPTIONS = [1, 2, 3, 4, 5];
 
-export function DiceButton({ tricks, isAuthenticated }: DiceButtonProps) {
+export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButtonProps) {
   const [showSettings, setShowSettings] = useState(false);
   const [result, setResult] = useState<TrickWithStatus | null>(null);
   const [rolling, setRolling] = useState(false);
@@ -100,6 +101,11 @@ export function DiceButton({ tricks, isAuthenticated }: DiceButtonProps) {
     setUpdating(true);
 
     const resultId = result.id;
+    
+    if (onStatusChange) {
+      onStatusChange(resultId, newStatus, value);
+    }
+    
     const res = await setTrickStatus(resultId, newStatus, value);
     
     if (res.success) {

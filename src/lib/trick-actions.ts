@@ -253,3 +253,24 @@ export async function updateTrickOrder(trickId: string, newOrder: number) {
   revalidatePath("/");
   return { success: true };
 }
+
+export async function updateTricksOrder(updates: { id: string, sort_order: number }[]) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user || user.email !== 'justinreeves00@gmail.com') {
+    return { error: "Admin authorization required" };
+  }
+
+  // Update global tricks table in bulk
+  // We use a simple loop here because Supabase doesn't have a native 'upsert' for specific columns without unique constraints on those columns
+  for (const update of updates) {
+    await supabase
+      .from("tricks")
+      .update({ sort_order: update.sort_order })
+      .eq("id", update.id);
+  }
+
+  revalidatePath("/");
+  return { success: true };
+}

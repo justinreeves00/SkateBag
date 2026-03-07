@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
-import { updateTrick, deleteTrick, handleTrickSuggestion, addTrick, handleNewTrickSuggestion, updateTrickOrder } from "@/lib/trick-actions";
+import { updateTrick, deleteTrick, handleTrickSuggestion, addTrick, handleNewTrickSuggestion, updateTrickOrder, updateTricksOrder } from "@/lib/trick-actions";
 import { SkateBagLogo } from "@/components/Logo";
 import type { Trick, TrickCategory } from "@/lib/types";
 
@@ -289,18 +289,19 @@ export function AdminClient({ initialTricks, suggestions, newTrickSuggestions: i
 
       const newFiltered = arrayMove(filteredTricks, oldIndex, newIndex);
       
-      // Update local state immediately
+      const bulkUpdates = newFiltered.map((t, idx) => ({
+        id: t.id,
+        sort_order: idx + 1
+      }));
+
       const updatedTricks = tricks.map(t => {
-        const foundIndex = newFiltered.findIndex(nf => nf.id === t.id);
-        if (foundIndex !== -1) {
-          return { ...t, sort_order: foundIndex + 1 };
-        }
+        const update = bulkUpdates.find(u => u.id === t.id);
+        if (update) return { ...t, sort_order: update.sort_order };
         return t;
       });
       setTricks(updatedTricks);
 
-      // Save to database
-      await updateTrickOrder(active.id as string, newIndex + 1);
+      await updateTricksOrder(bulkUpdates);
     }
   }
 

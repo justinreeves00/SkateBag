@@ -69,6 +69,14 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
     setLocalTricks(tricks);
   }, [tricks]);
 
+  const handleStatusChange = (id: string, status: TrickStatus | null, consistency: number | null) => {
+    setLocalTricks((prev) => 
+      prev.map((t) => 
+        t.id === id ? { ...t, userStatus: status, userConsistency: consistency } : t
+      )
+    );
+  };
+
   async function handleInstallClick() {
     if (!installPrompt) return;
     installPrompt.prompt();
@@ -424,32 +432,34 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
               {/* Header Stats */}
               <div className="flex-1 max-w-2xl w-full flex flex-col sm:flex-row items-end gap-10">
                 {isAuthenticated && (
-                  <div className="flex gap-10 mb-1 px-2">
+                  <div className="flex gap-10 mb-1 px-2 items-stretch">
                     <button 
                       onClick={() => setStatusFilter("learning")}
-                      className="flex flex-col text-left hover:brightness-125 transition-all"
+                      className="flex flex-col text-left hover:brightness-125 transition-all group"
                     >
-                      <span className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em] mb-2">Projects</span>
-                      <span className="text-4xl font-black tracking-tighter leading-none text-blue-400 drop-shadow-md">{learning}</span>
+                      <span className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em] mb-2 group-hover:text-blue-400 transition-colors">In Progress</span>
+                      <div className="h-10 flex items-center">
+                        <span className="text-4xl font-black tracking-tighter leading-none text-blue-400 drop-shadow-md">{learning}</span>
+                      </div>
                     </button>
                     <button 
                       onClick={() => setStatusFilter("landed")}
-                      className="flex flex-col text-left hover:brightness-125 transition-all"
+                      className="flex flex-col text-left hover:brightness-125 transition-all group"
                     >
-                      <span className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em] mb-2">My Bag</span>
-                      <div className="flex items-end gap-3 h-10">
+                      <span className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em] mb-2 group-hover:text-[var(--board-accent)] transition-colors">My Bag</span>
+                      <div className="flex items-center gap-3 h-10">
                         <span className="text-4xl font-black tracking-tighter leading-none">{landed}</span>
-                        <div className="w-16 h-2 bg-black border border-white/10 rounded-sm overflow-hidden mb-1.5">
+                        <div className="w-16 h-2 bg-black border border-white/10 rounded-sm overflow-hidden mt-1">
                           <div className="h-full bg-[var(--board-accent)] transition-all duration-1000" style={{ width: `${progress}%` }} />
                         </div>
                       </div>
                     </button>
                     <button 
                       onClick={() => setStatusFilter("locked")}
-                      className="flex flex-col text-left hover:brightness-125 transition-all"
+                      className="flex flex-col text-left hover:brightness-125 transition-all group"
                     >
-                      <span className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em] mb-2">On Lock</span>
-                      <div className="flex items-end h-10">
+                      <span className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em] mb-2 group-hover:text-[var(--warn-accent)] transition-colors">On Lock</span>
+                      <div className="h-10 flex items-center">
                         <span className="text-4xl font-black tracking-tighter leading-none text-[var(--warn-accent)] drop-shadow-md">{locked}</span>
                       </div>
                     </button>
@@ -473,7 +483,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                       />
                     </div>
                     <div className="shrink-0">
-                      <DiceButton tricks={localTricks} isAuthenticated={isAuthenticated} />
+                      <DiceButton tricks={localTricks} isAuthenticated={isAuthenticated} onStatusChange={handleStatusChange} />
                     </div>
                   </div>
                   <CategoryFilter active={category} onChange={setCategory} />
@@ -490,7 +500,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
           <h2 className="text-[11px] font-black text-white uppercase tracking-[0.4em] whitespace-nowrap italic bg-black px-3 py-1 border border-white/5">
             {statusFilter === "all" ? "Trick Vault" : 
              statusFilter === "landed" ? "In The Bag" : 
-             statusFilter === "locked" ? "Mastered" : "Current Projects"}
+             statusFilter === "locked" ? "Mastered" : "In Progress"}
           </h2>
           <div className="h-px w-full bg-white/5 shadow-[0_1px_0_rgba(255,255,255,0.02)]"></div>
           <span className="text-[10px] font-black text-slate-500 tabular-nums">{filtered.length} UNITS</span>
@@ -513,6 +523,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                 key={trick.id}
                 trick={trick}
                 isAuthenticated={isAuthenticated}
+                onStatusChange={handleStatusChange}
               />
             ))}
           </div>

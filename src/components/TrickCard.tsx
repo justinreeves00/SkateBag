@@ -7,9 +7,10 @@ import type { TrickWithStatus, TrickStatus } from "@/lib/types";
 interface TrickCardProps {
   trick: TrickWithStatus;
   isAuthenticated: boolean;
+  onStatusChange?: (id: string, status: TrickStatus | null, consistency: number | null) => void;
 }
 
-export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
+export function TrickCard({ trick, isAuthenticated, onStatusChange }: TrickCardProps) {
   const [expanded, setExpanded] = useState(false);
   const [status, setStatus] = useState<TrickStatus | null>(trick.userStatus);
   const [consistency, setConsistency] = useState<number | null>(trick.userConsistency);
@@ -52,6 +53,10 @@ export function TrickCard({ trick, isAuthenticated }: TrickCardProps) {
 
     setStatus(nextStatus);
     setConsistency(nextConsistency);
+    
+    if (onStatusChange) {
+      onStatusChange(trick.id, nextStatus, nextConsistency);
+    }
     
     const result = await setTrickStatus(trick.id, nextStatus, nextConsistency);
     if (result.error) {
