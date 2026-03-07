@@ -229,28 +229,28 @@ export function TrickCard({ trick, isAuthenticated, onStatusChange }: TrickCardP
 
       {/* 10 Tries Overlay */}
       {showPrompt && (
-        <div className="absolute inset-0 z-20 bg-black/95 p-8 flex flex-col justify-center animate-in fade-in duration-300 border border-[var(--warn-accent)]/20">
-          <button 
+        <div className="absolute inset-0 z-20 bg-black/98 backdrop-blur-md p-8 flex flex-col justify-center animate-in fade-in duration-300 border border-[var(--warn-accent)]/20 rounded-xl">
+          <button
             onClick={(e) => { e.stopPropagation(); setShowPrompt(false); }}
-            className="absolute top-4 right-4 w-10 h-10 rounded-lg bg-black/40 flex items-center justify-center text-[var(--text-muted)] hover:text-white border border-white/10 shadow-lg"
+            className="absolute top-4 right-4 w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-[var(--text-muted)] hover:text-white border border-white/10 shadow-lg transition-all"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
           </button>
-          
+
           <div className="space-y-8">
             <div className="text-center space-y-2">
               <h4 className="text-3xl font-black tracking-tighter text-white uppercase italic drop-shadow-lg">Session Test</h4>
-              <p className="text-[var(--warn-accent)] text-xs font-black uppercase tracking-widest bg-black/40 py-1 border border-[var(--warn-accent)]/10">Landed reps out of 10</p>
+              <p className="text-[var(--warn-accent)] text-[10px] font-black uppercase tracking-[0.2em] bg-black/40 py-1.5 border border-[var(--warn-accent)]/10">Landed reps out of 10</p>
             </div>
-            
-            <div className="grid grid-cols-6 gap-2">
+
+            <div className="grid grid-cols-4 gap-2 max-w-[280px] mx-auto">
               {[...Array(11)].map((_, i) => (
                 <button
                   key={i}
                   onClick={(e) => { e.stopPropagation(); handleStatusToggle("locked", i); }}
-                  className={`h-11 flex items-center justify-center text-xs font-black border transition-all ${
+                  className={`h-12 flex items-center justify-center text-xs font-black border transition-all ${
                     consistency === i && status === "locked"
-                      ? "bg-[var(--warn-accent)] text-black border-white scale-110 shadow-lg"
+                      ? "bg-[var(--warn-accent)] text-black border-white shadow-[0_0_20px_rgba(255,235,59,0.3)] z-10"
                       : "bg-black/40 text-[var(--text-muted)] hover:bg-black/60 hover:text-white border-white/10"
                   }`}
                 >
@@ -261,7 +261,6 @@ export function TrickCard({ trick, isAuthenticated, onStatusChange }: TrickCardP
           </div>
         </div>
       )}
-
       {/* Expanded Content */}
       {expanded && (
         <div className="px-6 pb-8 space-y-8 animate-in fade-in duration-500">

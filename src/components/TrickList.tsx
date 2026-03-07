@@ -433,37 +433,33 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
               <div className="flex-1 max-w-2xl w-full flex flex-col sm:flex-row items-end gap-10">
                 {isAuthenticated && (
                   <div className="flex gap-10 mb-1 px-2 items-stretch">
-                    <button 
+                    <button
                       onClick={() => setStatusFilter("learning")}
                       className="flex flex-col text-left hover:brightness-125 transition-all group"
                     >
-                      <span className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em] mb-2 group-hover:text-blue-400 transition-colors">In Progress</span>
+                      <span className={`text-[10px] uppercase font-black tracking-[0.2em] mb-2 transition-colors ${statusFilter === "learning" ? "text-blue-400" : "text-slate-500 group-hover:text-blue-400"}`}>In Progress</span>
                       <div className="h-10 flex items-center">
-                        <span className="text-4xl font-black tracking-tighter leading-none text-blue-400 drop-shadow-md">{learning}</span>
+                        <span className="text-4xl font-black tracking-tighter leading-none text-blue-400">{learning}</span>
                       </div>
                     </button>
-                    <button 
+                    <button
                       onClick={() => setStatusFilter("landed")}
                       className="flex flex-col text-left hover:brightness-125 transition-all group"
                     >
-                      <span className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em] mb-2 group-hover:text-[var(--board-accent)] transition-colors">My Bag</span>
-                      <div className="flex items-center gap-3 h-10">
-                        <span className="text-4xl font-black tracking-tighter leading-none">{landed}</span>
-                        <div className="w-16 h-2 bg-black border border-white/10 rounded-sm overflow-hidden mt-1">
-                          <div className="h-full bg-[var(--board-accent)] transition-all duration-1000" style={{ width: `${progress}%` }} />
-                        </div>
+                      <span className={`text-[10px] uppercase font-black tracking-[0.2em] mb-2 transition-colors ${statusFilter === "landed" ? "text-[var(--board-accent)]" : "text-slate-500 group-hover:text-[var(--board-accent)]"}`}>My Bag</span>
+                      <div className="h-10 flex items-center">
+                        <span className="text-4xl font-black tracking-tighter leading-none text-[var(--board-accent)]">{landed}</span>
                       </div>
                     </button>
-                    <button 
+                    <button
                       onClick={() => setStatusFilter("locked")}
                       className="flex flex-col text-left hover:brightness-125 transition-all group"
                     >
-                      <span className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em] mb-2 group-hover:text-[var(--warn-accent)] transition-colors">On Lock</span>
+                      <span className={`text-[10px] uppercase font-black tracking-[0.2em] mb-2 transition-colors ${statusFilter === "locked" ? "text-[var(--warn-accent)]" : "text-slate-500 group-hover:text-[var(--warn-accent)]"}`}>On Lock</span>
                       <div className="h-10 flex items-center">
-                        <span className="text-4xl font-black tracking-tighter leading-none text-[var(--warn-accent)] drop-shadow-md">{locked}</span>
+                        <span className="text-4xl font-black tracking-tighter leading-none text-[var(--warn-accent)]">{locked}</span>
                       </div>
-                    </button>
-                  </div>
+                    </button>                  </div>
                 )}
 
                 <div className="flex-1 w-full space-y-4">
