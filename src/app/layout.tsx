@@ -21,6 +21,9 @@ export const metadata: Metadata = {
   title: "SkateBag — Visualize your trick arsenal",
   description: "The definitive skateboarding trick database and tracker. Log your tricks, test your consistency, and climb the ranks.",
   manifest: "/manifest.json",
+  icons: {
+    apple: "/app-icon.png",
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
