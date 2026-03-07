@@ -199,8 +199,17 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
               </div>
             )}
 
-            <div className="text-center space-y-6">
-              <span className="px-5 py-2 rounded-xl bg-[var(--board-accent)]/10 text-[var(--board-accent)] text-[10px] font-black uppercase tracking-[0.4em] border border-[var(--board-accent)]/20 shadow-lg shadow-black/30">You Rolled</span>
+            <div className="text-center space-y-4">
+              <div className="flex items-center justify-center gap-3">
+                <span className="px-3 py-1.5 rounded-lg bg-[var(--board-accent)]/10 text-[var(--board-accent)] text-[9px] font-black uppercase tracking-[0.3em] border border-[var(--board-accent)]/20">You Rolled</span>
+                <button 
+                  onClick={() => setShowSettings(true)}
+                  className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-[var(--text-muted)] hover:text-[var(--board-accent)] hover:border-[var(--board-accent)]/30 transition-all"
+                  title="Change Roll Settings"
+                >
+                  <FilterIcon size={14} />
+                </button>
+              </div>
               <h2 className="text-5xl md:text-8xl font-black tracking-tighter text-white italic leading-[0.9] uppercase">
                 {result.name}
               </h2>
@@ -208,14 +217,6 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
                 <span>{result.category}</span>
                 <div className="w-1.5 h-1.5 rounded-full bg-[var(--board-accent)] shadow-lg shadow-black/30" />
                 <span className="text-[var(--board-accent)] italic">Tier {result.difficulty}</span>
-                <div className="w-1.5 h-1.5 rounded-full bg-[var(--board-accent)] shadow-lg shadow-black/30" />
-                <button 
-                  onClick={() => setShowSettings(true)}
-                  className="text-white/80 hover:text-[var(--board-accent)] transition-colors flex items-center gap-1"
-                >
-                  {settings.categories.length === 1 ? settings.categories[0] : `${settings.categories.length} categories`}
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m6 9 6 6 6-6"/></svg>
-                </button>
               </div>
             </div>
 
