@@ -4,8 +4,8 @@
   "description": "Visualize your trick arsenal.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#00f3ff",
+  "background_color": "#3a3a3a",
+  "theme_color": "#ff5722",
   "icons": [
     {
       "src": "/app-icon.png",

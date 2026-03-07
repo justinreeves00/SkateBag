@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: "SkateBag — Visualize your trick arsenal",
   description: "The definitive skateboarding trick database and tracker. Log your tricks, test your consistency, and climb the ranks.",
   manifest: "/manifest.json",
-  themeColor: "#00f3ff",
+  themeColor: "#ff5722",
   viewport: {
     width: "device-width",
     initialScale: 1,
@@ -48,7 +48,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="bg-black">
+    <html lang="en">
       <body className={`${geist.variable} antialiased`}>
         <PWASetup />
         {children}
