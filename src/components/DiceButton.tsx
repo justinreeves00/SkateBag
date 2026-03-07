@@ -358,6 +358,9 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
                     <LockIcon size={20} />
                   </div>
                 </button>
+                <p className="text-[10px] text-slate-500 font-medium leading-relaxed px-2">
+                  When enabled, the dice will only roll tricks from your <span className="text-[var(--board-accent)]">Landed</span> list. Use this to test your consistency and move tricks to <span className="text-[var(--warn-accent)]">On Lock</span>.
+                </p>
               </div>
 
               {!settings.consistencyMode && (
