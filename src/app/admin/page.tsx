@@ -14,6 +14,7 @@ export default async function AdminPage() {
   const { data: tricks } = await supabase
     .from("tricks")
     .select("*")
+    .order("sort_order", { ascending: true })
     .order("difficulty", { ascending: true })
     .order("name", { ascending: true });
 

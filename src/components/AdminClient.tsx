@@ -1,13 +1,34 @@
 "use client";
 
-import { useState } from "react";
-import { updateTrick, deleteTrick, handleTrickSuggestion, addTrick, handleNewTrickSuggestion } from "@/lib/trick-actions";
+import { useState, useMemo, useEffect } from "react";
+import { updateTrick, deleteTrick, handleTrickSuggestion, addTrick, handleNewTrickSuggestion, updateTrickOrder } from "@/lib/trick-actions";
 import { SkateBagLogo } from "@/components/Logo";
 import type { Trick, TrickCategory } from "@/lib/types";
+
+// DnD Kit Imports
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+  useSortable,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 const CATEGORIES: TrickCategory[] = [
   "flatground", "street", "ledge/rail", "transition", "gaps", "freestyle", "downhill"
 ];
+
+const LEVELS = [1, 2, 3, 4, 5];
 
 interface AdminClientProps {
   initialTricks: Trick[];
@@ -15,10 +36,158 @@ interface AdminClientProps {
   newTrickSuggestions: any[];
 }
 
+// Sortable Wrapper Component
+function SortableTrickItem({ 
+  trick, 
+  onEdit, 
+  onDelete,
+  isEditing,
+  editForm,
+  setEditForm,
+  onUpdate,
+  onAbort
+}: { 
+  trick: Trick; 
+  onEdit: () => void;
+  onDelete: () => void;
+  isEditing: boolean;
+  editForm: any;
+  setEditForm: any;
+  onUpdate: () => void;
+  onAbort: () => void;
+}) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging
+  } = useSortable({ id: trick.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    zIndex: isDragging ? 100 : 1,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
+  return (
+    <div ref={setNodeRef} style={style} className={`cyber-card p-6 rounded-2xl transition-all relative group/sortable ${isEditing ? "border-[var(--board-accent)] ring-1 ring-[var(--board-accent)]/50" : "hover:border-[var(--board-accent)]/35"}`}>
+      {/* Drag Handle */}
+      <div 
+        {...attributes} 
+        {...listeners}
+        className="absolute -left-3 top-1/2 -translate-y-1/2 w-8 h-16 flex items-center justify-center cursor-grab active:cursor-grabbing z-30 transition-all bg-[var(--surface-muted)] rounded-l-xl border border-white/5 border-r-0 opacity-40 group-hover/sortable:opacity-100"
+      >
+        <div className="flex flex-col gap-1">
+          <div className="flex gap-1">
+            <div className="w-1 h-1 rounded-full bg-[var(--board-accent)]" />
+            <div className="w-1 h-1 rounded-full bg-[var(--board-accent)]" />
+          </div>
+          <div className="flex gap-1">
+            <div className="w-1 h-1 rounded-full bg-[var(--board-accent)]" />
+            <div className="w-1 h-1 rounded-full bg-[var(--board-accent)]" />
+          </div>
+          <div className="flex gap-1">
+            <div className="w-1 h-1 rounded-full bg-[var(--board-accent)]" />
+            <div className="w-1 h-1 rounded-full bg-[var(--board-accent)]" />
+          </div>
+        </div>
+      </div>
+
+      {isEditing ? (
+        <div className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <label className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Identification</label>
+              <input 
+                type="text" 
+                value={editForm.name} 
+                onChange={(e) => setEditForm({...editForm, name: e.target.value})}
+                className="w-full bg-black border border-white/20 rounded-lg px-4 py-3 text-sm font-black uppercase italic text-white"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Sector Assignment</label>
+              <select 
+                value={editForm.category}
+                onChange={(e) => setEditForm({...editForm, category: e.target.value as any})}
+                className="w-full bg-black border border-white/20 rounded-lg px-4 py-3 text-sm font-black uppercase text-white"
+              >
+                {CATEGORIES.map(cat => <option key={cat} value={cat}>{cat}</option>)}
+              </select>
+            </div>
+          </div>
+          
+          <div className="flex flex-wrap items-center justify-between gap-6 pt-4 border-t border-[var(--border)]">
+            <div className="space-y-2">
+              <label className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Threat Level</label>
+              <div className="flex gap-2">
+                {[1, 2, 3, 4, 5].map(lvl => (
+                  <button 
+                    key={lvl}
+                    onClick={() => setEditForm({...editForm, difficulty: lvl})}
+                    className={`w-10 h-10 rounded-lg font-black transition-all border ${editForm.difficulty === lvl ? "bg-[var(--board-accent)] text-black border-[var(--board-accent)] shadow-lg shadow-black/30" : "bg-black text-slate-500 border-[var(--border)] hover:border-[var(--board-accent)]/35"}`}
+                  >
+                    {lvl}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <button 
+                onClick={onUpdate}
+                className="px-8 py-3 bg-[var(--board-accent)] text-black text-[10px] font-black uppercase tracking-widest rounded-lg hover:brightness-110 shadow-lg shadow-black/30"
+              >
+                Commit Changes
+              </button>
+              <button 
+                onClick={onAbort}
+                className="px-8 py-3 bg-[var(--surface-muted)] border border-[var(--border)] text-[10px] font-black uppercase tracking-widest rounded-lg text-slate-500 hover:text-white"
+              >
+                Abort
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pl-6">
+          <div className="space-y-1">
+            <h3 className="text-xl font-black uppercase italic group-hover/sortable:text-[var(--board-accent)] transition-colors">{trick.name}</h3>
+            <div className="flex items-center gap-3">
+              <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest bg-[var(--surface-muted)] px-2 py-0.5 rounded">{trick.category}</span>
+              <span className="text-[10px] font-black text-[var(--board-accent)] uppercase tracking-widest">LVL {trick.difficulty}</span>
+              {trick.sort_order && <span className="text-[9px] text-slate-700 font-bold tracking-tighter italic">ORDER: {trick.sort_order}</span>}
+            </div>
+          </div>
+
+          <div className="flex gap-2">
+            <button 
+              onClick={onEdit}
+              className="px-5 py-2.5 rounded-lg bg-[var(--surface-muted)] border border-[var(--border)] text-[10px] font-black uppercase tracking-widest hover:bg-[var(--board-accent)] hover:text-black hover:border-[var(--board-accent)] transition-all"
+            >
+              Calibrate
+            </button>
+            <button 
+              onClick={onDelete}
+              className="p-2.5 rounded-lg bg-[var(--surface-muted)] border border-[var(--border)] text-slate-500 hover:bg-red-500/20 hover:text-red-500 hover:border-red-500/30 transition-all"
+              title="Delete Entry"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function AdminClient({ initialTricks, suggestions, newTrickSuggestions: initialNewTrickSuggestions }: AdminClientProps) {
   const [tricks, setTricks] = useState<Trick[]>(initialTricks);
   const [newSugs, setNewSugs] = useState<any[]>(initialNewTrickSuggestions);
   const [filterCategory, setFilterCategory] = useState<TrickCategory | "all">("all");
+  const [filterLevel, setFilterLevel] = useState<number | "all">("all");
   const [searchQuery, setSearchSearchQuery] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editForm, setEditForm] = useState<Partial<Trick>>({});
@@ -32,11 +201,27 @@ export function AdminClient({ initialTricks, suggestions, newTrickSuggestions: i
   });
   const [addError, setAddError] = useState<string | null>(null);
 
-  const filteredTricks = tricks.filter(t => {
-    const matchesCategory = filterCategory === "all" || t.category === filterCategory;
-    const matchesSearch = t.name.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
+  // Sync state if initialTricks changes
+  useEffect(() => {
+    setTricks(initialTricks);
+  }, [initialTricks]);
+
+  const filteredTricks = useMemo(() => {
+    return tricks
+      .filter(t => {
+        const matchesCategory = filterCategory === "all" || t.category === filterCategory;
+        const matchesLevel = filterLevel === "all" || t.difficulty === filterLevel;
+        const matchesSearch = t.name.toLowerCase().includes(searchQuery.toLowerCase());
+        return matchesCategory && matchesLevel && matchesSearch;
+      })
+      .sort((a, b) => {
+        const orderA = a.sort_order ?? 999999;
+        const orderB = b.sort_order ?? 999999;
+        if (orderA !== orderB) return orderA - orderB;
+        if (a.difficulty !== b.difficulty) return (a.difficulty ?? 0) - (b.difficulty ?? 0);
+        return a.name.localeCompare(b.name);
+      });
+  }, [tricks, filterCategory, filterLevel, searchQuery]);
 
   async function handleUpdate(id: string, updates: any) {
     const res = await updateTrick(id, updates);
@@ -75,6 +260,45 @@ export function AdminClient({ initialTricks, suggestions, newTrickSuggestions: i
       setNewSugs(newSugs.filter(s => s.id !== id));
     }
   }
+
+  // DnD Handlers
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  async function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+
+    if (over && active.id !== over.id) {
+      const oldIndex = filteredTricks.findIndex((t) => t.id === active.id);
+      const newIndex = filteredTricks.findIndex((t) => t.id === over.id);
+
+      const newFiltered = arrayMove(filteredTricks, oldIndex, newIndex);
+      
+      // Update local state immediately
+      const updatedTricks = tricks.map(t => {
+        const foundIndex = newFiltered.findIndex(nf => nf.id === t.id);
+        if (foundIndex !== -1) {
+          return { ...t, sort_order: foundIndex + 1 };
+        }
+        return t;
+      });
+      setTricks(updatedTricks);
+
+      // Save to database
+      await updateTrickOrder(active.id as string, newIndex + 1);
+    }
+  }
+
+  // Dragging only makes sense when sorting a specific category/level view or the whole thing without search
+  const isSortingEnabled = searchQuery === "";
 
   return (
     <div className="max-w-6xl mx-auto space-y-12">
@@ -238,116 +462,65 @@ export function AdminClient({ initialTricks, suggestions, newTrickSuggestions: i
 
       {/* Main Database Section */}
       <section className="space-y-8">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 bg-[var(--surface-muted)] p-6 rounded-2xl border border-[var(--border)]">
-          <h2 className="text-xl font-black italic uppercase whitespace-nowrap">Master Database</h2>
+        <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-6 bg-[var(--surface-muted)] p-6 rounded-2xl border border-[var(--border)]">
+          <div className="space-y-1">
+            <h2 className="text-xl font-black italic uppercase whitespace-nowrap">Master Database</h2>
+            {isSortingEnabled && <p className="text-[9px] font-black text-[var(--board-accent)] uppercase tracking-widest animate-pulse">Drag handles to set learning order</p>}
+          </div>
           
-          <div className="flex flex-wrap gap-4 w-full md:w-auto">
+          <div className="flex flex-wrap gap-4 w-full xl:w-auto">
             <input 
               type="text" 
               placeholder="SEARCH BY NAME..." 
               value={searchQuery}
               onChange={(e) => setSearchSearchQuery(e.target.value)}
-              className="flex-1 md:w-64 bg-black border border-[var(--border)] rounded-lg px-4 py-2 text-xs font-black uppercase tracking-widest focus:border-[var(--board-accent)] outline-none"
+              className="flex-1 md:w-48 bg-black border border-[var(--border)] rounded-lg px-4 py-2.5 text-xs font-black uppercase tracking-widest focus:border-[var(--board-accent)] outline-none"
             />
             <select 
               value={filterCategory}
               onChange={(e) => setFilterCategory(e.target.value as any)}
-              className="bg-black border border-[var(--border)] rounded-lg px-4 py-2 text-xs font-black uppercase tracking-widest focus:border-[var(--board-accent)] outline-none"
+              className="bg-black border border-[var(--border)] rounded-lg px-4 py-2.5 text-xs font-black uppercase tracking-widest focus:border-[var(--board-accent)] outline-none"
             >
               <option value="all">ALL SECTORS</option>
               {CATEGORIES.map(cat => <option key={cat} value={cat}>{cat.toUpperCase()}</option>)}
             </select>
+            <select 
+              value={filterLevel}
+              onChange={(e) => setFilterLevel(e.target.value === "all" ? "all" : parseInt(e.target.value))}
+              className="bg-black border border-[var(--border)] rounded-lg px-4 py-2.5 text-xs font-black uppercase tracking-widest focus:border-[var(--board-accent)] outline-none"
+            >
+              <option value="all">ALL LEVELS</option>
+              {LEVELS.map(lvl => <option key={lvl} value={lvl}>LEVEL {lvl}</option>)}
+            </select>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-4">
-          {filteredTricks.map((trick) => (
-            <div key={trick.id} className={`cyber-card p-6 rounded-2xl transition-all ${editingId === trick.id ? "border-[var(--board-accent)] ring-1 ring-[var(--board-accent)]/50" : "hover:border-[var(--board-accent)]/35"}`}>
-              {editingId === trick.id ? (
-                <div className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <label className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Identification</label>
-                      <input 
-                        type="text" 
-                        value={editForm.name} 
-                        onChange={(e) => setEditForm({...editForm, name: e.target.value})}
-                        className="w-full bg-black border border-white/20 rounded-lg px-4 py-3 text-sm font-black uppercase italic text-white"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Sector Assignment</label>
-                      <select 
-                        value={editForm.category}
-                        onChange={(e) => setEditForm({...editForm, category: e.target.value as any})}
-                        className="w-full bg-black border border-white/20 rounded-lg px-4 py-3 text-sm font-black uppercase text-white"
-                      >
-                        {CATEGORIES.map(cat => <option key={cat} value={cat}>{cat}</option>)}
-                      </select>
-                    </div>
-                  </div>
-                  
-                  <div className="flex flex-wrap items-center justify-between gap-6 pt-4 border-t border-[var(--border)]">
-                    <div className="space-y-2">
-                      <label className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Threat Level</label>
-                      <div className="flex gap-2">
-                        {[1, 2, 3, 4, 5].map(lvl => (
-                          <button 
-                            key={lvl}
-                            onClick={() => setEditForm({...editForm, difficulty: lvl})}
-                            className={`w-10 h-10 rounded-lg font-black transition-all border ${editForm.difficulty === lvl ? "bg-[var(--board-accent)] text-black border-[var(--board-accent)] shadow-lg shadow-black/30" : "bg-black text-slate-500 border-[var(--border)] hover:border-[var(--board-accent)]/35"}`}
-                          >
-                            {lvl}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="flex gap-3">
-                      <button 
-                        onClick={() => handleUpdate(trick.id, editForm)}
-                        className="px-8 py-3 bg-[var(--board-accent)] text-black text-[10px] font-black uppercase tracking-widest rounded-lg hover:brightness-110 shadow-lg shadow-black/30"
-                      >
-                        Commit Changes
-                      </button>
-                      <button 
-                        onClick={() => setEditingId(null)}
-                        className="px-8 py-3 bg-[var(--surface-muted)] border border-[var(--border)] text-[10px] font-black uppercase tracking-widest rounded-lg text-slate-500 hover:text-white"
-                      >
-                        Abort
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-                  <div className="space-y-1">
-                    <h3 className="text-xl font-black uppercase italic group-hover:text-[var(--board-accent)] transition-colors">{trick.name}</h3>
-                    <div className="flex items-center gap-3">
-                      <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest bg-[var(--surface-muted)] px-2 py-0.5 rounded">{trick.category}</span>
-                      <span className="text-[10px] font-black text-[var(--board-accent)] uppercase tracking-widest">LVL {trick.difficulty}</span>
-                    </div>
-                  </div>
-
-                  <div className="flex gap-2">
-                    <button 
-                      onClick={() => { setEditingId(trick.id); setEditForm(trick); }}
-                      className="px-5 py-2.5 rounded-lg bg-[var(--surface-muted)] border border-[var(--border)] text-[10px] font-black uppercase tracking-widest hover:bg-[var(--board-accent)] hover:text-black hover:border-[var(--board-accent)] transition-all"
-                    >
-                      Calibrate
-                    </button>
-                    <button 
-                      onClick={() => handleDelete(trick.id)}
-                      className="p-2.5 rounded-lg bg-[var(--surface-muted)] border border-[var(--border)] text-slate-500 hover:bg-red-500/20 hover:text-red-500 hover:border-red-500/30 transition-all"
-                      title="Delete Entry"
-                    >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <div className="grid grid-cols-1 gap-4 pb-20">
+            <SortableContext
+              items={filteredTricks.map((t) => t.id)}
+              strategy={verticalListSortingStrategy}
+            >
+              {filteredTricks.map((trick) => (
+                <SortableTrickItem
+                  key={trick.id}
+                  trick={trick}
+                  onEdit={() => { setEditingId(trick.id); setEditForm(trick); }}
+                  onDelete={() => handleDelete(trick.id)}
+                  isEditing={editingId === trick.id}
+                  editForm={editForm}
+                  setEditForm={setEditForm}
+                  onUpdate={() => handleUpdate(trick.id, editForm)}
+                  onAbort={() => setEditingId(null)}
+                />
+              ))}
+            </SortableContext>
+          </div>
+        </DndContext>
       </section>
     </div>
   );

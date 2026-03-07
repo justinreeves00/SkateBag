@@ -8,27 +8,8 @@ import { DiceButton } from "./DiceButton";
 import { SkateBagLogo } from "./Logo";
 import { signOut } from "@/lib/auth-actions";
 import { updateProfile } from "@/lib/profile-actions";
-import { submitNewTrickSuggestion, updateTrickOrder } from "@/lib/trick-actions";
+import { submitNewTrickSuggestion } from "@/lib/trick-actions";
 import type { TrickWithStatus, TrickCategory, Profile } from "@/lib/types";
-
-// DnD Kit Imports
-import {
-  DndContext,
-  closestCenter,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-  DragEndEvent,
-} from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
-  useSortable,
-} from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
 
 interface TrickListProps {
   tricks: TrickWithStatus[];
@@ -41,67 +22,11 @@ const CATEGORIES: TrickCategory[] = [
   "flatground", "street", "ledge/rail", "transition", "gaps", "freestyle", "downhill"
 ];
 
-// Sortable Wrapper Component
-function SortableTrickCard({ 
-  trick, 
-  isAuthenticated, 
-  isDraggable 
-}: { 
-  trick: TrickWithStatus; 
-  isAuthenticated: boolean;
-  isDraggable: boolean;
-}) {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging
-  } = useSortable({ id: trick.id, disabled: !isDraggable });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    zIndex: isDragging ? 100 : 1,
-    opacity: isDragging ? 0.5 : 1,
-  };
-
-  return (
-    <div ref={setNodeRef} style={style} className="relative group/sortable h-full">
-      {isDraggable && (
-        <div 
-          {...attributes} 
-          {...listeners}
-          className={`absolute -left-10 top-1/2 -translate-y-1/2 w-10 h-24 flex items-center justify-center cursor-grab active:cursor-grabbing z-30 transition-all bg-[var(--board-accent)]/5 hover:bg-[var(--board-accent)]/20 rounded-l-2xl border-l-2 border-y-2 border-[var(--board-accent)]/20 ${isDragging ? "cursor-grabbing" : ""}`}
-          title="Drag to reorder"
-        >
-          <div className="flex flex-col gap-1.5 opacity-40">
-            <div className="flex gap-1">
-              <div className="w-1.5 h-1.5 rounded-full bg-[var(--board-accent)]" />
-              <div className="w-1.5 h-1.5 rounded-full bg-[var(--board-accent)]" />
-            </div>
-            <div className="flex gap-1">
-              <div className="w-1.5 h-1.5 rounded-full bg-[var(--board-accent)]" />
-              <div className="w-1.5 h-1.5 rounded-full bg-[var(--board-accent)]" />
-            </div>
-            <div className="flex gap-1">
-              <div className="w-1.5 h-1.5 rounded-full bg-[var(--board-accent)]" />
-              <div className="w-1.5 h-1.5 rounded-full bg-[var(--board-accent)]" />
-            </div>
-          </div>
-        </div>
-      )}
-      <TrickCard trick={trick} isAuthenticated={isAuthenticated} />
-    </div>
-  );
-}
-
 export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: TrickListProps) {
   const router = useRouter();
   const [category, setCategory] = useState<TrickCategory | "all">("all");
   const [search, setSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState<"all" | "landed" | "locked">("all");
+  const [statusFilter, setStatusFilter] = useState<"all" | "landed" | "locked" | "learning">("all");
   
   const [forceCloseSetup, setForceCloseSetup] = useState(false);
   const [displayName, setDisplayName] = useState("");
@@ -109,7 +34,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
   const [showSettingsModal, setShowSettingsModal] = useState(false);
   const [profileError, setProfileError] = useState<string | null>(null);
 
-  // Local state for sorted tricks
+  // Local state for tricks
   const [localTricks, setLocalTricks] = useState<TrickWithStatus[]>([]);
 
   // PWA Install State
@@ -169,9 +94,9 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
     }
   }, [userProfile?.display_name, isAuthenticated]);
 
-  const [statusFilter, setStatusFilter] = useState<"all" | "landed" | "locked" | "learning">("all");
-  ...
-  // Compute filtered list from localTricks to allow smooth DnD
+  const showProfileSetup = isAuthenticated && !userProfile?.display_name && !forceCloseSetup;
+
+  // Compute filtered list from localTricks
   const filtered = useMemo(() => {
     return localTricks
       .filter((t) => {
@@ -198,45 +123,8 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
 
   const landed = localTricks.filter((t) => t.userStatus === "landed" || t.userStatus === "locked").length;
   const locked = localTricks.filter((t) => t.userStatus === "locked").length;
+  const learning = localTricks.filter((t) => t.userStatus === "learning").length;
   const progress = localTricks.length > 0 ? (landed / localTricks.length) * 100 : 0;
-
-  // DnD Handlers
-  const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 8,
-      },
-    }),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
-  );
-
-  async function handleDragEnd(event: DragEndEvent) {
-    const { active, over } = event;
-
-    if (over && active.id !== over.id) {
-      const oldIndex = filtered.findIndex((t) => t.id === active.id);
-      const newIndex = filtered.findIndex((t) => t.id === over.id);
-
-      const newFiltered = arrayMove(filtered, oldIndex, newIndex);
-      
-      // Update local state immediately for snappy UI
-      const updatedLocalTricks = localTricks.map(t => {
-        const foundIndex = newFiltered.findIndex(nf => nf.id === t.id);
-        if (foundIndex !== -1) {
-          return { ...t, sortOrder: foundIndex + 1, isManuallySorted: true };
-        }
-        return t;
-      });
-      setLocalTricks(updatedLocalTricks);
-
-      // Save to database
-      await updateTrickOrder(active.id as string, newIndex + 1);
-      
-      router.refresh();
-    }
-  }
 
   async function handleProfileUpdate(e: React.FormEvent) {
     e.preventDefault();
@@ -270,12 +158,6 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
     }
     setIsSuggesting(false);
   }
-
-  // Sorting is enabled only for the admin user when no search or category filters are active
-  const isSortingEnabled = isAuthenticated && 
-                           userEmail === "justinreeves00@gmail.com" && 
-                           search === "" && 
-                           category === "all";
 
   return (
     <div className="min-h-screen text-white selection:bg-[var(--board-accent)]/30">
@@ -625,27 +507,15 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
             </button>
           </div>
         ) : (
-          <DndContext
-            sensors={sensors}
-            collisionDetection={closestCenter}
-            onDragEnd={handleDragEnd}
-          >
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12 gap-y-8 items-start pl-10 md:pl-12">
-              <SortableContext
-                items={filtered.map((t) => t.id)}
-                strategy={verticalListSortingStrategy}
-              >
-                {filtered.map((trick) => (
-                  <SortableTrickCard
-                    key={trick.id}
-                    trick={trick}
-                    isAuthenticated={isAuthenticated}
-                    isDraggable={isSortingEnabled}
-                  />
-                ))}
-              </SortableContext>
-            </div>
-          </DndContext>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12 gap-y-8 items-start">
+            {filtered.map((trick) => (
+              <TrickCard
+                key={trick.id}
+                trick={trick}
+                isAuthenticated={isAuthenticated}
+              />
+            ))}
+          </div>
         )}
       </main>
     </div>
