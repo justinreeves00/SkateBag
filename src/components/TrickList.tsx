@@ -33,6 +33,8 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
   const [displayName, setDisplayName] = useState("");
   const [isUpdatingProfile, setIsUpdatingProfile] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
+  const [showFiltersModal, setShowFiltersModal] = useState(false);
+  const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const [profileError, setProfileError] = useState<string | null>(null);
 
   // Local state for tricks
@@ -178,7 +180,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
   }
 
   return (
-    <div className="min-h-screen text-white selection:bg-[var(--board-accent)]/30">
+    <div className="min-h-screen text-white selection:bg-[var(--board-accent)]/30 pb-32">
       {/* Profile Setup Modal */}
       {showProfileSetup && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 p-6">
@@ -213,63 +215,9 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
         </div>
       )}
 
-      {/* Suggest Trick Modal */}
-      {showSuggestModal && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm p-6" onClick={() => setShowSuggestModal(false)}>
-          <div className="w-full max-w-md cyber-card p-10 space-y-8 animate-in zoom-in-95 duration-300" onClick={(e) => e.stopPropagation()}>
-            <div className="flex justify-between items-center">
-              <h2 className="text-3xl font-black italic uppercase tracking-tighter text-white">Suggest Trick</h2>
-              <button onClick={() => setShowSuggestModal(false)} className="text-slate-500 hover:text-white">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-              </button>
-            </div>
-            {suggestSuccess ? (
-              <div className="py-10 text-center space-y-4">
-                <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto shadow-[0_0_20px_rgba(34,197,94,0.4)]">
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="4"><path d="M20 6L9 17L4 12"/></svg>
-                </div>
-                <p className="text-[var(--board-accent)] font-black uppercase italic tracking-widest">Submission Received</p>
-              </div>
-            ) : (
-              <form onSubmit={handleSuggest} className="space-y-6">
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">Trick Name</label>
-                  <input
-                    type="text"
-                    value={suggestForm.name}
-                    onChange={(e) => setSuggestForm({...suggestForm, name: e.target.value})}
-                    placeholder="E.G. HARDFLIP..."
-                    required
-                    autoFocus
-                    className="w-full bg-black border border-white/10 rounded-lg px-6 py-4 text-sm font-black text-white focus:border-[var(--board-accent)] outline-none uppercase tracking-widest"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">Category</label>
-                  <select
-                    value={suggestForm.category}
-                    onChange={(e) => setSuggestForm({...suggestForm, category: e.target.value as any})}
-                    className="w-full bg-black border border-white/10 rounded-lg px-6 py-4 text-sm font-black text-white focus:border-[var(--board-accent)] outline-none uppercase tracking-widest"
-                  >
-                    {CATEGORIES.map(cat => <option key={cat} value={cat}>{cat.toUpperCase()}</option>)}
-                  </select>
-                </div>
-                <button
-                  type="submit"
-                  disabled={isSuggesting}
-                  className="w-full bg-[var(--board-accent)] text-white font-black py-5 px-8 rounded-lg hover:brightness-110 transition-all text-[11px] tracking-[0.2em] uppercase"
-                >
-                  {isSuggesting ? "Submitting..." : "Send Suggestion"}
-                </button>
-              </form>
-            )}
-          </div>
-        </div>
-      )}
-
       {/* Settings Modal */}
       {showSettingsModal && (
-        <div className="fixed inset-0 z-[90] flex items-center justify-center bg-black/90 p-6" onClick={() => setShowSettingsModal(false)}>
+        <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/95 p-6" onClick={() => setShowSettingsModal(false)}>
           <div className="w-full max-w-md cyber-card p-10 space-y-8 animate-in zoom-in-95 duration-300" onClick={(e) => e.stopPropagation()}>
             <div className="flex justify-between items-center">
               <h2 className="text-3xl font-black italic uppercase tracking-tighter text-white">Settings</h2>
@@ -307,13 +255,16 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                 Suggest Missing Trick
               </button>
               <a 
-                href="https://github.com/justinreeves00/SkateBag/issues/new" 
-                target="_blank" 
-                rel="noopener noreferrer"
+                href="/admin" 
                 className="flex items-center justify-center gap-2 w-full py-4 bg-black/40 text-slate-400 border border-white/10 font-black uppercase tracking-widest text-[10px] rounded-lg hover:text-white hover:bg-black/60 transition-all"
               >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22c5.5 0 10-4.5 10-10S17.5 2 12 2 2 6.5 2 12s4.5 10 10 10Z"/></svg>
-                Report Bug / Help
+                Admin Panel
+              </a>
+              <a 
+                href="/leaderboard" 
+                className="flex items-center justify-center gap-2 w-full py-4 bg-black/40 text-slate-400 border border-white/10 font-black uppercase tracking-widest text-[10px] rounded-lg hover:text-white hover:bg-black/60 transition-all"
+              >
+                View Ranks
               </a>
               <form action={signOut}>
                 <button
@@ -328,169 +279,32 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
         </div>
       )}
 
-      {/* Main Header */}
-      <header className="sticky top-0 z-40 cyber-glass">
-        {/* Nav Row */}
-        <div className="max-w-6xl mx-auto px-6 py-3 flex justify-between items-center border-b border-white/5">
-          <div className="flex items-center gap-3">
-            {!isAuthenticated ? (
-              <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">
-                Guest Mode
-              </span>
-            ) : (
-              <>
-                <button 
-                  onClick={() => setShowSettingsModal(true)}
-                  className="flex items-center gap-2 bg-black/40 px-3 py-1.5 rounded-lg border border-white/10 hover:border-[var(--board-accent)]/40 transition-all group"
-                >
-                  <div className="w-1.5 h-1.5 bg-[var(--board-accent)] rotate-45 animate-pulse" />
-                  <span className="text-[10px] text-white font-black leading-none truncate max-w-[120px] md:max-w-none uppercase tracking-tighter group-hover:text-[var(--board-accent)]">
-                    {userProfile?.display_name || userEmail}
-                  </span>
-                </button>
-                <a 
-                  href="/leaderboard" 
-                  className="text-[9px] font-black text-slate-500 uppercase tracking-widest hover:text-[var(--board-accent)] transition-colors bg-black/40 px-3 py-1.5 rounded-lg border border-white/10"
-                >
-                  Ranks
-                </a>
-                {userEmail === "justinreeves00@gmail.com" && (
-                  <a 
-                    href="/admin" 
-                    className="text-[9px] font-black text-[var(--board-accent)] uppercase tracking-widest hover:text-white transition-colors bg-[var(--board-accent)]/10 px-3 py-1.5 rounded-lg border border-[var(--board-accent)]/20"
-                  >
-                    Admin
-                  </a>
-                )}
-              </>
-            )}
-          </div>
+      {/* Filters Modal (Bottom Sheet Style) */}
+      {showFiltersModal && (
+        <div className="fixed inset-0 z-[1000] flex items-end justify-center bg-black/80 backdrop-blur-sm" onClick={() => setShowFiltersModal(false)}>
+          <div 
+            className="w-full max-w-xl bg-[#1c1c1e] rounded-t-[40px] p-8 pb-12 space-y-10 animate-in slide-in-from-bottom-full duration-500" 
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="w-12 h-1.5 bg-white/10 rounded-full mx-auto mb-2" />
+            
+            <div className="flex justify-between items-center">
+              <h2 className="text-2xl font-black italic uppercase tracking-tighter text-white">Filters</h2>
+              <button onClick={() => setShowFiltersModal(false)} className="text-slate-500 hover:text-white font-black text-[10px] uppercase tracking-widest">Done</button>
+            </div>
 
-          <div className="flex items-center gap-2">
-            {!isPWA && installPrompt && (
-              <button
-                onClick={handleInstallClick}
-                className="px-4 py-2 rounded-lg bg-[var(--board-accent)]/10 text-[var(--board-accent)] border border-[var(--board-accent)]/20 text-[10px] font-black uppercase tracking-widest hover:bg-[var(--board-accent)] hover:text-white transition-all shadow-lg animate-pulse"
-              >
-                Install App
-              </button>
-            )}
-            {!isAuthenticated ? (
-              <a
-                href="/login"
-                className="inline-block px-5 py-2 rounded bg-white text-black text-[10px] font-black uppercase tracking-widest hover:bg-[var(--board-accent)] hover:text-white transition-all shadow-lg"
-              >
-                Sign in
-              </a>
-            ) : (
-              <button
-                onClick={() => setShowSettingsModal(true)}
-                className="px-5 py-2 rounded-lg bg-black/40 border border-white/10 text-[10px] text-slate-400 font-black uppercase tracking-widest hover:text-white hover:bg-black/60 transition-all"
-              >
-                Settings
-              </button>
-            )}
-          </div>
-        </div>
-
-        {/* Brand & Stats Row */}
-        <div className="max-w-6xl mx-auto px-6 py-10">
-          <div className="flex flex-col gap-10">
-            {/* Top Row: Brand and Settings */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-5 shrink-0">
-                <SkateBagLogo size={64} className="shadow-lg shadow-black/30 transform -rotate-2" />
-                <div className="space-y-0">
-                  <h1 className="text-3xl sm:text-5xl font-black tracking-tighter text-white leading-none uppercase italic drop-shadow-lg">
-                    SkateBag
-                  </h1>
-                  <p className="text-[9px] sm:text-[10px] font-black text-[var(--board-accent)] uppercase tracking-[0.4em] ml-1 bg-black px-2 py-0.5 w-fit">
-                    What&apos;s in your bag?
-                  </p>
-                </div>
+            <div className="space-y-8">
+              <div className="space-y-4">
+                <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] ml-1">Category</span>
+                <CategoryFilter active={category} onChange={(cat) => { setCategory(cat); }} />
               </div>
 
-              {/* Redundant settings removed from here, only Nav Row settings remains */}
-            </div>
-
-            {/* Middle Row: Big Search Input */}
-            <div className="relative group">
-              <div className="absolute inset-y-0 left-6 flex items-center pointer-events-none text-slate-500">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                  <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
-                </svg>
-              </div>
-              <input
-                type="text"
-                placeholder="SEARCH YOUR TRICK ARSENAL..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="w-full bg-black border-2 border-white/5 rounded-2xl pl-16 pr-8 py-6 text-lg font-black text-white placeholder-slate-800 focus:outline-none focus:border-[var(--board-accent)]/40 transition-all uppercase tracking-widest shadow-2xl"
-              />
-            </div>
-
-            {/* Action Row: Roll and Roll Settings */}
-            <div className="flex justify-center md:justify-start">
-              <DiceButton tricks={localTricks} isAuthenticated={isAuthenticated} onStatusChange={handleStatusChange} />
-            </div>
-
-            {/* Bottom Section: Filters */}
-            <div className="space-y-10">
-              {/* Status Pills */}
-              {isAuthenticated && (
-                <div className="flex flex-wrap items-center gap-x-10 gap-y-6">
-                  <button
-                    onClick={() => setStatusFilter("all")}
-                    className="flex flex-col text-left hover:brightness-125 transition-all group"
-                  >
-                    <span className={`text-[10px] uppercase font-black tracking-[0.2em] mb-1.5 transition-colors ${statusFilter === "all" ? "text-white" : "text-slate-500 group-hover:text-white"}`}>Unlearned</span>
-                    <div className="h-10 flex items-center">
-                      <span className={`text-4xl font-black tracking-tighter leading-none transition-colors ${statusFilter === "all" ? "text-white" : "text-slate-800"}`}>{unlearned}</span>
-                    </div>
-                  </button>
-
-                  <div className="w-px h-8 bg-white/10 hidden sm:block mx-2" />
-
-                  <button
-                    onClick={() => setStatusFilter("learning")}
-                    className="flex flex-col text-left hover:brightness-125 transition-all group"
-                  >
-                    <span className={`text-[10px] uppercase font-black tracking-[0.2em] mb-1.5 transition-colors ${statusFilter === "learning" ? "text-blue-400" : "text-slate-500 group-hover:text-blue-400"}`}>In Progress</span>
-                    <div className="h-10 flex items-center">
-                      <span className={`text-4xl font-black tracking-tighter leading-none transition-colors ${statusFilter === "learning" ? "text-blue-400" : "text-blue-950"}`}>{learning}</span>
-                    </div>
-                  </button>
-
-                  <button
-                    onClick={() => setStatusFilter("landed")}
-                    className="flex flex-col text-left hover:brightness-125 transition-all group"
-                  >
-                    <span className={`text-[10px] uppercase font-black tracking-[0.2em] mb-1.5 transition-colors ${statusFilter === "landed" ? "text-[var(--board-accent)]" : "text-slate-500 group-hover:text-[var(--board-accent)]"}`}>My Bag</span>
-                    <div className="h-10 flex items-center">
-                      <span className={`text-4xl font-black tracking-tighter leading-none transition-colors ${statusFilter === "landed" ? "text-[var(--board-accent)]" : "text-orange-950"}`}>{landed}</span>
-                    </div>
-                  </button>
-
-                  <button
-                    onClick={() => setStatusFilter("locked")}
-                    className="flex flex-col text-left hover:brightness-125 transition-all group"
-                  >
-                    <span className={`text-[10px] uppercase font-black tracking-[0.2em] mb-1.5 transition-colors ${statusFilter === "locked" ? "text-[var(--warn-accent)]" : "text-slate-500 group-hover:text-[var(--warn-accent)]"}`}>On Lock</span>
-                    <div className="h-10 flex items-center">
-                      <span className={`text-4xl font-black tracking-tighter leading-none transition-colors ${statusFilter === "locked" ? "text-[var(--warn-accent)]" : "text-yellow-950"}`}>{locked}</span>
-                    </div>
-                  </button>
-                </div>
-              )}
-
-              {/* Multi-Filter Row */}
-              <div className="space-y-6">
-                <CategoryFilter active={category} onChange={setCategory} />
-                
-                <div className="flex flex-wrap items-center gap-3 w-full">
+              <div className="space-y-4">
+                <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] ml-1">Difficulty Level</span>
+                <div className="flex flex-wrap gap-3">
                   <button
                     onClick={() => setLevelFilter("all")}
-                    className={`flex-1 min-w-[80px] py-3.5 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all border-2 ${
+                    className={`flex-1 min-w-[100px] py-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all border-2 ${
                       levelFilter === "all"
                         ? "bg-white text-black border-white shadow-lg"
                         : "bg-black/40 text-slate-500 border-white/5 hover:border-white/10 hover:text-white"
@@ -502,7 +316,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                     <button
                       key={lvl}
                       onClick={() => setLevelFilter(lvl)}
-                      className={`flex-1 min-w-[80px] py-3.5 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all border-2 ${
+                      className={`flex-1 min-w-[80px] py-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all border-2 ${
                         levelFilter === lvl
                           ? "bg-[var(--board-accent)] text-white border-[var(--board-accent)] shadow-lg"
                           : "bg-black/40 text-slate-500 border-white/5 hover:border-white/10 hover:text-white"
@@ -516,32 +330,90 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
             </div>
           </div>
         </div>
+      )}
+
+      {/* Main Header */}
+      <header className="sticky top-0 z-[100] cyber-glass backdrop-blur-xl border-b border-white/5">
+        <div className="max-w-6xl mx-auto px-6 py-4">
+          <div className="flex items-center justify-between gap-4">
+            {/* Logo/Title Area - Shrinks when search is open on mobile */}
+            {!isSearchExpanded && (
+              <div className="flex items-center gap-3 shrink-0">
+                <SkateBagLogo size={40} className="transform -rotate-2" />
+                <h1 className="text-2xl font-black tracking-tighter text-white uppercase italic leading-none">SkateBag</h1>
+              </div>
+            )}
+
+            {/* Dynamic Action Area */}
+            <div className={`flex items-center gap-2 transition-all duration-300 ${isSearchExpanded ? "flex-1" : ""}`}>
+              {/* Expandable Search */}
+              <div className={`relative flex items-center transition-all duration-300 ${isSearchExpanded ? "flex-1" : "w-10 h-10"}`}>
+                <button 
+                  onClick={() => setIsSearchExpanded(!isSearchExpanded)}
+                  className={`absolute left-0 z-10 w-10 h-10 flex items-center justify-center text-slate-400 hover:text-white transition-all ${isSearchExpanded ? "bg-transparent" : "bg-black/40 rounded-xl border border-white/10"}`}
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                    <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+                  </svg>
+                </button>
+                <input
+                  type="text"
+                  placeholder="SEARCH TRICKS..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className={`w-full bg-black/60 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-sm font-black text-white placeholder-slate-700 focus:outline-none focus:border-[var(--board-accent)]/40 transition-all uppercase tracking-widest ${isSearchExpanded ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4 pointer-events-none w-0"}`}
+                />
+                {isSearchExpanded && (
+                  <button onClick={() => { setIsSearchExpanded(false); setSearch(""); }} className="ml-2 text-[10px] font-black text-slate-500 uppercase tracking-widest">Cancel</button>
+                )}
+              </div>
+
+              {!isSearchExpanded && (
+                <>
+                  <button 
+                    onClick={() => setShowFiltersModal(true)}
+                    className="w-10 h-10 bg-black/40 border border-white/10 rounded-xl flex items-center justify-center text-slate-400 hover:text-white transition-all shrink-0"
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+                  </button>
+                  
+                  <button 
+                    onClick={() => setShowSettingsModal(true)}
+                    className="w-10 h-10 bg-black/40 border border-white/10 rounded-xl flex items-center justify-center text-slate-400 hover:text-white transition-all shrink-0"
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
       </header>
 
-      {/* Main Grid */}
-      <main className="max-w-6xl mx-auto px-6 pt-16 pb-32">
-        <div className="mb-12 flex items-center gap-6">
+      {/* Main Grid Area */}
+      <main className="max-w-6xl mx-auto px-6 pt-10 pb-32">
+        <div className="mb-10 flex items-center gap-6">
           <h2 className="text-[11px] font-black text-white uppercase tracking-[0.4em] whitespace-nowrap italic bg-black px-3 py-1 border border-white/5">
-            {statusFilter === "all" ? "Unlearned Tricks" : 
-             statusFilter === "landed" ? "In The Bag" : 
-             statusFilter === "locked" ? "Mastered" : "In Progress"}
+            {statusFilter === "all" ? "Unlearned" : 
+             statusFilter === "landed" ? "My Bag" : 
+             statusFilter === "locked" ? "On Lock" : "In Progress"}
           </h2>
           <div className="h-px w-full bg-white/5 shadow-[0_1px_0_rgba(255,255,255,0.02)]"></div>
-          <span className="text-[10px] font-black text-slate-500 tabular-nums">{filtered.length} UNITS</span>
+          <span className="text-[10px] font-black text-slate-500 tabular-nums uppercase tracking-widest">{filtered.length} Units</span>
         </div>
 
         {filtered.length === 0 ? (
-          <div className="py-40 flex flex-col items-center justify-center cyber-card rounded-2xl border-dashed">
-            <p className="text-slate-500 text-lg font-black uppercase tracking-widest mb-8">No results found</p>
+          <div className="py-40 flex flex-col items-center justify-center cyber-card rounded-[32px] border-dashed border-white/10">
+            <p className="text-slate-600 text-sm font-black uppercase tracking-widest mb-8">No matching tricks</p>
             <button 
-              onClick={() => { setSearch(""); setCategory("all"); setStatusFilter("all"); }}
-              className="px-8 py-4 bg-white text-black hover:bg-[var(--board-accent)] hover:text-white rounded text-xs font-black uppercase tracking-widest transition-all shadow-xl"
+              onClick={() => { setSearch(""); setCategory("all"); setLevelFilter("all"); setStatusFilter("all"); }}
+              className="px-8 py-4 bg-white/5 border border-white/10 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all hover:bg-[var(--board-accent)]"
             >
-              Reset Database
+              Reset Filters
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-12 gap-y-8 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-8">
             {filtered.map((trick) => (
               <TrickCard
                 key={trick.id}
@@ -553,6 +425,68 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
           </div>
         )}
       </main>
+
+      {/* Floating Action Dice */}
+      <div className="fixed bottom-28 right-6 z-[90]">
+        <DiceButton tricks={localTricks} isAuthenticated={isAuthenticated} onStatusChange={handleStatusChange} />
+      </div>
+
+      {/* Bottom Navigation Tab Bar */}
+      <nav className="fixed bottom-0 left-0 right-0 z-[100] bg-[#1c1c1e]/90 backdrop-blur-2xl border-t border-white/5 px-4 pb-8 pt-3 shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
+        <div className="max-w-md mx-auto flex items-center justify-between">
+          <button
+            onClick={() => setStatusFilter("all")}
+            className="flex flex-col items-center gap-1.5 flex-1 transition-all group"
+          >
+            <div className={`text-xl font-black tracking-tighter leading-none transition-colors ${statusFilter === "all" ? "text-white" : "text-slate-700 group-hover:text-slate-500"}`}>
+              {unlearned}
+            </div>
+            <span className={`text-[9px] font-black uppercase tracking-widest transition-colors ${statusFilter === "all" ? "text-white" : "text-slate-600 group-hover:text-slate-400"}`}>
+              Unlearned
+            </span>
+            {statusFilter === "all" && <div className="w-4 h-1 bg-[var(--board-accent)] rounded-full mt-0.5" />}
+          </button>
+
+          <button
+            onClick={() => setStatusFilter("learning")}
+            className="flex flex-col items-center gap-1.5 flex-1 transition-all group"
+          >
+            <div className={`text-xl font-black tracking-tighter leading-none transition-colors ${statusFilter === "learning" ? "text-blue-400" : "text-blue-900 group-hover:text-blue-800"}`}>
+              {learning}
+            </div>
+            <span className={`text-[9px] font-black uppercase tracking-widest transition-colors ${statusFilter === "learning" ? "text-blue-400" : "text-slate-600 group-hover:text-slate-400"}`}>
+              Progress
+            </span>
+            {statusFilter === "learning" && <div className="w-4 h-1 bg-blue-400 rounded-full mt-0.5" />}
+          </button>
+
+          <button
+            onClick={() => setStatusFilter("landed")}
+            className="flex flex-col items-center gap-1.5 flex-1 transition-all group"
+          >
+            <div className={`text-xl font-black tracking-tighter leading-none transition-colors ${statusFilter === "landed" ? "text-[var(--board-accent)]" : "text-orange-950 group-hover:text-orange-900"}`}>
+              {landed}
+            </div>
+            <span className={`text-[9px] font-black uppercase tracking-widest transition-colors ${statusFilter === "landed" ? "text-[var(--board-accent)]" : "text-slate-600 group-hover:text-slate-400"}`}>
+              My Bag
+            </span>
+            {statusFilter === "landed" && <div className="w-4 h-1 bg-[var(--board-accent)] rounded-full mt-0.5" />}
+          </button>
+
+          <button
+            onClick={() => setStatusFilter("locked")}
+            className="flex flex-col items-center gap-1.5 flex-1 transition-all group"
+          >
+            <div className={`text-xl font-black tracking-tighter leading-none transition-colors ${statusFilter === "locked" ? "text-[var(--warn-accent)]" : "text-yellow-950 group-hover:text-yellow-900"}`}>
+              {locked}
+            </div>
+            <span className={`text-[9px] font-black uppercase tracking-widest transition-colors ${statusFilter === "locked" ? "text-[var(--warn-accent)]" : "text-slate-600 group-hover:text-slate-400"}`}>
+              On Lock
+            </span>
+            {statusFilter === "locked" && <div className="w-4 h-1 bg-[var(--warn-accent)] rounded-full mt-0.5" />}
+          </button>
+        </div>
+      </nav>
     </div>
   );
 }
