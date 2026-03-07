@@ -589,57 +589,69 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
         <div className="max-w-6xl mx-auto px-4 py-3">
           {/* Top Row: Logo + Actions */}
           <div className="flex items-center justify-between gap-3 mb-3">
-            {/* Logo */}
-            {!isSearchExpanded && (
-              <div className="flex items-center gap-2 shrink-0">
-                <SkateBagLogo size={36} className="transform -rotate-2" />
-                <div>
-                  <h1 className="text-xl font-black tracking-tighter text-white uppercase italic leading-none">SkateBag</h1>
-                  <p className="text-[8px] font-black uppercase tracking-[0.3em] text-[var(--text-muted)]">What's in your bag?</p>
-                </div>
+            {/* Logo - Always visible */}
+            <div className="flex items-center gap-2 shrink-0">
+              <SkateBagLogo size={36} className="transform -rotate-2" />
+              <div>
+                <h1 className="text-xl font-black tracking-tighter text-white uppercase italic leading-none">SkateBag</h1>
+                <p className="text-[8px] font-black uppercase tracking-[0.3em] text-[var(--text-muted)]">What's in your bag?</p>
               </div>
-            )}
+            </div>
 
-            {/* Search + Actions */}
-            <div className={`flex items-center gap-2 ${isSearchExpanded ? "flex-1" : ""}`}>
-              {/* Expandable Search */}
-              <div className={`relative flex items-center transition-all duration-300 ${isSearchExpanded ? "flex-1" : "w-10 h-10"}`}>
-                <button 
-                  onClick={() => setIsSearchExpanded(!isSearchExpanded)}
-                  className={`absolute left-0 z-10 w-10 h-10 flex items-center justify-center text-slate-400 hover:text-white transition-all ${isSearchExpanded ? "bg-transparent" : "bg-black/40 rounded-xl border border-white/10"}`}
-                >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                    <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
-                  </svg>
-                </button>
+            {/* Actions */}
+            <div className="flex items-center gap-2">
+              {/* Search Toggle */}
+              <button 
+                onClick={() => setIsSearchExpanded(!isSearchExpanded)}
+                className={`w-10 h-10 flex items-center justify-center transition-all rounded-xl border ${isSearchExpanded ? 'bg-[var(--board-accent)] text-black border-[var(--board-accent)]' : 'bg-black/40 border-white/10 text-slate-400 hover:text-white'}`}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                  <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+                </svg>
+              </button>
+
+              {/* Settings */}
+              <button 
+                onClick={() => {
+                  if (isAuthenticated) {
+                    setShowSettingsModal(true);
+                    return;
+                  }
+                  promptLogin();
+                }}
+                className="w-10 h-10 bg-black/40 border border-white/10 rounded-xl flex items-center justify-center text-slate-400 hover:text-white transition-all shrink-0"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+
+          {/* Search Dropdown */}
+          {isSearchExpanded && (
+            <div className="mb-3 animate-in slide-in-from-top-2 duration-200">
+              <div className="relative">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--board-accent)]">
+                  <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+                </svg>
                 <input
                   type="text"
                   placeholder="SEARCH TRICKS..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className={`w-full bg-black/60 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-sm font-black text-white placeholder-slate-700 focus:outline-none focus:border-[var(--board-accent)]/40 transition-all uppercase tracking-widest ${isSearchExpanded ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4 pointer-events-none w-0"}`}
+                  autoFocus
+                  className="w-full bg-black/60 border border-white/10 rounded-xl pl-10 pr-12 py-3 text-sm font-black text-white placeholder-slate-700 focus:outline-none focus:border-[var(--board-accent)]/40 transition-all uppercase tracking-widest"
                 />
-                {isSearchExpanded && (
-                  <button onClick={() => { setIsSearchExpanded(false); setSearch(""); }} className="ml-2 text-[10px] font-black text-slate-500 uppercase tracking-widest">Cancel</button>
+                {search && (
+                  <button 
+                    onClick={() => setSearch("")}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 w-7 h-7 flex items-center justify-center rounded-lg bg-white/5 text-[var(--text-muted)] hover:text-white transition-all"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                  </button>
                 )}
               </div>
-
-              {!isSearchExpanded && (
-                <button 
-                  onClick={() => {
-                    if (isAuthenticated) {
-                      setShowSettingsModal(true);
-                      return;
-                    }
-                    promptLogin();
-                  }}
-                  className="w-10 h-10 bg-black/40 border border-white/10 rounded-xl flex items-center justify-center text-slate-400 hover:text-white transition-all shrink-0"
-                >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
-                </button>
-              )}
             </div>
-          </div>
+          )}
 
           {/* Compact Filter Bar */}
           {!isSearchExpanded && (
