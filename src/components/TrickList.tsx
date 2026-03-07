@@ -595,7 +595,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                 <SkateBagLogo size={36} className="transform -rotate-2" />
                 <div>
                   <h1 className="text-xl font-black tracking-tighter text-white uppercase italic leading-none">SkateBag</h1>
-                  <p className="text-[8px] font-black uppercase tracking-[0.3em] text-[var(--text-muted)]">Skateboard Tracker</p>
+                  <p className="text-[8px] font-black uppercase tracking-[0.3em] text-[var(--text-muted)]">What's in your bag?</p>
                 </div>
               </div>
             )}
