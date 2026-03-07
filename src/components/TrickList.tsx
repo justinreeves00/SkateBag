@@ -529,7 +529,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                   <div className="flex gap-12 mb-1 px-2">
                     <div className="flex flex-col">
                       <span className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em] mb-2">My Bag</span>
-                      <div className="flex items-end gap-3">
+                      <div className="flex items-end gap-3 h-10">
                         <span className="text-4xl font-black tracking-tighter leading-none">{landed}</span>
                         <div className="w-20 h-2 bg-black border border-white/10 rounded-sm overflow-hidden mb-1.5">
                           <div className="h-full bg-[var(--board-accent)] transition-all duration-1000" style={{ width: `${progress}%` }} />
@@ -538,7 +538,9 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                     </div>
                     <div className="flex flex-col">
                       <span className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em] mb-2">On Lock</span>
-                      <span className="text-4xl font-black tracking-tighter leading-none text-[var(--warn-accent)] drop-shadow-md">{locked}</span>
+                      <div className="flex items-end h-10">
+                        <span className="text-4xl font-black tracking-tighter leading-none text-[var(--warn-accent)] drop-shadow-md">{locked}</span>
+                      </div>
                     </div>
                   </div>
                 )}

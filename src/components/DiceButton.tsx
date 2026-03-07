@@ -108,12 +108,10 @@ export function DiceButton({ tricks, isAuthenticated }: DiceButtonProps) {
     setUpdating(false);
   }
 
-  function toggleCategory(cat: TrickCategory) {
+  function selectCategory(cat: TrickCategory | "all") {
     setSettings((prev) => ({
       ...prev,
-      categories: prev.categories.includes(cat)
-        ? prev.categories.filter((c) => c !== cat)
-        : [...prev.categories, cat],
+      categories: cat === "all" ? [...CATEGORY_OPTIONS] : [cat],
     }));
   }
 
@@ -394,12 +392,22 @@ export function DiceButton({ tricks, isAuthenticated }: DiceButtonProps) {
               <div className="space-y-6">
                 <span className="text-[10px] font-black text-[var(--text-muted)] uppercase tracking-[0.4em]">Categories</span>
                 <div className="flex flex-wrap gap-2.5">
+                  <button
+                    onClick={() => selectCategory("all")}
+                    className={`px-6 py-4 rounded-3xl text-[10px] font-black uppercase tracking-[0.2em] transition-all border ${
+                      settings.categories.length === CATEGORY_OPTIONS.length
+                        ? "bg-[var(--surface-elevated)] text-white border-white/20 shadow-lg scale-105"
+                        : "bg-[var(--surface-muted)] text-[var(--text-muted)] border-transparent hover:text-[var(--text-muted)]"
+                    }`}
+                  >
+                    ALL
+                  </button>
                   {CATEGORY_OPTIONS.map((cat) => (
                     <button
                       key={cat}
-                      onClick={() => toggleCategory(cat)}
+                      onClick={() => selectCategory(cat)}
                       className={`px-6 py-4 rounded-3xl text-[10px] font-black uppercase tracking-[0.2em] transition-all border ${
-                        settings.categories.includes(cat)
+                        settings.categories.length === 1 && settings.categories.includes(cat)
                           ? "bg-[var(--surface-elevated)] text-white border-white/20 shadow-lg scale-105"
                           : "bg-[var(--surface-muted)] text-[var(--text-muted)] border-transparent hover:text-[var(--text-muted)]"
                       }`}
