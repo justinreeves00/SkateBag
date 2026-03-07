@@ -82,6 +82,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
   const [installMethod, setInstallMethod] = useState<"native" | "ios" | "browser">("browser");
   const [showInstallGuide, setShowInstallGuide] = useState(false);
   const [showAuthPrompt, setShowAuthPrompt] = useState(false);
+  const [showFirstVisitModal, setShowFirstVisitModal] = useState(false);
 
   useEffect(() => {
     const browserWindow = window as InstallPromptWindow;
@@ -137,6 +138,16 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
   useEffect(() => {
     setLocalTricks(tricks);
   }, [tricks]);
+
+  
+  // Check first visit for install prompt
+  useEffect(() => {
+    const hasVisited = localStorage.getItem('skatebag-visited');
+    if (!hasVisited && !isPWA && isMobileInstallSurface) {
+      setShowFirstVisitModal(true);
+      localStorage.setItem('skatebag-visited', 'true');
+    }
+  }, [isPWA, isMobileInstallSurface]);
 
   const handleStatusChange = (id: string, status: TrickStatus | null, consistency: number | null) => {
     setStickyVisibleTrickId((currentSticky) => {
@@ -473,6 +484,19 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
               >
                 View Ranks
               </a>
+              
+              {!isPWA && (
+                <button
+                  onClick={() => {
+                    setShowSettingsModal(false);
+                    handleInstallClick();
+                  }}
+                  className="flex items-center justify-center gap-2 w-full py-4 bg-[var(--board-accent)]/10 text-[var(--board-accent)] border border-[var(--board-accent)]/30 font-black uppercase tracking-widest text-[10px] rounded-lg hover:bg-[var(--board-accent)] hover:text-black transition-all"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                  Install App
+                </button>
+              )}
               <form action={signOut}>
                 <button
                   type="submit"
@@ -671,40 +695,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
 
       {/* Main Grid Area */}
       <main className="max-w-6xl mx-auto px-6 pt-[140px] pb-32">
-        {isMobileInstallSurface && !isPWA && !dismissedInstallPrompt && (
-          <div className="mb-8 rounded-[28px] border border-white/10 bg-[var(--surface)]/95 p-5 shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
-            <div className="flex items-start justify-between gap-4">
-              <div className="space-y-2">
-                <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--text-muted)]">Add to Home Screen</p>
-                <h3 className="text-lg font-black uppercase italic tracking-tight text-white">Install SkateBag</h3>
-                <p className="max-w-xl text-sm leading-relaxed text-[var(--text-muted)]">
-                  Open SkateBag like an app with full-screen launch, faster return visits, and offline support.
-                </p>
-              </div>
-              <button
-                onClick={dismissInstallPrompt}
-                className="flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-black/20 text-[var(--text-muted)] transition-all hover:text-white"
-                aria-label="Dismiss install prompt"
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-              </button>
-            </div>
-            <div className="mt-5 flex gap-3">
-              <button
-                onClick={dismissInstallPrompt}
-                className="rounded-2xl border border-white/10 bg-black/20 px-5 py-3 text-[10px] font-black uppercase tracking-[0.25em] text-[var(--text-muted)] transition-all hover:text-white"
-              >
-                Not Now
-              </button>
-              <button
-                onClick={handleInstallClick}
-                className="rounded-2xl bg-[var(--board-accent)] px-5 py-3 text-[10px] font-black uppercase tracking-[0.25em] text-black transition-all hover:brightness-110"
-              >
-                {installMethod === "native" ? "Install" : "Add It"}
-              </button>
-            </div>
-          </div>
-        )}
+        {/* Install prompt removed - now using first-visit modal and settings option */}
 
         <div className="mb-10 flex items-center gap-6">
           <h2 className="text-[11px] font-black text-white uppercase tracking-[0.4em] whitespace-nowrap italic bg-black px-3 py-1 border border-white/5">
