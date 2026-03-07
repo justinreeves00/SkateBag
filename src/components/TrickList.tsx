@@ -641,7 +641,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
       )}
 
       {/* Main Header */}
-      <header className={`cyber-glass backdrop-blur-xl border-b border-white/5 ${!isPWA && !dismissedInstallPrompt ? 'mt-[56px]' : ''}`}>
+      <header className={`fixed top-0 left-0 right-0 z-[100] cyber-glass backdrop-blur-xl border-b border-white/5 ${!isPWA && !dismissedInstallPrompt ? 'top-[56px]' : 'top-0'}`}>
         <div className="max-w-6xl mx-auto px-4 py-3">
           {/* Top Row: Logo + Actions */}
           <div className="flex items-center justify-between gap-3 mb-3">
@@ -726,7 +726,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
       </header>
 
       {/* Main Grid Area */}
-      <main className="max-w-6xl mx-auto px-6 pt-[140px] pb-32">
+      <main className="max-w-6xl mx-auto px-6 pt-[130px] pb-32">
 
         <div className="mb-10 flex items-center gap-6">
           <h2 className="text-[11px] font-black text-white uppercase tracking-[0.4em] whitespace-nowrap italic bg-black px-3 py-1 border border-white/5">
