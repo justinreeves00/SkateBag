@@ -25,6 +25,7 @@ const CATEGORIES: TrickCategory[] = [
 export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: TrickListProps) {
   const router = useRouter();
   const [category, setCategory] = useState<TrickCategory | "all">("flatground");
+  const [levelFilter, setLevelFilter] = useState<number | "all">("all");
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | "landed" | "locked" | "learning">("all");
   
@@ -108,10 +109,11 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
   const baseFiltered = useMemo(() => {
     return localTricks.filter((t) => {
       const matchesCategory = category === "all" || t.category === category;
+      const matchesLevel = levelFilter === "all" || t.difficulty === levelFilter;
       const matchesSearch = t.name.toLowerCase().includes(search.toLowerCase());
-      return matchesCategory && matchesSearch;
+      return matchesCategory && matchesLevel && matchesSearch;
     });
-  }, [localTricks, category, search]);
+  }, [localTricks, category, levelFilter, search]);
 
   const filtered = useMemo(() => {
     return baseFiltered
@@ -408,23 +410,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                 </div>
               </div>
 
-              <div className="flex items-center gap-3">
-                {!isAuthenticated ? (
-                  <a
-                    href="/login"
-                    className="inline-block px-5 py-2 rounded bg-white text-black text-[10px] font-black uppercase tracking-widest hover:bg-[var(--board-accent)] hover:text-white transition-all shadow-lg"
-                  >
-                    Sign in
-                  </a>
-                ) : (
-                  <button
-                    onClick={() => setShowSettingsModal(true)}
-                    className="px-5 py-2 rounded-lg bg-black/40 border border-white/10 text-[10px] text-slate-400 font-black uppercase tracking-widest hover:text-white hover:bg-black/60 transition-all"
-                  >
-                    Settings
-                  </button>
-                )}
-              </div>
+              {/* Redundant settings removed from here, only Nav Row settings remains */}
             </div>
 
             {/* Middle Row: Big Search Input */}
@@ -449,7 +435,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
             </div>
 
             {/* Bottom Section: Filters */}
-            <div className="space-y-8">
+            <div className="space-y-10">
               {/* Status Pills */}
               {isAuthenticated && (
                 <div className="flex flex-wrap items-center gap-x-10 gap-y-6">
@@ -497,8 +483,36 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                 </div>
               )}
 
-              {/* Category Row */}
-              <CategoryFilter active={category} onChange={setCategory} />
+              {/* Multi-Filter Row */}
+              <div className="space-y-6">
+                <CategoryFilter active={category} onChange={setCategory} />
+                
+                <div className="flex flex-wrap items-center gap-3 w-full">
+                  <button
+                    onClick={() => setLevelFilter("all")}
+                    className={`flex-1 min-w-[80px] py-3.5 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all border-2 ${
+                      levelFilter === "all"
+                        ? "bg-white text-black border-white shadow-lg"
+                        : "bg-black/40 text-slate-500 border-white/5 hover:border-white/10 hover:text-white"
+                    }`}
+                  >
+                    All Levels
+                  </button>
+                  {[1, 2, 3, 4, 5].map((lvl) => (
+                    <button
+                      key={lvl}
+                      onClick={() => setLevelFilter(lvl)}
+                      className={`flex-1 min-w-[80px] py-3.5 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all border-2 ${
+                        levelFilter === lvl
+                          ? "bg-[var(--board-accent)] text-white border-[var(--board-accent)] shadow-lg"
+                          : "bg-black/40 text-slate-500 border-white/5 hover:border-white/10 hover:text-white"
+                      }`}
+                    >
+                      LVL {lvl}
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
