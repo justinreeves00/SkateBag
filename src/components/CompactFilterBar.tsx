@@ -150,8 +150,8 @@ export function CompactFilterBar({
       {/* Category Dropdown */}
       {openPanel === "category" && (
         <div className="absolute top-full left-0 right-0 mt-2 z-50 rounded-2xl border border-white/10 bg-[#1c1c1e] shadow-[0_24px_80px_rgba(0,0,0,0.5)] overflow-hidden animate-in slide-in-from-top-2 duration-200">
-          <div className="px-3 pt-3 pb-2 border-b border-white/5">
-            <p className="text-[9px] font-black uppercase tracking-[0.35em] text-[var(--text-muted)]">Categories</p>
+          <div className="px-3 pt-3 pb-2 border-b border-white/10 bg-white/5">
+            <p className="text-[10px] font-black uppercase tracking-[0.25em] text-white">Categories</p>
           </div>
           <div className="p-3">
             <div className="flex flex-wrap gap-2">
@@ -176,8 +176,8 @@ export function CompactFilterBar({
       {/* Status Dropdown */}
       {openPanel === "status" && (
         <div className="absolute top-full left-0 right-0 mt-2 z-50 rounded-2xl border border-white/10 bg-[#1c1c1e] shadow-[0_24px_80px_rgba(0,0,0,0.5)] overflow-hidden animate-in slide-in-from-top-2 duration-200">
-          <div className="px-3 pt-3 pb-2 border-b border-white/5">
-            <p className="text-[9px] font-black uppercase tracking-[0.35em] text-[var(--text-muted)]">Your Bag</p>
+          <div className="px-3 pt-3 pb-2 border-b border-white/10 bg-white/5">
+            <p className="text-[10px] font-black uppercase tracking-[0.25em] text-white">Your Bag</p>
           </div>
           <div className="p-3">
             <div className="flex flex-wrap gap-2">
@@ -210,8 +210,8 @@ export function CompactFilterBar({
       {/* Level Dropdown */}
       {openPanel === "level" && (
         <div className="absolute top-full left-0 right-0 mt-2 z-50 rounded-2xl border border-white/10 bg-[#1c1c1e] shadow-[0_24px_80px_rgba(0,0,0,0.5)] overflow-hidden animate-in slide-in-from-top-2 duration-200">
-          <div className="px-3 pt-3 pb-2 border-b border-white/5">
-            <p className="text-[9px] font-black uppercase tracking-[0.35em] text-[var(--text-muted)]">Difficulty</p>
+          <div className="px-3 pt-3 pb-2 border-b border-white/10 bg-white/5">
+            <p className="text-[10px] font-black uppercase tracking-[0.25em] text-white">Difficulty</p>
           </div>
           <div className="p-3">
             <div className="flex items-center justify-center gap-2">
