@@ -457,27 +457,31 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
   return (
     <>
       {/* Header Inline Controls - More compact for mobile */}
-      <div className="flex items-center gap-2 md:gap-3">
+      <div className="flex items-center gap-1.5 md:gap-2">
         <button
           onClick={() => setShowSettings(!showSettings)}
-          className="w-11 h-11 md:w-14 md:h-14 rounded-3xl bg-[var(--surface-muted)] border border-[var(--border)] flex items-center justify-center text-[var(--text-muted)] hover:text-[var(--board-accent)] transition-all shadow-xl group shrink-0"
+          className={`w-11 h-11 md:w-14 md:h-14 rounded-2xl flex items-center justify-center transition-all group shrink-0 border ${
+            showSettings 
+              ? "bg-[var(--board-accent)] border-[var(--board-accent)] text-black" 
+              : "bg-black/40 border-white/5 text-slate-500 hover:text-white hover:border-white/20 shadow-lg"
+          }`}
           title="Dice Settings"
         >
-          <GearIcon size={20} />
+          <FilterIcon size={18} />
         </button>
         <button
           onClick={roll}
           disabled={rolling}
-          className={`h-11 md:h-14 px-4 md:px-8 rounded-3xl flex items-center gap-2 md:gap-4 transition-all border border-transparent shrink-0 ${
+          className={`h-11 md:h-14 px-5 md:px-10 rounded-2xl flex items-center gap-2 md:gap-4 transition-all border border-transparent shrink-0 ${
             rolling 
               ? "bg-[var(--surface-muted)] border-[var(--border)] scale-95" 
-              : "bg-[var(--board-accent)] text-[#041316] hover:brightness-110 hover:scale-105 active:scale-95 shadow-lg shadow-black/30"
+              : "bg-[var(--board-accent)] text-black hover:brightness-110 hover:scale-[1.02] active:scale-95 shadow-xl shadow-black/40"
           }`}
         >
           <div className={rolling ? "animate-spin" : ""}>
             <DiceIcon size={20} />
           </div>
-          <span className="text-[9px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] whitespace-nowrap">
+          <span className="text-[10px] md:text-[12px] font-black uppercase tracking-[0.3em] md:tracking-[0.4em] whitespace-nowrap">
             {rolling ? "..." : "Roll"}
           </span>
         </button>
@@ -488,7 +492,7 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
   );
 }
 
-function GearIcon({ size = 24 }: { size?: number }) {
+function FilterIcon({ size = 24 }: { size?: number }) {
   return (
     <svg 
       width={size} 
@@ -499,10 +503,17 @@ function GearIcon({ size = 24 }: { size?: number }) {
       strokeWidth="3" 
       strokeLinecap="round" 
       strokeLinejoin="round"
-      className="group-hover:rotate-180 transition-transform duration-700"
+      className="group-hover:scale-110 transition-transform"
     >
-      <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.1a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
-      <circle cx="12" cy="12" r="3"/>
+      <line x1="4" y1="21" x2="4" y2="14" />
+      <line x1="4" y1="10" x2="4" y2="3" />
+      <line x1="12" y1="21" x2="12" y2="12" />
+      <line x1="12" y1="8" x2="12" y2="3" />
+      <line x1="20" y1="21" x2="20" y2="16" />
+      <line x1="20" y1="12" x2="20" y2="3" />
+      <line x1="1" y1="14" x2="7" y2="14" />
+      <line x1="9" y1="8" x2="15" y2="8" />
+      <line x1="17" y1="16" x2="23" y2="16" />
     </svg>
   );
 }
