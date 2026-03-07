@@ -455,11 +455,11 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
 
   return (
     <>
-      {/* Floating Dice Button - Anchored to middle-right */}
-      <div className="fixed right-6 top-1/2 -translate-y-1/2 z-[90]">
-        {/* Two-Panel Unified Button */}
-        <div className="flex flex-col rounded-2xl overflow-hidden shadow-2xl shadow-black/40 border border-white/10">
-          {/* Roll Button - Top Panel */}
+      {/* Floating Dice Button - Anchored to bottom-right */}
+      <div className="fixed bottom-28 right-6 z-[90]">
+        {/* Two-Panel Horizontal Unified Button */}
+        <div className="flex rounded-2xl overflow-hidden shadow-2xl shadow-black/40 border border-white/10">
+          {/* Roll Button - Left Panel */}
           <button
             onClick={roll}
             disabled={rolling}
@@ -477,10 +477,10 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
             </div>
           </button>
           
-          {/* Settings Button - Bottom Panel */}
+          {/* Settings Button - Right Panel */}
           <button
             onClick={() => setShowSettings(!showSettings)}
-            className={`w-14 h-14 flex items-center justify-center transition-all border-t border-white/10 ${
+            className={`w-14 h-14 flex items-center justify-center transition-all border-l border-white/10 ${
               showSettings 
                 ? "bg-[var(--board-accent)] text-black" 
                 : "bg-[#1c1c1e] text-slate-500 hover:text-white"
