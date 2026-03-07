@@ -195,6 +195,24 @@ body::before {
   }
 }
 
+@keyframes dice-roll {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-90deg);
+  }
+  50% {
+    transform: rotate(-180deg);
+  }
+  75% {
+    transform: rotate(-270deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
 /* Orientation "Force" for mobile web */
 @media screen and (max-width: 1024px) and (orientation: landscape) {
   /* When the user turns their phone sideways, we rotate the app so it stays portrait relative to them */

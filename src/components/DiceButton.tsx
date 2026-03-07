@@ -28,6 +28,7 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
   const [mounted, setMounted] = useState(false);
   const [showPrompt, setShowPrompt] = useState(false);
   const [updating, setUpdating] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   const [settings, setSettings] = useState<DiceFilterSettings>({
     excludeLanded: false,
     excludeLocked: false,
@@ -462,13 +463,15 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
         <button
           onClick={roll}
           disabled={rolling}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
           className={`h-11 md:h-14 px-5 md:px-10 rounded-2xl flex items-center gap-2 md:gap-4 transition-all border border-transparent shrink-0 ${
             rolling 
               ? "bg-[var(--surface-muted)] border-[var(--border)] scale-95" 
               : "bg-[var(--board-accent)] text-black hover:brightness-110 hover:scale-[1.02] active:scale-95 shadow-xl shadow-black/40"
           }`}
         >
-          <div className={rolling ? "animate-spin" : "animate-[dice-wobble_2.8s_ease-in-out_infinite]"}>
+          <div className={`transition-transform duration-300 ${rolling ? "animate-spin" : isHovered ? "animate-[dice-roll_0.5s_ease-in-out]" : ""}`}>
             <DiceIcon size={20} />
           </div>
           <span className="text-[10px] md:text-[12px] font-black uppercase tracking-[0.3em] md:tracking-[0.4em] whitespace-nowrap">
