@@ -293,7 +293,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
 
   const statusTabs = [
     { value: "all" as const, label: "Unlearned", count: unlearned, guestCount: `${tricks.length}` },
-    { value: "learning" as const, label: "Progress", count: learning, guestCount: "Track" },
+    { value: "learning" as const, label: "In Progress", count: learning, guestCount: "Track" },
     { value: "landed" as const, label: "My Bag", count: landed, guestCount: "Track" },
     { value: "locked" as const, label: "On Lock", count: locked, guestCount: "Track" },
   ];
@@ -357,7 +357,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
         <div className="fixed inset-0 z-[1100] flex items-center justify-center bg-black/90 p-6" onClick={() => setShowAuthPrompt(false)}>
           <div className="w-full max-w-sm rounded-[32px] border border-white/10 bg-[var(--surface)] p-8 shadow-2xl" onClick={(e) => e.stopPropagation()}>
             <div className="space-y-3 text-center">
-              <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--text-muted)]">Track Progress</p>
+              <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--text-muted)]">Track In Progress</p>
               <h3 className="text-3xl font-black uppercase italic tracking-tight text-white">Log in to save tricks</h3>
               <p className="text-sm leading-relaxed text-[var(--text-muted)]">
                 Your bag and on lock progress only sync once you&apos;re signed in.

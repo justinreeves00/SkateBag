@@ -32,7 +32,7 @@ const CATEGORIES: { value: TrickCategory | "all"; label: string }[] = [
 
 const STATUS_OPTIONS = [
   { value: "all" as const, label: "Unlearned", key: "unlearned" },
-  { value: "learning" as const, label: "Progress", key: "learning" },
+  { value: "learning" as const, label: "In Progress", key: "learning" },
   { value: "landed" as const, label: "My Bag", key: "landed" },
   { value: "locked" as const, label: "On Lock", key: "locked" },
 ];
