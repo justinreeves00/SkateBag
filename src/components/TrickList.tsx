@@ -585,7 +585,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
 
       
             {/* Main Header */}
-      <header className="sticky top-0 z-[100] cyber-glass backdrop-blur-xl border-b border-white/5">
+      <header className="fixed top-0 left-0 right-0 z-[100] cyber-glass backdrop-blur-xl border-b border-white/5">
         <div className="max-w-6xl mx-auto px-4 py-3">
           {/* Top Row: Logo + Actions */}
           <div className="flex items-center justify-between gap-3 mb-3">
@@ -670,7 +670,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
       </header>
 
       {/* Main Grid Area */}
-      <main className="max-w-6xl mx-auto px-6 pt-10 pb-32">
+      <main className="max-w-6xl mx-auto px-6 pt-[140px] pb-32">
         {isMobileInstallSurface && !isPWA && !dismissedInstallPrompt && (
           <div className="mb-8 rounded-[28px] border border-white/10 bg-[var(--surface)]/95 p-5 shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
             <div className="flex items-start justify-between gap-4">
