@@ -67,6 +67,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
   // PWA Install State
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [isPWA, setIsPWA] = useState(false);
+  const [isMobileInstallSurface, setIsMobileInstallSurface] = useState(false);
   const [dismissedInstallPrompt, setDismissedInstallPrompt] = useState(false);
   const [installMethod, setInstallMethod] = useState<"native" | "ios" | "browser">("browser");
   const [showInstallGuide, setShowInstallGuide] = useState(false);
@@ -78,7 +79,9 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
     // Check if running as PWA
     const isStandalone = window.matchMedia("(display-mode: standalone)").matches || (window.navigator as any).standalone === true;
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+    const mobileMedia = window.matchMedia("(max-width: 767px)");
     setIsPWA(isStandalone);
+    setIsMobileInstallSurface(mobileMedia.matches);
     setDismissedInstallPrompt(localStorage.getItem(INSTALL_DISMISS_KEY) === "true");
     setInstallMethod(isIOS ? "ios" : "browser");
 
@@ -105,12 +108,18 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
       setShowInstallGuide(false);
     };
 
+    const handleViewportChange = (event: MediaQueryListEvent) => {
+      setIsMobileInstallSurface(event.matches);
+    };
+
     window.addEventListener("pwa-install-available", handleInstallAvailable);
     window.addEventListener("pwa-installed", handleInstalled);
+    mobileMedia.addEventListener("change", handleViewportChange);
 
     return () => {
       window.removeEventListener("pwa-install-available", handleInstallAvailable);
       window.removeEventListener("pwa-installed", handleInstalled);
+      mobileMedia.removeEventListener("change", handleViewportChange);
     };
   }, []);
 
@@ -546,14 +555,18 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
                   </button>
                   
-                  {isAuthenticated && (
-                    <button 
-                      onClick={() => setShowSettingsModal(true)}
-                      className="w-10 h-10 bg-black/40 border border-white/10 rounded-xl flex items-center justify-center text-slate-400 hover:text-white transition-all shrink-0"
-                    >
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
-                    </button>
-                  )}
+                  <button 
+                    onClick={() => {
+                      if (isAuthenticated) {
+                        setShowSettingsModal(true);
+                        return;
+                      }
+                      promptLogin();
+                    }}
+                    className="w-10 h-10 bg-black/40 border border-white/10 rounded-xl flex items-center justify-center text-slate-400 hover:text-white transition-all shrink-0"
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                  </button>
                 </>
               )}
             </div>
@@ -563,7 +576,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
 
       {/* Main Grid Area */}
       <main className="max-w-6xl mx-auto px-6 pt-10 pb-32">
-        {!isPWA && !dismissedInstallPrompt && (
+        {isMobileInstallSurface && !isPWA && !dismissedInstallPrompt && (
           <div className="mb-8 rounded-[28px] border border-white/10 bg-[var(--surface)]/95 p-5 shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
             <div className="flex items-start justify-between gap-4">
               <div className="space-y-2">

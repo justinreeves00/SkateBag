@@ -13,8 +13,6 @@ interface TrickCardProps {
 
 export function TrickCard({ trick, isAuthenticated, onStatusChange, onInteract }: TrickCardProps) {
   const [expanded, setExpanded] = useState(false);
-  const [status, setStatus] = useState<TrickStatus | null>(trick.userStatus);
-  const [consistency, setConsistency] = useState<number | null>(trick.userConsistency);
   const [loading, setLoading] = useState(false);
   const [showPrompt, setShowPrompt] = useState(false);
   const [showLevelEdit, setShowLevelEdit] = useState(false);
@@ -45,29 +43,22 @@ export function TrickCard({ trick, isAuthenticated, onStatusChange, onInteract }
     }
   }, [expanded, trick.id, videoIds.length, fetchingVideo]);
 
-  useEffect(() => {
-    setStatus(trick.userStatus);
-    setConsistency(trick.userConsistency);
-  }, [trick.id, trick.userStatus, trick.userConsistency]);
-
   async function handleStatusToggle(newStatus: TrickStatus, value: number | null = null) {
     if (!isAuthenticated || loading) return;
     setLoading(true);
 
-    const nextStatus = (status === newStatus && value === null) ? null : newStatus;
+    const previousStatus = trick.userStatus;
+    const previousConsistency = trick.userConsistency;
+    const nextStatus = (trick.userStatus === newStatus && value === null) ? null : newStatus;
     const nextConsistency = value;
 
-    setStatus(nextStatus);
-    setConsistency(nextConsistency);
-    
     if (onStatusChange) {
       onStatusChange(trick.id, nextStatus, nextConsistency);
     }
     
     const result = await setTrickStatus(trick.id, nextStatus, nextConsistency);
     if (result.error) {
-      setStatus(status);
-      setConsistency(consistency);
+      onStatusChange?.(trick.id, previousStatus, previousConsistency);
     }
     setLoading(false);
     setShowPrompt(false);
@@ -139,16 +130,16 @@ export function TrickCard({ trick, isAuthenticated, onStatusChange, onInteract }
               <span className="text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.2em]">
                 {trick.category}
               </span>
-              {status && (
+              {trick.userStatus && (
                 <>
                   <div className="w-1.5 h-1.5 bg-black rotate-45 border border-white/10" />
                   <span className={`text-[10px] font-black uppercase tracking-widest drop-shadow-sm ${
-                    status === "landed" ? "text-[var(--board-accent)]" : 
-                    status === "locked" ? "text-[var(--warn-accent)]" :
+                    trick.userStatus === "landed" ? "text-[var(--board-accent)]" : 
+                    trick.userStatus === "locked" ? "text-[var(--warn-accent)]" :
                     "text-blue-400"
                   }`}>
-                    {status === "locked" ? `In Bag (Locked ${consistency ?? 0}/10)` : 
-                     status === "landed" ? "In Bag" :
+                    {trick.userStatus === "locked" ? `In Bag (Locked ${trick.userConsistency ?? 0}/10)` : 
+                     trick.userStatus === "landed" ? "In Bag" :
                      "Learning"}
                   </span>
                 </>
@@ -203,7 +194,7 @@ export function TrickCard({ trick, isAuthenticated, onStatusChange, onInteract }
                 handleStatusToggle("learning");
               }}
               className={`flex-1 h-11 rounded-lg flex items-center justify-center gap-2 font-black text-[10px] uppercase tracking-widest transition-all ${
-                status === "learning"
+                trick.userStatus === "learning"
                   ? "bg-blue-500 text-white shadow-lg shadow-black/40"
                   : "bg-black/40 text-[var(--text-muted)] hover:text-white border border-white/10"
               }`}
@@ -218,7 +209,7 @@ export function TrickCard({ trick, isAuthenticated, onStatusChange, onInteract }
                 handleStatusToggle("landed");
               }}
               className={`flex-1 h-11 rounded-lg flex items-center justify-center gap-2 font-black text-[10px] uppercase tracking-widest transition-all ${
-                (status === "landed" || status === "locked")
+                (trick.userStatus === "landed" || trick.userStatus === "locked")
                   ? "bg-[var(--board-accent)] text-white shadow-lg shadow-black/40"
                   : "bg-black/40 text-[var(--text-muted)] hover:text-white border border-white/10"
               }`}
@@ -233,7 +224,7 @@ export function TrickCard({ trick, isAuthenticated, onStatusChange, onInteract }
                 setShowPrompt(!showPrompt);
               }}
               className={`flex-1 h-11 rounded-lg flex items-center justify-center gap-2 font-black text-[10px] uppercase tracking-widest transition-all ${
-                status === "locked"
+                trick.userStatus === "locked"
                   ? "bg-[var(--warn-accent)] text-black shadow-lg shadow-black/40"
                   : "bg-black/40 text-[var(--text-muted)] hover:text-white border border-white/10"
               }`}
@@ -268,7 +259,7 @@ export function TrickCard({ trick, isAuthenticated, onStatusChange, onInteract }
                   key={i}
                   onClick={(e) => { e.stopPropagation(); handleStatusToggle("locked", i); }}
                   className={`h-12 flex items-center justify-center text-xs font-black border transition-all ${
-                    consistency === i && status === "locked"
+                    trick.userConsistency === i && trick.userStatus === "locked"
                       ? "bg-[var(--warn-accent)] text-black border-white shadow-[0_0_20px_rgba(255,235,59,0.3)] z-10"
                       : "bg-black/40 text-[var(--text-muted)] hover:bg-black/60 hover:text-white border-white/10"
                   }`}
