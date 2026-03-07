@@ -71,80 +71,89 @@ export function CompactFilterBar({
 
   return (
     <div ref={containerRef} className="relative">
-      {/* Three Filter Buttons */}
-      <div className="flex items-center gap-2">
-        {/* Category Button */}
-        <button
-          onClick={() => setOpenPanel(openPanel === "category" ? null : "category")}
-          className={`flex-1 flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl border transition-all ${
-            openPanel === "category"
-              ? "bg-white/10 border-[var(--board-accent)]"
-              : "bg-black/20 border-white/5 hover:border-white/10"
-          }`}
-        >
-          <div className="flex items-center gap-2 min-w-0">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[var(--board-accent)] shrink-0">
-              <rect x="3" y="3" width="7" height="7" rx="1"/>
-              <rect x="14" y="3" width="7" height="7" rx="1"/>
-              <rect x="14" y="14" width="7" height="7" rx="1"/>
-              <rect x="3" y="14" width="7" height="7" rx="1"/>
+      {/* Three Filter Buttons with Headers */}
+      <div className="flex items-stretch gap-2">
+        {/* Category Section */}
+        <div className="flex-1 flex flex-col gap-1">
+          <span className="text-[8px] font-black uppercase tracking-[0.25em] text-[var(--text-muted)] pl-1">Category</span>
+          <button
+            onClick={() => setOpenPanel(openPanel === "category" ? null : "category")}
+            className={`flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl border transition-all ${
+              openPanel === "category"
+                ? "bg-white/10 border-[var(--board-accent)]"
+                : "bg-black/20 border-white/5 hover:border-white/10"
+            }`}
+          >
+            <div className="flex items-center gap-2 min-w-0">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[var(--board-accent)] shrink-0">
+                <rect x="3" y="3" width="7" height="7" rx="1"/>
+                <rect x="14" y="3" width="7" height="7" rx="1"/>
+                <rect x="14" y="14" width="7" height="7" rx="1"/>
+                <rect x="3" y="14" width="7" height="7" rx="1"/>
+              </svg>
+              <span className="text-[10px] font-black uppercase tracking-wider text-white truncate">
+                {activeCategory}
+              </span>
+            </div>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className={`text-[var(--text-muted)] transition-transform duration-200 ${openPanel === "category" ? "rotate-180" : ""}`}>
+              <path d="m6 9 6 6 6-6" />
             </svg>
-            <span className="text-[10px] font-black uppercase tracking-wider text-white truncate">
-              {activeCategory}
-            </span>
-          </div>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className={`text-[var(--text-muted)] transition-transform duration-200 ${openPanel === "category" ? "rotate-180" : ""}`}>
-            <path d="m6 9 6 6 6-6" />
-          </svg>
-        </button>
+          </button>
+        </div>
 
-        {/* Status Button */}
-        <button
-          onClick={() => setOpenPanel(openPanel === "status" ? null : "status")}
-          className={`flex-1 flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl border transition-all ${
-            openPanel === "status"
-              ? "bg-white/10 border-[var(--board-accent)]"
-              : "bg-black/20 border-white/5 hover:border-white/10"
-          }`}
-        >
-          <div className="flex items-center gap-2 min-w-0">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[var(--board-accent)] shrink-0">
-              <path d="M12 20h9"/>
-              <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>
+        {/* Status Section */}
+        <div className="flex-1 flex flex-col gap-1">
+          <span className="text-[8px] font-black uppercase tracking-[0.25em] text-[var(--text-muted)] pl-1">Your Bag</span>
+          <button
+            onClick={() => setOpenPanel(openPanel === "status" ? null : "status")}
+            className={`flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl border transition-all ${
+              openPanel === "status"
+                ? "bg-white/10 border-[var(--board-accent)]"
+                : "bg-black/20 border-white/5 hover:border-white/10"
+            }`}
+          >
+            <div className="flex items-center gap-2 min-w-0">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[var(--board-accent)] shrink-0">
+                <path d="M12 20h9"/>
+                <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>
+              </svg>
+              <span className="text-[10px] font-black uppercase tracking-wider text-white truncate">
+                {activeStatus}
+              </span>
+            </div>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className={`text-[var(--text-muted)] transition-transform duration-200 ${openPanel === "status" ? "rotate-180" : ""}`}>
+              <path d="m6 9 6 6 6-6" />
             </svg>
-            <span className="text-[10px] font-black uppercase tracking-wider text-white truncate">
-              {activeStatus}
-            </span>
-          </div>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className={`text-[var(--text-muted)] transition-transform duration-200 ${openPanel === "status" ? "rotate-180" : ""}`}>
-            <path d="m6 9 6 6 6-6" />
-          </svg>
-        </button>
+          </button>
+        </div>
 
-        {/* Level Button */}
-        <button
-          onClick={() => setOpenPanel(openPanel === "level" ? null : "level")}
-          className={`flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl border transition-all min-w-[90px] ${
-            openPanel === "level"
-              ? "bg-white/10 border-[var(--board-accent)]"
-              : "bg-black/20 border-white/5 hover:border-white/10"
-          }`}
-        >
-          <div className="flex items-center gap-2">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[var(--board-accent)] shrink-0">
-              <path d="M12 2v20"/>
-              <path d="M2 12h20"/>
-              <path d="m4.93 4.93 14.14 14.14"/>
-              <path d="m19.07 4.93-14.14 14.14"/>
+        {/* Level Section */}
+        <div className="flex flex-col gap-1">
+          <span className="text-[8px] font-black uppercase tracking-[0.25em] text-[var(--text-muted)] pl-1">Difficulty</span>
+          <button
+            onClick={() => setOpenPanel(openPanel === "level" ? null : "level")}
+            className={`flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl border transition-all min-w-[90px] ${
+              openPanel === "level"
+                ? "bg-white/10 border-[var(--board-accent)]"
+                : "bg-black/20 border-white/5 hover:border-white/10"
+            }`}
+          >
+            <div className="flex items-center gap-2">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[var(--board-accent)] shrink-0">
+                <path d="M12 2v20"/>
+                <path d="M2 12h20"/>
+                <path d="m4.93 4.93 14.14 14.14"/>
+                <path d="m19.07 4.93-14.14 14.14"/>
+              </svg>
+              <span className="text-[10px] font-black uppercase tracking-wider text-white">
+                {levelFilter === "all" ? "All" : `L${levelFilter}`}
+              </span>
+            </div>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className={`text-[var(--text-muted)] transition-transform duration-200 ${openPanel === "level" ? "rotate-180" : ""}`}>
+              <path d="m6 9 6 6 6-6" />
             </svg>
-            <span className="text-[10px] font-black uppercase tracking-wider text-white">
-              {levelFilter === "all" ? "All" : `L${levelFilter}`}
-            </span>
-          </div>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className={`text-[var(--text-muted)] transition-transform duration-200 ${openPanel === "level" ? "rotate-180" : ""}`}>
-            <path d="m6 9 6 6 6-6" />
-          </svg>
-        </button>
+          </button>
+        </div>
       </div>
 
       {/* Category Dropdown */}
