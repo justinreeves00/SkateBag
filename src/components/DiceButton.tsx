@@ -200,7 +200,7 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
             )}
 
             <div className="text-center space-y-6">
-              <span className="px-5 py-2 rounded-xl bg-[var(--board-accent)]/10 text-[var(--board-accent)] text-[10px] font-black uppercase tracking-[0.4em] border border-[var(--board-accent)]/20 shadow-lg shadow-black/30">Next Mission</span>
+              <span className="px-5 py-2 rounded-xl bg-[var(--board-accent)]/10 text-[var(--board-accent)] text-[10px] font-black uppercase tracking-[0.4em] border border-[var(--board-accent)]/20 shadow-lg shadow-black/30">You Rolled</span>
               <h2 className="text-5xl md:text-8xl font-black tracking-tighter text-white italic leading-[0.9] uppercase">
                 {result.name}
               </h2>
@@ -209,7 +209,13 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
                 <div className="w-1.5 h-1.5 rounded-full bg-[var(--board-accent)] shadow-lg shadow-black/30" />
                 <span className="text-[var(--board-accent)] italic">Tier {result.difficulty}</span>
                 <div className="w-1.5 h-1.5 rounded-full bg-[var(--board-accent)] shadow-lg shadow-black/30" />
-                <span className="text-white/80">Roll: {settings.categories[0]}</span>
+                <button 
+                  onClick={() => setShowSettings(true)}
+                  className="text-white/80 hover:text-[var(--board-accent)] transition-colors flex items-center gap-1"
+                >
+                  {settings.categories.length === 1 ? settings.categories[0] : `${settings.categories.length} categories`}
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m6 9 6 6 6-6"/></svg>
+                </button>
               </div>
             </div>
 
@@ -311,6 +317,16 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
                   </button>
                 </div>
               )}
+              
+              <div className="flex flex-col sm:flex-row gap-5">
+                <button
+                  onClick={() => setShowSettings(true)}
+                  className="flex-1 py-4 bg-[var(--surface-muted)] text-[var(--text-muted)] rounded-2xl font-black uppercase tracking-widest hover:text-[var(--foreground)] hover:bg-[var(--surface-elevated)] transition-all border border-[var(--border)] flex items-center justify-center gap-2"
+                >
+                  <FilterIcon size={16} />
+                  <span>Change Roll Options</span>
+                </button>
+              </div>
               
               <div className="flex flex-col sm:flex-row gap-5">
                 <button
