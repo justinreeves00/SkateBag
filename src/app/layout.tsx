@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import { PWASetup } from "@/components/PWASetup";
 import "./globals.css";
@@ -8,18 +8,19 @@ const geist = Geist({
   subsets: ["latin"],
 });
 
+export const viewport: Viewport = {
+  themeColor: "#ff5722",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://skatebag.app"),
   title: "SkateBag — Visualize your trick arsenal",
   description: "The definitive skateboarding trick database and tracker. Log your tricks, test your consistency, and climb the ranks.",
   manifest: "/manifest.json",
-  themeColor: "#ff5722",
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
-    userScalable: false,
-  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",

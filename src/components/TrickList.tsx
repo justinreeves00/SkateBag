@@ -9,7 +9,7 @@ import { SkateBagLogo } from "./Logo";
 import { signOut } from "@/lib/auth-actions";
 import { updateProfile } from "@/lib/profile-actions";
 import { submitNewTrickSuggestion } from "@/lib/trick-actions";
-import type { TrickWithStatus, TrickCategory, Profile } from "@/lib/types";
+import type { TrickWithStatus, TrickCategory, Profile, TrickStatus } from "@/lib/types";
 
 interface TrickListProps {
   tricks: TrickWithStatus[];
