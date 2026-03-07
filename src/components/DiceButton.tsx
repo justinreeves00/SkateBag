@@ -148,37 +148,37 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
       {/* Result Overlay Card */}
       {result && (
         <div
-          className="fixed inset-0 bg-black/95 backdrop-blur-xl z-[9999] overflow-y-auto flex flex-col items-center justify-start py-12 px-4 md:px-8 animate-in fade-in duration-500"
+          className="fixed inset-0 bg-black/95 backdrop-blur-xl z-[9999] overflow-y-auto flex flex-col items-center justify-start py-6 px-3 md:px-6 animate-in fade-in duration-500"
           onClick={() => { if(!showPrompt) setResult(null); }}
         >
           <div 
-            className="max-w-3xl w-full bg-[var(--surface)] rounded-3xl p-8 md:p-14 border border-[var(--board-accent)] shadow-lg shadow-black/30 space-y-10 animate-in zoom-in-95 duration-300 relative my-auto" 
+            className="max-w-3xl w-full bg-[var(--surface)] rounded-2xl p-5 md:p-10 border border-[var(--board-accent)] shadow-lg shadow-black/30 space-y-6 animate-in zoom-in-95 duration-300 relative my-auto" 
             onClick={(e) => e.stopPropagation()}
           >
             {/* 10 Tries Prompt Overlay (Internal to Card) */}
             {showPrompt && (
-              <div className="absolute inset-0 z-[100] bg-black/98 rounded-3xl p-8 md:p-14 flex flex-col justify-center animate-in fade-in duration-300 border-2 border-[var(--warn-accent)]/30 shadow-[0_0_50px_rgba(0,0,0,0.8)]">
+              <div className="absolute inset-0 z-[100] bg-black/98 rounded-2xl p-6 md:p-10 flex flex-col justify-center animate-in fade-in duration-300 border-2 border-[var(--warn-accent)]/30 shadow-[0_0_50px_rgba(0,0,0,0.8)]">
                 <button 
                   onClick={() => setShowPrompt(false)}
-                  className="absolute top-8 right-8 w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-[var(--text-muted)] hover:text-white border border-white/10 transition-all hover:scale-110 active:scale-95"
+                  className="absolute top-4 right-4 w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-[var(--text-muted)] hover:text-white border border-white/10 transition-all hover:scale-110 active:scale-95"
                 >
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
                 </button>
                 
-                <div className="space-y-12">
-                  <div className="text-center space-y-4">
-                    <span className="px-4 py-1.5 rounded-full bg-[var(--warn-accent)]/10 text-[var(--warn-accent)] text-[10px] font-black uppercase tracking-[0.4em] border border-[var(--warn-accent)]/20 shadow-lg">Bag Check</span>
-                    <h4 className="text-4xl md:text-6xl font-black tracking-tighter text-white uppercase italic leading-tight">Session Test</h4>
-                    <p className="text-slate-500 text-xs font-black uppercase tracking-widest bg-black/40 py-2 border border-white/5 rounded-lg max-w-[280px] mx-auto">Landed reps out of 10</p>
+                <div className="space-y-6">
+                  <div className="text-center space-y-2">
+                    <span className="px-3 py-1 rounded-full bg-[var(--warn-accent)]/10 text-[var(--warn-accent)] text-[9px] font-black uppercase tracking-[0.3em] border border-[var(--warn-accent)]/20 shadow-lg">Bag Check</span>
+                    <h4 className="text-2xl md:text-4xl font-black tracking-tighter text-white uppercase italic leading-tight">Session Test</h4>
+                    <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest bg-black/40 py-1.5 border border-white/5 rounded-lg max-w-[240px] mx-auto">Landed reps out of 10</p>
                   </div>
                   
-                  <div className="grid grid-cols-4 sm:grid-cols-6 gap-3">
+                  <div className="grid grid-cols-6 gap-2">
                     {[...Array(11)].map((_, i) => (
                       <button
                         key={i}
                         disabled={updating}
                         onClick={() => handleStatusToggle("locked", i)}
-                        className={`h-14 md:h-16 flex items-center justify-center text-lg font-black border-2 transition-all rounded-2xl ${
+                        className={`h-10 md:h-12 flex items-center justify-center text-base font-black border-2 transition-all rounded-xl ${
                           updating
                             ? "opacity-50 grayscale"
                             : "bg-black/40 text-[var(--text-muted)] hover:bg-[var(--warn-accent)]/20 hover:text-[var(--warn-accent)] hover:border-[var(--warn-accent)]/50 border-white/5 hover:scale-105 active:scale-90"
@@ -191,7 +191,7 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
                   
                   <button 
                     onClick={() => setShowPrompt(false)}
-                    className="w-full py-5 text-[10px] font-black text-slate-600 uppercase tracking-[0.4em] hover:text-white transition-colors"
+                    className="w-full py-3 text-[9px] font-black text-slate-600 uppercase tracking-[0.3em] hover:text-white transition-colors"
                   >
                     Cancel
                   </button>
@@ -199,52 +199,52 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
               </div>
             )}
 
-            <div className="text-center space-y-3">
-              <span className="inline-block px-3 py-1.5 rounded-lg bg-[var(--board-accent)]/10 text-[var(--board-accent)] text-[9px] font-black uppercase tracking-[0.3em] border border-[var(--board-accent)]/20">You Rolled</span>
+            <div className="text-center space-y-2">
+              <span className="inline-block px-2.5 py-1 rounded-md bg-[var(--board-accent)]/10 text-[var(--board-accent)] text-[8px] font-black uppercase tracking-[0.25em] border border-[var(--board-accent)]/20">You Rolled</span>
               
-              <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-white italic leading-[0.9] uppercase">
+              <h2 className="text-3xl md:text-5xl font-black tracking-tighter text-white italic leading-[0.9] uppercase">
                 {result.name}
               </h2>
               
-              <div className="flex items-center justify-center gap-3 flex-wrap">
-                <span className="text-[var(--text-muted)] text-xs font-black uppercase tracking-wider">{result.category}</span>
-                <span className="text-[var(--board-accent)]">•</span>
-                <span className="text-[var(--board-accent)] text-xs font-black uppercase tracking-wider italic">Level {result.difficulty}</span>
-                <span className="text-[var(--board-accent)]">•</span>
+              <div className="flex items-center justify-center gap-2 flex-wrap pt-1">
+                <span className="text-[var(--text-muted)] text-[11px] font-black uppercase tracking-wider">{result.category}</span>
+                <span className="text-[var(--board-accent)] text-[10px]">•</span>
+                <span className="text-[var(--board-accent)] text-[11px] font-black uppercase tracking-wider italic">Level {result.difficulty}</span>
+                <span className="text-[var(--board-accent)] text-[10px]">•</span>
                 <button 
                   onClick={() => setShowSettings(true)}
-                  className="w-6 h-6 rounded bg-white/5 border border-white/10 flex items-center justify-center text-[var(--text-muted)] hover:text-[var(--board-accent)] hover:border-[var(--board-accent)]/30 transition-all"
+                  className="w-5 h-5 rounded bg-white/5 border border-white/10 flex items-center justify-center text-[var(--text-muted)] hover:text-[var(--board-accent)] hover:border-[var(--board-accent)]/30 transition-all"
                   title="Change Roll Settings"
                 >
-                  <FilterIcon size={12} />
+                  <FilterIcon size={10} />
                 </button>
               </div>
             </div>
 
             {/* Video Player */}
-            <div className="space-y-4">
+            <div className="space-y-2">
               <div className="flex items-center justify-between px-1">
-                <span className="text-[10px] font-black text-[var(--text-muted)] uppercase tracking-[0.3em]">Trick Feed</span>
-                <div className="flex gap-4">
+                <span className="text-[9px] font-black text-[var(--text-muted)] uppercase tracking-[0.25em]">Trick Feed</span>
+                <div className="flex gap-3">
                   {searchMode === "query" && (
                     <button 
                       onClick={tryExact}
-                      className="text-[9px] font-black text-[var(--board-accent)] uppercase tracking-widest hover:text-[var(--foreground)] transition-colors"
+                      className="text-[8px] font-black text-[var(--board-accent)] uppercase tracking-widest hover:text-[var(--foreground)] transition-colors"
                     >
-                      Exact Search 🎯
+                      Exact 🎯
                     </button>
                   )}
                   {videoIds.length > 1 && (
-                    <div className="flex gap-3">
+                    <div className="flex gap-2">
                       <button 
                         onClick={prevVideo}
-                        className="text-[9px] font-black text-[var(--board-accent)] uppercase tracking-widest hover:text-[var(--foreground)] transition-colors"
+                        className="text-[8px] font-black text-[var(--board-accent)] uppercase tracking-widest hover:text-[var(--foreground)] transition-colors"
                       >
                         Prev
                       </button>
                       <button 
                         onClick={nextVideo}
-                        className="text-[9px] font-black text-[var(--board-accent)] uppercase tracking-widest hover:text-[var(--foreground)] transition-colors"
+                        className="text-[8px] font-black text-[var(--board-accent)] uppercase tracking-widest hover:text-[var(--foreground)] transition-colors"
                       >
                         Next ({currentVideoIndex + 1}/{videoIds.length})
                       </button>
@@ -252,7 +252,7 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
                   )}
                 </div>
               </div>
-              <div className="aspect-video w-full bg-black/60 rounded-3xl overflow-hidden border border-[var(--border)] relative shadow-inner group/video">
+              <div className="aspect-video w-full bg-black/60 rounded-2xl overflow-hidden border border-[var(--border)] relative shadow-inner group/video">
                 {videoIds.length > 0 ? (
                   <iframe
                     key={videoIds[currentVideoIndex]}
@@ -278,61 +278,61 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
             </div>
 
             {/* Actions Grid */}
-            <div className="grid grid-cols-1 gap-5 pt-4">
+            <div className="grid grid-cols-1 gap-3 pt-2">
               {isAuthenticated && (
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-3 gap-2">
                   <button
                     disabled={updating}
                     onClick={() => handleStatusToggle("learning")}
-                    className={`flex-1 py-4 rounded-2xl font-black uppercase tracking-widest transition-all border flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50 text-[9px] ${
+                    className={`flex-1 py-3 rounded-xl font-black uppercase tracking-widest transition-all border flex items-center justify-center gap-1 active:scale-95 disabled:opacity-50 text-[8px] ${
                       result.userStatus === "learning"
                         ? "bg-blue-500 text-white border-blue-500"
                         : "bg-blue-500/10 text-blue-400 hover:bg-blue-500 hover:text-white border-blue-500/20"
                     }`}
                   >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v4"/><path d="m16.2 7.8 2.9-2.9"/><path d="M18 12h4"/><path d="m16.2 16.2 2.9 2.9"/><path d="M12 18v4"/><path d="m4.9 19.1 2.9-2.9"/><path d="M2 12h4"/><path d="m4.9 4.9 2.9 2.9"/></svg>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v4"/><path d="m16.2 7.8 2.9-2.9"/><path d="M18 12h4"/><path d="m16.2 16.2 2.9 2.9"/><path d="M12 18v4"/><path d="m4.9 19.1 2.9-2.9"/><path d="M2 12h4"/><path d="m4.9 4.9 2.9 2.9"/></svg>
                     <span>Learning</span>
                   </button>
                   <button
                     disabled={updating}
                     onClick={() => handleStatusToggle("landed")}
-                    className={`flex-1 py-4 rounded-2xl font-black uppercase tracking-widest transition-all border flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50 text-[9px] ${
+                    className={`flex-1 py-3 rounded-xl font-black uppercase tracking-widest transition-all border flex items-center justify-center gap-1 active:scale-95 disabled:opacity-50 text-[8px] ${
                       result.userStatus === "landed" || result.userStatus === "locked"
                         ? "bg-[var(--board-accent)] text-[#041316] border-[var(--board-accent)]"
                         : "bg-[var(--board-accent)]/10 text-[var(--board-accent)] hover:bg-[var(--board-accent)] hover:text-[#041316] border-[var(--board-accent)]/30"
                     }`}
                   >
-                    <CheckIcon size={16} />
+                    <CheckIcon size={14} />
                     <span>Landed</span>
                   </button>
                   <button
                     disabled={updating}
                     onClick={() => setShowPrompt(true)}
-                    className={`flex-1 py-4 rounded-2xl font-black uppercase tracking-widest transition-all border flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50 text-[9px] ${
+                    className={`flex-1 py-3 rounded-xl font-black uppercase tracking-widest transition-all border flex items-center justify-center gap-1 active:scale-95 disabled:opacity-50 text-[8px] ${
                       result.userStatus === "locked"
                         ? "bg-[var(--warn-accent)] text-black border-[var(--warn-accent)]"
                         : "bg-[var(--warn-accent)]/10 text-[var(--warn-accent)] hover:bg-[var(--warn-accent)] hover:text-black border-[var(--warn-accent)]/30"
                     }`}
                   >
-                    <LockIcon size={14} />
+                    <LockIcon size={12} />
                     <span>Lock it</span>
                   </button>
                 </div>
               )}
               
-              <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex flex-col sm:flex-row gap-2">
                 <button
                   onClick={roll}
-                  className={`flex-1 py-5 bg-white text-black rounded-2xl font-black uppercase tracking-widest hover:brightness-110 transition-all shadow-lg shadow-black/30 hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2 ${rolling ? "opacity-50" : ""}`}
+                  className={`flex-1 py-4 bg-white text-black rounded-xl font-black uppercase tracking-widest hover:brightness-110 transition-all shadow-lg shadow-black/30 hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2 ${rolling ? "opacity-50" : ""}`}
                 >
                   <div className={rolling ? "animate-spin" : ""}>
-                    <DiceIcon size={18} />
+                    <DiceIcon size={16} />
                   </div>
                   <span>Roll Again</span>
                 </button>
                 <button
                   onClick={() => setResult(null)}
-                  className="flex-1 py-5 bg-[var(--surface-muted)] text-[var(--text-muted)] rounded-2xl font-black uppercase tracking-widest hover:text-[var(--foreground)] hover:bg-[var(--surface-elevated)] transition-all border border-[var(--border)]"
+                  className="flex-1 py-4 bg-[var(--surface-muted)] text-[var(--text-muted)] rounded-xl font-black uppercase tracking-widest hover:text-[var(--foreground)] hover:bg-[var(--surface-elevated)] transition-all border border-[var(--border)] text-[10px]"
                 >
                   Close
                 </button>
@@ -345,7 +345,7 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
       {/* Settings Panel Card */}
       {showSettings && (
         <div
-          className="fixed inset-0 bg-black/90 backdrop-blur-xl z-[9999] overflow-y-auto flex flex-col items-center justify-start py-12 px-4 md:px-6 animate-in fade-in duration-300"
+          className="fixed inset-0 bg-black/90 backdrop-blur-xl z-[9999] overflow-y-auto flex flex-col items-center justify-start py-6 px-3 md:px-6 animate-in fade-in duration-300"
           onClick={() => setShowSettings(false)}
         >
           <div
