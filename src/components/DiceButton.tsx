@@ -78,8 +78,6 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
     
     if (settings.consistencyMode) {
       pool = pool.filter((t) => t.userStatus === "landed");
-    } else if (settings.projectMode) {
-      pool = pool.filter((t) => t.userStatus === "learning");
     } else {
       if (settings.excludeLanded) pool = pool.filter((t) => t.userStatus !== "landed" && t.userStatus !== "locked");
       if (settings.excludeLocked) pool = pool.filter((t) => t.userStatus !== "locked");
@@ -345,9 +343,9 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
             </div>
 
             <div className="space-y-12">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 gap-5">
                 <button
-                  onClick={() => setSettings((s) => ({ ...s, consistencyMode: !s.consistencyMode, projectMode: false }))}
+                  onClick={() => setSettings((s) => ({ ...s, consistencyMode: !s.consistencyMode }))}
                   className={`flex items-center justify-between p-6 rounded-3xl border text-left transition-all ${
                     settings.consistencyMode ? "bg-[var(--warn-accent)]/20 border-[var(--warn-accent)] shadow-lg shadow-black/30" : "bg-[var(--surface-muted)] border-[var(--border)] text-slate-600 hover:border-[var(--warn-accent)]/35 hover:bg-[var(--surface-elevated)]"
                   }`}
@@ -360,24 +358,9 @@ export function DiceButton({ tricks, isAuthenticated, onStatusChange }: DiceButt
                     <LockIcon size={20} />
                   </div>
                 </button>
-
-                <button
-                  onClick={() => setSettings((s) => ({ ...s, projectMode: !s.projectMode, consistencyMode: false }))}
-                  className={`flex items-center justify-between p-6 rounded-3xl border text-left transition-all ${
-                    settings.projectMode ? "bg-blue-500/20 border-blue-500 shadow-lg shadow-black/30" : "bg-[var(--surface-muted)] border-[var(--border)] text-slate-600 hover:border-blue-500/35 hover:bg-[var(--surface-elevated)]"
-                  }`}
-                >
-                  <div className="flex flex-col gap-1">
-                    <span className={`text-[8px] font-black uppercase tracking-[0.2em] ${settings.projectMode ? "text-blue-400" : "text-[var(--text-muted)]"}`}>Project Mode</span>
-                    <span className={`text-base font-black uppercase tracking-tight ${settings.projectMode ? "text-white" : ""}`}>Roll for Projects</span>
-                  </div>
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center border-2 transition-all ${settings.projectMode ? "bg-blue-500 border-blue-500 text-white -rotate-12" : "border-white/10 text-slate-700"}`}>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v4"/><path d="m16.2 7.8 2.9-2.9"/><path d="M18 12h4"/><path d="m16.2 16.2 2.9 2.9"/><path d="M12 18v4"/><path d="m4.9 19.1 2.9-2.9"/><path d="M2 12h4"/><path d="m4.9 4.9 2.9 2.9"/></svg>
-                  </div>
-                </button>
               </div>
 
-              {!settings.consistencyMode && !settings.projectMode && (
+              {!settings.consistencyMode && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 animate-in slide-in-from-top-4 duration-300">
                   <button
                     onClick={() => setSettings((s) => ({ ...s, excludeLanded: !s.excludeLanded }))}
