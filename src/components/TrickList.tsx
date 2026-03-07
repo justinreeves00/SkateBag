@@ -117,20 +117,22 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
     return baseFiltered
       .filter((t) => {
         const matchesStatus = 
-          (statusFilter === "all" && (t.userStatus === null || t.userStatus === "learning" || t.userStatus === "locked")) || 
+          (statusFilter === "all" && t.userStatus === null) || 
           (statusFilter === "landed" && (t.userStatus === "landed" || t.userStatus === "locked")) ||
           (statusFilter === "locked" && t.userStatus === "locked") ||
           (statusFilter === "learning" && t.userStatus === "learning");
         return matchesStatus;
       })
       .sort((a, b) => {
-        // ALWAYS prioritize manual sort order if it exists
+        // Difficulty sorting (Ascending: 1, 2, 3...)
+        if (a.difficulty !== b.difficulty) return (a.difficulty ?? 0) - (b.difficulty ?? 0);
+        
+        // Manual sort order within difficulty if it exists
         const orderA = a.sortOrder ?? 999999;
         const orderB = b.sortOrder ?? 999999;
         if (orderA !== orderB) return orderA - orderB;
         
-        // Fallback to name/difficulty
-        if (a.difficulty !== b.difficulty) return (a.difficulty ?? 0) - (b.difficulty ?? 0);
+        // Fallback to name
         return a.name.localeCompare(b.name);
       });
   }, [baseFiltered, statusFilter]);
@@ -138,7 +140,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
   const landed = baseFiltered.filter((t) => t.userStatus === "landed" || t.userStatus === "locked").length;
   const locked = baseFiltered.filter((t) => t.userStatus === "locked").length;
   const learning = baseFiltered.filter((t) => t.userStatus === "learning").length;
-  const unlearned = baseFiltered.filter((t) => t.userStatus === null || t.userStatus === "learning" || t.userStatus === "locked").length;
+  const unlearned = baseFiltered.filter((t) => t.userStatus === null).length;
 
   async function handleProfileUpdate(e: React.FormEvent) {
     e.preventDefault();
@@ -392,7 +394,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
         {/* Brand & Stats Row */}
         <div className="max-w-6xl mx-auto px-6 py-10">
           <div className="flex flex-col gap-10">
-            {/* Top Row: Brand and Primary Actions */}
+            {/* Top Row: Brand and Settings */}
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-5 shrink-0">
                 <SkateBagLogo size={64} className="shadow-lg shadow-black/30 transform -rotate-2" />
@@ -407,7 +409,21 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
               </div>
 
               <div className="flex items-center gap-3">
-                <DiceButton tricks={localTricks} isAuthenticated={isAuthenticated} onStatusChange={handleStatusChange} />
+                {!isAuthenticated ? (
+                  <a
+                    href="/login"
+                    className="inline-block px-5 py-2 rounded bg-white text-black text-[10px] font-black uppercase tracking-widest hover:bg-[var(--board-accent)] hover:text-white transition-all shadow-lg"
+                  >
+                    Sign in
+                  </a>
+                ) : (
+                  <button
+                    onClick={() => setShowSettingsModal(true)}
+                    className="px-5 py-2 rounded-lg bg-black/40 border border-white/10 text-[10px] text-slate-400 font-black uppercase tracking-widest hover:text-white hover:bg-black/60 transition-all"
+                  >
+                    Settings
+                  </button>
+                )}
               </div>
             </div>
 
@@ -425,6 +441,11 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                 onChange={(e) => setSearch(e.target.value)}
                 className="w-full bg-black border-2 border-white/5 rounded-2xl pl-16 pr-8 py-6 text-lg font-black text-white placeholder-slate-800 focus:outline-none focus:border-[var(--board-accent)]/40 transition-all uppercase tracking-widest shadow-2xl"
               />
+            </div>
+
+            {/* Action Row: Roll and Roll Settings */}
+            <div className="flex justify-center md:justify-start">
+              <DiceButton tricks={localTricks} isAuthenticated={isAuthenticated} onStatusChange={handleStatusChange} />
             </div>
 
             {/* Bottom Section: Filters */}
