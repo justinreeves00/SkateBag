@@ -8,6 +8,7 @@ import { DiceButton } from "./DiceButton";
 import { SkateBagLogo } from "./Logo";
 import { signOut } from "@/lib/auth-actions";
 import { updateProfile } from "@/lib/profile-actions";
+import { submitNewTrickSuggestion } from "@/lib/trick-actions";
 import type { TrickWithStatus, TrickCategory, Profile } from "@/lib/types";
 
 interface TrickListProps {
@@ -17,26 +18,35 @@ interface TrickListProps {
   userProfile: Profile | null;
 }
 
+const CATEGORIES: TrickCategory[] = [
+  "flatground", "street", "ledge/rail", "transition", "gaps", "freestyle", "downhill"
+];
+
 export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: TrickListProps) {
   const router = useRouter();
   const [category, setCategory] = useState<TrickCategory | "all">("all");
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | "landed" | "locked">("all");
   
-  // Track if we are currently forcing the setup modal closed (e.g. after successful save)
   const [forceCloseSetup, setForceCloseSetup] = useState(false);
   const [displayName, setDisplayName] = useState("");
   const [isUpdatingProfile, setIsUpdatingProfile] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
   const [profileError, setProfileError] = useState<string | null>(null);
 
+  // Suggest Trick State
+  const [showSuggestModal, setShowSuggestModal] = useState(false);
+  const [suggestForm, setSuggestForm] = useState({ name: "", category: "flatground" as TrickCategory, description: "" });
+  const [isSuggesting, setIsSuggesting] = useState(false);
+  const [suggestSuccess, setSuggestSuccess] = useState(false);
+
   // Sync displayName and setup visibility with prop
   useEffect(() => {
     if (userProfile?.display_name) {
       setDisplayName(userProfile.display_name);
-      setForceCloseSetup(true); // Close setup if name exists
+      setForceCloseSetup(true);
     } else if (isAuthenticated) {
-      setForceCloseSetup(false); // Show setup if name is missing
+      setForceCloseSetup(false);
     }
   }, [userProfile?.display_name, isAuthenticated]);
 
@@ -70,6 +80,22 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
       setProfileError(res.error || "Update failed");
     }
     setIsUpdatingProfile(false);
+  }
+
+  async function handleSuggest(e: React.FormEvent) {
+    e.preventDefault();
+    if (!suggestForm.name.trim()) return;
+    setIsSuggesting(true);
+    const res = await submitNewTrickSuggestion(suggestForm.name, suggestForm.category, suggestForm.description);
+    if (res.success) {
+      setSuggestSuccess(true);
+      setTimeout(() => {
+        setShowSuggestModal(false);
+        setSuggestSuccess(false);
+        setSuggestForm({ name: "", category: "flatground", description: "" });
+      }, 2000);
+    }
+    setIsSuggesting(false);
   }
 
   return (
@@ -108,12 +134,66 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
         </div>
       )}
 
+      {/* Suggest Trick Modal */}
+      {showSuggestModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm p-6" onClick={() => setShowSuggestModal(false)}>
+          <div className="w-full max-w-md cyber-card p-10 space-y-8 animate-in zoom-in-95 duration-300" onClick={(e) => e.stopPropagation()}>
+            <div className="flex justify-between items-center">
+              <h2 className="text-3xl font-black italic uppercase tracking-tighter text-white">Suggest Trick</h2>
+              <button onClick={() => setShowSuggestModal(false)} className="text-slate-500 hover:text-white">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+              </button>
+            </div>
+            {suggestSuccess ? (
+              <div className="py-10 text-center space-y-4">
+                <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto shadow-[0_0_20px_rgba(34,197,94,0.4)]">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="4"><path d="M20 6L9 17L4 12"/></svg>
+                </div>
+                <p className="text-[var(--board-accent)] font-black uppercase italic tracking-widest">Submission Received</p>
+              </div>
+            ) : (
+              <form onSubmit={handleSuggest} className="space-y-6">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">Trick Name</label>
+                  <input
+                    type="text"
+                    value={suggestForm.name}
+                    onChange={(e) => setSuggestForm({...suggestForm, name: e.target.value})}
+                    placeholder="E.G. HARDFLIP..."
+                    required
+                    autoFocus
+                    className="w-full bg-black border border-white/10 rounded-lg px-6 py-4 text-sm font-black text-white focus:border-[var(--board-accent)] outline-none uppercase tracking-widest"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">Category</label>
+                  <select
+                    value={suggestForm.category}
+                    onChange={(e) => setSuggestForm({...suggestForm, category: e.target.value as any})}
+                    className="w-full bg-black border border-white/10 rounded-lg px-6 py-4 text-sm font-black text-white focus:border-[var(--board-accent)] outline-none uppercase tracking-widest"
+                  >
+                    {CATEGORIES.map(cat => <option key={cat} value={cat}>{cat.toUpperCase()}</option>)}
+                  </select>
+                </div>
+                <button
+                  type="submit"
+                  disabled={isSuggesting}
+                  className="w-full bg-[var(--board-accent)] text-white font-black py-5 px-8 rounded-lg hover:brightness-110 transition-all text-[11px] tracking-[0.2em] uppercase"
+                >
+                  {isSuggesting ? "Submitting..." : "Send Suggestion"}
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* Settings Modal */}
       {showSettingsModal && (
         <div className="fixed inset-0 z-[90] flex items-center justify-center bg-black/90 p-6" onClick={() => setShowSettingsModal(false)}>
           <div className="w-full max-w-md cyber-card p-10 space-y-8 animate-in zoom-in-95 duration-300" onClick={(e) => e.stopPropagation()}>
             <div className="flex justify-between items-center">
-              <h2 className="text-3xl font-black italic uppercase tracking-tighter text-white leading-none">Settings</h2>
+              <h2 className="text-3xl font-black italic uppercase tracking-tighter text-white">Settings</h2>
               <button onClick={() => setShowSettingsModal(false)} className="w-10 h-10 rounded-lg bg-black/40 border border-white/10 flex items-center justify-center text-slate-500 hover:text-white transition-all">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
               </button>
@@ -141,13 +221,20 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
             </form>
             <div className="h-px bg-white/5 w-full" />
             <div className="space-y-3">
+              <button
+                onClick={() => { setShowSettingsModal(false); setShowSuggestModal(true); }}
+                className="flex items-center justify-center gap-2 w-full py-4 bg-white/5 text-slate-400 border border-white/10 font-black uppercase tracking-widest text-[10px] rounded-lg hover:text-white hover:bg-white/10 transition-all"
+              >
+                Suggest Missing Trick
+              </button>
               <a 
                 href="https://github.com/justinreeves00/SkateBag/issues/new" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 w-full py-4 bg-black/40 text-slate-400 border border-white/10 font-black uppercase tracking-widest text-[10px] rounded-lg hover:text-white hover:bg-black/60 transition-all"
               >
-                Report Bug / Feature
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22c5.5 0 10-4.5 10-10S17.5 2 12 2 2 6.5 2 12s4.5 10 10 10Z"/></svg>
+                Report Bug / Help
               </a>
               <form action={signOut}>
                 <button

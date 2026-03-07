@@ -26,11 +26,18 @@ export default async function AdminPage() {
     .eq("status", "pending")
     .order("created_at", { ascending: false });
 
+  const { data: newTrickSuggestions } = await supabase
+    .from("new_trick_suggestions")
+    .select("*")
+    .eq("status", "pending")
+    .order("created_at", { ascending: false });
+
   return (
     <main className="min-h-screen bg-black text-white p-8">
       <AdminClient 
         initialTricks={tricks || []} 
         suggestions={suggestions || []} 
+        newTrickSuggestions={newTrickSuggestions || []}
       />
     </main>
   );

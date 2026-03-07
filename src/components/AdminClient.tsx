@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { updateTrick, deleteTrick, handleTrickSuggestion, addTrick } from "@/lib/trick-actions";
+import { updateTrick, deleteTrick, handleTrickSuggestion, addTrick, handleNewTrickSuggestion } from "@/lib/trick-actions";
 import { SkateBagLogo } from "@/components/Logo";
 import type { Trick, TrickCategory } from "@/lib/types";
 
@@ -12,10 +12,12 @@ const CATEGORIES: TrickCategory[] = [
 interface AdminClientProps {
   initialTricks: Trick[];
   suggestions: any[];
+  newTrickSuggestions: any[];
 }
 
-export function AdminClient({ initialTricks, suggestions }: AdminClientProps) {
+export function AdminClient({ initialTricks, suggestions, newTrickSuggestions: initialNewTrickSuggestions }: AdminClientProps) {
   const [tricks, setTricks] = useState<Trick[]>(initialTricks);
+  const [newSugs, setNewSugs] = useState<any[]>(initialNewTrickSuggestions);
   const [filterCategory, setFilterCategory] = useState<TrickCategory | "all">("all");
   const [searchQuery, setSearchSearchQuery] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -28,6 +30,7 @@ export function AdminClient({ initialTricks, suggestions }: AdminClientProps) {
     difficulty: 1,
     youtube_query: ""
   });
+  const [addError, setAddError] = useState<string | null>(null);
 
   const filteredTricks = tricks.filter(t => {
     const matchesCategory = filterCategory === "all" || t.category === filterCategory;
@@ -54,12 +57,22 @@ export function AdminClient({ initialTricks, suggestions }: AdminClientProps) {
   async function handleAdd(e: React.FormEvent) {
     e.preventDefault();
     if (!addForm.name.trim()) return;
+    setAddError(null);
     
     const res = await addTrick(addForm);
     if (res.success && res.data) {
       setTricks([res.data as Trick, ...tricks]);
       setShowAddForm(false);
       setAddForm({ name: "", category: "flatground", difficulty: 1, youtube_query: "" });
+    } else {
+      setAddError(res.error || "Failed to add trick");
+    }
+  }
+
+  async function handleNewSug(id: string, status: 'approved' | 'rejected') {
+    const res = await handleNewTrickSuggestion(id, status);
+    if (res.success) {
+      setNewSugs(newSugs.filter(s => s.id !== id));
     }
   }
 
@@ -127,6 +140,8 @@ export function AdminClient({ initialTricks, suggestions }: AdminClientProps) {
                 </div>
               </div>
 
+              {addError && <p className="text-red-500 text-xs font-black uppercase tracking-widest">{addError}</p>}
+
               <div className="flex flex-wrap items-center justify-between gap-8 pt-6 border-t border-[var(--border)]">
                 <div className="space-y-2">
                   <label className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Threat Level (Difficulty)</label>
@@ -155,11 +170,45 @@ export function AdminClient({ initialTricks, suggestions }: AdminClientProps) {
         </section>
       )}
 
-      {/* Suggestions Section */}
+      {/* Incoming New Trick Suggestions */}
+      {newSugs && newSugs.length > 0 && (
+        <section className="space-y-6">
+          <div className="flex items-center gap-4">
+            <h2 className="text-xl font-black italic uppercase text-[var(--board-accent)]">Missing Trick Suggestions</h2>
+            <span className="bg-[var(--board-accent)] text-white text-[10px] font-black px-2 py-0.5 rounded-sm">{newSugs.length}</span>
+          </div>
+          <div className="grid grid-cols-1 gap-4">
+            {newSugs.map((s: any) => (
+              <div key={s.id} className="cyber-card p-6 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-6 border-[var(--board-accent)]/30">
+                <div className="space-y-1">
+                  <h3 className="text-xl font-black uppercase italic">{s.name}</h3>
+                  <div className="flex items-center gap-3">
+                    <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{s.category}</span>
+                    {s.description && <span className="text-[10px] text-slate-600 italic">"{s.description}"</span>}
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <button onClick={() => { setAddForm({ name: s.name, category: s.category as any, difficulty: 1, youtube_query: "" }); setShowAddForm(true); setEditingId(null); }} className="px-5 py-2.5 rounded-lg bg-[var(--board-accent)] text-white text-[10px] font-black uppercase tracking-widest hover:brightness-110 transition-all shadow-lg shadow-black/30">
+                    Use Info
+                  </button>
+                  <button onClick={() => handleNewSug(s.id, "approved")} className="px-5 py-2.5 rounded-lg bg-green-600 text-white text-[10px] font-black uppercase tracking-widest hover:brightness-110 transition-all shadow-lg">
+                    Mark Done
+                  </button>
+                  <button onClick={() => handleNewSug(s.id, "rejected")} className="px-5 py-2.5 rounded-lg bg-red-600 text-white text-[10px] font-black uppercase tracking-widest hover:brightness-110 transition-all shadow-lg">
+                    Reject
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Suggestions Section (Levels) */}
       {suggestions && suggestions.length > 0 && (
         <section className="space-y-6">
           <div className="flex items-center gap-4">
-            <h2 className="text-xl font-black italic uppercase text-[#f59e0b]">Incoming Suggestions</h2>
+            <h2 className="text-xl font-black italic uppercase text-[#f59e0b]">Level Calibration Requests</h2>
             <span className="bg-[#f59e0b] text-white text-[10px] font-black px-2 py-0.5 rounded-sm">{suggestions.length}</span>
           </div>
           
