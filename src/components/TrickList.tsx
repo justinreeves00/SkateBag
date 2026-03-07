@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { TrickCard } from "./TrickCard";
 import { CategoryFilter } from "./CategoryFilter";
@@ -8,8 +8,27 @@ import { DiceButton } from "./DiceButton";
 import { SkateBagLogo } from "./Logo";
 import { signOut } from "@/lib/auth-actions";
 import { updateProfile } from "@/lib/profile-actions";
-import { submitNewTrickSuggestion } from "@/lib/trick-actions";
+import { submitNewTrickSuggestion, updateTrickOrder } from "@/lib/trick-actions";
 import type { TrickWithStatus, TrickCategory, Profile } from "@/lib/types";
+
+// DnD Kit Imports
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+  useSortable,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 interface TrickListProps {
   tricks: TrickWithStatus[];
@@ -22,6 +41,51 @@ const CATEGORIES: TrickCategory[] = [
   "flatground", "street", "ledge/rail", "transition", "gaps", "freestyle", "downhill"
 ];
 
+// Sortable Wrapper Component
+function SortableTrickCard({ 
+  trick, 
+  isAuthenticated, 
+  isDraggable 
+}: { 
+  trick: TrickWithStatus; 
+  isAuthenticated: boolean;
+  isDraggable: boolean;
+}) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging
+  } = useSortable({ id: trick.id, disabled: !isDraggable });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    zIndex: isDragging ? 50 : 1,
+    opacity: isDragging ? 0.8 : 1,
+  };
+
+  return (
+    <div ref={setNodeRef} style={style} className="relative group/sortable">
+      {isDraggable && (
+        <div 
+          {...attributes} 
+          {...listeners}
+          className="absolute -left-3 top-1/2 -translate-y-1/2 w-8 h-12 flex items-center justify-center cursor-grab active:cursor-grabbing z-30 opacity-0 group-hover/sortable:opacity-100 transition-opacity bg-[var(--surface-elevated)] rounded-l-lg border border-white/5 border-r-0"
+        >
+          <svg width="12" height="18" viewBox="0 0 12 18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+            <circle cx="2" cy="3" r="1" fill="currentColor"/><circle cx="2" cy="9" r="1" fill="currentColor"/><circle cx="2" cy="15" r="1" fill="currentColor"/>
+            <circle cx="8" cy="3" r="1" fill="currentColor"/><circle cx="8" cy="9" r="1" fill="currentColor"/><circle cx="8" cy="15" r="1" fill="currentColor"/>
+          </svg>
+        </div>
+      )}
+      <TrickCard trick={trick} isAuthenticated={isAuthenticated} />
+    </div>
+  );
+}
+
 export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: TrickListProps) {
   const router = useRouter();
   const [category, setCategory] = useState<TrickCategory | "all">("all");
@@ -33,6 +97,50 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
   const [isUpdatingProfile, setIsUpdatingProfile] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
   const [profileError, setProfileError] = useState<string | null>(null);
+
+  // Local state for sorted tricks
+  const [localTricks, setLocalTricks] = useState<TrickWithStatus[]>([]);
+
+  // PWA Install State
+  const [installPrompt, setInstallPrompt] = useState<any>(null);
+  const [isPWA, setIsPWA] = useState(false);
+
+  useEffect(() => {
+    // Check if running as PWA
+    const isStandalone = window.matchMedia("(display-mode: standalone)").matches || (window.navigator as any).standalone === true;
+    setIsPWA(isStandalone);
+
+    const handleInstallAvailable = (e: any) => {
+      setInstallPrompt(e.detail);
+    };
+
+    const handleInstalled = () => {
+      setInstallPrompt(null);
+      setIsPWA(true);
+    };
+
+    window.addEventListener("pwa-install-available", handleInstallAvailable);
+    window.addEventListener("pwa-installed", handleInstalled);
+
+    return () => {
+      window.removeEventListener("pwa-install-available", handleInstallAvailable);
+      window.removeEventListener("pwa-installed", handleInstalled);
+    };
+  }, []);
+
+  // Initialize and sync localTricks when prop changes
+  useEffect(() => {
+    setLocalTricks(tricks);
+  }, [tricks]);
+
+  async function handleInstallClick() {
+    if (!installPrompt) return;
+    installPrompt.prompt();
+    const { outcome } = await installPrompt.userChoice;
+    if (outcome === "accepted") {
+      setInstallPrompt(null);
+    }
+  }
 
   // Suggest Trick State
   const [showSuggestModal, setShowSuggestModal] = useState(false);
@@ -52,18 +160,72 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
 
   const showProfileSetup = isAuthenticated && !userProfile?.display_name && !forceCloseSetup;
 
-  const filtered = tricks.filter((t) => {
-    const matchesCategory = category === "all" || t.category === category;
-    const matchesSearch = t.name.toLowerCase().includes(search.toLowerCase());
-    const matchesStatus = 
-      statusFilter === "all" || 
-      (statusFilter === "landed" ? (t.userStatus === "landed" || t.userStatus === "locked") : t.userStatus === statusFilter);
-    return matchesCategory && matchesSearch && matchesStatus;
-  });
+  // Compute filtered list from localTricks to allow smooth DnD
+  const filtered = useMemo(() => {
+    return localTricks
+      .filter((t) => {
+        const matchesCategory = category === "all" || t.category === category;
+        const matchesSearch = t.name.toLowerCase().includes(search.toLowerCase());
+        const matchesStatus = 
+          statusFilter === "all" || 
+          (statusFilter === "landed" ? (t.userStatus === "landed" || t.userStatus === "locked") : t.userStatus === statusFilter);
+        return matchesCategory && matchesSearch && matchesStatus;
+      })
+      .sort((a, b) => {
+        // If status filter is active, use manual sort order if it exists
+        if (statusFilter !== "all") {
+          const orderA = a.sortOrder ?? 999999;
+          const orderB = b.sortOrder ?? 999999;
+          if (orderA !== orderB) return orderA - orderB;
+        }
+        // Fallback to name for base list
+        return a.name.localeCompare(b.name);
+      });
+  }, [localTricks, category, search, statusFilter]);
 
-  const landed = tricks.filter((t) => t.userStatus === "landed" || t.userStatus === "locked").length;
-  const locked = tricks.filter((t) => t.userStatus === "locked").length;
-  const progress = tricks.length > 0 ? (landed / tricks.length) * 100 : 0;
+  const landed = localTricks.filter((t) => t.userStatus === "landed" || t.userStatus === "locked").length;
+  const locked = localTricks.filter((t) => t.userStatus === "locked").length;
+  const progress = localTricks.length > 0 ? (landed / localTricks.length) * 100 : 0;
+
+  // DnD Handlers
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  async function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+
+    if (over && active.id !== over.id) {
+      const oldIndex = filtered.findIndex((t) => t.id === active.id);
+      const newIndex = filtered.findIndex((t) => t.id === over.id);
+
+      const newFiltered = arrayMove(filtered, oldIndex, newIndex);
+      
+      // Update local state immediately for snappy UI
+      const updatedLocalTricks = localTricks.map(t => {
+        const foundIndex = newFiltered.findIndex(nf => nf.id === t.id);
+        if (foundIndex !== -1) {
+          return { ...t, sortOrder: foundIndex + 1, isManuallySorted: true };
+        }
+        return t;
+      });
+      setLocalTricks(updatedLocalTricks);
+
+      // Save to database
+      // We update the sort_order of the moved item
+      await updateTrickOrder(active.id as string, newIndex + 1);
+      
+      // Optimization: We could update others too, but for simplicity we'll let the DB handle it or re-fetch
+      router.refresh();
+    }
+  }
 
   async function handleProfileUpdate(e: React.FormEvent) {
     e.preventDefault();
@@ -97,6 +259,13 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
     }
     setIsSuggesting(false);
   }
+
+  // Sorting is enabled only for the admin user when viewing Landed or Locked lists (Issue #6)
+  const isSortingEnabled = isAuthenticated && 
+                           userEmail === "justinreeves00@gmail.com" && 
+                           statusFilter !== "all" && 
+                           search === "" && 
+                           category === "all";
 
   return (
     <div className="min-h-screen text-white selection:bg-[var(--board-accent)]/30">
@@ -287,7 +456,15 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
             )}
           </div>
 
-          <div>
+          <div className="flex items-center gap-2">
+            {!isPWA && installPrompt && (
+              <button
+                onClick={handleInstallClick}
+                className="px-4 py-2 rounded-lg bg-[var(--board-accent)]/10 text-[var(--board-accent)] border border-[var(--board-accent)]/20 text-[10px] font-black uppercase tracking-widest hover:bg-[var(--board-accent)] hover:text-white transition-all shadow-lg animate-pulse"
+              >
+                Install App
+              </button>
+            )}
             {!isAuthenticated ? (
               <a
                 href="/login"
@@ -383,7 +560,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                       />
                     </div>
                     <div className="shrink-0">
-                      <DiceButton tricks={filtered} />
+                      <DiceButton tricks={localTricks} isAuthenticated={isAuthenticated} />
                     </div>
                   </div>
                   <CategoryFilter active={category} onChange={setCategory} />
@@ -415,15 +592,27 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 items-start">
-            {filtered.map((trick) => (
-              <TrickCard
-                key={trick.id}
-                trick={trick}
-                isAuthenticated={isAuthenticated}
-              />
-            ))}
-          </div>
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+          >
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 items-start">
+              <SortableContext
+                items={filtered.map((t) => t.id)}
+                strategy={verticalListSortingStrategy}
+              >
+                {filtered.map((trick) => (
+                  <SortableTrickCard
+                    key={trick.id}
+                    trick={trick}
+                    isAuthenticated={isAuthenticated}
+                    isDraggable={isSortingEnabled}
+                  />
+                ))}
+              </SortableContext>
+            </div>
+          </DndContext>
         )}
       </main>
     </div>

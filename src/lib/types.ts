@@ -17,6 +17,7 @@ export interface Trick {
   inventor: string | null;
   year: number | null;
   difficulty: number | null; // 1-5
+  sort_order: number | null;
   youtube_query: string | null;
   created_at: string;
 }
@@ -35,6 +36,8 @@ export interface UserTrick {
   trick_id: string;
   status: TrickStatus;
   consistency: number | null;
+  sort_order: number;
+  is_manually_sorted: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -42,6 +45,8 @@ export interface UserTrick {
 export interface TrickWithStatus extends Trick {
   userStatus: TrickStatus | null;
   userConsistency: number | null;
+  sortOrder: number | null;
+  isManuallySorted: boolean | null;
 }
 
 export interface DiceFilterSettings {
@@ -49,4 +54,5 @@ export interface DiceFilterSettings {
   excludeLocked: boolean;
   categories: TrickCategory[];
   levels: number[];
+  consistencyMode?: boolean;
 }

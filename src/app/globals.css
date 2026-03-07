@@ -176,3 +176,26 @@ body::before {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* Orientation Lock UI for mobile */
+@media screen and (max-width: 1024px) and (orientation: landscape) {
+  /* Only show warning if not in full screen (like video) */
+  html:not(:fullscreen) body::after {
+    content: "Please rotate your device to portrait mode 🛹";
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: var(--background);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-style: italic;
+    color: var(--board-accent);
+    font-size: 1.25rem;
+  }
+}

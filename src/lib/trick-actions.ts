@@ -222,3 +222,34 @@ export async function getUserTricks() {
 
   return data ?? [];
 }
+
+export async function updateTrickOrder(trickId: string, newOrder: number) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) return { error: "Not authenticated" };
+
+  // If Admin, update the global canonical order
+  if (user.email === 'justinreeves00@gmail.com') {
+    const { error: globalError } = await supabase
+      .from("tricks")
+      .update({ sort_order: newOrder })
+      .eq("id", trickId);
+    
+    if (globalError) return { error: globalError.message };
+  }
+
+  // Also update user's personal sort preference
+  const { error } = await supabase
+    .from("user_tricks")
+    .update({ 
+      sort_order: newOrder,
+      is_manually_sorted: true 
+    })
+    .eq("user_id", user.id)
+    .eq("trick_id", trickId);
+
+  if (error) return { error: error.message };
+  revalidatePath("/");
+  return { success: true };
+}

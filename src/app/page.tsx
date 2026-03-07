@@ -14,18 +14,24 @@ export default async function Home() {
   const { data: tricks } = await supabase
     .from("tricks")
     .select("*")
-    .order("difficulty")
-    .order("name");
+    .order("sort_order", { ascending: true })
+    .order("difficulty", { ascending: true })
+    .order("name", { ascending: true });
 
   // Fetch user's trick statuses and profile if logged in
-  let userTricksMap: Record<string, { status: "landed" | "locked", consistency: number | null }> = {};
+  let userTricksMap: Record<string, { 
+    status: "landed" | "locked", 
+    consistency: number | null,
+    sort_order: number | null,
+    is_manually_sorted: boolean | null
+  }> = {};
   let userProfile = null;
 
   if (user) {
     const [tricksRes, profileRes] = await Promise.all([
       supabase
         .from("user_tricks")
-        .select("trick_id, status, consistency")
+        .select("trick_id, status, consistency, sort_order, is_manually_sorted")
         .eq("user_id", user.id),
       supabase
         .from("profiles")
@@ -36,7 +42,12 @@ export default async function Home() {
 
     if (tricksRes.data) {
       userTricksMap = Object.fromEntries(
-        tricksRes.data.map((ut) => [ut.trick_id, { status: ut.status, consistency: ut.consistency }])
+        tricksRes.data.map((ut) => [ut.trick_id, { 
+          status: ut.status, 
+          consistency: ut.consistency,
+          sort_order: ut.sort_order,
+          is_manually_sorted: ut.is_manually_sorted
+        }])
       );
     }
     
@@ -48,6 +59,8 @@ export default async function Home() {
     ...trick,
     userStatus: userTricksMap[trick.id]?.status ?? null,
     userConsistency: userTricksMap[trick.id]?.consistency ?? null,
+    sortOrder: userTricksMap[trick.id]?.sort_order ?? null,
+    isManuallySorted: userTricksMap[trick.id]?.is_manually_sorted ?? null,
   }));
 
   return (

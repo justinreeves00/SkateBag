@@ -15,5 +15,5 @@
     }
   ],
   "categories": ["sports", "fitness", "tracking"],
-  "orientation": "portrait"
+  "orientation": "portrait-primary"
 }

@@ -1,14 +1,13 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
 import type { TrickCategory } from "@/lib/types";
 
 const CATEGORIES: { value: TrickCategory | "all"; label: string }[] = [
   { value: "all", label: "All Tricks" },
-  { value: "flatground", label: "Flatground" },
+  { value: "flatground", label: "Flat" },
   { value: "street", label: "Street" },
   { value: "ledge/rail", label: "Ledge/Rail" },
-  { value: "transition", label: "Transition" },
+  { value: "transition", label: "Tranny" },
   { value: "gaps", label: "Gaps" },
   { value: "freestyle", label: "Freestyle" },
   { value: "downhill", label: "Downhill" },
@@ -20,62 +19,23 @@ interface CategoryFilterProps {
 }
 
 export function CategoryFilter({ active, onChange }: CategoryFilterProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  const activeLabel = CATEGORIES.find((c) => c.value === active)?.label || "All Tricks";
-
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
   return (
-    <div className="relative w-full" ref={dropdownRef}>
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between px-6 py-4 rounded-3xl bg-[var(--surface-muted)] border border-[var(--border)] text-[var(--text-muted)] transition-all hover:bg-[var(--surface-elevated)] hover:border-[var(--board-accent)]/30 active:scale-[0.98]"
-      >
-        <div className="flex flex-col items-start">
-          <span className="text-[8px] font-black text-[var(--board-accent)] uppercase tracking-[0.3em] mb-1">Sector</span>
-          <span className="text-xs font-black uppercase tracking-widest text-white">{activeLabel}</span>
-        </div>
-        <div className={`transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-            <path d="m6 9 6 6 6-6"/>
-          </svg>
-        </div>
-      </button>
-
-      {isOpen && (
-        <div className="absolute top-full left-0 w-full mt-2 z-[60] bg-[var(--surface)] border border-[var(--border)] rounded-3xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-          <div className="p-2 grid grid-cols-1 sm:grid-cols-2 gap-1">
-            {CATEGORIES.map((cat) => (
-              <button
-                key={cat.value}
-                onClick={() => {
-                  onChange(cat.value);
-                  setIsOpen(false);
-                }}
-                className={`flex items-center gap-3 px-5 py-4 rounded-3xl text-[10px] font-black uppercase tracking-widest transition-all ${
-                  active === cat.value
-                    ? "bg-[var(--board-accent)] text-[#041316] shadow-lg"
-                    : "text-slate-600 hover:bg-[var(--surface-muted)] hover:text-[var(--board-accent)]"
-                }`}
-              >
-                <div className={`w-1.5 h-1.5 rounded-full ${active === cat.value ? "bg-black" : "bg-[var(--board-accent)]/20"}`} />
-                {cat.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
+    <div className="w-full">
+      <div className="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar scroll-smooth">
+        {CATEGORIES.map((cat) => (
+          <button
+            key={cat.value}
+            onClick={() => onChange(cat.value)}
+            className={`shrink-0 px-6 py-3.5 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all border-2 ${
+              active === cat.value
+                ? "bg-[var(--board-accent)] text-white border-[var(--board-accent)] shadow-[0_0_20px_rgba(255,87,34,0.3)] scale-105"
+                : "bg-black/40 text-slate-500 border-white/5 hover:border-white/10 hover:text-white"
+            }`}
+          >
+            {cat.label}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }

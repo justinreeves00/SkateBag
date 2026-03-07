@@ -2,10 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
-import type { TrickWithStatus, TrickCategory, DiceFilterSettings } from "@/lib/types";
+import { setTrickStatus } from "@/lib/trick-actions";
+import type { TrickWithStatus, TrickCategory, DiceFilterSettings, TrickStatus } from "@/lib/types";
 
 interface DiceButtonProps {
   tricks: TrickWithStatus[];
+  isAuthenticated: boolean;
 }
 
 const CATEGORY_OPTIONS: TrickCategory[] = [
@@ -14,7 +16,7 @@ const CATEGORY_OPTIONS: TrickCategory[] = [
 
 const LEVEL_OPTIONS = [1, 2, 3, 4, 5];
 
-export function DiceButton({ tricks }: DiceButtonProps) {
+export function DiceButton({ tricks, isAuthenticated }: DiceButtonProps) {
   const [showSettings, setShowSettings] = useState(false);
   const [result, setResult] = useState<TrickWithStatus | null>(null);
   const [rolling, setRolling] = useState(false);
@@ -23,11 +25,14 @@ export function DiceButton({ tricks }: DiceButtonProps) {
   const [fetchingVideo, setFetchingVideo] = useState(false);
   const [searchMode, setSearchMode] = useState<"query" | "exact">("query");
   const [mounted, setMounted] = useState(false);
+  const [showPrompt, setShowPrompt] = useState(false);
+  const [updating, setUpdating] = useState(false);
   const [settings, setSettings] = useState<DiceFilterSettings>({
     excludeLanded: false,
     excludeLocked: false,
     categories: [...CATEGORY_OPTIONS],
     levels: [...LEVEL_OPTIONS],
+    consistencyMode: false,
   });
 
   useEffect(() => {
@@ -62,6 +67,7 @@ export function DiceButton({ tricks }: DiceButtonProps) {
     setVideoIds([]);
     setCurrentVideoIndex(0);
     setSearchMode("query");
+    setShowPrompt(false);
 
     let pool = tricks.filter((t) =>
       settings.categories.includes(t.category as TrickCategory)
@@ -69,8 +75,12 @@ export function DiceButton({ tricks }: DiceButtonProps) {
     
     pool = pool.filter((t) => t.difficulty !== null && settings.levels.includes(t.difficulty));
     
-    if (settings.excludeLanded) pool = pool.filter((t) => t.userStatus !== "landed" && t.userStatus !== "locked");
-    if (settings.excludeLocked) pool = pool.filter((t) => t.userStatus !== "locked");
+    if (settings.consistencyMode) {
+      pool = pool.filter((t) => t.userStatus === "landed");
+    } else {
+      if (settings.excludeLanded) pool = pool.filter((t) => t.userStatus !== "landed" && t.userStatus !== "locked");
+      if (settings.excludeLocked) pool = pool.filter((t) => t.userStatus !== "locked");
+    }
 
     setTimeout(() => {
       if (pool.length === 0) {
@@ -81,6 +91,21 @@ export function DiceButton({ tricks }: DiceButtonProps) {
       setResult(pick);
       setRolling(false);
     }, 1200);
+  }
+
+  async function handleStatusToggle(newStatus: TrickStatus, value: number | null = null) {
+    if (!isAuthenticated || updating || !result) return;
+    setUpdating(true);
+
+    const resultId = result.id;
+    const res = await setTrickStatus(resultId, newStatus, value);
+    
+    if (res.success) {
+      // Close overlays on success
+      setResult(null);
+      setShowPrompt(false);
+    }
+    setUpdating(false);
   }
 
   function toggleCategory(cat: TrickCategory) {
@@ -119,12 +144,56 @@ export function DiceButton({ tricks }: DiceButtonProps) {
       {result && (
         <div
           className="fixed inset-0 bg-black/95 backdrop-blur-xl z-[9999] overflow-y-auto flex flex-col items-center justify-start py-12 px-4 md:px-8 animate-in fade-in duration-500"
-          onClick={() => setResult(null)}
+          onClick={() => { if(!showPrompt) setResult(null); }}
         >
           <div 
             className="max-w-3xl w-full bg-[var(--surface)] rounded-3xl p-8 md:p-14 border border-[var(--board-accent)] shadow-lg shadow-black/30 space-y-10 animate-in zoom-in-95 duration-300 relative my-auto" 
             onClick={(e) => e.stopPropagation()}
           >
+            {/* 10 Tries Prompt Overlay (Internal to Card) */}
+            {showPrompt && (
+              <div className="absolute inset-0 z-[100] bg-black/98 rounded-3xl p-8 md:p-14 flex flex-col justify-center animate-in fade-in duration-300 border-2 border-[var(--warn-accent)]/30 shadow-[0_0_50px_rgba(0,0,0,0.8)]">
+                <button 
+                  onClick={() => setShowPrompt(false)}
+                  className="absolute top-8 right-8 w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-[var(--text-muted)] hover:text-white border border-white/10 transition-all hover:scale-110 active:scale-95"
+                >
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </button>
+                
+                <div className="space-y-12">
+                  <div className="text-center space-y-4">
+                    <span className="px-4 py-1.5 rounded-full bg-[var(--warn-accent)]/10 text-[var(--warn-accent)] text-[10px] font-black uppercase tracking-[0.4em] border border-[var(--warn-accent)]/20 shadow-lg">Bag Check</span>
+                    <h4 className="text-4xl md:text-6xl font-black tracking-tighter text-white uppercase italic leading-tight">Session Test</h4>
+                    <p className="text-slate-500 text-xs font-black uppercase tracking-widest bg-black/40 py-2 border border-white/5 rounded-lg max-w-[280px] mx-auto">Landed reps out of 10</p>
+                  </div>
+                  
+                  <div className="grid grid-cols-4 sm:grid-cols-6 gap-3">
+                    {[...Array(11)].map((_, i) => (
+                      <button
+                        key={i}
+                        disabled={updating}
+                        onClick={() => handleStatusToggle("locked", i)}
+                        className={`h-14 md:h-16 flex items-center justify-center text-lg font-black border-2 transition-all rounded-2xl ${
+                          updating
+                            ? "opacity-50 grayscale"
+                            : "bg-black/40 text-[var(--text-muted)] hover:bg-[var(--warn-accent)]/20 hover:text-[var(--warn-accent)] hover:border-[var(--warn-accent)]/50 border-white/5 hover:scale-105 active:scale-90"
+                        }`}
+                      >
+                        {i}
+                      </button>
+                    ))}
+                  </div>
+                  
+                  <button 
+                    onClick={() => setShowPrompt(false)}
+                    className="w-full py-5 text-[10px] font-black text-slate-600 uppercase tracking-[0.4em] hover:text-white transition-colors"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
+
             <div className="text-center space-y-6">
               <span className="px-5 py-2 rounded-xl bg-[var(--board-accent)]/10 text-[var(--board-accent)] text-[10px] font-black uppercase tracking-[0.4em] border border-[var(--board-accent)]/20 shadow-lg shadow-black/30">Next Mission</span>
               <h2 className="text-5xl md:text-8xl font-black tracking-tighter text-white italic leading-[0.9] uppercase">
@@ -193,19 +262,46 @@ export function DiceButton({ tricks }: DiceButtonProps) {
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-5 pt-4">
-              <button
-                onClick={roll}
-                className="flex-1 py-6 bg-[var(--board-accent)] text-[#041316] rounded-3xl font-black uppercase tracking-widest hover:brightness-110 transition-all shadow-lg shadow-black/30 hover:scale-[1.02] active:scale-95"
-              >
-                Roll Again
-              </button>
-              <button
-                onClick={() => setResult(null)}
-                className="flex-1 py-6 bg-[var(--surface-muted)] text-[var(--text-muted)] rounded-3xl font-black uppercase tracking-widest hover:text-[var(--foreground)] hover:bg-[var(--surface-elevated)] transition-all border border-[var(--border)]"
-              >
-                Close
-              </button>
+            {/* Actions Grid */}
+            <div className="grid grid-cols-1 gap-5 pt-4">
+              {isAuthenticated && (
+                <div className="grid grid-cols-2 gap-4">
+                  <button
+                    disabled={updating}
+                    onClick={() => handleStatusToggle("landed")}
+                    className="flex-1 py-5 bg-[var(--board-accent)]/10 text-[var(--board-accent)] rounded-3xl font-black uppercase tracking-widest hover:bg-[var(--board-accent)] hover:text-[#041316] transition-all border border-[var(--board-accent)]/30 flex items-center justify-center gap-3 active:scale-95 disabled:opacity-50"
+                  >
+                    <CheckIcon size={18} />
+                    <span>Landed</span>
+                  </button>
+                  <button
+                    disabled={updating}
+                    onClick={() => setShowPrompt(true)}
+                    className="flex-1 py-5 bg-[var(--warn-accent)]/10 text-[var(--warn-accent)] rounded-3xl font-black uppercase tracking-widest hover:bg-[var(--warn-accent)] hover:text-black transition-all border border-[var(--warn-accent)]/30 flex items-center justify-center gap-3 active:scale-95 disabled:opacity-50"
+                  >
+                    <LockIcon size={16} />
+                    <span>Lock it in</span>
+                  </button>
+                </div>
+              )}
+              
+              <div className="flex flex-col sm:flex-row gap-5">
+                <button
+                  onClick={roll}
+                  className={`flex-1 py-6 bg-white text-black rounded-3xl font-black uppercase tracking-widest hover:brightness-110 transition-all shadow-lg shadow-black/30 hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-3 ${rolling ? "opacity-50" : ""}`}
+                >
+                  <div className={rolling ? "animate-spin" : ""}>
+                    <DiceIcon size={20} />
+                  </div>
+                  <span>Roll Again</span>
+                </button>
+                <button
+                  onClick={() => setResult(null)}
+                  className="flex-1 py-6 bg-[var(--surface-muted)] text-[var(--text-muted)] rounded-3xl font-black uppercase tracking-widest hover:text-[var(--foreground)] hover:bg-[var(--surface-elevated)] transition-all border border-[var(--border)]"
+                >
+                  Close
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -235,26 +331,46 @@ export function DiceButton({ tricks }: DiceButtonProps) {
             </div>
 
             <div className="space-y-12">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 gap-5">
                 <button
-                  onClick={() => setSettings((s) => ({ ...s, excludeLanded: !s.excludeLanded }))}
-                  className={`flex flex-col gap-2 p-8 rounded-3xl border text-left transition-all ${
-                    settings.excludeLanded ? "bg-[var(--board-accent)]/20 border-[var(--board-accent)] shadow-lg shadow-black/30" : "bg-[var(--surface-muted)] border-[var(--border)] text-slate-600 hover:border-[var(--board-accent)]/35 hover:bg-[var(--surface-elevated)]"
+                  onClick={() => setSettings((s) => ({ ...s, consistencyMode: !s.consistencyMode }))}
+                  className={`flex items-center justify-between p-8 rounded-3xl border text-left transition-all ${
+                    settings.consistencyMode ? "bg-[var(--warn-accent)]/20 border-[var(--warn-accent)] shadow-lg shadow-black/30" : "bg-[var(--surface-muted)] border-[var(--border)] text-slate-600 hover:border-[var(--warn-accent)]/35 hover:bg-[var(--surface-elevated)]"
                   }`}
                 >
-                  <span className={`text-[9px] font-black uppercase tracking-[0.2em] ${settings.excludeLanded ? "text-[var(--board-accent)]" : "text-[var(--text-muted)]"}`}>Filter Mode</span>
-                  <span className={`text-lg font-black uppercase tracking-tight ${settings.excludeLanded ? "text-white" : ""}`}>Exclude Landed</span>
-                </button>
-                <button
-                  onClick={() => setSettings((s) => ({ ...s, excludeLocked: !s.excludeLocked }))}
-                  className={`flex flex-col gap-2 p-8 rounded-3xl border text-left transition-all ${
-                    settings.excludeLocked ? "bg-[#f59e0b]/20 border-[#f59e0b] shadow-lg shadow-black/30" : "bg-[var(--surface-muted)] border-[var(--border)] text-slate-600 hover:border-[var(--board-accent)]/35 hover:bg-[var(--surface-elevated)]"
-                  }`}
-                >
-                  <span className={`text-[9px] font-black uppercase tracking-[0.2em] ${settings.excludeLocked ? "text-[#f59e0b]" : "text-[var(--text-muted)]"}`}>Filter Mode</span>
-                  <span className={`text-lg font-black uppercase tracking-tight ${settings.excludeLocked ? "text-white" : ""}`}>Exclude Locked</span>
+                  <div className="flex flex-col gap-2">
+                    <span className={`text-[9px] font-black uppercase tracking-[0.2em] ${settings.consistencyMode ? "text-[var(--warn-accent)]" : "text-[var(--text-muted)]"}`}>Mission Mode</span>
+                    <span className={`text-xl font-black uppercase tracking-tight ${settings.consistencyMode ? "text-white" : ""}`}>Roll for Consistency</span>
+                    <p className="text-[10px] text-slate-500 font-medium normal-case">Only rolls tricks you have already landed.</p>
+                  </div>
+                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center border-2 transition-all ${settings.consistencyMode ? "bg-[var(--warn-accent)] border-[var(--warn-accent)] text-black rotate-12" : "border-white/10 text-slate-700"}`}>
+                    <LockIcon size={24} />
+                  </div>
                 </button>
               </div>
+
+              {!settings.consistencyMode && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 animate-in slide-in-from-top-4 duration-300">
+                  <button
+                    onClick={() => setSettings((s) => ({ ...s, excludeLanded: !s.excludeLanded }))}
+                    className={`flex flex-col gap-2 p-8 rounded-3xl border text-left transition-all ${
+                      settings.excludeLanded ? "bg-[var(--board-accent)]/20 border-[var(--board-accent)] shadow-lg shadow-black/30" : "bg-[var(--surface-muted)] border-[var(--border)] text-slate-600 hover:border-[var(--board-accent)]/35 hover:bg-[var(--surface-elevated)]"
+                    }`}
+                  >
+                    <span className={`text-[9px] font-black uppercase tracking-[0.2em] ${settings.excludeLanded ? "text-[var(--board-accent)]" : "text-[var(--text-muted)]"}`}>Filter Mode</span>
+                    <span className={`text-lg font-black uppercase tracking-tight ${settings.excludeLanded ? "text-white" : ""}`}>Exclude Landed</span>
+                  </button>
+                  <button
+                    onClick={() => setSettings((s) => ({ ...s, excludeLocked: !s.excludeLocked }))}
+                    className={`flex flex-col gap-2 p-8 rounded-3xl border text-left transition-all ${
+                      settings.excludeLocked ? "bg-[#f59e0b]/20 border-[#f59e0b] shadow-lg shadow-black/30" : "bg-[var(--surface-muted)] border-[var(--border)] text-slate-600 hover:border-[var(--board-accent)]/35 hover:bg-[var(--surface-elevated)]"
+                    }`}
+                  >
+                    <span className={`text-[9px] font-black uppercase tracking-[0.2em] ${settings.excludeLocked ? "text-[#f59e0b]" : "text-[var(--text-muted)]"}`}>Filter Mode</span>
+                    <span className={`text-lg font-black uppercase tracking-tight ${settings.excludeLocked ? "text-white" : ""}`}>Exclude Locked</span>
+                  </button>
+                </div>
+              )}
 
               <div className="space-y-6">
                 <span className="text-[10px] font-black text-[var(--text-muted)] uppercase tracking-[0.4em]">Levels</span>
@@ -371,6 +487,22 @@ function DiceIcon({ size = 24 }: { size?: number }) {
       <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" />
       <circle cx="8" cy="16" r="1" fill="currentColor" stroke="none" />
       <circle cx="16" cy="16" r="1" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+function CheckIcon({ size = 24, color = "currentColor" }: { size?: number, color?: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M20 6L9 17L4 12"/>
+    </svg>
+  );
+}
+
+function LockIcon({ size = 24, color = "currentColor" }: { size?: number, color?: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+      <rect width="18" height="11" x="3" y="11" rx="1" ry="1"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
     </svg>
   );
 }
