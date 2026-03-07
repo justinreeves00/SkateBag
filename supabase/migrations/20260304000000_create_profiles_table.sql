@@ -10,17 +10,41 @@ create table if not exists public.profiles (
 -- RLS
 alter table public.profiles enable row level security;
 
-create policy "Profiles are publicly readable"
-  on public.profiles for select
-  using (true);
+-- Policy: Profiles are publicly readable
+do $$
+begin
+  if not exists (
+    select 1 from pg_policies 
+    where tablename = 'profiles' and policyname = 'Profiles are publicly readable'
+  ) then
+    create policy "Profiles are publicly readable" on public.profiles for select using (true);
+  end if;
+end
+$$;
 
-create policy "Users can update own profile"
-  on public.profiles for update
-  using (auth.uid() = id);
+-- Policy: Users can update own profile
+do $$
+begin
+  if not exists (
+    select 1 from pg_policies 
+    where tablename = 'profiles' and policyname = 'Users can update own profile'
+  ) then
+    create policy "Users can update own profile" on public.profiles for update using (auth.uid() = id);
+  end if;
+end
+$$;
 
-create policy "Users can insert own profile"
-  on public.profiles for insert
-  with check (auth.uid() = id);
+-- Policy: Users can insert own profile
+do $$
+begin
+  if not exists (
+    select 1 from pg_policies 
+    where tablename = 'profiles' and policyname = 'Users can insert own profile'
+  ) then
+    create policy "Users can insert own profile" on public.profiles for insert with check (auth.uid() = id);
+  end if;
+end
+$$;
 
 -- Trigger to create profile on signup
 create or replace function public.handle_new_user()
@@ -32,6 +56,8 @@ begin
 end;
 $$ language plpgsql security definer;
 
-create or replace trigger on_auth_user_created
+-- Trigger creation (drop if exists to ensure recreate)
+drop trigger if exists on_auth_user_created on auth.users;
+create trigger on_auth_user_created
   after insert on auth.users
   for each row execute procedure public.handle_new_user();

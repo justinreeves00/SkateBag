@@ -12,21 +12,49 @@ create table if not exists public.trick_suggestions (
 alter table public.trick_suggestions enable row level security;
 
 -- Users can view their own suggestions
-create policy "Users can view own suggestions"
-  on public.trick_suggestions for select
-  using (auth.uid() = user_id);
+do $$
+begin
+  if not exists (
+    select 1 from pg_policies 
+    where tablename = 'trick_suggestions' and policyname = 'Users can view own suggestions'
+  ) then
+    create policy "Users can view own suggestions" on public.trick_suggestions for select using (auth.uid() = user_id);
+  end if;
+end
+$$;
 
 -- Users can insert suggestions
-create policy "Users can insert own suggestions"
-  on public.trick_suggestions for insert
-  with check (auth.uid() = user_id);
+do $$
+begin
+  if not exists (
+    select 1 from pg_policies 
+    where tablename = 'trick_suggestions' and policyname = 'Users can insert own suggestions'
+  ) then
+    create policy "Users can insert own suggestions" on public.trick_suggestions for insert with check (auth.uid() = user_id);
+  end if;
+end
+$$;
 
 -- Admin can view all suggestions
-create policy "Admins can view all suggestions"
-  on public.trick_suggestions for select
-  using (auth.jwt() ->> 'email' = 'justinreeves00@gmail.com');
+do $$
+begin
+  if not exists (
+    select 1 from pg_policies 
+    where tablename = 'trick_suggestions' and policyname = 'Admins can view all suggestions'
+  ) then
+    create policy "Admins can view all suggestions" on public.trick_suggestions for select using (auth.jwt() ->> 'email' = 'justinreeves00@gmail.com');
+  end if;
+end
+$$;
 
 -- Admin can update suggestions
-create policy "Admins can update suggestions"
-  on public.trick_suggestions for update
-  using (auth.jwt() ->> 'email' = 'justinreeves00@gmail.com');
+do $$
+begin
+  if not exists (
+    select 1 from pg_policies 
+    where tablename = 'trick_suggestions' and policyname = 'Admins can update suggestions'
+  ) then
+    create policy "Admins can update suggestions" on public.trick_suggestions for update using (auth.jwt() ->> 'email' = 'justinreeves00@gmail.com');
+  end if;
+end
+$$;
