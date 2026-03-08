@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { updateTrick, deleteTrick, handleTrickSuggestion, addTrick, handleNewTrickSuggestion, updateTrickOrder, updateTricksOrder } from "@/lib/trick-actions";
 import { SkateBagLogo } from "@/components/Logo";
 import type { Trick, TrickCategory } from "@/lib/types";
@@ -352,9 +353,9 @@ export function AdminClient({ initialTricks, suggestions, newTrickSuggestions: i
         </div>
       </header>
 
-      {/* Delete Confirmation Modal */}
-      {deleteConfirmId && (
-        <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/90 p-4" onClick={() => setDeleteConfirmId(null)}>
+      {/* Delete Confirmation Modal - Rendered via Portal */}
+      {deleteConfirmId && typeof document !== 'undefined' && createPortal(
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 p-4" onClick={() => setDeleteConfirmId(null)}>
           <div className="cyber-card p-8 rounded-2xl max-w-md w-full" onClick={(e) => e.stopPropagation()}>
             <div className="space-y-6">
               <div className="space-y-2">
@@ -383,7 +384,8 @@ export function AdminClient({ initialTricks, suggestions, newTrickSuggestions: i
               </div>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* Add Trick Form */}
