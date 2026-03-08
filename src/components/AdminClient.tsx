@@ -177,9 +177,10 @@ function SortableTrickItem({
               Calibrate
             </button>
             <button 
-              onClick={onDelete}
+              onClick={(e) => { e.stopPropagation(); e.preventDefault(); onDelete(); }}
               className="p-2.5 rounded-lg bg-[var(--surface-muted)] border border-[var(--border)] text-slate-500 hover:bg-red-500/20 hover:text-red-500 hover:border-red-500/30 transition-all"
               title="Delete Entry"
+              type="button"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
             </button>
