@@ -78,7 +78,8 @@ export function CompactFilterBar({
           <span className="text-[9px] font-black uppercase tracking-[0.25em] text-[var(--text-muted)] pl-1">Category</span>
           <button
             onClick={() => setOpenPanel(openPanel === "category" ? null : "category")}
-            className={`flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl border transition-all ${
+            aria-label={`Filter by category: ${activeCategory}`}
+            className={`flex items-center justify-between gap-2 px-3 py-2.5 min-h-[44px] rounded-xl border transition-all ${
               openPanel === "category"
                 ? "bg-white/10 border-[var(--board-accent)]"
                 : "bg-black/20 border-white/5 hover:border-white/10"
@@ -106,7 +107,8 @@ export function CompactFilterBar({
           <span className="text-[9px] font-black uppercase tracking-[0.25em] text-[var(--text-muted)] pl-1">Difficulty</span>
           <button
             onClick={() => setOpenPanel(openPanel === "level" ? null : "level")}
-            className={`flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl border transition-all ${
+            aria-label={`Filter by difficulty: ${levelFilter === "all" ? "All" : `Level ${levelFilter}`}`}
+            className={`flex items-center justify-between gap-2 px-3 py-2.5 min-h-[44px] rounded-xl border transition-all ${
               openPanel === "level"
                 ? "bg-white/10 border-[var(--board-accent)]"
                 : "bg-black/20 border-white/5 hover:border-white/10"
@@ -134,7 +136,8 @@ export function CompactFilterBar({
           <span className="text-[9px] font-black uppercase tracking-[0.25em] text-[var(--text-muted)] pl-1">Status</span>
           <button
             onClick={() => setOpenPanel(openPanel === "status" ? null : "status")}
-            className={`flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl border transition-all ${
+            aria-label={`Filter by status: ${activeStatus}`}
+            className={`flex items-center justify-between gap-2 px-3 py-2.5 min-h-[44px] rounded-xl border transition-all ${
               openPanel === "status"
                 ? "bg-white/10 border-[var(--board-accent)]"
                 : "bg-black/20 border-white/5 hover:border-white/10"

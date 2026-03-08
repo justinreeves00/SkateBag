@@ -317,6 +317,8 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
 
   return (
     <div className="min-h-screen text-white selection:bg-[var(--board-accent)]/30 pb-32" style={{ paddingBottom: 'calc(8rem + max(0.5rem, env(safe-area-inset-bottom)))' }}>
+      {/* Skip Navigation Link */}
+      <a href="#main-content" className="skip-link">Skip to main content</a>
       {showInstallGuide && !isPWA && (
         <div className="fixed inset-0 z-[1150] flex items-end justify-center bg-black/90 p-4 sm:items-center sm:p-6" onClick={() => setShowInstallGuide(false)}>
           <div
@@ -644,7 +646,8 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                 {/* Close X */}
                 <button
                   onClick={dismissInstallPrompt}
-                  className="w-7 h-7 flex items-center justify-center text-[#8e8e93] dark:text-[#98989d] hover:text-[#1c1c1e] dark:hover:text-white transition-all flex-shrink-0"
+                  aria-label="Dismiss install prompt"
+                  className="w-11 h-11 flex items-center justify-center text-[#8e8e93] dark:text-[#98989d] hover:text-[#1c1c1e] dark:hover:text-white transition-all flex-shrink-0 rounded-lg hover:bg-black/10"
                 >
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
                 </button>
@@ -743,7 +746,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
       </header>
 
       {/* Main Grid Area */}
-      <main className="max-w-6xl mx-auto px-6 pb-32" style={{ paddingTop: !isPWA && !dismissedInstallPrompt ? '186px' : '130px' }}>
+      <main id="main-content" className="max-w-6xl mx-auto px-6 pb-32" style={{ paddingTop: !isPWA && !dismissedInstallPrompt ? '186px' : '130px' }}>
 
         <div className="mb-8 flex items-center gap-2 px-3">
           <h2 className="text-[10px] font-black text-white uppercase tracking-[0.35em] whitespace-nowrap italic bg-black px-2 py-1 border border-white/5 flex-shrink-0">
