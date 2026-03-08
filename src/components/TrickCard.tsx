@@ -268,36 +268,24 @@ export function TrickCard({ trick, isAuthenticated, onStatusChange, onInteract, 
         )}
       </div>
 
-      {/* 10 Tries Overlay - Full Screen Modal */}
+      {/* 10 Tries Overlay - Contained within card */}
       {showPrompt && (
-        <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/90 p-4 backdrop-blur-md animate-in fade-in duration-300" onClick={() => setShowPrompt(false)}>
-          <div className="w-full max-w-sm rounded-[28px] border-2 border-[var(--warn-accent)]/30 bg-[var(--surface)] p-6 shadow-2xl" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-start justify-between gap-4 mb-6">
-              <div className="space-y-1">
-                <h4 className="text-2xl font-black tracking-tighter text-white uppercase italic">Session Test</h4>
-                <p className="text-[var(--warn-accent)] text-[9px] font-black uppercase tracking-[0.25em]">Landed reps out of 10</p>
-              </div>
-              <button
-                onClick={() => setShowPrompt(false)}
-                aria-label="Close"
-                className="flex h-9 w-9 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-[var(--text-muted)] transition-all hover:text-white hover:bg-white/10"
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" role="img" aria-label="Close">
-                  <title>Close</title>
-                  <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
-                </svg>
-              </button>
+        <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/95 p-4 rounded-xl backdrop-blur-md animate-in fade-in duration-300">
+          <div className="w-full max-w-xs">
+            <div className="text-center mb-4">
+              <h4 className="text-xl font-black tracking-tighter text-white uppercase italic mb-1">Session Test</h4>
+              <p className="text-[var(--warn-accent)] text-[8px] font-black uppercase tracking-[0.2em]">Landed reps out of 10</p>
             </div>
 
-            <div className="grid grid-cols-4 gap-3">
+            <div className="grid grid-cols-4 gap-2">
               {[...Array(11)].map((_, i) => (
                 <button
                   key={i}
                   onClick={(e) => { e.stopPropagation(); handleStatusToggle("locked", i); }}
-                  className={`h-14 rounded-2xl text-sm font-black border-2 transition-all ${
+                  className={`h-10 rounded-xl text-xs font-black border transition-all ${
                     trick.userConsistency === i && trick.userStatus === "locked"
-                      ? "bg-[var(--warn-accent)] text-black border-white shadow-[0_0_20px_rgba(255,235,59,0.4)] scale-110"
-                      : "bg-black/40 text-[var(--text-muted)] hover:bg-black/60 hover:text-white border-white/10 hover:border-white/20"
+                      ? "bg-[var(--warn-accent)] text-black border-white shadow-[0_0_15px_rgba(255,235,59,0.3)]"
+                      : "bg-black/40 text-[var(--text-muted)] hover:bg-black/60 hover:text-white border-white/10"
                   }`}
                 >
                   {i}
@@ -305,9 +293,12 @@ export function TrickCard({ trick, isAuthenticated, onStatusChange, onInteract, 
               ))}
             </div>
             
-            <p className="text-[10px] text-[var(--text-muted)] font-black uppercase tracking-widest text-center mt-6">
-              Tap your rep count to lock it in
-            </p>
+            <button
+              onClick={(e) => { e.stopPropagation(); setShowPrompt(false); }}
+              className="w-full mt-3 py-2 bg-white/5 border border-white/10 rounded-lg text-[9px] font-black uppercase tracking-widest text-[var(--text-muted)] hover:text-white hover:bg-white/10 transition-all"
+            >
+              Cancel
+            </button>
           </div>
         </div>
       )}
