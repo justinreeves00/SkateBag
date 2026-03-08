@@ -614,43 +614,39 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
         </div>
       )}
 
-      {/* iOS Native-Style Install Banner */}
+      {/* iOS Smart App Banner - Native style */}
       {!isPWA && !dismissedInstallPrompt && showInstallBanner && (
-        <div className="fixed top-0 left-0 right-0 z-[200]">
-          <div className="max-w-6xl mx-auto px-4 pt-2">
-            <div className="bg-[#f2f2f7] dark:bg-[#1c1c1e] rounded-2xl shadow-2xl border border-black/10 dark:border-white/10 overflow-hidden">
-              <div className="p-4">
-                <div className="flex items-center gap-4">
-                  {/* App Icon */}
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[var(--board-accent)] to-[var(--board-accent-strong)] flex items-center justify-center shadow-md flex-shrink-0">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
-                      <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 8v8"/><path d="M8 12h8"/>
-                    </svg>
-                  </div>
-                  
-                  {/* Text Content */}
-                  <div className="flex-1 min-w-0">
-                    <p className="text-[15px] font-semibold text-[#1c1c1e] dark:text-white leading-tight">Install SkateBag</p>
-                    <p className="text-[13px] text-[#8e8e93] dark:text-[#98989d] leading-tight mt-1">Add to Home Screen for quick access</p>
-                  </div>
-                  
-                  {/* Action Buttons */}
-                  <div className="flex items-center gap-2 flex-shrink-0">
-                    <button
-                      onClick={dismissInstallPrompt}
-                      className="px-4 py-2 text-[15px] font-medium text-[#007aff] dark:text-[#0a84ff] hover:bg-black/5 dark:hover:bg-white/10 rounded-xl transition-all"
-                    >
-                      Not Now
-                    </button>
-                    <button
-                      onClick={handleInstallClick}
-                      className="px-5 py-2 bg-[#007aff] dark:bg-[#0a84ff] text-white text-[15px] font-semibold rounded-xl hover:brightness-95 active:scale-95 transition-all shadow-md"
-                    >
-                      Install
-                    </button>
-                  </div>
-                </div>
+        <div className="fixed top-0 left-0 right-0 z-[200] bg-white/98 dark:bg-[#1c1c1e]/98 backdrop-blur-xl border-b border-gray-200 dark:border-white/10 shadow-sm">
+          <div className="max-w-6xl mx-auto px-4 py-2">
+            <div className="flex items-center gap-3">
+              {/* App Icon */}
+              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[var(--board-accent)] to-[var(--board-accent-strong)] flex items-center justify-center shadow-sm flex-shrink-0">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
+                  <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 8v8"/><path d="M8 12h8"/>
+                </svg>
               </div>
+              
+              {/* Text Content */}
+              <div className="flex-1 min-w-0">
+                <p className="text-[13px] font-semibold text-[#1c1c1e] dark:text-white leading-tight">SkateBag</p>
+                <p className="text-[11px] text-[#8e8e93] dark:text-[#98989d] leading-tight mt-0.5">Install App</p>
+              </div>
+              
+              {/* GET Button */}
+              <button
+                onClick={handleInstallClick}
+                className="px-5 py-1.5 bg-[#007aff] dark:bg-[#0a84ff] text-white text-[14px] font-semibold rounded-full hover:brightness-95 active:scale-95 transition-all shadow-sm flex-shrink-0"
+              >
+                GET
+              </button>
+              
+              {/* Close X */}
+              <button
+                onClick={dismissInstallPrompt}
+                className="w-7 h-7 flex items-center justify-center text-[#8e8e93] dark:text-[#98989d] hover:text-[#1c1c1e] dark:hover:text-white transition-all flex-shrink-0"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+              </button>
             </div>
           </div>
         </div>
