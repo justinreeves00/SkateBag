@@ -218,18 +218,4 @@ body::before {
   }
 }
 
-/* Orientation "Force" for mobile web */
-@media screen and (max-width: 1024px) and (orientation: landscape) {
-  /* When the user turns their phone sideways, we rotate the app so it stays portrait relative to them */
-  html:not(:fullscreen) body {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vh;
-    height: 100vw;
-    transform: rotate(-90deg);
-    transform-origin: top left;
-    margin-top: 100vh;
-    overflow: hidden;
-  }
-}
+
