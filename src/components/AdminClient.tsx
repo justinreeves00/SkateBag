@@ -488,7 +488,7 @@ export function AdminClient({ initialTricks, suggestions, newTrickSuggestions: i
                   key={trick.id}
                   trick={trick}
                   onEdit={() => { setEditingId(trick.id); setEditForm(trick); }}
-                  onDelete={() => handleDelete(trick.id)}
+                  onDelete={(e) => handleDelete(trick.id, e)}
                   isEditing={editingId === trick.id}
                   editForm={editForm}
                   setEditForm={setEditForm}
