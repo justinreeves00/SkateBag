@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { AdminClient } from "@/components/AdminClient";
+import AdminDashboard from "@/components/AdminDashboard";
 
 export default async function AdminPage() {
   const supabase = await createClient();
@@ -35,7 +35,7 @@ export default async function AdminPage() {
 
   return (
     <main className="min-h-screen bg-black text-white p-8">
-      <AdminClient 
+      <AdminDashboard 
         initialTricks={tricks || []} 
         suggestions={suggestions || []} 
         newTrickSuggestions={newTrickSuggestions || []}
