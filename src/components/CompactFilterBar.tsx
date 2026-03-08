@@ -86,7 +86,8 @@ export function CompactFilterBar({
             }`}
           >
             <div className="flex items-center gap-2 min-w-0">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[var(--board-accent)] shrink-0">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[var(--board-accent)] shrink-0" role="img" aria-label="Categories">
+                <title>Categories</title>
                 <rect x="3" y="3" width="7" height="7" rx="1"/>
                 <rect x="14" y="3" width="7" height="7" rx="1"/>
                 <rect x="14" y="14" width="7" height="7" rx="1"/>
@@ -96,7 +97,8 @@ export function CompactFilterBar({
                 {activeCategory}
               </span>
             </div>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className={`text-[var(--text-muted)] transition-transform duration-200 ${openPanel === "category" ? "rotate-180" : ""}`}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className={`text-[var(--text-muted)] transition-transform duration-200 ${openPanel === "category" ? "rotate-180" : ""}`} role="img" aria-label="Toggle dropdown">
+              <title>Toggle dropdown</title>
               <path d="m6 9 6 6 6-6" />
             </svg>
           </button>
@@ -115,7 +117,8 @@ export function CompactFilterBar({
             }`}
           >
             <div className="flex items-center gap-2 min-w-0">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[var(--board-accent)] shrink-0">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[var(--board-accent)] shrink-0" role="img" aria-label="Difficulty levels">
+                <title>Difficulty</title>
                 <path d="M12 2v20"/>
                 <path d="M2 12h20"/>
                 <path d="m4.93 4.93 14.14 14.14"/>
@@ -125,7 +128,8 @@ export function CompactFilterBar({
                 {levelFilter === "all" ? "All" : `L${levelFilter}`}
               </span>
             </div>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className={`text-[var(--text-muted)] transition-transform duration-200 ${openPanel === "level" ? "rotate-180" : ""}`}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className={`text-[var(--text-muted)] transition-transform duration-200 ${openPanel === "level" ? "rotate-180" : ""}`} role="img" aria-label="Toggle dropdown">
+              <title>Toggle dropdown</title>
               <path d="m6 9 6 6 6-6" />
             </svg>
           </button>
@@ -144,7 +148,8 @@ export function CompactFilterBar({
             }`}
           >
             <div className="flex items-center gap-2 min-w-0">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[var(--board-accent)] shrink-0">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[var(--board-accent)] shrink-0" role="img" aria-label="Status">
+                <title>Status</title>
                 <path d="M12 20h9"/>
                 <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>
               </svg>
@@ -152,7 +157,8 @@ export function CompactFilterBar({
                 {activeStatus}
               </span>
             </div>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className={`text-[var(--text-muted)] transition-transform duration-200 ${openPanel === "status" ? "rotate-180" : ""}`}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className={`text-[var(--text-muted)] transition-transform duration-200 ${openPanel === "status" ? "rotate-180" : ""}`} role="img" aria-label="Toggle dropdown">
+              <title>Toggle dropdown</title>
               <path d="m6 9 6 6 6-6" />
             </svg>
           </button>

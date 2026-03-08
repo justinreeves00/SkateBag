@@ -175,7 +175,8 @@ export function TrickCard({ trick, isAuthenticated, onStatusChange, onInteract, 
           </div>
 
           <div className={`w-9 h-9 rounded-lg flex items-center justify-center border transition-all duration-300 ${expanded ? "bg-[var(--board-accent)] border-[var(--board-accent)] text-white rotate-180" : "bg-black/40 border-white/10 text-white/40"}`}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" role="img" aria-label="Toggle details">
+              <title>Toggle details</title>
               <path d="m6 9 6 6 6-6"/>
             </svg>
           </div>
@@ -187,7 +188,10 @@ export function TrickCard({ trick, isAuthenticated, onStatusChange, onInteract, 
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-black text-[var(--board-accent)] uppercase tracking-widest">Suggest Level Change</span>
               <button onClick={() => setShowLevelEdit(false)} aria-label="Close" className="text-[var(--text-muted)] hover:text-white transition-colors">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" role="img" aria-label="Close">
+                  <title>Close</title>
+                  <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+                </svg>
               </button>
             </div>
             {suggestionSubmitted ? (
@@ -278,7 +282,10 @@ export function TrickCard({ trick, isAuthenticated, onStatusChange, onInteract, 
                 aria-label="Close"
                 className="flex h-9 w-9 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-[var(--text-muted)] transition-all hover:text-white"
               >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" role="img" aria-label="Close">
+                  <title>Close</title>
+                  <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+                </svg>
               </button>
             </div>
 
@@ -419,7 +426,10 @@ export function TrickCard({ trick, isAuthenticated, onStatusChange, onInteract, 
                 aria-label="Close"
                 className="flex h-9 w-9 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-[var(--text-muted)] transition-all hover:text-white"
               >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" role="img" aria-label="Close">
+                  <title>Close</title>
+                  <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+                </svg>
               </button>
             </div>
 
@@ -468,7 +478,8 @@ export function TrickCard({ trick, isAuthenticated, onStatusChange, onInteract, 
 
 function CheckIcon({ size = 24, color = "currentColor" }: { size?: number, color?: string }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="5" strokeLinecap="round" strokeLinejoin="round">
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" role="img" aria-label="Check mark">
+      <title>Check mark</title>
       <path d="M20 6L9 17L4 12"/>
     </svg>
   );
@@ -476,7 +487,8 @@ function CheckIcon({ size = 24, color = "currentColor" }: { size?: number, color
 
 function LockIcon({ size = 24, color = "currentColor" }: { size?: number, color?: string }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" role="img" aria-label="Lock">
+      <title>Lock</title>
       <rect width="18" height="11" x="3" y="11" rx="1" ry="1"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
     </svg>
   );
