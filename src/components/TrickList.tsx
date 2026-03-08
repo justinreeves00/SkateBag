@@ -204,15 +204,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
   }
 
   // Suggest Trick State
-  const [showSuggestModal, setShowSuggestModal] = useState(false);
-  const [suggestForm, setSuggestForm] = useState({
-    name: "",
-    category: "flatground" as TrickCategory,
-    difficulty: 1,
-    description: "",
-  });
-  const [isSuggesting, setIsSuggesting] = useState(false);
-  const [suggestSuccess, setSuggestSuccess] = useState(false);
+
 
   // Sync displayName and setup visibility with prop
   useEffect(() => {
@@ -286,29 +278,6 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
       setProfileError(res.error || "Update failed");
     }
     setIsUpdatingProfile(false);
-  }
-
-  async function handleSuggest(e: React.FormEvent) {
-    e.preventDefault();
-    if (!suggestForm.name.trim()) return;
-    setIsSuggesting(true);
-    const description = [
-      `Suggested difficulty: ${suggestForm.difficulty}`,
-      "Applies to all skaters if approved.",
-      suggestForm.description.trim(),
-    ]
-      .filter(Boolean)
-      .join("\n\n");
-    const res = await submitNewTrickSuggestion(suggestForm.name, suggestForm.category, description);
-    if (res.success) {
-      setSuggestSuccess(true);
-      setTimeout(() => {
-        setShowSuggestModal(false);
-        setSuggestSuccess(false);
-        setSuggestForm({ name: "", category: "flatground", difficulty: 1, description: "" });
-      }, 2000);
-    }
-    setIsSuggesting(false);
   }
 
   const statusTabs = [
@@ -525,121 +494,6 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
         </div>
       )}
 
-      {showSuggestModal && isAuthenticated && (
-        <div className="fixed inset-0 z-[1050] flex items-center justify-center bg-black/90 p-4" onClick={() => setShowSuggestModal(false)}>
-          <div className="w-full max-w-lg rounded-[32px] border border-white/10 bg-[var(--surface)] p-8 shadow-[0_24px_80px_rgba(0,0,0,0.45)]" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-start justify-between gap-4">
-              <div className="space-y-2">
-                <p className="text-[10px] font-black uppercase tracking-[0.35em] text-[var(--text-muted)]">Community Review</p>
-                <h3 className="text-3xl font-black uppercase italic tracking-tight text-white">Add Missing Trick</h3>
-              </div>
-              <button
-                onClick={() => setShowSuggestModal(false)}
-                className="flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-black/20 text-[var(--text-muted)] transition-all hover:text-white"
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-              </button>
-            </div>
-
-            <div className="mt-6 rounded-[24px] border border-white/10 bg-black/20 p-4">
-              <p className="text-sm leading-relaxed text-[var(--text-muted)]">
-                Approved tricks become part of the shared list for everyone, so set the category and difficulty you think fits all skaters best.
-              </p>
-            </div>
-
-            <form onSubmit={handleSuggest} className="mt-6 space-y-5">
-              <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-[0.25em] text-[var(--text-muted)]">Trick Name</label>
-                <input
-                  type="text"
-                  value={suggestForm.name}
-                  onChange={(e) => setSuggestForm((prev) => ({ ...prev, name: e.target.value }))}
-                  required
-                  className="w-full rounded-2xl border border-white/10 bg-black/30 px-5 py-4 text-sm font-black uppercase tracking-[0.12em] text-white outline-none transition-all focus:border-[var(--board-accent)]"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-[0.25em] text-[var(--text-muted)]">Category</label>
-                  <select
-                    value={suggestForm.category}
-                    onChange={(e) => setSuggestForm((prev) => ({ ...prev, category: e.target.value as TrickCategory }))}
-                    className="w-full rounded-2xl border border-white/10 bg-black/30 px-5 py-4 text-sm font-black uppercase tracking-[0.12em] text-white outline-none transition-all focus:border-[var(--board-accent)]"
-                  >
-                    {CATEGORIES.map((cat) => (
-                      <option key={cat} value={cat}>{CATEGORY_LABELS[cat]}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-[0.25em] text-[var(--text-muted)]">Difficulty</label>
-                  <div className="grid grid-cols-5 gap-2">
-                    {[1, 2, 3, 4, 5].map((lvl) => (
-                      <button
-                        key={lvl}
-                        type="button"
-                        onClick={() => setSuggestForm((prev) => ({ ...prev, difficulty: lvl }))}
-                        className={`h-12 rounded-2xl border text-sm font-black transition-all ${
-                          suggestForm.difficulty === lvl
-                            ? "border-[var(--board-accent)] bg-[var(--board-accent)] text-black"
-                            : "border-white/10 bg-black/30 text-[var(--text-muted)] hover:text-white"
-                        }`}
-                      >
-                        {lvl}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-[0.25em] text-[var(--text-muted)]">Notes</label>
-                <textarea
-                  value={suggestForm.description}
-                  onChange={(e) => setSuggestForm((prev) => ({ ...prev, description: e.target.value }))}
-                  rows={4}
-                  className="w-full rounded-2xl border border-white/10 bg-black/30 px-5 py-4 text-sm font-medium text-white outline-none transition-all focus:border-[var(--board-accent)]"
-                />
-              </div>
-
-              {suggestSuccess ? (
-                <div className="rounded-2xl border border-[var(--board-accent)]/30 bg-[var(--board-accent)]/10 px-5 py-4 text-center text-[11px] font-black uppercase tracking-[0.22em] text-[var(--board-accent)]">
-                  Suggestion sent for review
-                </div>
-              ) : (
-                <button
-                  type="submit"
-                  disabled={isSuggesting}
-                  className="w-full rounded-2xl bg-[var(--board-accent)] px-5 py-4 text-[10px] font-black uppercase tracking-[0.25em] text-black transition-all hover:brightness-110 disabled:opacity-60"
-                >
-                  {isSuggesting ? "Sending..." : "Submit Trick"}
-                </button>
-              )}
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* Install Banner - Mobile Only */}
-      {!isPWA && !dismissedInstallPrompt && showInstallBanner && isMobileInstallSurface && (
-        <div className="fixed top-0 left-0 right-0 z-[150] animate-in slide-in-from-top duration-300">
-          <div className="bg-[#f2f2f2]/98 dark:bg-[#000000]/98 backdrop-blur-xl border-b border-gray-300 dark:border-white/10 shadow-sm">
-            <div className="max-w-6xl mx-auto px-4 py-2">
-              <div className="flex items-center gap-3">
-                {/* App Icon - with dark background to hide borders */}
-                <div className="w-11 h-11 rounded-xl bg-[#1c1c1e] flex items-center justify-center shadow-sm flex-shrink-0 overflow-hidden">
-                  <img src="/app-icon.png" alt="SkateBag" className="w-[120%] h-[120%] object-cover" />
-                </div>
-                
-                {/* Text Content */}
-                <div className="flex-1 min-w-0">
-                  <p className="text-[13px] font-semibold text-[#1c1c1e] dark:text-white leading-tight">SkateBag</p>
-                  <p className="text-[11px] text-[#8e8e93] dark:text-[#98989d] leading-tight mt-0.5">
-                    {installMethod === 'ios' ? 'Install App' : 'Add to Home Screen'}
-                  </p>
-                </div>
                 
                 {/* Action Button - Add for both iOS and Android */}
                 <button
