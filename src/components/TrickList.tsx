@@ -658,7 +658,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
       <header className={`fixed top-0 left-0 right-0 z-[100] cyber-glass backdrop-blur-xl border-b border-white/5 ${!isPWA && !dismissedInstallPrompt ? 'top-[56px]' : 'top-0'}`}>
         <div className="max-w-6xl mx-auto px-4 py-3">
           {/* Top Row: Logo + Actions */}
-          <div className="flex items-center justify-between gap-3 mb-3">
+          <div className="flex items-center justify-between gap-3 mb-3 pb-3 border-b border-white/5">
             {/* Logo - Always visible */}
             <div className="flex items-center gap-2 shrink-0">
               <SkateBagLogo size={40} />
@@ -742,14 +742,14 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
       {/* Main Grid Area */}
       <main className="max-w-6xl mx-auto px-6 pt-[130px] pb-32">
 
-        <div className="mb-10 flex items-center gap-6">
+        <div className="mb-10 flex items-center gap-4">
           <h2 className="text-[11px] font-black text-white uppercase tracking-[0.4em] whitespace-nowrap italic bg-black px-3 py-1 border border-white/5">
             {statusFilter === "all" ? "On Deck" : 
              statusFilter === "landed" ? "Landed" : 
              statusFilter === "locked" ? "Locked" : "In Progress"}
           </h2>
-          <div className="h-px w-full bg-white/5 shadow-[0_1px_0_rgba(255,255,255,0.02)]"></div>
-          <span className="text-[10px] font-black text-slate-500 tabular-nums uppercase tracking-widest">{filtered.length} Tricks</span>
+          <div className="h-px flex-1 bg-white/5"></div>
+          <span className="text-[10px] font-black text-slate-500 tabular-nums uppercase tracking-widest whitespace-nowrap">{filtered.length} Tricks</span>
         </div>
 
         {filtered.length === 0 ? (
