@@ -759,7 +759,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
       </header>
 
       {/* Main Grid Area */}
-      <main id="main-content" className="max-w-6xl mx-auto px-6 pb-32" style={{ paddingTop: !isPWA && !dismissedInstallPrompt ? '186px' : '130px' }}>
+      <main id="main-content" className="max-w-6xl mx-auto px-6 pb-32" style={{ paddingTop: !isPWA && !dismissedInstallPrompt ? '220px' : '170px' }}>
 
         <div className="mb-8 flex items-center gap-2 px-3">
           <h2 className="text-[10px] font-black text-white uppercase tracking-[0.35em] whitespace-nowrap italic bg-black px-2 py-1 border border-white/5 flex-shrink-0">
