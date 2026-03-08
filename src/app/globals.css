@@ -46,6 +46,11 @@ body {
   color: var(--foreground);
 }
 
+/* iOS Safe Area Support */
+.ios-safe-top {
+  padding-top: env(safe-area-inset-top);
+}
+
 body {
   font-family: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;

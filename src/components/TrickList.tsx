@@ -655,8 +655,8 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
       )}
 
       {/* Main Header */}
-      <header className={`fixed top-0 left-0 right-0 z-[100] backdrop-blur-xl border-b border-white/5 bg-[#1c1c1e]/95 ${!isPWA && !dismissedInstallPrompt ? 'top-[56px]' : 'top-0'}`}>
-        <div className="max-w-6xl mx-auto px-4 py-3">
+      <header className={`fixed left-0 right-0 z-[100] backdrop-blur-xl border-b border-white/5 bg-[#1c1c1e] ${!isPWA && !dismissedInstallPrompt ? 'top-[56px]' : 'top-0'}`}>
+        <div className="max-w-6xl mx-auto px-4 py-3 pt-[max(0.75rem,env(safe-area-inset-top))]">
           {/* Top Row: Logo + Actions */}
           <div className="flex items-center justify-between gap-3 mb-3 pb-3 border-b border-white/5">
             {/* Logo - Always visible */}
@@ -740,7 +740,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
       </header>
 
       {/* Main Grid Area */}
-      <main className="max-w-6xl mx-auto px-6 pt-[130px] pb-32">
+      <main className="max-w-6xl mx-auto px-6 pb-32" style={{ paddingTop: !isPWA && !dismissedInstallPrompt ? '186px' : '130px' }}>
 
         <div className="mb-8 flex items-center gap-2 px-3">
           <h2 className="text-[10px] font-black text-white uppercase tracking-[0.35em] whitespace-nowrap italic bg-black px-2 py-1 border border-white/5 flex-shrink-0">
