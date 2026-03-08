@@ -84,6 +84,26 @@ export default function SuggestTrickModal({ isOpen, onClose, suggestedTrickName 
               </p>
             </div>
 
+            <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4 space-y-2">
+              <div className="flex items-start gap-3">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-yellow-500 shrink-0 mt-0.5">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                  <path d="M12 8v4"/><path d="M12 16h.01"/>
+                </svg>
+                <div className="space-y-2">
+                  <p className="text-xs text-yellow-500 font-black uppercase tracking-widest">
+                    Community-Wide Impact
+                  </p>
+                  <p className="text-[10px] text-yellow-500/80 font-medium leading-relaxed">
+                    The difficulty level you set will apply to <span className="font-black text-yellow-500">ALL users</span> of SkateBag. Please be mindful and choose a level that reflects the trick's actual difficulty for the average skater.
+                  </p>
+                  <p className="text-[10px] text-yellow-500/80 font-medium leading-relaxed">
+                    Your submission will be <span className="font-black text-green-500">live immediately</span> but may be removed or edited after admin review.
+                  </p>
+                </div>
+              </div>
+            </div>
+
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
                 <label className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Trick Name</label>
