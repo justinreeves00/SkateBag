@@ -56,7 +56,7 @@ function SortableTrickItem({
 }: { 
   trick: Trick; 
   onEdit: () => void;
-  onDelete: (e: React.MouseEvent) => void;
+  onDelete: () => void;
   isEditing: boolean;
   editForm: any;
   setEditForm: any;
@@ -178,7 +178,7 @@ function SortableTrickItem({
               Calibrate
             </button>
             <button 
-              onClick={(e) => onDelete(e)}
+              onClick={() => onDelete()}
               className="p-2.5 rounded-lg bg-[var(--surface-muted)] border border-[var(--border)] text-slate-500 hover:bg-red-500/20 hover:text-red-500 hover:border-red-500/30 transition-all"
               title="Delete Entry"
               type="button"
@@ -209,6 +209,10 @@ export function AdminClient({ initialTricks, suggestions, newTrickSuggestions: i
     youtube_query: ""
   });
   const [addError, setAddError] = useState<string | null>(null);
+  
+  // Delete confirmation modal state
+  const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // Sync state if initialTricks changes
   useEffect(() => {
@@ -240,38 +244,27 @@ export function AdminClient({ initialTricks, suggestions, newTrickSuggestions: i
     }
   }
 
-  async function handleDelete(id: string, event: React.MouseEvent) {
-    // Stop ALL event propagation at capture phase
-    event.stopPropagation();
-    event.preventDefault();
-    event.nativeEvent.stopImmediatePropagation();
+  async function handleDeleteConfirm() {
+    if (!deleteConfirmId) return;
     
-    const trickToDelete = tricks.find(t => t.id === id);
-    
-    // Use requestAnimationFrame to ensure confirm happens after all React/DnD handlers
-    const confirmed = await new Promise<boolean>((resolve) => {
-      requestAnimationFrame(() => {
-        setTimeout(() => {
-          resolve(confirm(`CONFIRM DELETION: "${trickToDelete?.name}"?\n\nThis cannot be undone.`));
-        }, 50);
-      });
-    });
-    
-    if (!confirmed) return;
-    
-    console.log('Deleting trick:', id);
-    const res = await deleteTrick(id);
+    setIsDeleting(true);
+    console.log('Deleting trick:', deleteConfirmId);
+    const res = await deleteTrick(deleteConfirmId);
     
     if (res.error) {
       alert(`DELETE FAILED: ${res.error}`);
       console.error('Delete failed:', res.error);
-      return;
-    }
-    
-    if (res.success) {
-      setTricks(tricks.filter(t => t.id !== id));
+    } else if (res.success) {
+      setTricks(tricks.filter(t => t.id !== deleteConfirmId));
       console.log('Trick deleted successfully');
     }
+    
+    setIsDeleting(false);
+    setDeleteConfirmId(null);
+  }
+  
+  function handleDeleteClick(id: string) {
+    setDeleteConfirmId(id);
   }
 
   async function handleAdd(e: React.FormEvent) {
@@ -359,7 +352,41 @@ export function AdminClient({ initialTricks, suggestions, newTrickSuggestions: i
         </div>
       </header>
 
-      {/* Add Trick Form (omitted for brevity, same as before) */}
+      {/* Delete Confirmation Modal */}
+      {deleteConfirmId && (
+        <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/90 p-4" onClick={() => setDeleteConfirmId(null)}>
+          <div className="cyber-card p-8 rounded-2xl max-w-md w-full" onClick={(e) => e.stopPropagation()}>
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <h3 className="text-2xl font-black uppercase italic text-white">Confirm Deletion</h3>
+                <p className="text-[var(--text-muted)] text-sm">
+                  Are you sure you want to delete "<span className="text-white font-black">{tricks.find(t => t.id === deleteConfirmId)?.name}</span>"?
+                </p>
+                <p className="text-red-500 text-xs font-black uppercase tracking-widest">This cannot be undone.</p>
+              </div>
+              
+              <div className="flex gap-3 pt-4">
+                <button
+                  onClick={() => setDeleteConfirmId(null)}
+                  disabled={isDeleting}
+                  className="flex-1 px-6 py-3 rounded-lg bg-[var(--surface-muted)] border border-[var(--border)] text-[10px] font-black uppercase tracking-widest hover:bg-[var(--surface-elevated)] transition-all disabled:opacity-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleDeleteConfirm}
+                  disabled={isDeleting}
+                  className="flex-1 px-6 py-3 rounded-lg bg-red-500 text-black text-[10px] font-black uppercase tracking-widest hover:bg-red-400 transition-all disabled:opacity-50"
+                >
+                  {isDeleting ? 'Deleting...' : 'Delete'}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Add Trick Form */}
       {showAddForm && (
         <section className="animate-in fade-in slide-in-from-top-4 duration-300">
           <div className="cyber-card p-10 rounded-2xl border-[var(--board-accent)]/40 bg-[var(--board-accent)]/5">
@@ -488,7 +515,7 @@ export function AdminClient({ initialTricks, suggestions, newTrickSuggestions: i
                   key={trick.id}
                   trick={trick}
                   onEdit={() => { setEditingId(trick.id); setEditForm(trick); }}
-                  onDelete={(e) => handleDelete(trick.id, e)}
+                  onDelete={() => handleDeleteClick(trick.id)}
                   isEditing={editingId === trick.id}
                   editForm={editForm}
                   setEditForm={setEditForm}
