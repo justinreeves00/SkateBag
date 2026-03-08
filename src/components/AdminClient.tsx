@@ -80,11 +80,12 @@ function SortableTrickItem({
   };
 
   return (
-    <div ref={setNodeRef} style={style} className={`cyber-card p-6 rounded-2xl transition-all relative group/sortable ${isEditing ? "border-[var(--board-accent)] ring-1 ring-[var(--board-accent)]/50" : "hover:border-[var(--board-accent)]/35"}`}>
+    <div ref={setNodeRef} style={style} className={`cyber-card p-6 rounded-2xl transition-all relative group/sortable ${isEditing ? "border-[var(--board-accent)] ring-1 ring-[var(--board-accent)]/50" : "hover:border-[var(--board-accent)]/35"}`} {...attributes}>
       {/* Drag Handle */}
       <div 
         {...attributes} 
         {...listeners}
+        onClick={(e) => e.stopPropagation()}
         className="absolute -left-3 top-1/2 -translate-y-1/2 w-8 h-16 flex items-center justify-center cursor-grab active:cursor-grabbing z-30 transition-all bg-[var(--surface-muted)] rounded-l-xl border border-white/5 border-r-0 opacity-40 group-hover/sortable:opacity-100"
       >
         <div className="flex flex-col gap-1">
@@ -241,7 +242,15 @@ export function AdminClient({ initialTricks, suggestions, newTrickSuggestions: i
 
   async function handleDelete(id: string) {
     const trickToDelete = tricks.find(t => t.id === id);
-    if (!confirm(`CONFIRM DELETION: "${trickToDelete?.name}"?\n\nThis cannot be undone.`)) return;
+    
+    // Use setTimeout to ensure confirm happens outside of any event bubbling
+    const confirmed = await new Promise<boolean>((resolve) => {
+      setTimeout(() => {
+        resolve(confirm(`CONFIRM DELETION: "${trickToDelete?.name}"?\n\nThis cannot be undone.`));
+      }, 10);
+    });
+    
+    if (!confirmed) return;
     
     console.log('Deleting trick:', id);
     const res = await deleteTrick(id);
