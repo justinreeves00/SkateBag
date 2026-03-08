@@ -239,10 +239,21 @@ export function AdminClient({ initialTricks, suggestions, newTrickSuggestions: i
   }
 
   async function handleDelete(id: string) {
-    if (!confirm("Confirm deletion of this trick?")) return;
+    const trickToDelete = tricks.find(t => t.id === id);
+    if (!confirm(`CONFIRM DELETION: "${trickToDelete?.name}"?\n\nThis cannot be undone.`)) return;
+    
+    console.log('Deleting trick:', id);
     const res = await deleteTrick(id);
+    
+    if (res.error) {
+      alert(`DELETE FAILED: ${res.error}`);
+      console.error('Delete failed:', res.error);
+      return;
+    }
+    
     if (res.success) {
       setTricks(tricks.filter(t => t.id !== id));
+      console.log('Trick deleted successfully');
     }
   }
 
