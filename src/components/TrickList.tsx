@@ -619,8 +619,8 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
         </div>
       )}
 
-      {/* iOS Smart App Banner - Native style with slide-down animation */}
-      {!isPWA && !dismissedInstallPrompt && showInstallBanner && (
+      {/* Install Banner - Mobile Only */}
+      {!isPWA && !dismissedInstallPrompt && showInstallBanner && isMobileInstallSurface && (
         <div className="fixed top-0 left-0 right-0 z-[150] animate-in slide-in-from-top duration-300">
           <div className="bg-[#f2f2f2]/98 dark:bg-[#000000]/98 backdrop-blur-xl border-b border-gray-300 dark:border-white/10 shadow-sm">
             <div className="max-w-6xl mx-auto px-4 py-2">
@@ -638,12 +638,12 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                   </p>
                 </div>
                 
-                {/* Action Button - iOS GET / Android Add */}
+                {/* Action Button - Add for both iOS and Android */}
                 <button
                   onClick={handleInstallClick}
                   className="px-5 py-1.5 bg-[#007aff] dark:bg-[#0a84ff] text-white text-[14px] font-semibold rounded-full hover:brightness-95 active:scale-95 transition-all shadow-sm flex-shrink-0"
                 >
-                  {installMethod === 'ios' ? 'GET' : 'Add'}
+                  Add
                 </button>
                 
                 {/* Close X */}
