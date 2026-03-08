@@ -101,21 +101,54 @@ export async function updateTrick(trickId: string, updates: Partial<{ name: stri
   return { success: true };
 }
 
-export async function addTrick(trick: { name: string, category: string, difficulty: number, youtube_query?: string }) {
+export async function addTrick(trick: { name: string, category: string, difficulty: number, youtube_query?: string }, isUserSubmitted: boolean = false) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  if (user?.email !== 'justinreeves00@gmail.com') return { error: "Unauthorized" };
+  // For user-submitted tricks, allow any authenticated user
+  if (!user) return { error: "Not authenticated" };
+  
+  // For admin direct adds, verify email
+  if (!isUserSubmitted && user?.email !== 'justinreeves00@gmail.com') return { error: "Unauthorized" };
 
   // Auto-generate YouTube search query: "How to X" where X is the trick name
   const trickWithQuery = {
     ...trick,
-    youtube_query: trick.youtube_query || `How to ${trick.name}`
+    youtube_query: trick.youtube_query || `How to ${trick.name}`,
+    awaiting_approval: isUserSubmitted ? true : null
   };
 
   const { data, error } = await supabase
     .from("tricks")
     .insert([trickWithQuery])
+    .select()
+    .single();
+
+  if (error) return { error: error.message };
+  revalidatePath("/");
+  revalidatePath("/admin");
+  return { success: true, data };
+}
+
+export async function submitUserTrick(trick: { name: string, category: string, difficulty: number, description?: string }) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) return { error: "Not authenticated" };
+
+  // Auto-generate YouTube search query
+  const trickData = {
+    name: trick.name,
+    category: trick.category,
+    difficulty: trick.difficulty,
+    youtube_query: `How to ${trick.name}`,
+    awaiting_approval: true,
+    description: trick.description || null
+  };
+
+  const { data, error } = await supabase
+    .from("tricks")
+    .insert([trickData])
     .select()
     .single();
 
@@ -201,6 +234,44 @@ export async function submitNewTrickSuggestion(name: string, category: string, d
 
   if (error) return { error: error.message };
 
+  return { success: true };
+}
+
+export async function approveTrick(trickId: string) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (user?.email !== 'justinreeves00@gmail.com') return { error: "Unauthorized" };
+
+  // Remove the awaiting_approval flag
+  const { error } = await supabase
+    .from("tricks")
+    .update({ awaiting_approval: null })
+    .eq("id", trickId);
+
+  if (error) return { error: error.message };
+
+  revalidatePath("/");
+  revalidatePath("/admin");
+  return { success: true };
+}
+
+export async function rejectTrick(trickId: string) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (user?.email !== 'justinreeves00@gmail.com') return { error: "Unauthorized" };
+
+  // Delete the trick
+  const { error } = await supabase
+    .from("tricks")
+    .delete()
+    .eq("id", trickId);
+
+  if (error) return { error: error.message };
+
+  revalidatePath("/");
+  revalidatePath("/admin");
   return { success: true };
 }
 

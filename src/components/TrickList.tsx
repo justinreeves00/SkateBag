@@ -6,6 +6,7 @@ import { TrickCard } from "./TrickCard";
 import { CompactFilterBar } from "./CompactFilterBar";
 import { DiceButton } from "./DiceButton";
 import { SkateBagLogo } from "./Logo";
+import SuggestTrickModal from "./SuggestTrickModal";
 import { signOut } from "@/lib/auth-actions";
 import { updateProfile } from "@/lib/profile-actions";
 import { submitNewTrickSuggestion } from "@/lib/trick-actions";
@@ -83,6 +84,8 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
   const [showInstallGuide, setShowInstallGuide] = useState(false);
   const [showAuthPrompt, setShowAuthPrompt] = useState(false);
   const [showInstallBanner, setShowInstallBanner] = useState(false);
+  const [showSuggestModal, setShowSuggestModal] = useState(false);
+  const [suggestTrickName, setSuggestTrickName] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     const browserWindow = window as InstallPromptWindow;
@@ -773,7 +776,15 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
 
         {filtered.length === 0 ? (
           <div className="py-40 flex flex-col items-center justify-center cyber-card rounded-[32px] border-dashed border-white/10">
-            <p className="text-[var(--text-muted)] text-sm font-black uppercase tracking-widest mb-8">No matching tricks</p>
+            <p className="text-[var(--text-muted)] text-sm font-black uppercase tracking-widest mb-4">No matching tricks</p>
+            {search && (
+              <button 
+                onClick={() => { setSuggestTrickName(search); setShowSuggestModal(true); }}
+                className="px-8 py-4 bg-[var(--board-accent)] text-black rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all hover:brightness-110 mb-4"
+              >
+                Suggest "{search}"
+              </button>
+            )}
             <button 
               onClick={() => { setSearch(""); setCategory("all"); setLevelFilter("all"); setStatusFilter("all"); }}
               className="px-8 py-4 bg-white/5 border border-white/10 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all hover:bg-[var(--board-accent)]"
@@ -839,6 +850,13 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
           })}
         </div>
       </nav>
+
+      {/* Suggest Trick Modal */}
+      <SuggestTrickModal 
+        isOpen={showSuggestModal} 
+        onClose={() => { setShowSuggestModal(false); setSuggestTrickName(undefined); }}
+        suggestedTrickName={suggestTrickName}
+      />
     </div>
   );
 }

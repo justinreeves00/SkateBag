@@ -228,6 +228,10 @@ export default function AdminDashboard({ initialTricks, suggestions, newTrickSug
       });
   }, [tricks, filterCategory, filterLevel, searchQuery]);
 
+  const awaitingApproval = useMemo(() => {
+    return tricks.filter(t => t.awaiting_approval === true);
+  }, [tricks]);
+
   // DnD Sensors
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
@@ -311,6 +315,22 @@ export default function AdminDashboard({ initialTricks, suggestions, newTrickSug
     const res = await handleNewTrickSuggestion(id, status);
     if (res.success) {
       setNewSugs(newSugs.filter(s => s.id !== id));
+    }
+  }
+
+  async function handleApproveTrick(trickId: string) {
+    const { approveTrick } = await import('@/lib/trick-actions');
+    const res = await approveTrick(trickId);
+    if (res.success) {
+      setTricks(tricks.map(t => t.id === trickId ? { ...t, awaiting_approval: null } : t));
+    }
+  }
+
+  async function handleRejectTrick(trickId: string) {
+    const { rejectTrick } = await import('@/lib/trick-actions');
+    const res = await rejectTrick(trickId);
+    if (res.success) {
+      setTricks(tricks.filter(t => t.id !== trickId));
     }
   }
 
@@ -491,39 +511,42 @@ export default function AdminDashboard({ initialTricks, suggestions, newTrickSug
         </SortableContext>
       </DndContext>
 
-      {/* Trick Suggestions from Users */}
-      {newSugs.length > 0 && (
-        <div className="cyber-card p-8 rounded-2xl border border-[var(--board-accent)]/30 space-y-6">
+      {/* Tricks Awaiting Approval */}
+      {awaitingApproval.length > 0 && (
+        <div className="cyber-card p-8 rounded-2xl border-2 border-[var(--board-accent)] space-y-6">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-2xl font-black italic uppercase text-[var(--board-accent)]">Community Trick Suggestions</h2>
-              <p className="text-xs text-[var(--text-muted)] font-black uppercase tracking-widest mt-1">{newSugs.length} PENDING REVIEW</p>
+              <h2 className="text-2xl font-black italic uppercase text-[var(--board-accent)]">Community Submissions Awaiting Approval</h2>
+              <p className="text-xs text-[var(--text-muted)] font-black uppercase tracking-widest mt-1">{awaitingApproval.length} TRICKS PENDING</p>
+            </div>
+            <div className="px-4 py-2 bg-[var(--board-accent)]/20 border border-[var(--board-accent)] rounded-lg">
+              <span className="text-[10px] font-black text-[var(--board-accent)] uppercase tracking-widest">Visible to All Users</span>
             </div>
           </div>
           
-          <div className="space-y-4">
-            {newSugs.map((sug: any) => (
-              <div key={sug.id} className="bg-black/40 border border-white/5 rounded-xl p-6 space-y-4">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="space-y-2 flex-1">
-                    <h3 className="text-lg font-black uppercase italic text-white">{sug.name}</h3>
-                    <div className="flex gap-3">
-                      <span className="text-xs font-black text-[var(--text-muted)] uppercase tracking-widest bg-[var(--surface-muted)] px-2 py-1 rounded">{sug.category}</span>
-                      {sug.description && <p className="text-xs text-[var(--text-muted)] mt-2">{sug.description}</p>}
+          <div className="space-y-3">
+            {awaitingApproval.map((trick) => (
+              <div key={trick.id} className="bg-black/40 border border-[var(--board-accent)]/30 rounded-xl p-6">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3 mb-2">
+                      <h3 className="text-lg font-black uppercase italic text-white">{trick.name}</h3>
+                      <span className="px-2 py-1 bg-[var(--board-accent)] text-black text-[8px] font-black uppercase tracking-widest rounded">Awaiting Approval</span>
                     </div>
-                    <p className="text-[10px] text-slate-600 font-black uppercase tracking-widest">
-                      Suggested by: {sug.user_id || 'Anonymous'} • {new Date(sug.created_at).toLocaleDateString()}
-                    </p>
+                    <div className="flex gap-3">
+                      <span className="text-xs font-black text-[var(--text-muted)] uppercase tracking-widest bg-[var(--surface-muted)] px-2 py-1 rounded">{trick.category}</span>
+                      <span className="text-xs font-black text-[var(--board-accent)] uppercase tracking-widest">LVL {trick.difficulty}</span>
+                    </div>
                   </div>
                   <div className="flex gap-2">
                     <button
-                      onClick={() => handleNewSuggestion(sug.id, 'approved')}
-                      className="px-4 py-2 bg-[var(--board-accent)] text-black text-[9px] font-black uppercase tracking-widest rounded-lg hover:brightness-110 transition-all"
+                      onClick={() => handleApproveTrick(trick.id)}
+                      className="px-4 py-2 bg-green-500 text-black text-[9px] font-black uppercase tracking-widest rounded-lg hover:bg-green-400 transition-all"
                     >
                       Approve
                     </button>
                     <button
-                      onClick={() => handleNewSuggestion(sug.id, 'rejected')}
+                      onClick={() => handleRejectTrick(trick.id)}
                       className="px-4 py-2 bg-[var(--surface-muted)] border border-[var(--border)] text-[9px] font-black uppercase tracking-widest rounded-lg text-slate-500 hover:bg-red-500/20 hover:text-red-500 hover:border-red-500/30 transition-all"
                     >
                       Reject
