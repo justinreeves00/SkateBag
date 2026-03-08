@@ -9,6 +9,9 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  turbopack: {
+    root: "/Users/claw/.openclaw/workspace/SkateBag",
+  },
 };
 
 export default nextConfig;
