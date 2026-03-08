@@ -19,6 +19,7 @@ export interface Trick {
   difficulty: number | null; // 1-5
   sort_order: number | null;
   youtube_query: string | null;
+  awaiting_approval?: boolean | null;
   created_at: string;
 }
 
