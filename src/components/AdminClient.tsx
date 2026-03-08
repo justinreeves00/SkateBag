@@ -56,7 +56,7 @@ function SortableTrickItem({
 }: { 
   trick: Trick; 
   onEdit: () => void;
-  onDelete: () => void;
+  onDelete: (e: React.MouseEvent) => void;
   isEditing: boolean;
   editForm: any;
   setEditForm: any;
@@ -178,7 +178,7 @@ function SortableTrickItem({
               Calibrate
             </button>
             <button 
-              onClick={(e) => { e.stopPropagation(); e.preventDefault(); onDelete(); }}
+              onClick={(e) => onDelete(e)}
               className="p-2.5 rounded-lg bg-[var(--surface-muted)] border border-[var(--border)] text-slate-500 hover:bg-red-500/20 hover:text-red-500 hover:border-red-500/30 transition-all"
               title="Delete Entry"
               type="button"
@@ -240,14 +240,21 @@ export function AdminClient({ initialTricks, suggestions, newTrickSuggestions: i
     }
   }
 
-  async function handleDelete(id: string) {
+  async function handleDelete(id: string, event: React.MouseEvent) {
+    // Stop ALL event propagation at capture phase
+    event.stopPropagation();
+    event.preventDefault();
+    event.nativeEvent.stopImmediatePropagation();
+    
     const trickToDelete = tricks.find(t => t.id === id);
     
-    // Use setTimeout to ensure confirm happens outside of any event bubbling
+    // Use requestAnimationFrame to ensure confirm happens after all React/DnD handlers
     const confirmed = await new Promise<boolean>((resolve) => {
-      setTimeout(() => {
-        resolve(confirm(`CONFIRM DELETION: "${trickToDelete?.name}"?\n\nThis cannot be undone.`));
-      }, 10);
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          resolve(confirm(`CONFIRM DELETION: "${trickToDelete?.name}"?\n\nThis cannot be undone.`));
+        }, 50);
+      });
     });
     
     if (!confirmed) return;
