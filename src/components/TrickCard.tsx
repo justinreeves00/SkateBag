@@ -186,7 +186,7 @@ export function TrickCard({ trick, isAuthenticated, onStatusChange, onInteract, 
           <div className="bg-black/60 p-5 rounded-lg border border-white/10 space-y-4 animate-in fade-in duration-300" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-black text-[var(--board-accent)] uppercase tracking-widest">Suggest Level Change</span>
-              <button onClick={() => setShowLevelEdit(false)} className="text-[var(--text-muted)] hover:text-white transition-colors">
+              <button onClick={() => setShowLevelEdit(false)} aria-label="Close" className="text-[var(--text-muted)] hover:text-white transition-colors">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
               </button>
             </div>
@@ -275,6 +275,7 @@ export function TrickCard({ trick, isAuthenticated, onStatusChange, onInteract, 
               </div>
               <button
                 onClick={(e) => { e.stopPropagation(); setShowPrompt(false); }}
+                aria-label="Close"
                 className="flex h-9 w-9 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-[var(--text-muted)] transition-all hover:text-white"
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
@@ -415,6 +416,7 @@ export function TrickCard({ trick, isAuthenticated, onStatusChange, onInteract, 
               </div>
               <button
                 onClick={() => setShowIssueReport(false)}
+                aria-label="Close"
                 className="flex h-9 w-9 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-[var(--text-muted)] transition-all hover:text-white"
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>

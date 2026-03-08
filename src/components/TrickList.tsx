@@ -438,7 +438,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
           <div className="w-full max-w-md cyber-card p-10 space-y-8 animate-in zoom-in-95 duration-300" onClick={(e) => e.stopPropagation()}>
             <div className="flex justify-between items-center">
               <h2 className="text-3xl font-black italic uppercase tracking-tighter text-white">Settings</h2>
-              <button onClick={() => setShowSettingsModal(false)} className="w-10 h-10 rounded-lg bg-black/40 border border-white/10 flex items-center justify-center text-slate-500 hover:text-white transition-all">
+              <button onClick={() => setShowSettingsModal(false)} aria-label="Close settings" className="w-10 h-10 rounded-lg bg-black/40 border border-white/10 flex items-center justify-center text-slate-500 hover:text-white transition-all">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
               </button>
             </div>
@@ -673,6 +673,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
               {/* Search Toggle */}
               <button 
                 onClick={() => setIsSearchExpanded(!isSearchExpanded)}
+                aria-label="Search tricks"
                 className={`w-10 h-10 flex items-center justify-center transition-all rounded-xl border ${isSearchExpanded ? 'bg-[var(--board-accent)] text-black border-[var(--board-accent)]' : 'bg-black/40 border-white/10 text-slate-400 hover:text-white'}`}
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
@@ -689,6 +690,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                   }
                   promptLogin();
                 }}
+                aria-label="Settings"
                 className="w-10 h-10 bg-black/40 border border-white/10 rounded-xl flex items-center justify-center text-slate-400 hover:text-white transition-all shrink-0"
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -714,6 +716,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
                 {search && (
                   <button 
                     onClick={() => setSearch("")}
+                    aria-label="Clear search"
                     className="absolute right-3 top-1/2 -translate-y-1/2 w-7 h-7 flex items-center justify-center rounded-lg bg-white/5 text-[var(--text-muted)] hover:text-white transition-all"
                   >
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
