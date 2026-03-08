@@ -80,10 +80,7 @@ body::before {
 .cyber-card,
 .studio-card {
   /* Layer grip tape texture over solid background */
-  background: 
-    url("/grip-tape-texture.jpg") repeat center center,
-    var(--surface);
-  background-size: 80px 80px, auto;
+  background-color: var(--surface);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   box-shadow: 
@@ -92,6 +89,13 @@ body::before {
   transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
   position: relative;
   overflow: hidden;
+}
+
+/* Apply grip tape texture as separate layer */
+.cyber-card {
+  background-image: url("/grip-tape-texture.jpg");
+  background-size: 60px 60px;
+  background-repeat: repeat;
 }
 
 .cyber-card:hover,
