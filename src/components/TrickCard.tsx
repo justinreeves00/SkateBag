@@ -270,22 +270,32 @@ export function TrickCard({ trick, isAuthenticated, onStatusChange, onInteract, 
 
       {/* 10 Tries Overlay - Contained within card */}
       {showPrompt && (
-        <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/95 p-4 rounded-xl backdrop-blur-md animate-in fade-in duration-300">
-          <div className="w-full max-w-xs">
-            <div className="text-center mb-4">
-              <h4 className="text-xl font-black tracking-tighter text-white uppercase italic mb-1">Session Test</h4>
-              <p className="text-[var(--warn-accent)] text-[8px] font-black uppercase tracking-[0.2em]">Landed reps out of 10</p>
+        <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/95 p-3 rounded-xl backdrop-blur-md animate-in fade-in duration-300">
+          <div className="w-full">
+            <div className="text-center mb-3">
+              <h4 className="text-lg font-black tracking-tighter text-white uppercase italic">Session Test</h4>
+              <p className="text-[var(--warn-accent)] text-[7px] font-black uppercase tracking-[0.2em]">Need 6+ to lock in</p>
             </div>
 
-            <div className="grid grid-cols-4 gap-2">
+            <div className="grid grid-cols-4 gap-1.5">
               {[...Array(11)].map((_, i) => (
                 <button
                   key={i}
-                  onClick={(e) => { e.stopPropagation(); handleStatusToggle("locked", i); }}
-                  className={`h-10 rounded-xl text-xs font-black border transition-all ${
+                  onClick={(e) => { 
+                    e.stopPropagation(); 
+                    // Only lock in if 6 or more reps (more than 5/10)
+                    if (i >= 6) {
+                      handleStatusToggle("locked", i);
+                    } else {
+                      setShowPrompt(false);
+                    }
+                  }}
+                  className={`h-9 rounded-lg text-xs font-black border transition-all ${
                     trick.userConsistency === i && trick.userStatus === "locked"
                       ? "bg-[var(--warn-accent)] text-black border-white shadow-[0_0_15px_rgba(255,235,59,0.3)]"
-                      : "bg-black/40 text-[var(--text-muted)] hover:bg-black/60 hover:text-white border-white/10"
+                      : i >= 6
+                        ? "bg-black/40 text-[var(--text-muted)] hover:bg-black/60 hover:text-white border-white/10"
+                        : "bg-black/20 text-slate-600 border-white/5"
                   }`}
                 >
                   {i}
@@ -293,12 +303,9 @@ export function TrickCard({ trick, isAuthenticated, onStatusChange, onInteract, 
               ))}
             </div>
             
-            <button
-              onClick={(e) => { e.stopPropagation(); setShowPrompt(false); }}
-              className="w-full mt-3 py-2 bg-white/5 border border-white/10 rounded-lg text-[9px] font-black uppercase tracking-widest text-[var(--text-muted)] hover:text-white hover:bg-white/10 transition-all"
-            >
-              Cancel
-            </button>
+            <p className="text-[8px] text-slate-500 font-black uppercase tracking-widest text-center mt-2">
+              Tap rep count (6+ to lock)
+            </p>
           </div>
         </div>
       )}
