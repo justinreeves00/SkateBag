@@ -107,9 +107,15 @@ export async function addTrick(trick: { name: string, category: string, difficul
 
   if (user?.email !== 'justinreeves00@gmail.com') return { error: "Unauthorized" };
 
+  // Auto-generate YouTube search query: "How to X" where X is the trick name
+  const trickWithQuery = {
+    ...trick,
+    youtube_query: trick.youtube_query || `How to ${trick.name}`
+  };
+
   const { data, error } = await supabase
     .from("tricks")
-    .insert([trick])
+    .insert([trickWithQuery])
     .select()
     .single();
 

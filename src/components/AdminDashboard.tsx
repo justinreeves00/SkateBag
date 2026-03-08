@@ -196,11 +196,10 @@ export default function AdminDashboard({ initialTricks, suggestions, newTrickSug
   const [editData, setEditData] = useState<any>({});
   
   const [showAddForm, setShowAddForm] = useState(false);
-  const [addForm, setAddForm] = useState<{ name: string, category: TrickCategory, difficulty: number, youtube_query: string }>({
+  const [addForm, setAddForm] = useState<{ name: string, category: TrickCategory, difficulty: number }>({
     name: "",
     category: "flatground",
-    difficulty: 1,
-    youtube_query: ""
+    difficulty: 1
   });
   
   // Delete confirmation state
@@ -374,6 +373,12 @@ export default function AdminDashboard({ initialTricks, suggestions, newTrickSug
                   </button>
                 ))}
               </div>
+            </div>
+            <div className="space-y-2 pt-4 border-t border-white/5">
+              <label className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Auto-Generated YouTube Search</label>
+              <p className="text-xs text-[var(--text-muted)] font-black bg-black/40 border border-white/10 rounded-lg px-4 py-3">
+                <span className="text-[var(--board-accent)]">"How to {addForm.name || '[TRICK NAME]'}"</span>
+              </p>
             </div>
             {addError && <p className="text-red-500 text-sm font-black uppercase">{addError}</p>}
             <button 
