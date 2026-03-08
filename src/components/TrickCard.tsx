@@ -63,6 +63,7 @@ export function TrickCard({ trick, isAuthenticated, onStatusChange, onInteract, 
     
     const result = await setTrickStatus(trick.id, nextStatus, nextConsistency);
     if (result.error) {
+      console.error('Failed to update trick status:', result.error);
       onStatusChange?.(trick.id, previousStatus, previousConsistency);
     }
     setLoading(false);

@@ -22,7 +22,10 @@ export async function setTrickStatus(
       .eq("user_id", user.id)
       .eq("trick_id", trickId);
 
-    if (error) return { error: error.message };
+    if (error) {
+      console.error('Failed to delete trick status:', error.message);
+      return { error: error.message };
+    }
   } else {
     const { error } = await supabase
       .from("user_tricks")
@@ -37,7 +40,10 @@ export async function setTrickStatus(
         { onConflict: "user_id,trick_id" }
       );
 
-    if (error) return { error: error.message };
+    if (error) {
+      console.error('Failed to upsert trick status:', error.message, 'Status:', status);
+      return { error: error.message };
+    }
   }
 
   revalidatePath("/");
