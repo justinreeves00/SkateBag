@@ -354,11 +354,11 @@ export function TrickCard({ trick, isAuthenticated, onStatusChange, onInteract, 
               ) : fetchingVideo ? (
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-[#0a0a0a]">
                   <div className="w-8 h-8 border-2 border-[var(--board-accent)]/20 border-t-[var(--board-accent)] rounded-full animate-spin" />
-                  <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest">Intercepting...</span>
+                  <span className="text-[10px] font-black text-[var(--text-muted)] uppercase tracking-widest">Intercepting...</span>
                 </div>
               ) : (
                 <div className="absolute inset-0 flex items-center justify-center bg-[#0a0a0a]">
-                  <span className="text-xs text-slate-700 font-black uppercase tracking-widest italic">Signal lost</span>
+                  <span className="text-xs text-[var(--text-muted)] font-black uppercase tracking-widest italic">Signal lost</span>
                 </div>
               )}
             </div>
@@ -369,7 +369,7 @@ export function TrickCard({ trick, isAuthenticated, onStatusChange, onInteract, 
             <div className="space-y-6">
               {trick.history && (
                 <div className="space-y-3">
-                  <span className="text-[9px] font-black text-slate-600 uppercase tracking-[0.2em] bg-black/40 px-2 py-0.5 rounded w-fit block">Intel</span>
+                  <span className="text-[9px] font-black text-[var(--text-muted)] uppercase tracking-[0.2em] bg-black/40 px-2 py-0.5 rounded w-fit block">Intel</span>
                   <p className="text-sm text-slate-300 leading-relaxed italic border-l-2 border-[var(--board-accent)]/40 pl-4">{trick.history}</p>
                 </div>
               )}
@@ -377,13 +377,13 @@ export function TrickCard({ trick, isAuthenticated, onStatusChange, onInteract, 
               <div className="flex gap-12 pt-2 border-t border-white/5">
                 {trick.inventor && (
                   <div className="space-y-1">
-                    <span className="text-[9px] font-black text-slate-600 uppercase tracking-widest block">Creator</span>
+                    <span className="text-[9px] font-black text-[var(--text-muted)] uppercase tracking-widest block">Creator</span>
                     <p className="text-xs text-white font-black uppercase italic tracking-tight">{trick.inventor}</p>
                   </div>
                 )}
                 {trick.year && (
                   <div className="space-y-1">
-                    <span className="text-[9px] font-black text-slate-600 uppercase tracking-widest block">Year</span>
+                    <span className="text-[9px] font-black text-[var(--text-muted)] uppercase tracking-widest block">Year</span>
                     <p className="text-xs text-white font-black uppercase tracking-tight">{trick.year}</p>
                   </div>
                 )}

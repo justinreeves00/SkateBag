@@ -316,7 +316,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
   ];
 
   return (
-    <div className="min-h-screen text-white selection:bg-[var(--board-accent)]/30 pb-32">
+    <div className="min-h-screen text-white selection:bg-[var(--board-accent)]/30 pb-32" style={{ paddingBottom: 'calc(8rem + max(0.5rem, env(safe-area-inset-bottom)))' }}>
       {showInstallGuide && !isPWA && (
         <div className="fixed inset-0 z-[1150] flex items-end justify-center bg-black/90 p-4 sm:items-center sm:p-6" onClick={() => setShowInstallGuide(false)}>
           <div
@@ -616,7 +616,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
 
       {/* iOS Smart App Banner - Native style with slide-down animation */}
       {!isPWA && !dismissedInstallPrompt && showInstallBanner && (
-        <div className="fixed top-0 left-0 right-0 z-[200] animate-in slide-in-from-top duration-300">
+        <div className="fixed top-0 left-0 right-0 z-[150] animate-in slide-in-from-top duration-300">
           <div className="bg-[#f2f2f2]/98 dark:bg-[#000000]/98 backdrop-blur-xl border-b border-gray-300 dark:border-white/10 shadow-sm">
             <div className="max-w-6xl mx-auto px-4 py-2">
               <div className="flex items-center gap-3">
@@ -749,12 +749,12 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
              statusFilter === "locked" ? "Locked" : "In Progress"}
           </h2>
           <div className="h-px flex-1 bg-white/5"></div>
-          <span className="text-[9px] font-black text-slate-500 tabular-nums uppercase tracking-widest whitespace-nowrap flex-shrink-0">{filtered.length} Tricks</span>
+          <span className="text-[9px] font-black text-[var(--text-muted)] tabular-nums uppercase tracking-widest whitespace-nowrap flex-shrink-0">{filtered.length} Tricks</span>
         </div>
 
         {filtered.length === 0 ? (
           <div className="py-40 flex flex-col items-center justify-center cyber-card rounded-[32px] border-dashed border-white/10">
-            <p className="text-slate-600 text-sm font-black uppercase tracking-widest mb-8">No matching tricks</p>
+            <p className="text-[var(--text-muted)] text-sm font-black uppercase tracking-widest mb-8">No matching tricks</p>
             <button 
               onClick={() => { setSearch(""); setCategory("all"); setLevelFilter("all"); setStatusFilter("all"); }}
               className="px-8 py-4 bg-white/5 border border-white/10 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all hover:bg-[var(--board-accent)]"
