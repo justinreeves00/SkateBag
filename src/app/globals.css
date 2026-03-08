@@ -34,23 +34,6 @@
   --neon-magenta: var(--warn-accent);
 }
 
-/* Light Mode Support */
-[data-theme="light"] {
-  color-scheme: light;
-  --background: #f5f5f5;
-  --foreground: #1a1a1a;
-  --concrete-shadow: #e0e0e0;
-  --concrete-highlight: #ffffff;
-  --grip-tape: #ffffff;
-  --grip-tape-muted: #f0f0f0;
-  --board-accent: #e64a19; /* Darker orange for light mode */
-  --board-accent-strong: #d84315;
-  --surface: #ffffff;
-  --surface-muted: #f5f5f5;
-  --border: #e0e0e0;
-  --text-muted: #666666;
-}
-
 * {
   box-sizing: border-box;
 }
