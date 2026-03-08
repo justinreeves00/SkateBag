@@ -620,10 +620,8 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
           <div className="max-w-6xl mx-auto px-4 py-2">
             <div className="flex items-center gap-3">
               {/* App Icon */}
-              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[var(--board-accent)] to-[var(--board-accent-strong)] flex items-center justify-center shadow-sm flex-shrink-0">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
-                  <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 8v8"/><path d="M8 12h8"/>
-                </svg>
+              <div className="w-11 h-11 rounded-xl flex items-center justify-center shadow-sm flex-shrink-0 overflow-hidden">
+                <img src="/app-icon.png" alt="SkateBag" className="w-full h-full object-cover" />
               </div>
               
               {/* Text Content */}
