@@ -82,6 +82,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
   const [installMethod, setInstallMethod] = useState<"native" | "ios" | "browser">("browser");
   const [showInstallGuide, setShowInstallGuide] = useState(false);
   const [showAuthPrompt, setShowAuthPrompt] = useState(false);
+  const [showInstallBanner, setShowInstallBanner] = useState(false);
 
   useEffect(() => {
     const browserWindow = window as InstallPromptWindow;
@@ -116,6 +117,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
       setIsPWA(true);
       setDismissedInstallPrompt(false);
       setShowInstallGuide(false);
+      setShowInstallBanner(false);
     };
 
     const handleViewportChange = (event: MediaQueryListEvent) => {
@@ -125,6 +127,13 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
     window.addEventListener("pwa-install-available", handleInstallAvailable);
     window.addEventListener("pwa-installed", handleInstalled);
     mobileMedia.addEventListener("change", handleViewportChange);
+
+    // Auto-show banner after 3 seconds if not PWA and not dismissed
+    if (!isStandalone && localStorage.getItem(INSTALL_DISMISS_KEY) !== "true") {
+      setTimeout(() => {
+        setShowInstallBanner(true);
+      }, 3000);
+    }
 
     return () => {
       window.removeEventListener("pwa-install-available", handleInstallAvailable);
@@ -605,34 +614,34 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
         </div>
       )}
 
-      {/* iOS-Style Install Banner - Fixed at top */}
-      {!isPWA && !dismissedInstallPrompt && (
-        <div className="fixed top-0 left-0 right-0 z-[200] bg-[#1c1c1e]/98 backdrop-blur-xl border-b border-white/10 shadow-2xl">
-          <div className="max-w-6xl mx-auto px-4 py-2.5">
+      {/* iOS-Style Install Banner - Auto-shows after 3 seconds */}
+      {!isPWA && !dismissedInstallPrompt && showInstallBanner && (
+        <div className="fixed top-0 left-0 right-0 z-[200] bg-gradient-to-r from-[var(--board-accent)] to-[var(--board-accent-strong)] shadow-2xl">
+          <div className="max-w-6xl mx-auto px-4 py-3">
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-3 flex-1">
-                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[var(--board-accent)] to-[var(--board-accent-strong)] flex items-center justify-center shadow-lg">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
+                <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center shadow-lg">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
                     <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 8v8"/><path d="M8 12h8"/>
                   </svg>
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm font-semibold text-white leading-tight">Add to Home Screen</p>
-                  <p className="text-[11px] text-[var(--text-muted)] leading-tight mt-0.5">Install SkateBag for quick access</p>
+                  <p className="text-sm font-bold text-white leading-tight">Make SkateBag Your App</p>
+                  <p className="text-[11px] text-white/90 leading-tight mt-0.5">Install for the full app experience</p>
                 </div>
               </div>
               <div className="flex items-center gap-2 shrink-0">
                 <button
                   onClick={dismissInstallPrompt}
-                  className="w-7 h-7 flex items-center justify-center text-[var(--text-muted)] hover:text-white transition-all"
+                  className="w-7 h-7 flex items-center justify-center text-white/70 hover:text-white transition-all"
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
                 </button>
                 <button
                   onClick={handleInstallClick}
-                  className="px-4 py-2 bg-[var(--board-accent)] text-black text-[13px] font-bold rounded-xl hover:brightness-110 active:scale-95 transition-all shadow-lg"
+                  className="px-5 py-2.5 bg-white text-[var(--board-accent)] text-[13px] font-bold rounded-xl hover:brightness-95 active:scale-95 transition-all shadow-lg"
                 >
-                  Add
+                  Install
                 </button>
               </div>
             </div>
