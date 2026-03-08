@@ -76,12 +76,13 @@ body::before {
   background-blend-mode: overlay;
 }
 
-/* Grip Tape Card Style with Texture */
+/* Grip Tape Card Style with Texture - TEST MODE */
 .cyber-card,
 .studio-card {
-  /* Layer grip tape texture over solid background */
-  background-color: var(--surface);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  /* GRIP TAPE TEXTURE - FULL VISIBILITY FOR TESTING */
+  background: #121212 url("/grip-tape-texture.jpg") repeat;
+  background-size: 60px 60px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
   box-shadow: 
     4px 4px 10px rgba(0, 0, 0, 0.5),
@@ -91,11 +92,11 @@ body::before {
   overflow: hidden;
 }
 
-/* Apply grip tape texture as separate layer */
-.cyber-card {
-  background-image: url("/grip-tape-texture.jpg");
-  background-size: 60px 60px;
-  background-repeat: repeat;
+/* Debug: Add outline to confirm CSS is applied */
+.cyber-card:hover {
+  border-color: rgba(255, 87, 34, 0.5);
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6);
 }
 
 .cyber-card:hover,
