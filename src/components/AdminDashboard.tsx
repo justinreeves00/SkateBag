@@ -298,7 +298,7 @@ export default function AdminDashboard({ initialTricks, suggestions, newTrickSug
     if (res.success && res.data) {
       setTricks([res.data as Trick, ...tricks]);
       setShowAddForm(false);
-      setAddForm({ name: "", category: "flatground", difficulty: 1, youtube_query: "" });
+      setAddForm({ name: "", category: "flatground", difficulty: 1 });
     } else {
       setAddError(res.error || "Failed to add trick");
     }
