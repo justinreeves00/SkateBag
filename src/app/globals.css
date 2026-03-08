@@ -76,10 +76,14 @@ body::before {
   background-blend-mode: overlay;
 }
 
-/* Grip Tape Card Style */
+/* Grip Tape Card Style with Texture */
 .cyber-card,
 .studio-card {
-  background: var(--surface);
+  /* Layer grip tape texture over solid background */
+  background: 
+    url("/grip-tape-texture.jpg") repeat center center,
+    var(--surface);
+  background-size: 80px 80px, auto;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   box-shadow: 
@@ -88,28 +92,6 @@ body::before {
   transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
   position: relative;
   overflow: hidden;
-}
-
-/* Authentic MOB Grip Tape Texture */
-.cyber-card::before,
-.studio-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  /* Real grip tape texture image, rotated and cropped */
-  background-image: url("/grip-tape-texture.jpg");
-  background-size: 100px 100px;
-  background-repeat: repeat;
-  opacity: 0.5;
-}
-
-/* Ensure card content is above texture layers */
-.cyber-card > *,
-.studio-card > * {
-  position: relative;
-  z-index: 2;
 }
 
 .cyber-card:hover,
