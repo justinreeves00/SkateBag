@@ -627,15 +627,17 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
               {/* Text Content */}
               <div className="flex-1 min-w-0">
                 <p className="text-[13px] font-semibold text-[#1c1c1e] dark:text-white leading-tight">SkateBag</p>
-                <p className="text-[11px] text-[#8e8e93] dark:text-[#98989d] leading-tight mt-0.5">Install App</p>
+                <p className="text-[11px] text-[#8e8e93] dark:text-[#98989d] leading-tight mt-0.5">
+                  {installMethod === 'ios' ? 'Install App' : 'Add to Home Screen'}
+                </p>
               </div>
               
-              {/* GET Button - iOS Blue */}
+              {/* Action Button - iOS GET / Android Add */}
               <button
                 onClick={handleInstallClick}
                 className="px-5 py-1.5 bg-[#007aff] dark:bg-[#0a84ff] text-white text-[14px] font-semibold rounded-full hover:brightness-95 active:scale-95 transition-all shadow-sm flex-shrink-0"
               >
-                GET
+                {installMethod === 'ios' ? 'GET' : 'Add'}
               </button>
               
               {/* Close X */}
