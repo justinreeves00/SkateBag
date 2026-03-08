@@ -742,14 +742,14 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
       {/* Main Grid Area */}
       <main className="max-w-6xl mx-auto px-6 pt-[130px] pb-32">
 
-        <div className="mb-10 flex items-center gap-3 px-2">
-          <h2 className="text-[11px] font-black text-white uppercase tracking-[0.4em] whitespace-nowrap italic bg-black px-3 py-1 border border-white/5 text-xs">
+        <div className="mb-8 flex items-center gap-2 px-3">
+          <h2 className="text-[10px] font-black text-white uppercase tracking-[0.35em] whitespace-nowrap italic bg-black px-2 py-1 border border-white/5 flex-shrink-0">
             {statusFilter === "all" ? "On Deck" : 
              statusFilter === "landed" ? "Landed" : 
              statusFilter === "locked" ? "Locked" : "In Progress"}
           </h2>
           <div className="h-px flex-1 bg-white/5"></div>
-          <span className="text-[10px] font-black text-slate-500 tabular-nums uppercase tracking-widest whitespace-nowrap shrink-0">{filtered.length} Tricks</span>
+          <span className="text-[9px] font-black text-slate-500 tabular-nums uppercase tracking-widest whitespace-nowrap flex-shrink-0">{filtered.length} Tricks</span>
         </div>
 
         {filtered.length === 0 ? (
