@@ -655,7 +655,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
       )}
 
       {/* Main Header */}
-      <header className={`fixed top-0 left-0 right-0 z-[100] cyber-glass backdrop-blur-xl border-b border-white/5 ${!isPWA && !dismissedInstallPrompt ? 'top-[56px]' : 'top-0'}`}>
+      <header className={`fixed top-0 left-0 right-0 z-[100] backdrop-blur-xl border-b border-white/5 bg-[#1c1c1e]/95 ${!isPWA && !dismissedInstallPrompt ? 'top-[56px]' : 'top-0'}`}>
         <div className="max-w-6xl mx-auto px-4 py-3">
           {/* Top Row: Logo + Actions */}
           <div className="flex items-center justify-between gap-3 mb-3 pb-3 border-b border-white/5">
@@ -742,14 +742,14 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
       {/* Main Grid Area */}
       <main className="max-w-6xl mx-auto px-6 pt-[130px] pb-32">
 
-        <div className="mb-10 flex items-center gap-4">
-          <h2 className="text-[11px] font-black text-white uppercase tracking-[0.4em] whitespace-nowrap italic bg-black px-3 py-1 border border-white/5">
+        <div className="mb-10 flex items-center gap-3 px-2">
+          <h2 className="text-[11px] font-black text-white uppercase tracking-[0.4em] whitespace-nowrap italic bg-black px-3 py-1 border border-white/5 text-xs">
             {statusFilter === "all" ? "On Deck" : 
              statusFilter === "landed" ? "Landed" : 
              statusFilter === "locked" ? "Locked" : "In Progress"}
           </h2>
           <div className="h-px flex-1 bg-white/5"></div>
-          <span className="text-[10px] font-black text-slate-500 tabular-nums uppercase tracking-widest whitespace-nowrap">{filtered.length} Tricks</span>
+          <span className="text-[10px] font-black text-slate-500 tabular-nums uppercase tracking-widest whitespace-nowrap shrink-0">{filtered.length} Tricks</span>
         </div>
 
         {filtered.length === 0 ? (
