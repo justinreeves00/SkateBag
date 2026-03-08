@@ -268,44 +268,38 @@ export function TrickCard({ trick, isAuthenticated, onStatusChange, onInteract, 
         )}
       </div>
 
-      {/* 10 Tries Overlay - Contained within card */}
+      {/* 10 Tries Overlay - Works in collapsed or expanded state */}
       {showPrompt && (
-        <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/95 p-3 rounded-xl backdrop-blur-md animate-in fade-in duration-300">
-          <div className="w-full">
-            <div className="text-center mb-3">
-              <h4 className="text-lg font-black tracking-tighter text-white uppercase italic">Session Test</h4>
-              <p className="text-[var(--warn-accent)] text-[7px] font-black uppercase tracking-[0.2em]">Need 6+ to lock in</p>
+        <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/95 p-2 rounded-xl backdrop-blur-md animate-in fade-in duration-300" onClick={() => setShowPrompt(false)}>
+          <div className="w-full max-w-[200px]" onClick={(e) => e.stopPropagation()}>
+            <div className="text-center mb-2">
+              <h4 className="text-base font-black tracking-tighter text-white uppercase italic">Session Test</h4>
+              <p className="text-[var(--warn-accent)] text-[6px] font-black uppercase tracking-[0.2em]">6+ reps to lock</p>
             </div>
 
-            <div className="grid grid-cols-4 gap-1.5">
+            <div className="grid grid-cols-4 gap-1">
               {[...Array(11)].map((_, i) => (
                 <button
                   key={i}
                   onClick={(e) => { 
                     e.stopPropagation(); 
-                    // Only lock in if 6 or more reps (more than 5/10)
                     if (i >= 6) {
                       handleStatusToggle("locked", i);
-                    } else {
-                      setShowPrompt(false);
                     }
+                    setShowPrompt(false);
                   }}
-                  className={`h-9 rounded-lg text-xs font-black border transition-all ${
+                  className={`h-8 rounded-md text-xs font-black border transition-all ${
                     trick.userConsistency === i && trick.userStatus === "locked"
                       ? "bg-[var(--warn-accent)] text-black border-white shadow-[0_0_15px_rgba(255,235,59,0.3)]"
                       : i >= 6
                         ? "bg-black/40 text-[var(--text-muted)] hover:bg-black/60 hover:text-white border-white/10"
-                        : "bg-black/20 text-slate-600 border-white/5"
+                        : "bg-black/20 text-slate-600 border-white/5 opacity-50"
                   }`}
                 >
                   {i}
                 </button>
               ))}
             </div>
-            
-            <p className="text-[8px] text-slate-500 font-black uppercase tracking-widest text-center mt-2">
-              Tap rep count (6+ to lock)
-            </p>
           </div>
         </div>
       )}
