@@ -100,9 +100,10 @@ body::before {
   pointer-events: none;
   /* Real grip tape texture image, rotated and cropped */
   background-image: url("/grip-tape-texture.jpg");
-  background-size: 200px 200px;
+  background-size: 150px 150px;
   background-repeat: repeat;
-  opacity: 0.18;
+  opacity: 0.35;
+  mix-blend-mode: overlay;
 }
 
 /* Ensure card content is above texture layers */
