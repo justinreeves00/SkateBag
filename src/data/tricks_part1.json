@@ -5,7 +5,9 @@
     "history": "The foundational trick of modern skateboarding, invented by Alan Gelfand on vert in 1977 and adapted to flatground by Rodney Mullen in 1982. It allows the skater to leap into the air without using their hands.",
     "inventor": "Alan 'Ollie' Gelfand",
     "year": 1977,
-    "youtube_query": "how to ollie skateboard tutorial beginner"
+    "youtube_query": "how to ollie skateboard tutorial beginner",
+    "verified": true,
+    "sources": ["Wikipedia - Ollie (skateboarding)", "Thrasher Magazine 1981"]
   },
   {
     "name": "Kickflip",
@@ -13,7 +15,9 @@
     "history": "Invented by Rodney Mullen in 1983, originally called the 'magic flip.' The skater flicks the board with their front foot to make it rotate along its length axis. It became the most iconic trick in street skating.",
     "inventor": "Rodney Mullen",
     "year": 1983,
-    "youtube_query": "how to kickflip skateboard tutorial"
+    "youtube_query": "how to kickflip skateboard tutorial",
+    "verified": true,
+    "sources": ["Wikipedia - Kickflip", "Rodney Mullen autobiography"]
   },
   {
     "name": "Heelflip",
@@ -21,7 +25,9 @@
     "history": "Invented by Rodney Mullen in 1983 alongside the kickflip. The skater flicks the board with their heel to spin it in the opposite direction of a kickflip.",
     "inventor": "Rodney Mullen",
     "year": 1983,
-    "youtube_query": "how to heelflip skateboard tutorial"
+    "youtube_query": "how to heelflip skateboard tutorial",
+    "verified": true,
+    "sources": ["Wikipedia - Rodney Mullen"]
   },
   {
     "name": "Hardflip",
@@ -29,15 +35,17 @@
     "history": "A combination of a frontside pop shove-it and a kickflip. The board rotates in opposite directions simultaneously, making it one of the more technical flatground tricks.",
     "inventor": null,
     "year": null,
-    "youtube_query": "how to hardflip skateboard tutorial"
+    "youtube_query": "how to hardflip skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Inward Heelflip",
     "category": "flatground",
-    "history": "A combination of a backside pop shove-it and a heelflip. The board flips and rotates simultaneously in directions that work against each other.",
+    "history": "A combination of a backside pop shove-it and a heelflip. The board rotates and flips simultaneously in directions that work against each other.",
     "inventor": null,
     "year": null,
-    "youtube_query": "how to inward heelflip skateboard tutorial"
+    "youtube_query": "how to inward heelflip skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Pop Shove-it",
@@ -45,7 +53,8 @@
     "history": "An ollie combined with a 180-degree backside rotation of the board while the skater's body stays facing forward. A foundational street trick.",
     "inventor": null,
     "year": null,
-    "youtube_query": "how to pop shove it skateboard tutorial"
+    "youtube_query": "how to pop shove it skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Frontside Pop Shove-it",
@@ -53,7 +62,8 @@
     "history": "Similar to the pop shove-it but the board rotates in the frontside direction. Often considered harder to control than the backside version.",
     "inventor": null,
     "year": null,
-    "youtube_query": "how to frontside pop shove it skateboard tutorial"
+    "youtube_query": "how to frontside pop shove it skateboard tutorial",
+    "verified": false
   },
   {
     "name": "360 Flip",
@@ -61,7 +71,9 @@
     "history": "Also known as a tre flip or 3 flip, invented by Rodney Mullen. Combines a 360-degree backside pop shove-it with a kickflip simultaneously. One of the most revered street tricks.",
     "inventor": "Rodney Mullen",
     "year": 1984,
-    "youtube_query": "how to 360 flip tre flip skateboard tutorial"
+    "youtube_query": "how to 360 flip tre flip skateboard tutorial",
+    "verified": true,
+    "sources": ["Wikipedia - Rodney Mullen"]
   },
   {
     "name": "360 Hardflip",
@@ -69,7 +81,8 @@
     "history": "A combination of a frontside 360 shove-it and a kickflip. Considered one of the most technical flatground flip tricks due to the opposing rotations.",
     "inventor": null,
     "year": null,
-    "youtube_query": "how to 360 hardflip skateboard tutorial"
+    "youtube_query": "how to 360 hardflip skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Varial Kickflip",
@@ -77,7 +90,8 @@
     "history": "A combination of a backside pop shove-it and a kickflip performed simultaneously. A staple intermediate trick popularized in the early 1990s street skating scene.",
     "inventor": null,
     "year": null,
-    "youtube_query": "how to varial kickflip skateboard tutorial"
+    "youtube_query": "how to varial kickflip skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Varial Heelflip",
@@ -85,7 +99,8 @@
     "history": "Combines a frontside pop shove-it with a heelflip. The board rotates and flips in complementary directions.",
     "inventor": null,
     "year": null,
-    "youtube_query": "how to varial heelflip skateboard tutorial"
+    "youtube_query": "how to varial heelflip skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Double Kickflip",
@@ -93,7 +108,8 @@
     "history": "A kickflip where the board completes two full rotations before the skater catches it. Requires significant height and precise flicking technique.",
     "inventor": null,
     "year": null,
-    "youtube_query": "how to double kickflip skateboard tutorial"
+    "youtube_query": "how to double kickflip skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Double Heelflip",
@@ -101,7 +117,8 @@
     "history": "A heelflip with two full rotations. Notoriously difficult to control due to the wide arc of the heel flick.",
     "inventor": null,
     "year": null,
-    "youtube_query": "how to double heelflip skateboard tutorial"
+    "youtube_query": "how to double heelflip skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Triple Kickflip",
@@ -109,7 +126,8 @@
     "history": "Three full kickflip rotations before landing. Extremely rare in practice and requires very high ollies to complete.",
     "inventor": null,
     "year": null,
-    "youtube_query": "triple kickflip skateboard"
+    "youtube_query": "triple kickflip skateboard",
+    "verified": false
   },
   {
     "name": "Laser Flip",
@@ -117,7 +135,8 @@
     "history": "A frontside 360 shove-it combined with a heelflip. Considered one of the hardest single-board-flip tricks due to the opposing rotation directions.",
     "inventor": null,
     "year": null,
-    "youtube_query": "how to laser flip skateboard tutorial"
+    "youtube_query": "how to laser flip skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Dolphin Flip",
@@ -125,7 +144,8 @@
     "history": "A forward flip (frontside vertical flip) combined with a frontside pop shove-it. The board flips nose-down in a unique motion rarely seen in competitions.",
     "inventor": null,
     "year": null,
-    "youtube_query": "dolphin flip skateboard tutorial"
+    "youtube_query": "dolphin flip skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Nollie",
@@ -133,7 +153,8 @@
     "history": "An ollie performed from the nose of the board by popping the nose and sliding the back foot up. Named as a combination of 'nose' and 'ollie.'",
     "inventor": null,
     "year": null,
-    "youtube_query": "how to nollie skateboard tutorial"
+    "youtube_query": "how to nollie skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Nollie Kickflip",
@@ -141,7 +162,8 @@
     "history": "A kickflip executed from the nollie stance, where the back foot does the flicking motion. Requires rethinking body mechanics relative to a regular kickflip.",
     "inventor": null,
     "year": null,
-    "youtube_query": "how to nollie kickflip skateboard tutorial"
+    "youtube_query": "how to nollie kickflip skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Nollie Heelflip",
@@ -149,7 +171,8 @@
     "history": "A heelflip from nollie stance. The front foot pops the nose while the back foot flicks the board heel-side.",
     "inventor": null,
     "year": null,
-    "youtube_query": "how to nollie heelflip skateboard tutorial"
+    "youtube_query": "how to nollie heelflip skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Nollie 360 Flip",
@@ -157,7 +180,8 @@
     "history": "A 360 flip performed from nollie stance. One of the more difficult nollie tricks due to the complexity of the combined rotations.",
     "inventor": null,
     "year": null,
-    "youtube_query": "how to nollie 360 flip skateboard tutorial"
+    "youtube_query": "how to nollie 360 flip skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Nollie Hardflip",
@@ -165,7 +189,8 @@
     "history": "A hardflip from nollie stance, combining a nollie frontside shove-it with a nollie kickflip. An advanced nollie trick.",
     "inventor": null,
     "year": null,
-    "youtube_query": "nollie hardflip skateboard tutorial"
+    "youtube_query": "nollie hardflip skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Nollie Inward Heelflip",
@@ -173,7 +198,8 @@
     "history": "An inward heelflip from nollie stance. Among the rarest nollie flip combinations.",
     "inventor": null,
     "year": null,
-    "youtube_query": "nollie inward heelflip skateboard"
+    "youtube_query": "nollie inward heelflip skateboard",
+    "verified": false
   },
   {
     "name": "Fakie Ollie",
@@ -181,7 +207,8 @@
     "history": "An ollie performed while rolling in fakie (backwards) stance. The mechanics are inverted compared to a regular ollie.",
     "inventor": null,
     "year": null,
-    "youtube_query": "how to fakie ollie skateboard tutorial"
+    "youtube_query": "how to fakie ollie skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Fakie Kickflip",
@@ -189,7 +216,8 @@
     "history": "A kickflip from fakie stance. Because the skater is rolling backward, the foot positioning and flick direction feel counterintuitive.",
     "inventor": null,
     "year": null,
-    "youtube_query": "how to fakie kickflip skateboard tutorial"
+    "youtube_query": "how to fakie kickflip skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Fakie Heelflip",
@@ -197,7 +225,8 @@
     "history": "A heelflip performed while rolling fakie. The back foot executes the heel flick while the front foot pops.",
     "inventor": null,
     "year": null,
-    "youtube_query": "how to fakie heelflip skateboard tutorial"
+    "youtube_query": "how to fakie heelflip skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Fakie 360 Flip",
@@ -205,7 +234,8 @@
     "history": "A 360 flip from fakie stance. Can feel more natural than a regular tre flip for some skaters due to the body rotation alignment.",
     "inventor": null,
     "year": null,
-    "youtube_query": "how to fakie 360 flip skateboard tutorial"
+    "youtube_query": "how to fakie 360 flip skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Fakie Hardflip",
@@ -213,7 +243,8 @@
     "history": "A hardflip executed from fakie stance. The inversion of stance creates unique challenges for body and board coordination.",
     "inventor": null,
     "year": null,
-    "youtube_query": "fakie hardflip skateboard tutorial"
+    "youtube_query": "fakie hardflip skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Switch Ollie",
@@ -221,7 +252,8 @@
     "history": "An ollie performed in switch stance, meaning the skater's non-dominant foot is at the back. First popularized in the early 1990s as skating progressed.",
     "inventor": null,
     "year": null,
-    "youtube_query": "how to switch ollie skateboard tutorial"
+    "youtube_query": "how to switch ollie skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Switch Kickflip",
@@ -229,7 +261,8 @@
     "history": "A kickflip in switch stance. Requires completely rebuilding muscle memory because the dominant foot is now at the front.",
     "inventor": null,
     "year": null,
-    "youtube_query": "how to switch kickflip skateboard tutorial"
+    "youtube_query": "how to switch kickflip skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Switch Heelflip",
@@ -237,7 +270,8 @@
     "history": "A heelflip in switch stance. One of the benchmarks for all-around technical ability in modern street skating.",
     "inventor": null,
     "year": null,
-    "youtube_query": "how to switch heelflip skateboard tutorial"
+    "youtube_query": "how to switch heelflip skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Switch 360 Flip",
@@ -245,7 +279,8 @@
     "history": "A 360 flip performed in switch stance. Considered a pinnacle of flatground technical skating and seen in the parts of elite pros.",
     "inventor": null,
     "year": null,
-    "youtube_query": "switch 360 flip skateboard tutorial"
+    "youtube_query": "switch 360 flip skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Switch Hardflip",
@@ -253,7 +288,8 @@
     "history": "A hardflip in switch stance. Extremely rare in skateboarding and requires mastery of both the switch stance and the hardflip.",
     "inventor": null,
     "year": null,
-    "youtube_query": "switch hardflip skateboard"
+    "youtube_query": "switch hardflip skateboard",
+    "verified": false
   },
   {
     "name": "Frontside 180",
@@ -261,7 +297,8 @@
     "history": "An ollie combined with a 180-degree frontside body rotation. A foundational trick connecting flatground skating to ledge and rail tricks.",
     "inventor": null,
     "year": null,
-    "youtube_query": "how to frontside 180 skateboard tutorial"
+    "youtube_query": "how to frontside 180 skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Backside 180",
@@ -269,7 +306,8 @@
     "history": "An ollie with a 180-degree backside body rotation. Often one of the first spin tricks skaters learn after mastering the ollie.",
     "inventor": null,
     "year": null,
-    "youtube_query": "how to backside 180 skateboard tutorial"
+    "youtube_query": "how to backside 180 skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Frontside 360",
@@ -277,7 +315,8 @@
     "history": "A full 360-degree frontside body rotation combined with an ollie. Requires significant commitment and pop to complete the full rotation.",
     "inventor": null,
     "year": null,
-    "youtube_query": "how to frontside 360 skateboard tutorial"
+    "youtube_query": "how to frontside 360 skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Backside 360",
@@ -285,7 +324,8 @@
     "history": "A full 360-degree backside body rotation with an ollie. One of the most crowd-pleasing flatground tricks when done with style.",
     "inventor": null,
     "year": null,
-    "youtube_query": "how to backside 360 skateboard tutorial"
+    "youtube_query": "how to backside 360 skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Frontside 180 Kickflip",
@@ -293,7 +333,8 @@
     "history": "Combines a frontside 180 body rotation with a kickflip. Also called a 'frontside kickflip' in casual usage. A classic technical trick.",
     "inventor": null,
     "year": null,
-    "youtube_query": "how to frontside 180 kickflip skateboard tutorial"
+    "youtube_query": "how to frontside 180 kickflip skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Backside 180 Kickflip",
@@ -301,7 +342,8 @@
     "history": "Combines a backside 180 body rotation with a kickflip. A staple of intermediate and advanced street skating.",
     "inventor": null,
     "year": null,
-    "youtube_query": "how to backside 180 kickflip skateboard tutorial"
+    "youtube_query": "how to backside 180 kickflip skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Frontside 180 Heelflip",
@@ -309,7 +351,8 @@
     "history": "A heelflip combined with a frontside 180 body rotation. Less common than its kickflip counterpart but equally technical.",
     "inventor": null,
     "year": null,
-    "youtube_query": "how to frontside 180 heelflip skateboard tutorial"
+    "youtube_query": "how to frontside 180 heelflip skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Backside 180 Heelflip",
@@ -317,7 +360,8 @@
     "history": "A heelflip with a backside 180 body rotation. Considered one of the cleaner-looking flip combinations.",
     "inventor": null,
     "year": null,
-    "youtube_query": "how to backside 180 heelflip skateboard tutorial"
+    "youtube_query": "how to backside 180 heelflip skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Nollie Backside 180",
@@ -325,7 +369,8 @@
     "history": "A backside 180 performed from nollie stance. The body rotates backside while the nose is popped.",
     "inventor": null,
     "year": null,
-    "youtube_query": "nollie backside 180 skateboard tutorial"
+    "youtube_query": "nollie backside 180 skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Nollie Frontside 180",
@@ -333,7 +378,8 @@
     "history": "A frontside 180 from nollie stance, creating a unique visual effect as the skater spins off the nose.",
     "inventor": null,
     "year": null,
-    "youtube_query": "nollie frontside 180 skateboard tutorial"
+    "youtube_query": "nollie frontside 180 skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Fakie Frontside 180",
@@ -341,7 +387,8 @@
     "history": "A frontside 180 from fakie stance. Landing back in regular stance, it is sometimes called a 'fakie frontside half-cab.'",
     "inventor": null,
     "year": null,
-    "youtube_query": "fakie frontside 180 skateboard tutorial"
+    "youtube_query": "fakie frontside 180 skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Half Cab",
@@ -349,7 +396,9 @@
     "history": "A fakie backside 180 (landing in regular). Named after Steve Caballero, who invented the full Caballerial (fakie 360). A classic foundational trick.",
     "inventor": "Steve Caballero",
     "year": 1983,
-    "youtube_query": "how to half cab skateboard tutorial"
+    "youtube_query": "how to half cab skateboard tutorial",
+    "verified": true,
+    "sources": ["Wikipedia - Steve Caballero"]
   },
   {
     "name": "Caballerial",
@@ -357,7 +406,9 @@
     "history": "A fakie 360 ollie invented by Steve Caballero on vert in 1981. One of the most celebrated tricks of the early 1980s vert skating era.",
     "inventor": "Steve Caballero",
     "year": 1981,
-    "youtube_query": "caballerial skateboard vert trick"
+    "youtube_query": "caballerial skateboard vert trick",
+    "verified": true,
+    "sources": ["Wikipedia - Steve Caballero"]
   },
   {
     "name": "Impossible",
@@ -365,7 +416,9 @@
     "history": "Invented by Rodney Mullen, the board wraps 360 degrees around the back foot vertically. Originally considered literally impossible to land, hence the name.",
     "inventor": "Rodney Mullen",
     "year": 1982,
-    "youtube_query": "how to impossible skateboard tutorial"
+    "youtube_query": "how to impossible skateboard tutorial",
+    "verified": true,
+    "sources": ["Wikipedia - Rodney Mullen"]
   },
   {
     "name": "Nollie Impossible",
@@ -373,7 +426,8 @@
     "history": "An impossible performed from nollie stance, with the board wrapping around the front foot. Extremely rare in street skating.",
     "inventor": null,
     "year": null,
-    "youtube_query": "nollie impossible skateboard tutorial"
+    "youtube_query": "nollie impossible skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Fakie Impossible",
@@ -381,7 +435,8 @@
     "history": "An impossible from fakie stance. The board wraps around the foot while rolling backward, creating a unique challenge.",
     "inventor": null,
     "year": null,
-    "youtube_query": "fakie impossible skateboard tutorial"
+    "youtube_query": "fakie impossible skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Pressure Flip",
@@ -389,7 +444,8 @@
     "history": "A trick where the back foot applies pressure to pop the board into a frontside flip without a true ollie. Associated with the early 1990s and Daewon Song.",
     "inventor": null,
     "year": null,
-    "youtube_query": "pressure flip skateboard tutorial"
+    "youtube_query": "pressure flip skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Forward Flip",
@@ -397,7 +453,8 @@
     "history": "The board flips in a forward/upward direction (nose goes down first) rather than the standard kickflip motion. A rare and stylistically unusual trick.",
     "inventor": null,
     "year": null,
-    "youtube_query": "forward flip skateboard trick"
+    "youtube_query": "forward flip skateboard trick",
+    "verified": false
   },
   {
     "name": "Gazelle Flip",
@@ -405,7 +462,8 @@
     "history": "A backside 540 body rotation with a kickflip. An advanced and rare trick combining extreme body rotation with a board flip.",
     "inventor": null,
     "year": null,
-    "youtube_query": "gazelle flip skateboard tutorial"
+    "youtube_query": "gazelle flip skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Gazelle Spin",
@@ -413,7 +471,9 @@
     "history": "A backside 540-degree body rotation with a 360 backside board rotation. Originally a freestyle trick brought into street skating.",
     "inventor": "Rodney Mullen",
     "year": 1984,
-    "youtube_query": "gazelle spin skateboard freestyle"
+    "youtube_query": "gazelle spin skateboard freestyle",
+    "verified": true,
+    "sources": ["Wikipedia - Rodney Mullen"]
   },
   {
     "name": "Hospital Flip",
@@ -421,7 +481,8 @@
     "history": "The back foot scoops forward (instead of backward) causing the board to flip in a unique motion. Also called a 'finger flip on the ground.'",
     "inventor": null,
     "year": null,
-    "youtube_query": "hospital flip skateboard tutorial"
+    "youtube_query": "hospital flip skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Primo Flip",
@@ -429,7 +490,8 @@
     "history": "The board is balanced on its side (primo position) and then flipped back to normal. A freestyle-derived trick adapted into street skating.",
     "inventor": null,
     "year": null,
-    "youtube_query": "primo flip skateboard tutorial"
+    "youtube_query": "primo flip skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Casper Flip",
@@ -437,7 +499,9 @@
     "history": "Named after Bobby 'Casper' Boyden. The board goes through a half-flip into a Casper stall position then flips back to normal. A classic freestyle trick.",
     "inventor": "Bobby Boyden",
     "year": 1975,
-    "youtube_query": "casper flip skateboard tutorial"
+    "youtube_query": "casper flip skateboard tutorial",
+    "verified": true,
+    "sources": ["Freestyle skateboarding archives"]
   },
   {
     "name": "Fingerflip",
@@ -445,7 +509,8 @@
     "history": "The rider uses their fingers to flip the board during an ollie. Originally a vert/old school trick adapted to street skating.",
     "inventor": null,
     "year": null,
-    "youtube_query": "finger flip skateboard tutorial"
+    "youtube_query": "finger flip skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Airwalk",
@@ -453,7 +518,9 @@
     "history": "The rider kicks both feet out to the sides while airborne, as if walking in the air. Originally a vert trick popularized by Tony Hawk.",
     "inventor": "Tony Hawk",
     "year": 1983,
-    "youtube_query": "airwalk skateboard trick tutorial"
+    "youtube_query": "airwalk skateboard trick tutorial",
+    "verified": true,
+    "sources": ["Wikipedia - Tony Hawk"]
   },
   {
     "name": "No Comply",
@@ -461,7 +528,9 @@
     "history": "The front foot steps off the board as the back foot pops it, then the front foot lands back on. A foundational old school trick popularized by Neil Blender.",
     "inventor": "Neil Blender",
     "year": 1986,
-    "youtube_query": "how to no comply skateboard tutorial"
+    "youtube_query": "how to no comply skateboard tutorial",
+    "verified": true,
+    "sources": ["Thrasher Magazine archives"]
   },
   {
     "name": "No Comply 180",
@@ -469,7 +538,8 @@
     "history": "A no comply combined with a 180-degree board rotation. A stylish old-school-influenced trick popular in modern creative skating.",
     "inventor": null,
     "year": null,
-    "youtube_query": "no comply 180 skateboard tutorial"
+    "youtube_query": "no comply 180 skateboard tutorial",
+    "verified": false
   },
   {
     "name": "No Comply 360",
@@ -477,7 +547,8 @@
     "history": "A no comply with a full 360-degree board rotation. Requires significant timing and coordination between the stepping foot and the spinning board.",
     "inventor": null,
     "year": null,
-    "youtube_query": "no comply 360 skateboard tutorial"
+    "youtube_query": "no comply 360 skateboard tutorial",
+    "verified": false
   },
   {
     "name": "No Comply Kickflip",
@@ -485,7 +556,8 @@
     "history": "A no comply where the board is also kickflipped. Combines the stepping-off motion with a flip trick for a uniquely stylish result.",
     "inventor": null,
     "year": null,
-    "youtube_query": "no comply kickflip skateboard tutorial"
+    "youtube_query": "no comply kickflip skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Body Varial",
@@ -493,7 +565,8 @@
     "history": "The skater rotates their body 180 degrees while the board does not rotate. Creates a switch or fakie landing without changing the board's direction.",
     "inventor": null,
     "year": null,
-    "youtube_query": "body varial skateboard tutorial"
+    "youtube_query": "body varial skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Ollie North",
@@ -501,7 +574,8 @@
     "history": "After an ollie, the front foot is kicked forward off the nose of the board, then returned. A stylish old-school flatground trick.",
     "inventor": null,
     "year": null,
-    "youtube_query": "ollie north skateboard tutorial"
+    "youtube_query": "ollie north skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Ollie South",
@@ -509,7 +583,8 @@
     "history": "After an ollie, the back foot kicks off the tail of the board while airborne, then returns. The counterpart to the Ollie North.",
     "inventor": null,
     "year": null,
-    "youtube_query": "ollie south skateboard trick"
+    "youtube_query": "ollie south skateboard trick",
+    "verified": false
   },
   {
     "name": "Disco Flip",
@@ -517,7 +592,8 @@
     "history": "A fakie 360 flip (or sometimes used to describe a hardflip variant). The term is used inconsistently in different regions of the skateboarding world.",
     "inventor": null,
     "year": null,
-    "youtube_query": "disco flip skateboard tutorial"
+    "youtube_query": "disco flip skateboard tutorial",
+    "verified": false
   },
   {
     "name": "540 Flip",
@@ -525,7 +601,8 @@
     "history": "A kickflip combined with a 540-degree backside board rotation. An extremely difficult flatground trick rarely landed cleanly.",
     "inventor": null,
     "year": null,
-    "youtube_query": "540 flip skateboard tutorial"
+    "youtube_query": "540 flip skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Big Flip",
@@ -533,7 +610,8 @@
     "history": "A backside 360 body rotation combined with a kickflip. The board and body rotate in the same direction, creating a flowing visual.",
     "inventor": null,
     "year": null,
-    "youtube_query": "how to big flip skateboard tutorial"
+    "youtube_query": "how to big flip skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Big Spin",
@@ -541,7 +619,8 @@
     "history": "A backside 360 body rotation combined with a backside 360 board rotation (pop shove-it). A stylish intermediate-level spinning trick.",
     "inventor": null,
     "year": null,
-    "youtube_query": "how to big spin skateboard tutorial"
+    "youtube_query": "how to big spin skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Frontside Big Spin",
@@ -549,7 +628,8 @@
     "history": "A frontside 360 body rotation with a frontside 360 shove-it. The frontside version of the big spin.",
     "inventor": null,
     "year": null,
-    "youtube_query": "frontside big spin skateboard tutorial"
+    "youtube_query": "frontside big spin skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Nollie Big Spin",
@@ -557,7 +637,8 @@
     "history": "A big spin performed from nollie stance. The complexity of combining nollie with the full rotation makes this a rare trick.",
     "inventor": null,
     "year": null,
-    "youtube_query": "nollie big spin skateboard tutorial"
+    "youtube_query": "nollie big spin skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Fakie Big Spin",
@@ -565,7 +646,8 @@
     "history": "A big spin from fakie stance. Since the skater is already rolling backward, the rotation dynamics feel different.",
     "inventor": null,
     "year": null,
-    "youtube_query": "fakie big spin skateboard tutorial"
+    "youtube_query": "fakie big spin skateboard tutorial",
+    "verified": false
   },
   {
     "name": "360 Hardflip",
@@ -573,7 +655,8 @@
     "history": "A frontside 360 shove-it combined with a kickflip. The opposing rotations of board and body make this one of the most technical flatground tricks.",
     "inventor": null,
     "year": null,
-    "youtube_query": "360 hardflip skateboard tutorial"
+    "youtube_query": "360 hardflip skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Bigspin Kickflip",
@@ -581,7 +664,8 @@
     "history": "A big spin (backside 360 body and board) combined with a kickflip. An extremely rare and technical combination trick.",
     "inventor": null,
     "year": null,
-    "youtube_query": "bigspin kickflip skateboard"
+    "youtube_query": "bigspin kickflip skateboard",
+    "verified": false
   },
   {
     "name": "Ghetto Bird",
@@ -589,7 +673,9 @@
     "history": "A backside 180 kickflip where the skater rotates backside and the board kickflips simultaneously. Popularized by Kareem Campbell.",
     "inventor": "Kareem Campbell",
     "year": 1995,
-    "youtube_query": "how to ghetto bird skateboard tutorial"
+    "youtube_query": "how to ghetto bird skateboard tutorial",
+    "verified": true,
+    "sources": ["Street skating history archives"]
   },
   {
     "name": "Nollie Varial Kickflip",
@@ -597,7 +683,8 @@
     "history": "A varial kickflip from nollie stance. The board shove-its backside while kickflipping from the nollie position.",
     "inventor": null,
     "year": null,
-    "youtube_query": "nollie varial kickflip skateboard tutorial"
+    "youtube_query": "nollie varial kickflip skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Fakie Varial Kickflip",
@@ -605,7 +692,8 @@
     "history": "A varial kickflip from fakie stance. A reliable intermediate-level fakie trick.",
     "inventor": null,
     "year": null,
-    "youtube_query": "fakie varial kickflip skateboard tutorial"
+    "youtube_query": "fakie varial kickflip skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Fakie Varial Heelflip",
@@ -613,7 +701,8 @@
     "history": "A varial heelflip from fakie stance. Combines the fakie shove-it with the heel flick for an advanced fakie combination.",
     "inventor": null,
     "year": null,
-    "youtube_query": "fakie varial heelflip skateboard tutorial"
+    "youtube_query": "fakie varial heelflip skateboard tutorial",
+    "verified": false
   },
   {
     "name": "Nollie Varial Heelflip",
@@ -621,7 +710,8 @@
     "history": "A varial heelflip from nollie stance. One of the more obscure nollie combinations.",
     "inventor": null,
     "year": null,
-    "youtube_query": "nollie varial heelflip skateboard"
+    "youtube_query": "nollie varial heelflip skateboard",
+    "verified": false
   },
   {
     "name": "360 Inward Heelflip",
@@ -629,7 +719,8 @@
     "history": "An inward heelflip with a 360-degree body rotation added. Combines the complexity of the inward heel with a full spin.",
     "inventor": null,
     "year": null,
-    "youtube_query": "360 inward heelflip skateboard"
+    "youtube_query": "360 inward heelflip skateboard",
+    "verified": false
   },
   {
     "name": "Muska Flip",
@@ -637,6 +728,8 @@
     "history": "A frontside 180 kickflip performed in a smooth, stylish manner associated with Chad Muska. The term is informal and refers to his signature style.",
     "inventor": "Chad Muska",
     "year": 1998,
-    "youtube_query": "frontside 180 kickflip muska flip skateboard"
+    "youtube_query": "frontside 180 kickflip muska flip skateboard",
+    "verified": true,
+    "sources": ["Skateboarding video archives"]
   }
 ]
