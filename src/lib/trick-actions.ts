@@ -106,7 +106,7 @@ export async function setTrickStatus(
   // Validate input
   const validation = SetTrickStatusSchema.safeParse({ trickId, status, consistency });
   if (!validation.success) {
-    return { error: validation.error.errors[0].message };
+    return { error: validation.error.issues[0].message };
   }
 
   const auth = await requireAuth();
@@ -155,7 +155,7 @@ export async function deleteTrick(trickId: string) {
   // Validate input
   const validation = DeleteTrickSchema.safeParse({ trickId });
   if (!validation.success) {
-    return { error: validation.error.errors[0].message };
+    return { error: validation.error.issues[0].message };
   }
 
   const auth = await requireAdmin();
@@ -179,7 +179,7 @@ export async function renameTrick(trickId: string, newName: string) {
   // Validate input
   const validation = RenameTrickSchema.safeParse({ trickId, newName });
   if (!validation.success) {
-    return { error: validation.error.errors[0].message };
+    return { error: validation.error.issues[0].message };
   }
 
   const auth = await requireAdmin();
@@ -203,7 +203,7 @@ export async function updateTrick(trickId: string, updates: Partial<{ name: stri
   // Validate input
   const validation = UpdateTrickSchema.safeParse({ trickId, updates });
   if (!validation.success) {
-    return { error: validation.error.errors[0].message };
+    return { error: validation.error.issues[0].message };
   }
 
   const auth = await requireAdmin();
@@ -227,7 +227,7 @@ export async function addTrick(trick: { name: string, category: string, difficul
   // Validate input
   const validation = AddTrickSchema.safeParse({ trick, isUserSubmitted });
   if (!validation.success) {
-    return { error: validation.error.errors[0].message };
+    return { error: validation.error.issues[0].message };
   }
 
   const auth = await requireAuth();
@@ -265,7 +265,7 @@ export async function submitUserTrick(trick: { name: string, category: string, d
   // Validate input
   const validation = SubmitUserTrickSchema.safeParse(trick);
   if (!validation.success) {
-    return { error: validation.error.errors[0].message };
+    return { error: validation.error.issues[0].message };
   }
 
   const auth = await requireAuth();
@@ -301,7 +301,7 @@ export async function submitTrickLevelSuggestion(trickId: string, level: number)
   // Validate input
   const validation = SubmitTrickLevelSuggestionSchema.safeParse({ trickId, level });
   if (!validation.success) {
-    return { error: validation.error.errors[0].message };
+    return { error: validation.error.issues[0].message };
   }
 
   const auth = await requireAuth();
@@ -328,7 +328,7 @@ export async function handleTrickSuggestion(suggestionId: string, status: 'appro
   // Validate input
   const validation = HandleTrickSuggestionSchema.safeParse({ suggestionId, status });
   if (!validation.success) {
-    return { error: validation.error.errors[0].message };
+    return { error: validation.error.issues[0].message };
   }
 
   const auth = await requireAdmin();
@@ -372,7 +372,7 @@ export async function submitNewTrickSuggestion(name: string, category: string, d
   // Validate input
   const validation = SubmitNewTrickSuggestionSchema.safeParse({ name, category, description });
   if (!validation.success) {
-    return { error: validation.error.errors[0].message };
+    return { error: validation.error.issues[0].message };
   }
 
   const auth = await requireAuth();
@@ -400,7 +400,7 @@ export async function approveTrick(trickId: string) {
   // Validate input
   const validation = ApproveRejectTrickSchema.safeParse({ trickId });
   if (!validation.success) {
-    return { error: validation.error.errors[0].message };
+    return { error: validation.error.issues[0].message };
   }
 
   const auth = await requireAdmin();
@@ -427,7 +427,7 @@ export async function rejectTrick(trickId: string) {
   // Validate input
   const validation = ApproveRejectTrickSchema.safeParse({ trickId });
   if (!validation.success) {
-    return { error: validation.error.errors[0].message };
+    return { error: validation.error.issues[0].message };
   }
 
   const auth = await requireAdmin();
@@ -454,7 +454,7 @@ export async function handleNewTrickSuggestion(suggestionId: string, status: 'ap
   // Validate input
   const validation = HandleNewTrickSuggestionSchema.safeParse({ suggestionId, status });
   if (!validation.success) {
-    return { error: validation.error.errors[0].message };
+    return { error: validation.error.issues[0].message };
   }
 
   const auth = await requireAdmin();
@@ -485,7 +485,7 @@ export async function reportTrickIssue(input: {
   // Validate input
   const validation = ReportTrickIssueSchema.safeParse(input);
   if (!validation.success) {
-    return { error: validation.error.errors[0].message };
+    return { error: validation.error.issues[0].message };
   }
 
   const title = `[Trick] ${input.trickName}: ${input.issueType}`;
@@ -548,7 +548,7 @@ export async function updateTrickOrder(trickId: string, newOrder: number) {
   // Validate input
   const validation = UpdateTrickOrderSchema.safeParse({ trickId, newOrder });
   if (!validation.success) {
-    return { error: validation.error.errors[0].message };
+    return { error: validation.error.issues[0].message };
   }
 
   const auth = await requireAuth();
@@ -587,7 +587,7 @@ export async function updateTricksOrder(updates: { id: string, sort_order: numbe
   // Validate input
   const validation = UpdateTricksOrderSchema.safeParse({ updates });
   if (!validation.success) {
-    return { error: validation.error.errors[0].message };
+    return { error: validation.error.issues[0].message };
   }
 
   const auth = await requireAdmin();

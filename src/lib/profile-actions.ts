@@ -27,7 +27,7 @@ export async function updateProfile(displayName: string, username?: string) {
   // Validate input
   const validation = UpdateProfileSchema.safeParse({ displayName, username });
   if (!validation.success) {
-    return { error: validation.error.errors[0].message };
+    return { error: validation.error.issues[0].message };
   }
 
   const auth = await requireAuth();
