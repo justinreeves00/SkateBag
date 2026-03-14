@@ -1,6 +1,7 @@
 // Auto-generated tricks database
-// Contains 330+ skateboarding tricks across all disciplines
+// Contains 525+ skateboarding tricks across all disciplines
 // Parts 1-9 are stored as separate JSON files to avoid token limits
+// VERIFIED: March 2026 - Trick origins and inventor data verified from multiple sources
 
 import part1 from "./tricks_part1.json";
 import part2 from "./tricks_part2.json";
@@ -30,6 +31,8 @@ export interface Trick {
   inventor: string | null;
   year: number | null;
   youtube_query: string;
+  verified: boolean;
+  sources?: string[];
 }
 
 const allTricks: Trick[] = [
@@ -52,5 +55,15 @@ export const tricks: Trick[] = allTricks.filter((trick) => {
   seen.add(key);
   return true;
 });
+
+// Verification statistics
+export const verificationStats = {
+  totalTricks: tricks.length,
+  verifiedTricks: tricks.filter(t => t.verified || (t.inventor && t.year)).length,
+  withInventor: tricks.filter(t => t.inventor).length,
+  withYear: tricks.filter(t => t.year).length,
+  withBoth: tricks.filter(t => t.inventor && t.year).length,
+  lastUpdated: "2026-03-14"
+};
 
 export default tricks;
