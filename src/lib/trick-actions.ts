@@ -4,22 +4,123 @@ import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import type { TrickStatus } from "@/lib/types";
 import { redirect } from "next/navigation";
+import { z } from "zod";
+import { requireAuth, requireAdmin } from "@/lib/auth-helpers";
+
+// Zod schemas for validation
+const TrickStatusSchema = z.enum(["landed", "locked", "learning"]);
+
+const SetTrickStatusSchema = z.object({
+  trickId: z.string().uuid("Invalid trick ID"),
+  status: TrickStatusSchema.nullable(),
+  consistency: z.number().min(0).max(100).nullable().optional(),
+});
+
+const DeleteTrickSchema = z.object({
+  trickId: z.string().uuid("Invalid trick ID"),
+});
+
+const RenameTrickSchema = z.object({
+  trickId: z.string().uuid("Invalid trick ID"),
+  newName: z.string().min(1, "Name is required").max(100, "Name too long"),
+});
+
+const UpdateTrickSchema = z.object({
+  trickId: z.string().uuid("Invalid trick ID"),
+  updates: z.object({
+    name: z.string().min(1).max(100).optional(),
+    category: z.string().min(1).optional(),
+    difficulty: z.number().min(1).max(5).optional(),
+    youtube_query: z.string().max(200).optional(),
+  }),
+});
+
+const AddTrickSchema = z.object({
+  trick: z.object({
+    name: z.string().min(1, "Name is required").max(100),
+    category: z.string().min(1, "Category is required"),
+    difficulty: z.number().min(1).max(5, "Difficulty must be 1-5"),
+    youtube_query: z.string().max(200).optional(),
+  }),
+  isUserSubmitted: z.boolean().default(false),
+});
+
+const SubmitUserTrickSchema = z.object({
+  name: z.string().min(1, "Name is required").max(100),
+  category: z.string().min(1, "Category is required"),
+  difficulty: z.number().min(1).max(5),
+  description: z.string().max(500).optional(),
+});
+
+const SubmitTrickLevelSuggestionSchema = z.object({
+  trickId: z.string().uuid("Invalid trick ID"),
+  level: z.number().min(1).max(5, "Level must be 1-5"),
+});
+
+const HandleTrickSuggestionSchema = z.object({
+  suggestionId: z.string().uuid("Invalid suggestion ID"),
+  status: z.enum(["approved", "rejected"]),
+});
+
+const SubmitNewTrickSuggestionSchema = z.object({
+  name: z.string().min(1, "Name is required").max(100),
+  category: z.string().min(1, "Category is required"),
+  description: z.string().max(500).optional(),
+});
+
+const ApproveRejectTrickSchema = z.object({
+  trickId: z.string().uuid("Invalid trick ID"),
+});
+
+const HandleNewTrickSuggestionSchema = z.object({
+  suggestionId: z.string().uuid("Invalid suggestion ID"),
+  status: z.enum(["approved", "rejected"]),
+});
+
+const ReportTrickIssueSchema = z.object({
+  trickName: z.string().min(1),
+  category: z.string(),
+  difficulty: z.number().min(1).max(5).nullable(),
+  issueType: z.string().min(1),
+  details: z.string().max(2000).optional(),
+  reporterName: z.string().max(100).nullable().optional(),
+});
+
+const UpdateTrickOrderSchema = z.object({
+  trickId: z.string().uuid("Invalid trick ID"),
+  newOrder: z.number().int(),
+});
+
+const UpdateTricksOrderSchema = z.object({
+  updates: z.array(z.object({
+    id: z.string().uuid("Invalid trick ID"),
+    sort_order: z.number().int(),
+  })),
+});
 
 export async function setTrickStatus(
   trickId: string, 
   status: TrickStatus | null, 
   consistency: number | null = null
 ) {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  // Validate input
+  const validation = SetTrickStatusSchema.safeParse({ trickId, status, consistency });
+  if (!validation.success) {
+    return { error: validation.error.issues[0].message };
+  }
 
-  if (!user) return { error: "Not authenticated" };
+  const auth = await requireAuth();
+  if (!auth.user) {
+    return { error: auth.error || "Not authenticated" };
+  }
+
+  const supabase = await createClient();
 
   if (status === null) {
     const { error } = await supabase
       .from("user_tricks")
       .delete()
-      .eq("user_id", user.id)
+      .eq("user_id", auth.user.id)
       .eq("trick_id", trickId);
 
     if (error) {
@@ -31,7 +132,7 @@ export async function setTrickStatus(
       .from("user_tricks")
       .upsert(
         { 
-          user_id: user.id, 
+          user_id: auth.user.id, 
           trick_id: trickId, 
           status, 
           consistency,
@@ -51,11 +152,18 @@ export async function setTrickStatus(
 }
 
 export async function deleteTrick(trickId: string) {
+  // Validate input
+  const validation = DeleteTrickSchema.safeParse({ trickId });
+  if (!validation.success) {
+    return { error: validation.error.issues[0].message };
+  }
+
+  const auth = await requireAdmin();
+  if (!auth.user) {
+    return { error: auth.error || "Unauthorized" };
+  }
+
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-
-  if (user?.email !== 'justinreeves00@gmail.com') return { error: "Unauthorized" };
-
   const { error } = await supabase
     .from("tricks")
     .delete()
@@ -68,11 +176,18 @@ export async function deleteTrick(trickId: string) {
 }
 
 export async function renameTrick(trickId: string, newName: string) {
+  // Validate input
+  const validation = RenameTrickSchema.safeParse({ trickId, newName });
+  if (!validation.success) {
+    return { error: validation.error.issues[0].message };
+  }
+
+  const auth = await requireAdmin();
+  if (!auth.user) {
+    return { error: auth.error || "Unauthorized" };
+  }
+
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-
-  if (user?.email !== 'justinreeves00@gmail.com') return { error: "Unauthorized" };
-
   const { error } = await supabase
     .from("tricks")
     .update({ name: newName })
@@ -85,11 +200,18 @@ export async function renameTrick(trickId: string, newName: string) {
 }
 
 export async function updateTrick(trickId: string, updates: Partial<{ name: string, category: string, difficulty: number, youtube_query: string }>) {
+  // Validate input
+  const validation = UpdateTrickSchema.safeParse({ trickId, updates });
+  if (!validation.success) {
+    return { error: validation.error.issues[0].message };
+  }
+
+  const auth = await requireAdmin();
+  if (!auth.user) {
+    return { error: auth.error || "Unauthorized" };
+  }
+
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-
-  if (user?.email !== 'justinreeves00@gmail.com') return { error: "Unauthorized" };
-
   const { error } = await supabase
     .from("tricks")
     .update(updates)
@@ -102,14 +224,23 @@ export async function updateTrick(trickId: string, updates: Partial<{ name: stri
 }
 
 export async function addTrick(trick: { name: string, category: string, difficulty: number, youtube_query?: string }, isUserSubmitted: boolean = false) {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  // Validate input
+  const validation = AddTrickSchema.safeParse({ trick, isUserSubmitted });
+  if (!validation.success) {
+    return { error: validation.error.issues[0].message };
+  }
 
-  // For user-submitted tricks, allow any authenticated user
-  if (!user) return { error: "Not authenticated" };
+  const auth = await requireAuth();
+  if (!auth.user) {
+    return { error: auth.error || "Not authenticated" };
+  }
   
-  // For admin direct adds, verify email
-  if (!isUserSubmitted && user?.email !== 'justinreeves00@gmail.com') return { error: "Unauthorized" };
+  // For admin direct adds, verify admin role
+  if (!isUserSubmitted && !auth.isAdmin) {
+    return { error: "Unauthorized" };
+  }
+
+  const supabase = await createClient();
 
   // Auto-generate YouTube search query: "How to X" where X is the trick name
   const trickWithQuery = {
@@ -131,10 +262,18 @@ export async function addTrick(trick: { name: string, category: string, difficul
 }
 
 export async function submitUserTrick(trick: { name: string, category: string, difficulty: number, description?: string }) {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  // Validate input
+  const validation = SubmitUserTrickSchema.safeParse(trick);
+  if (!validation.success) {
+    return { error: validation.error.issues[0].message };
+  }
 
-  if (!user) return { error: "Not authenticated" };
+  const auth = await requireAuth();
+  if (!auth.user) {
+    return { error: auth.error || "Not authenticated" };
+  }
+
+  const supabase = await createClient();
 
   // Auto-generate YouTube search query
   const trickData = {
@@ -159,15 +298,22 @@ export async function submitUserTrick(trick: { name: string, category: string, d
 }
 
 export async function submitTrickLevelSuggestion(trickId: string, level: number) {
+  // Validate input
+  const validation = SubmitTrickLevelSuggestionSchema.safeParse({ trickId, level });
+  if (!validation.success) {
+    return { error: validation.error.issues[0].message };
+  }
+
+  const auth = await requireAuth();
+  if (!auth.user) {
+    return { error: auth.error || "Not authenticated" };
+  }
+
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-
-  if (!user) return { error: "Not authenticated" };
-
   const { error } = await supabase
     .from("trick_suggestions")
     .insert({
-      user_id: user.id,
+      user_id: auth.user.id,
       trick_id: trickId,
       suggested_level: level,
       status: 'pending'
@@ -179,12 +325,18 @@ export async function submitTrickLevelSuggestion(trickId: string, level: number)
 }
 
 export async function handleTrickSuggestion(suggestionId: string, status: 'approved' | 'rejected') {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-
-  if (user?.email !== 'justinreeves00@gmail.com') {
-    return;
+  // Validate input
+  const validation = HandleTrickSuggestionSchema.safeParse({ suggestionId, status });
+  if (!validation.success) {
+    return { error: validation.error.issues[0].message };
   }
+
+  const auth = await requireAdmin();
+  if (!auth.user) {
+    return { error: auth.error || "Unauthorized" };
+  }
+
+  const supabase = await createClient();
 
   // If approved, update the actual trick level first
   if (status === 'approved') {
@@ -209,7 +361,7 @@ export async function handleTrickSuggestion(suggestionId: string, status: 'appro
 
   if (error) {
     console.error(error.message);
-    return;
+    return { error: error.message };
   }
 
   revalidatePath("/");
@@ -217,15 +369,22 @@ export async function handleTrickSuggestion(suggestionId: string, status: 'appro
 }
 
 export async function submitNewTrickSuggestion(name: string, category: string, description?: string) {
+  // Validate input
+  const validation = SubmitNewTrickSuggestionSchema.safeParse({ name, category, description });
+  if (!validation.success) {
+    return { error: validation.error.issues[0].message };
+  }
+
+  const auth = await requireAuth();
+  if (!auth.user) {
+    return { error: auth.error || "Not authenticated" };
+  }
+
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-
-  if (!user) return { error: "Not authenticated" };
-
   const { error } = await supabase
     .from("new_trick_suggestions")
     .insert({
-      user_id: user.id,
+      user_id: auth.user.id,
       name,
       category,
       description,
@@ -238,10 +397,18 @@ export async function submitNewTrickSuggestion(name: string, category: string, d
 }
 
 export async function approveTrick(trickId: string) {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  // Validate input
+  const validation = ApproveRejectTrickSchema.safeParse({ trickId });
+  if (!validation.success) {
+    return { error: validation.error.issues[0].message };
+  }
 
-  if (user?.email !== 'justinreeves00@gmail.com') return { error: "Unauthorized" };
+  const auth = await requireAdmin();
+  if (!auth.user) {
+    return { error: auth.error || "Unauthorized" };
+  }
+
+  const supabase = await createClient();
 
   // Remove the awaiting_approval flag
   const { error } = await supabase
@@ -257,10 +424,18 @@ export async function approveTrick(trickId: string) {
 }
 
 export async function rejectTrick(trickId: string) {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  // Validate input
+  const validation = ApproveRejectTrickSchema.safeParse({ trickId });
+  if (!validation.success) {
+    return { error: validation.error.issues[0].message };
+  }
 
-  if (user?.email !== 'justinreeves00@gmail.com') return { error: "Unauthorized" };
+  const auth = await requireAdmin();
+  if (!auth.user) {
+    return { error: auth.error || "Unauthorized" };
+  }
+
+  const supabase = await createClient();
 
   // Delete the trick
   const { error } = await supabase
@@ -276,11 +451,18 @@ export async function rejectTrick(trickId: string) {
 }
 
 export async function handleNewTrickSuggestion(suggestionId: string, status: 'approved' | 'rejected') {
+  // Validate input
+  const validation = HandleNewTrickSuggestionSchema.safeParse({ suggestionId, status });
+  if (!validation.success) {
+    return { error: validation.error.issues[0].message };
+  }
+
+  const auth = await requireAdmin();
+  if (!auth.user) {
+    return { error: auth.error || "Unauthorized" };
+  }
+
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-
-  if (user?.email !== 'justinreeves00@gmail.com') return { error: "Unauthorized" };
-
   const { error } = await supabase
     .from("new_trick_suggestions")
     .update({ status })
@@ -300,6 +482,12 @@ export async function reportTrickIssue(input: {
   details?: string;
   reporterName?: string | null;
 }) {
+  // Validate input
+  const validation = ReportTrickIssueSchema.safeParse(input);
+  if (!validation.success) {
+    return { error: validation.error.issues[0].message };
+  }
+
   const title = `[Trick] ${input.trickName}: ${input.issueType}`;
   const body = [
     `Trick: ${input.trickName}`,
@@ -342,27 +530,36 @@ export async function reportTrickIssue(input: {
 }
 
 export async function getUserTricks() {
+  const auth = await requireAuth();
+  if (!auth.user) {
+    return [];
+  }
+
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-
-  if (!user) return [];
-
   const { data } = await supabase
     .from("user_tricks")
     .select("*")
-    .eq("user_id", user.id);
+    .eq("user_id", auth.user.id);
 
   return data ?? [];
 }
 
 export async function updateTrickOrder(trickId: string, newOrder: number) {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  // Validate input
+  const validation = UpdateTrickOrderSchema.safeParse({ trickId, newOrder });
+  if (!validation.success) {
+    return { error: validation.error.issues[0].message };
+  }
 
-  if (!user) return { error: "Not authenticated" };
+  const auth = await requireAuth();
+  if (!auth.user) {
+    return { error: auth.error || "Not authenticated" };
+  }
+
+  const supabase = await createClient();
 
   // If Admin, update the global canonical order
-  if (user.email === 'justinreeves00@gmail.com') {
+  if (auth.isAdmin) {
     const { error: globalError } = await supabase
       .from("tricks")
       .update({ sort_order: newOrder })
@@ -378,7 +575,7 @@ export async function updateTrickOrder(trickId: string, newOrder: number) {
       sort_order: newOrder,
       is_manually_sorted: true 
     })
-    .eq("user_id", user.id)
+    .eq("user_id", auth.user.id)
     .eq("trick_id", trickId);
 
   if (error) return { error: error.message };
@@ -387,12 +584,18 @@ export async function updateTrickOrder(trickId: string, newOrder: number) {
 }
 
 export async function updateTricksOrder(updates: { id: string, sort_order: number }[]) {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-
-  if (!user || user.email !== 'justinreeves00@gmail.com') {
-    return { error: "Admin authorization required" };
+  // Validate input
+  const validation = UpdateTricksOrderSchema.safeParse({ updates });
+  if (!validation.success) {
+    return { error: validation.error.issues[0].message };
   }
+
+  const auth = await requireAdmin();
+  if (!auth.user) {
+    return { error: auth.error || "Admin authorization required" };
+  }
+
+  const supabase = await createClient();
 
   // Update global tricks table in bulk
   // We use a simple loop here because Supabase doesn't have a native 'upsert' for specific columns without unique constraints on those columns

@@ -1,13 +1,14 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import AdminDashboard from "@/components/AdminDashboard";
+import { getAuthInfo } from "@/lib/auth-helpers";
 
 export default async function AdminPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const auth = await getAuthInfo();
 
-  // Simple admin check
-  if (!user || user.email !== "justinreeves00@gmail.com") {
+  // Role-based admin check
+  if (!auth.user || !auth.isAdmin) {
     redirect("/");
   }
 
