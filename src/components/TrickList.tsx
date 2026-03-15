@@ -49,12 +49,23 @@ function matchesStatusFilter(
   statusFilter: "all" | "landed" | "locked" | "learning",
   userStatus: TrickStatus | null
 ) {
-  return (
-    (statusFilter === "all" && userStatus === null) ||
-    (statusFilter === "landed" && (userStatus === "landed" || userStatus === "locked")) ||
-    (statusFilter === "locked" && userStatus === "locked") ||
-    (statusFilter === "learning" && userStatus === "learning")
-  );
+  // Fixed: Each filter now shows ONLY its specific status
+  // "all" shows unlearned tricks (no status)
+  // "landed" shows ONLY landed tricks (not locked)
+  // "locked" shows ONLY locked tricks
+  // "learning" shows ONLY learning tricks
+  switch (statusFilter) {
+    case "all":
+      return userStatus === null;
+    case "landed":
+      return userStatus === "landed";
+    case "locked":
+      return userStatus === "locked";
+    case "learning":
+      return userStatus === "learning";
+    default:
+      return false;
+  }
 }
 
 export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: TrickListProps) {
@@ -255,7 +266,7 @@ export function TrickList({ tricks, isAuthenticated, userEmail, userProfile }: T
     setStickyVisibleTrickId(null);
   }, [category, levelFilter, search, statusFilter]);
 
-  const landed = baseFiltered.filter((t) => t.userStatus === "landed" || t.userStatus === "locked").length;
+  const landed = baseFiltered.filter((t) => t.userStatus === "landed").length;
   const locked = baseFiltered.filter((t) => t.userStatus === "locked").length;
   const learning = baseFiltered.filter((t) => t.userStatus === "learning").length;
   const unlearned = baseFiltered.filter((t) => t.userStatus === null).length;
