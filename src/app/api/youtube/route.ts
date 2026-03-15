@@ -2,18 +2,72 @@ import { NextRequest, NextResponse } from "next/server";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 
-// Initialize Redis client for rate limiting
-const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL || "",
-  token: process.env.UPSTASH_REDIS_REST_TOKEN || "",
-});
+// In-memory fallback for development when Redis is not configured
+const inMemoryStore = new Map<string, { count: number; resetTime: number }>();
+
+// Check if Redis is configured
+const isRedisConfigured = process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN;
+
+// Initialize Redis client for rate limiting (only if configured)
+const redis = isRedisConfigured
+  ? new Redis({
+      url: process.env.UPSTASH_REDIS_REST_URL,
+      token: process.env.UPSTASH_REDIS_REST_TOKEN,
+    })
+  : null;
 
 // Create rate limiter: 100 requests per hour per IP
-const ratelimit = new Ratelimit({
-  redis,
-  limiter: Ratelimit.slidingWindow(100, "1h"),
-  analytics: true,
-});
+const ratelimit = redis
+  ? new Ratelimit({
+      redis,
+      limiter: Ratelimit.slidingWindow(100, "1h"),
+      analytics: true,
+    })
+  : null;
+
+// In-memory rate limiter fallback
+async function inMemoryRateLimit(identifier: string): Promise<{
+  success: boolean;
+  limit: number;
+  remaining: number;
+  reset: number;
+}> {
+  const now = Date.now();
+  const windowMs = 60 * 60 * 1000; // 1 hour
+  const limit = 100;
+  
+  const record = inMemoryStore.get(identifier);
+  
+  if (!record || now > record.resetTime) {
+    // New window
+    inMemoryStore.set(identifier, { count: 1, resetTime: now + windowMs });
+    return {
+      success: true,
+      limit,
+      remaining: limit - 1,
+      reset: now + windowMs,
+    };
+  }
+  
+  if (record.count >= limit) {
+    // Rate limit exceeded
+    return {
+      success: false,
+      limit,
+      remaining: 0,
+      reset: record.resetTime,
+    };
+  }
+  
+  // Increment count
+  record.count++;
+  return {
+    success: true,
+    limit,
+    remaining: limit - record.count,
+    reset: record.resetTime,
+  };
+}
 
 function normalize(value: string) {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
@@ -51,9 +105,13 @@ function getClientIP(request: NextRequest): string {
 }
 
 export async function GET(request: NextRequest) {
-  // Check rate limit
+  // Check rate limit (use Redis if available, otherwise fallback to memory)
   const identifier = getClientIP(request);
-  const { success, limit, remaining, reset } = await ratelimit.limit(identifier);
+  const rateLimitResult = ratelimit 
+    ? await ratelimit.limit(identifier)
+    : await inMemoryRateLimit(identifier);
+  
+  const { success, limit, remaining, reset } = rateLimitResult;
 
   if (!success) {
     return NextResponse.json(
